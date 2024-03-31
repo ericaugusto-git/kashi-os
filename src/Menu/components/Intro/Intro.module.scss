@@ -1,0 +1,26 @@
+.intro_container{
+    height: 100%;
+    padding: 0 20px;
+    text-wrap: nowrap;
+    flex-grow: 2;
+    border-radius: 10px;
+    outline: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    h6{
+        margin: 0;
+        font-family: 'Megrim';
+        font-size: 15px;
+        line-height: 19px;
+    }
+    span{
+        letter-spacing: 8px;
+        font-weight: 800;
+        line-height: 19px;
+        font-size: 14px;
+        /* font-family: 'Julius Sans One'; */
+        font-size: 16;
+    }
+}

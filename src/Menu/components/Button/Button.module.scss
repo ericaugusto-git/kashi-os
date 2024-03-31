@@ -1,0 +1,51 @@
+$borderWidth: 1px;
+$borderRadius: 10px;
+
+.default-outline-button {
+    background: #282828;
+    position: relative;
+    border-radius: $borderRadius;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-origin: content-box;
+    padding: 7px;
+    height: 100%;
+  }
+  .default-outline-button:after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * $borderWidth);
+    left: calc(-1 * $borderWidth);
+    height: calc(100% + $borderWidth * 2);
+    width: calc(100% + $borderWidth * 2);
+    background: linear-gradient(60deg, #9651F0, #F291E8, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+    border-radius:  $borderRadius;
+    z-index: -1;
+    background-size: 300% 300%;
+}
+
+.default-outline-button:hover:after{
+    animation: animatedgradient 3s ease alternate infinite;
+  }
+  
+  
+  @keyframes animatedgradient {
+      0% {
+          background-position: 0% 50%;
+      }
+      50% {
+          background-position: 100% 50%;
+      }
+      100% {
+          background-position: 0% 50%;
+      }
+  }
+  
+  

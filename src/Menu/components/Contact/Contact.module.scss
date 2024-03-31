@@ -1,0 +1,31 @@
+.contact_info{
+    display: flex;
+    gap: 5px;
+    text-wrap: nowrap;
+    .contact_item{
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        background-color: #323232;
+        border-radius: 7px;
+        padding: 2px 5px;
+    }
+    .contact_item:hover a{
+        color: #535bf2;
+    }
+}
+.socials{
+    display: flex;
+    gap: 10px;
+}
+
+.svg_link{
+    background-color: white; 
+    width: 20px; 
+    height: 20px;
+  }
+  
+  .svg_link:hover {
+    background-color: #535bf2;
+  }

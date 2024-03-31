@@ -1,0 +1,32 @@
+.ghost_button{
+    border: none;
+    border-radius: 6px;
+    background-color: #323232;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-wrap: nowrap;
+    img{
+        width: 18px;
+        height: 18px;
+    }
+}
+
+.ghost_button_selected{
+    outline: 1px solid #385480;
+}
+
+.button_group{
+    display: flex;
+    gap: 5px;
+    height: 100%;
+}
+
+.ghost_button_w_label{
+    gap: 5px;
+    font-weight: 900;
+    color: white;
+    fill: white;
+}

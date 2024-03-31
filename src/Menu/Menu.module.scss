@@ -1,0 +1,14 @@
+.menu{
+    position: fixed;
+    bottom: 0;
+    width: calc(100% - 20px); /* Subtracting 10px padding on each side */
+    background-color: "#FFFFFF4D";
+    height: 41px;
+    padding: 5px 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 0;
+    box-shadow: 0 4px 14px 7px rgba(0,0,0,.25);
+}
+

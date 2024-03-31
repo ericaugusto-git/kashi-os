@@ -1,68 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+/* Import Bitter font */
+@import url('https://fonts.googleapis.com/css2?family=Bitter&display=swap');
+
+/* Import Courier Prime font */
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+
+/* Import Cutive font */
+@import url('https://fonts.googleapis.com/css2?family=Cutive&display=swap');
+
+/* Import Digital Numbers font */
+@import url('https://fonts.googleapis.com/css2?family=Digital+Numbers&display=swap');
+
+/* Import Electrolize font */
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+
+/* Import Gugi font */
+@import url('https://fonts.googleapis.com/css2?family=Gugi&display=swap');
+
+/* Import Happy Monkey font */
+@import url('https://fonts.googleapis.com/css2?family=Happy+Monkey&display=swap');
+
+/* Import Julius Sans One font */
+@import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap');
+
+/* Import Kelly Slab font */
+@import url('https://fonts.googleapis.com/css2?family=Kelly+Slab&display=swap');
+
+/* Import Major Mono Display font */
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+
+/* Import Megrim font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Megrim&display=swap');
+/* Import Oxanium font */
+@import url('https://fonts.googleapis.com/css2?family=Oxanium&display=swap');
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  height: 100dvh;
+  width: 100dvw;
+  max-width: 100%;
+  max-height: 100%;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+*{
+    font-family: 'Inter', sans-serif;
+}
+
+body{
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%; 
+  min-height: 100%;  
+}
+
 a {
   font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  color: #ffffff;
 }
 a:hover {
   color: #535bf2;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
+
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+
+
+.menu {
+  position: fixed;
+  bottom: 0;
+  /* background: rgba(0, 0, 0, 0.5); */
+  /* color: #f1f1f1; */
+  width: 100%;
+  /* padding: 20px; */
+  /* display: flex; */
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.skills{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  .title-container{
+    display: flex;
+    flex: 1; 
+    gap: 3px;
+    justify-content: start;
+
+    hr {
+      margin: 0;
+      align-self: center;
+      border: none;
+      border-top: 1px dashed #6D6D6D;
+      /* flex-basis: 10px; */
+      width: 52%; /* or this */
+    }
+  }
+  .title{
+    text-align: start;
+      margin: 0 !important;
+      font-size: 15px;
+  }
+  .icons{
+    display: flex;
+    gap: 10px;
+    .icon{
+      height: 15px;
+      width: 15px;
+    }
+  }
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.dashed_separator{
+  margin: 0;
+  align-self: center;
+  border: none;
+  border-top: 1px dashed #6D6D6D;
+  /* flex-basis: 10px; */
+  width: 100%;
 }

@@ -1,0 +1,26 @@
+.clock_container{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    .clock{
+        width: 21px;
+        height: 21px;
+        background-color: white;
+    }
+    .date_container{
+        display: flex;
+        gap: 20px;
+        align-items: 
+        center;
+        .hour_container{
+            display: flex;
+            flex-direction: column;
+            .hour{
+                font-weight: bold;
+            }
+            .minutes{
+                font-weight: 100;
+            }
+        }
+    }
+}
