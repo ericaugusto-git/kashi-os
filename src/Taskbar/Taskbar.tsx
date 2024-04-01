@@ -8,6 +8,7 @@ import Skills from './components/Skills';
 import Start from './components/Start';
 
 function Taskbar(){
+
     return (
     <footer className={styles.menu}>
         <Start/>
@@ -16,9 +17,9 @@ function Taskbar(){
         <Actions/>
         </div>
         <Intro/>
-        <div style={{display: 'none'}}>
+        {/* <div className={styles.contact}>
             <Contact/>
-        </div>
+        </div> */}
         <Clock/>
     </footer>
     )
