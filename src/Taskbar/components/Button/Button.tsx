@@ -9,7 +9,7 @@ type ButtonPropsType = {
     buttonClass: string, 
     children?: ReactNode,
     styles?: CSSProperties,
-    handleClick?: unknown
+    handleClick?: () => void
 }
 
 
@@ -21,7 +21,7 @@ function Button({buttonClass, styles,  children, handleClick}: ButtonPropsType){
     }
     return (
     handleClick ? 
-    <button style={stylesMiddle} className={defaultStyles[buttonClass]}>
+    <button style={stylesMiddle} onClick={handleClick} className={defaultStyles[buttonClass]}>
         {children}
     </button> : 
     <div style={stylesMiddle} className={defaultStyles[buttonClass]}>

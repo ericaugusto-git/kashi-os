@@ -1,10 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Background from "./Background"
 import Desktop from "./Desktop/Desktop";
+import StartMenu from "./StartMenu/StartMenu";
 import Taskbar from "./Taskbar/Taskbar"
-import taskImage from './assets/taskbar.png'
+import React, { createContext, useState } from 'react';
 
+export const StartSetterContext = createContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>]>([false, () => {}]);
 
 function App() {
+    const [startMenuOpen, setStartMenuOpen] = useState(false)
+
     return (
       <>
           {/* <div>
@@ -14,9 +19,12 @@ function App() {
       <p style={{ fontFamily: 'Megrim', marginBottom: '20px' }}>Megrim: Eric Augusto Batista Carvalho</p>
       <p style={{ fontFamily: 'Oxanium', marginBottom: '20px' }}>Oxanium: Eric Augusto Batista Carvalho</p>
     </div> */}
-        <Background/>
-        <Desktop/>
+      <Background/>
+      <Desktop/>
+      <StartSetterContext.Provider value={[startMenuOpen,setStartMenuOpen]}>
+         {startMenuOpen && <StartMenu/>}
         <Taskbar/>
+      </StartSetterContext.Provider>
       </>
     )
 }

@@ -23,7 +23,9 @@ function Skills(){
             </div>
             <div className="icons">
                 {icons.map((icon, index) => (
-                    <img className="icon" key={index} src={icon} alt={`Skill ${index}`} />
+                    <div className="icon" key={index} style={{backgroundImage: `url(${icon})`}}>
+                        {/* <img className="icon" key={index} src={icon} alt={`Skill ${index}`} /> */}
+                    </div>
                 ))}
             </div>
         </div>
