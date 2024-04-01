@@ -16,7 +16,7 @@ function Contact(){
     }
 
     return ( 
-        <Button>
+        <Button styles={{padding: "7px 10px"}}>
             <div className={styles.contact_info}>
                 <div className={styles.contact_item} onClick={openEmail}>
                     <img src={mailIcon}></img>
