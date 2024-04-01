@@ -1,0 +1,13 @@
+.actions{
+    display: flex;
+    flex: 1;
+    gap: 5px;
+    justify-content: start;
+    height: 100%
+}
+
+@media (max-width: 1024px) {
+    .actions{
+        flex-flow: row-reverse;
+    }
+}

@@ -30,3 +30,10 @@
     color: white;
     fill: white;
 }
+
+
+@media (max-width: 1024px) {
+  .ghost_button_w_label{
+    min-width: 0;
+  }
+}

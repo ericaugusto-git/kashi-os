@@ -7,24 +7,26 @@ type CSSProperties = {
 
 type ButtonPropsType = {
     buttonClass: string, 
-    icon?: string,
     children?: ReactNode,
-    styles?: CSSProperties
+    styles?: CSSProperties,
+    handleClick?: unknown
 }
 
 
-function Button({buttonClass, styles, icon, children}: ButtonPropsType){
-    console.log(buttonClass);
-    const buttonStyles = {
-        backgroundImage: `url(${icon})`,
+function Button({buttonClass, styles,  children, handleClick}: ButtonPropsType){
+    const height = !handleClick ? {height: "calc(100% - 14px)"} : {height: "100%"}
+    const stylesMiddle = {
+        ...height,
         ...styles
     }
-    console.log(buttonStyles)
     return (
-    <button style={buttonStyles} className={defaultStyles[buttonClass]}
-    >
+    handleClick ? 
+    <button style={stylesMiddle} className={defaultStyles[buttonClass]}>
         {children}
-    </button>
+    </button> : 
+    <div style={stylesMiddle} className={defaultStyles[buttonClass]}>
+        {children}
+    </div>
     )
 }
 

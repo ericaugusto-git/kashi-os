@@ -10,7 +10,8 @@ function Skills(){
     const styles = {
         alignItems: "start",
         justifyContent: "start",
-        padding: "2px 20px 4px 10px"
+        padding: "2px 20px 4px 10px",
+        height: "calc(100% - 4px)"
     }
     const icons = [angularIcon,htmlIcon,saasIcon,typescriptIcon,reactIcon,pythonIcon];
     return (        

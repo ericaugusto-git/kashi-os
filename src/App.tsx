@@ -1,5 +1,6 @@
 import Background from "./Background"
-import Menu from "./Menu/Menu"
+import Desktop from "./Desktop/Desktop";
+import Taskbar from "./Taskbar/Taskbar"
 import taskImage from './assets/taskbar.png'
 
 
@@ -14,9 +15,10 @@ function App() {
       <p style={{ fontFamily: 'Oxanium', marginBottom: '20px' }}>Oxanium: Eric Augusto Batista Carvalho</p>
     </div> */}
         <Background/>
-        <Menu/>
+        <Desktop/>
+        <Taskbar/>
       </>
     )
 }
 
-export default App
+export default App;
