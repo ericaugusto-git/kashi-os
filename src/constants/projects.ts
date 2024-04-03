@@ -12,4 +12,4 @@ export const projects = [
     {app: "Finance", icon: finance},
 ]
 
-export type projectsType = {app: string, icon: string, styles?: CSSProperties}[];
+export type projectsType = {app: string, icon: string, styles?: CSSProperties, active?: boolean, width?: string, height?: string, x?: number, y?: number};

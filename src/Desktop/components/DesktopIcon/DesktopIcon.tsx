@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import styles from './DesktopIcons.module.scss';
+import styles from './DesktopIcon.module.scss';
 
 type DesktopIconProp = {
     app: {

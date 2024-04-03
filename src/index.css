@@ -48,6 +48,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
 
 *{
@@ -144,3 +145,45 @@ h1 {
   width: 100%;
 }
 
+.box {
+  margin: 0;
+  height: 100%;
+  padding-bottom: 40px;
+}
+
+.media {
+  display: flex;
+  align-items: flex-start;
+}
+
+.media-left {
+  margin-right: 10px;
+}
+
+.image.is-64x64 img {
+  width: 64px;
+  height: 64px;
+}
+
+.media-content {
+  flex: 1;
+}
+
+.content {
+  margin-bottom: 10px;
+}
+
+.level {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.level-left {
+  display: flex;
+  align-items: center;
+}
+
+.level-item {
+  margin-right: 10px;
+}

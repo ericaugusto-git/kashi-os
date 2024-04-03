@@ -4,10 +4,25 @@ import sleep from '../assets/startMenu/sleep.svg'
 import powerOff from '../assets/startMenu/power_off.svg'
 import {projects} from '../constants/projects'
 import { osApps } from '../constants/osApps';
+import { motion } from "framer-motion";
+import { useContext } from 'react';
+import { StartSetterContext } from '../App';
 
 function StartMenu(){
-
+    const [startMenuOpen] = useContext(StartSetterContext);
     return (
+            <motion.div 
+            layout
+            style={{ height: !startMenuOpen ? "0" : "315px", width: !startMenuOpen ? "0" : "315px", left: "10px", position: "fixed", bottom: "61px" }}
+            //   initial={{ scaleY: 0, transformOrigin: 'bottom center' }}
+            //   animate={{ scaleY: 1 }}
+            //   exit={{scaleY: 0, transformOrigin: 'top center'}}
+            //   transition={{ duration: 0.1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            >
         <div className={styles.start_menu}>
             <div className={styles.col_1}>
             <div className={styles.cute_gif} style={{backgroundImage: `url(${cuteGif})`}}>
@@ -75,6 +90,7 @@ function StartMenu(){
                 </li>
             </menu>
         </div>
+        </motion.div>
     )
 }
 
