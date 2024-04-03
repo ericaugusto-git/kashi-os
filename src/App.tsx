@@ -4,11 +4,15 @@ import Desktop from "./Desktop/Desktop";
 import StartMenu from "./StartMenu/StartMenu";
 import Taskbar from "./Taskbar/Taskbar"
 import React, { createContext, useState } from 'react';
+import { projects, projectsType } from "./constants/projects";
+import Window from "./Window/Window";
 
 export const StartSetterContext = createContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>]>([false, () => {}]);
+export const WindowContext = createContext<[projectsType[], React.Dispatch<React.SetStateAction<projectsType[]>>]>([[], () => {}]);
 
 function App() {
     const [startMenuOpen, setStartMenuOpen] = useState(false)
+    const [windows, setWindows] = useState<projectsType[]>([]);
 
     return (
       <>
@@ -20,11 +24,14 @@ function App() {
       <p style={{ fontFamily: 'Oxanium', marginBottom: '20px' }}>Oxanium: Eric Augusto Batista Carvalho</p>
     </div> */}
       <Background/>
-      <Desktop/>
-      <StartSetterContext.Provider value={[startMenuOpen,setStartMenuOpen]}>
-         {startMenuOpen && <StartMenu/>}
-        <Taskbar/>
-      </StartSetterContext.Provider>
+      <WindowContext.Provider value={[windows, setWindows ]}>
+        <Desktop/>
+        <Window/>
+        <StartSetterContext.Provider value={[startMenuOpen,setStartMenuOpen]}>
+          {startMenuOpen && <StartMenu/>}
+          <Taskbar/>
+        </StartSetterContext.Provider>
+      </WindowContext.Provider>
       </>
     )
 }

@@ -1,9 +1,9 @@
 import Button from "./Button/Button";
 import angularIcon from '../../assets/taskbar/skills/angular.png'
 import htmlIcon from '../../assets/taskbar/skills/html.png'
-import saasIcon from '../../assets/taskbar/skills/sass.png'
-import typescriptIcon from '../../assets/taskbar/skills/typescript.png'
-import reactIcon from '../../assets/taskbar/skills/react.png'
+import saasIcon from '../../assets/taskbar/skills/sass.svg'
+import typescriptIcon from '../../assets/taskbar/skills/typescript.svg'
+import reactIcon from '../../assets/taskbar/skills/react.svg'
 import pythonIcon from '../../assets/taskbar/skills/python.png'
 
 function Skills(){
