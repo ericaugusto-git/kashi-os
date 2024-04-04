@@ -1,7 +1,7 @@
-import Button from "./Button/Button";
-import startIcon from '../../assets/taskbar/start_icon.png'
-import React, {  useContext } from 'react';
+import { useContext } from 'react';
 import { StartSetterContext } from "../../App";
+import startIcon from '../../assets/taskbar/start_icon.png';
+import Button from "./Button/Button";
 
 
 function Start(){

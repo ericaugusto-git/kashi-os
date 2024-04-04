@@ -1,7 +1,7 @@
+import { useEffect, useState } from 'react';
+import clockIcon from '../../../assets/taskbar/clock/clock.svg';
 import Button from '../Button/Button';
-import styles from './Clock.module.scss'
-import clockIcon from '../../../assets/taskbar/clock/clock.svg'
-import React, { useState, useEffect } from 'react';
+import styles from './Clock.module.scss';
 
 function Clock(){
     const now = new Date();
