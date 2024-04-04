@@ -1,13 +1,13 @@
-import styles from './StartMenu.module.scss';
-import cuteGif from '../assets/startMenu/start_menu.gif'
-import sleep from '../assets/startMenu/sleep.svg'
-import powerOff from '../assets/startMenu/power_off.svg'
-import {projects, projectsType} from '../constants/projects'
-import { osApps } from '../constants/osApps';
 import { motion } from "framer-motion";
 import { useContext } from 'react';
 import { StartSetterContext, WindowContext } from '../App';
+import powerOff from '../assets/startMenu/power_off.svg';
+import sleep from '../assets/startMenu/sleep.svg';
+import cuteGif from '../assets/startMenu/start_menu.gif';
+import { osApps } from '../constants/osApps';
+import { projects } from '../constants/projects';
 import { WindowType } from '../constants/window';
+import styles from './StartMenu.module.scss';
 type WindowsTemplatesType = {
     [key: string]: JSX.Element;
   };

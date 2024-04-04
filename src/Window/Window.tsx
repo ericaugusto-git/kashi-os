@@ -1,10 +1,9 @@
+import { useContext } from 'react';
 import { Rnd } from 'react-rnd';
-import  { useContext } from 'react';
 import { WindowContext } from '../App';
-import styles  from './Window.module.scss';
-import jdm from '../assets/jdm.png'
-import angular from '../assets/taskbar/skills/angular.png'
+import angular from '../assets/taskbar/skills/angular.png';
 import { WindowType } from '../constants/window';
+import styles from './Window.module.scss';
 
 
 
@@ -76,10 +75,10 @@ const Window = () => {
 
   size={{ width: window.width ?? "40%",height: window.height ?? "400px"  }}
   position={{ x: window.x ?? 150, y:  window.y ?? 50 }}
-  onDragStop={(e, d) => { setWindowPosSize({ x: d.x, y: d.y }, window) }}
-  onDragStart={(e, d) => { setWindowPosSize({ x: d.x, y: d.y }, window) }}
+  onDragStop={(_e, d) => { setWindowPosSize({ x: d.x, y: d.y }, window) }}
+  onDragStart={(_e, d) => { setWindowPosSize({ x: d.x, y: d.y }, window) }}
   disableDragging={window.width == "100%" && window.height == "95dvh"}
-  onResizeStop={(e, direction, ref, delta, position) => {
+  onResizeStop={(_e, _direction, ref, _delta, position) => {
     setWindowPosSize({
       width: ref.style.width,
       height: ref.style.height,

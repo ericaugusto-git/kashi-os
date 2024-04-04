@@ -1,6 +1,5 @@
 import { CSSProperties, useState } from 'react';
-import styles from './ButtonGroup.module.scss'
-import PropTypes from 'prop-types';
+import styles from './ButtonGroup.module.scss';
 
 type ButtonGroupProps = {
     buttons: {
