@@ -2,14 +2,41 @@ import styles from './StartMenu.module.scss';
 import cuteGif from '../assets/startMenu/start_menu.gif'
 import sleep from '../assets/startMenu/sleep.svg'
 import powerOff from '../assets/startMenu/power_off.svg'
-import {projects} from '../constants/projects'
+import {projects, projectsType} from '../constants/projects'
 import { osApps } from '../constants/osApps';
 import { motion } from "framer-motion";
 import { useContext } from 'react';
-import { StartSetterContext } from '../App';
+import { StartSetterContext, WindowContext } from '../App';
+import { WindowType } from '../constants/window';
+type WindowsTemplatesType = {
+    [key: string]: JSX.Element;
+  };
 
 function StartMenu(){
     const [startMenuOpen] = useContext(StartSetterContext);
+    const [windows, setWindows] = useContext(WindowContext);
+
+    const windowsTemplates: WindowsTemplatesType = {
+        ["playlist"]:    <div style={{ left: 0, width: '100%', height: '352px', position: 'relative' }}>
+        <iframe
+          src="https://open.spotify.com/embed/playlist/4LOeNOXvVYZth1VCa3W7sD?utm_source=oembed"
+          style={{ top: 0, left: 0, width: '100%', height: '100%', position: 'absolute', border: 0 }}
+          allowFullScreen
+          allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture;"
+        ></iframe>
+      </div>
+    }
+
+    const openApp = (app: WindowType) =>{ 
+        let updateWindow = windows.filter((a) => a.app != app.app);
+        console.log(JSON.parse(JSON.stringify(updateWindow)));
+        windows.map((a) => a.active = false)
+        app.active = true;
+        app.conteudo = windowsTemplates[app.app as keyof WindowsTemplatesType];
+        updateWindow = [...updateWindow, app];
+        setWindows(updateWindow);
+    }
+
     return (
             <motion.div 
             layout
@@ -56,7 +83,7 @@ function StartMenu(){
                     <ul>
                         {projects.map((project) =>  (
                         <li key={project.app}>
-                            <button>
+                            <button onClick={() => openApp(project)}>
                             <img src={project.icon}></img>
                                 <span>
                                     {project.app}
@@ -75,11 +102,11 @@ function StartMenu(){
                     </span>
                     <ul>
                     {osApps.map((app) =>  (
-                        <li key={app.label}>
-                            <button>
+                        <li key={app.app}>
+                            <button onClick={() => openApp(app)}>
                             <img src={app.icon}></img>
                                 <span>
-                                    {app.label}
+                                    {app.app}
                                 </span>
                             </button>
                         </li>
