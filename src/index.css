@@ -192,40 +192,43 @@ h1 {
   display: none !important;
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-  display: none; 
-}
-::-webkit-scrollbar-button:start:decrement,
-::-webkit-scrollbar-button:end:increment  {
-  height: 30px;
-  background-color: transparent;
-}
-::-webkit-scrollbar-track-piece  {
-  background-color: #3b3b3b;
- -webkit-border-radius: 16px;
-}
-::-webkit-scrollbar-thumb:vertical {
-  height: 50px;
-  background-color: #666;
-  border: 1px solid #eee;
-  -webkit-border-radius: 6px;
+.cables{
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(assets/cables.gif);
+  margin-top: -64px;
+  padding-bottom: 74px;
 }
 
+.musicGif{
+  height: 100%;
+  top: 0;
+  /* position: absolute; */
+}
 
-::-webkit-scrollbar {
-  width: 10px;
+.playlistContainer{
+  gap: 25px;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
 }
-::-webkit-scrollbar-button:start:decrement,
-::-webkit-scrollbar-button:end:increment  {
-  display: none
-}
-::-webkit-scrollbar-track-piece  {
- -webkit-border-radius: 16px;
-}
-::-webkit-scrollbar-thumb:vertical {
-  background-color: gray;
-  border: 1px solid gray;
-  -webkit-border-radius: 6px;
+
+.playlist{
+  /* height: 100%;
+  width: 60%;
+  background-color: #181B21;
+  border-radius: 7px 0px 0px 7px;
+  position: absolute;
+  right: 0;
+  top: 0; */
+  height: 100%;
+  width: 100%;
+  background-color: #181B21;
+  margin-right: -15px;
+  border-radius: 7px 0px 0px 7px;
+  padding-right: 15px;
 }

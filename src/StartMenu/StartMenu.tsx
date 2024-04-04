@@ -4,6 +4,7 @@ import { StartSetterContext, WindowContext } from '../App';
 import powerOff from '../assets/startMenu/power_off.svg';
 import sleep from '../assets/startMenu/sleep.svg';
 import cuteGif from '../assets/startMenu/start_menu.gif';
+import cables from '../assets/cables.gif';
 import { osApps } from '../constants/osApps';
 import { projects } from '../constants/projects';
 import { WindowType } from '../constants/window';
@@ -17,14 +18,12 @@ function StartMenu(){
     const [windows, setWindows] = useContext(WindowContext);
 
     const windowsTemplates: WindowsTemplatesType = {
-        ["playlist"]:    <div style={{ left: 0, width: '100%', height: '352px', position: 'relative' }}>
-        <iframe
-          src="https://open.spotify.com/embed/playlist/4LOeNOXvVYZth1VCa3W7sD?utm_source=oembed"
-          style={{ top: 0, left: 0, width: '100%', height: '100%', position: 'absolute', border: 0 }}
-          allowFullScreen
-          allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture;"
-        ></iframe>
-      </div>
+        ["playlist"]:  <div className="playlistContainer">
+            <div className="cables" ></div>
+            <div className="playlist">
+
+            </div>
+        </div> 
     }
 
     const openApp = (app: WindowType) =>{ 
