@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { Rnd } from 'react-rnd';
 import { WindowContext } from '../App';
 import angular from '../assets/taskbar/skills/angular.png';
+import music from '../assets/startMenu/playlist.svg'
 import { WindowType } from '../constants/window';
 import styles from './Window.module.scss';
 
@@ -93,7 +94,7 @@ const Window = () => {
     <div className={styles.window}>
         <div className={styles.header}>
           <div className={styles.app}>
-            <img src={angular}></img>
+            <img src={music} style={{fill: 'white'}}></img>
             <span>{window.app}</span>
           </div>
           <div className={styles.actions}>
