@@ -4,15 +4,15 @@ import Desktop from "./Desktop/Desktop";
 import StartMenu from "./StartMenu/StartMenu";
 import Taskbar from "./Taskbar/Taskbar"
 import React, { createContext, useState } from 'react';
-import { projects, projectsType } from "./constants/projects";
 import Window from "./Window/Window";
+import { WindowType } from "./constants/window";
 
 export const StartSetterContext = createContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>]>([false, () => {}]);
-export const WindowContext = createContext<[projectsType[], React.Dispatch<React.SetStateAction<projectsType[]>>]>([[], () => {}]);
+export const WindowContext = createContext<[WindowType[], React.Dispatch<React.SetStateAction<WindowType[]>>]>([[], () => {}]);
 
 function App() {
     const [startMenuOpen, setStartMenuOpen] = useState(false)
-    const [windows, setWindows] = useState<projectsType[]>([]);
+    const [windows, setWindows] = useState<WindowType[]>([]);
 
     return (
       <>

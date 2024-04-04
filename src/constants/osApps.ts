@@ -4,9 +4,9 @@ import brush from '../assets/startMenu/brush.png'
 import handshake from '../assets/startMenu/handshake.svg'
 
 export const osApps = [
-    {icon: playlist, label:"my playlist"},
-    {icon: cmd, label:"command line"},
-    {icon: brush, label:"paint"},
-    {icon: handshake, label:"Credits"},
+    {icon: playlist, app:"playlist"},
+    {icon: cmd, app:"command line"},
+    {icon: brush, app:"paint"},
+    {icon: handshake, app:"Credits"},
 ]
 

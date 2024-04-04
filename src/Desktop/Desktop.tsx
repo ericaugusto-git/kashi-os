@@ -12,14 +12,12 @@ function Desktop(){
 
     const [windows, setWindows] = useContext(WindowContext);
     const openApp = (app: projectsType) =>{ 
-        if(!windows.find((a: projectsType)=> a.app == app.app)){
-            windows.map((a) => a.active = false)
-            app.active = true;
-            const updateWindows = [...windows, app];
-            setWindows(updateWindows);
-        }else{
-            console.log('else')
-        }
+        let updateWindow = windows.filter((a) => a.app != app.app);
+        console.log(JSON.parse(JSON.stringify(updateWindow)));
+        windows.map((a) => a.active = false)
+        app.active = true;
+        updateWindow = [...updateWindow, app];
+        setWindows(updateWindow);
     }
     return (
         <>

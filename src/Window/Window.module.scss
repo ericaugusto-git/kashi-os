@@ -16,6 +16,20 @@ $padding: 15px;
     box-sizing: border-box;
   }
 
+  iframe::-webkit-scrollbar
+  {
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+iframe::-webkit-scrollbar-thumb
+{
+  	border-radius: 10px;
+	background-color: #000000;
+	border: 2px solid #555555;
+}
+
+
   .header{
     display: flex;
     padding: $padding;
@@ -66,3 +80,23 @@ $padding: 15px;
     .maximize{
     background-color: #2ECB76;
   }
+
+/* styles.css */
+.body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.body::-webkit-scrollbar {
+  width: 10px; /* Adjust width as needed */
+}
+
+.body::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track color */
+}
+
+.body::-webkit-scrollbar-thumb {
+  background: #888; /* Thumb color */
+  border-radius: 5px; /* Roundness of the thumb */
+}

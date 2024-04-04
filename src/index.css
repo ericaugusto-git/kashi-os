@@ -187,3 +187,45 @@ h1 {
 .level-item {
   margin-right: 10px;
 }
+
+#detach-button-host {
+  display: none !important;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  display: none; 
+}
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment  {
+  height: 30px;
+  background-color: transparent;
+}
+::-webkit-scrollbar-track-piece  {
+  background-color: #3b3b3b;
+ -webkit-border-radius: 16px;
+}
+::-webkit-scrollbar-thumb:vertical {
+  height: 50px;
+  background-color: #666;
+  border: 1px solid #eee;
+  -webkit-border-radius: 6px;
+}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment  {
+  display: none
+}
+::-webkit-scrollbar-track-piece  {
+ -webkit-border-radius: 16px;
+}
+::-webkit-scrollbar-thumb:vertical {
+  background-color: gray;
+  border: 1px solid gray;
+  -webkit-border-radius: 6px;
+}
