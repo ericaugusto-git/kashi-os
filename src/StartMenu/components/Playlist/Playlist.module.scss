@@ -139,7 +139,14 @@
       display: flex;
       flex-direction: column;
       line-height: 12px;
-      white-space: nowrap;
+      // white-space: nowrap;
+      span{
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+      }
+      text-wrap: balance;
       .titulo_desc{
         font-size: 14px;
       }
@@ -167,3 +174,14 @@
 
 
   
+
+@container (inline-size < 500px) {
+  /* Styles for when container's inline size is less than 500px */
+  .cables {
+    display: none;
+  }
+  .playlistContainer {
+    grid-template-columns: 1fr; /* Adjust this as needed */
+    display: block;
+  }
+}

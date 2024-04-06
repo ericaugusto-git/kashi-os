@@ -85,7 +85,7 @@ const Window = () => {
     }, window);
   }}
     minWidth={320}
-    minHeight={320}
+    minHeight={500}
     bounds="window"
     style={{zIndex: window.active ? 2 : 1}}
   >

@@ -19,7 +19,7 @@ function StartMenu(){
     const [windows, setWindows] = useContext(WindowContext);
 
     const windowsTemplates: WindowsTemplatesType = {
-        ["playlist"]:  {conteudo: <Playlist/>, bodyStyles: {paddingRight: 0}}
+        ["playlist"]:  {conteudo: <Playlist/>, bodyStyles: {paddingRight: 0}, headerStyles: {paddingLeft: "25px"}}
     }
 
     const openApp = (app: WindowType) =>{ 
