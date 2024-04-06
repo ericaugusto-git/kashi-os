@@ -14,6 +14,7 @@ $padding: 15px;
     padding: $padding;
     height: calc(100% - ($padding * 3));
     width: 100%;
+    cursor: default;
     box-sizing: border-box;
   }
 

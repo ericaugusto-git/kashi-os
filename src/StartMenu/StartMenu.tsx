@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useContext } from 'react';
+import { CSSProperties, useContext } from 'react';
 import { StartSetterContext, WindowContext } from '../App';
 import powerOff from '../assets/startMenu/power_off.svg';
 import sleep from '../assets/startMenu/sleep.svg';
@@ -9,8 +9,9 @@ import { osApps } from '../constants/osApps';
 import { projects } from '../constants/projects';
 import { WindowType } from '../constants/window';
 import styles from './StartMenu.module.scss';
+import Playlist from "./components/Playlist/Playlist";
 type WindowsTemplatesType = {
-    [key: string]: JSX.Element;
+    [key: string]: {conteudo: JSX.Element} | WindowType;
   };
 
 function StartMenu(){
@@ -18,12 +19,7 @@ function StartMenu(){
     const [windows, setWindows] = useContext(WindowContext);
 
     const windowsTemplates: WindowsTemplatesType = {
-        ["playlist"]:  <div className="playlistContainer">
-            <div className="cables" ></div>
-            <div className="playlist">
-
-            </div>
-        </div> 
+        ["playlist"]:  {conteudo: <Playlist/>, bodyStyles: {paddingRight: 0}}
     }
 
     const openApp = (app: WindowType) =>{ 
@@ -31,7 +27,7 @@ function StartMenu(){
         console.log(JSON.parse(JSON.stringify(updateWindow)));
         windows.map((a) => a.active = false)
         app.active = true;
-        app.conteudo = windowsTemplates[app.app as keyof WindowsTemplatesType];
+        app = {...app, ...windowsTemplates[app.app as keyof WindowsTemplatesType]};
         updateWindow = [...updateWindow, app];
         setWindows(updateWindow);
     }
@@ -47,7 +43,7 @@ function StartMenu(){
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.3 }}
             >
         <div className={styles.start_menu}>
             <div className={styles.col_1}>

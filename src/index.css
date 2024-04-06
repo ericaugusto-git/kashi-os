@@ -192,43 +192,45 @@ h1 {
   display: none !important;
 }
 
-.cables{
-  width: 100%;
-  height: 100%;
+.backgroundImage{
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url(assets/cables.gif);
-  margin-top: -64px;
-  padding-bottom: 74px;
 }
 
-.musicGif{
-  height: 100%;
+.svgMask {
+  /* position: absolute;
   top: 0;
-  /* position: absolute; */
+  left: 0;
+  width: 100%;
+  height: 100%; */
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: cover;
+  background-color: #ffffff; /* Your desired color */
 }
 
-.playlistContainer{
-  gap: 25px;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
+
+.audio-player {
+  /* width: 300px */
+  /* margin: 0 auto; */
+  /* padding: 20px; */
+  /* background-color: #f0f0f0; */
+  /* border-radius: 8px; */
 }
 
-.playlist{
-  /* height: 100%;
-  width: 60%;
-  background-color: #181B21;
-  border-radius: 7px 0px 0px 7px;
-  position: absolute;
-  right: 0;
-  top: 0; */
-  height: 100%;
-  width: 100%;
-  background-color: #181B21;
-  margin-right: -15px;
-  border-radius: 7px 0px 0px 7px;
-  padding-right: 15px;
+.controls {
+  display: flex;
+  align-items: center;
 }
+
+.play-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 10px;
+}
+

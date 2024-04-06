@@ -1,11 +1,9 @@
 import { useContext } from 'react';
 import { Rnd } from 'react-rnd';
 import { WindowContext } from '../App';
-import angular from '../assets/taskbar/skills/angular.png';
-import music from '../assets/startMenu/playlist.svg'
+import music from '../assets/startMenu/playlist.svg';
 import { WindowType } from '../constants/window';
 import styles from './Window.module.scss';
-
 
 
 const Window = () => {
@@ -91,8 +89,8 @@ const Window = () => {
     bounds="window"
     style={{zIndex: window.active ? 2 : 1}}
   >
-    <div className={styles.window}>
-        <div className={styles.header}>
+    <div className={styles.window} style={window.windowStyles}>
+        <div className={styles.header} style={window.headerStyles}>
           <div className={styles.app}>
             <img src={music} style={{fill: 'white'}}></img>
             <span>{window.app}</span>
@@ -106,7 +104,7 @@ const Window = () => {
               </button>
           </div>
         </div>
-        <div className={styles.body}>
+        <div className={styles.body} style={window.bodyStyles}>
           {/* <div style={{backgroundColor: "white",width: "100%", height: "100%", boxSizing: "border-box"}}></div> */}
           {/* <iframe src="http://wikipedia.com" ></iframe> */}
           {window.conteudo}
