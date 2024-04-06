@@ -84,3 +84,12 @@ iframe::-webkit-scrollbar-thumb
     .maximize{
     background-color: #2ECB76;
   }
+  .window {
+    container-type: inline-size;
+  }
+  
+  @container (inline-size < 500px) {
+    .body{
+      padding: 0;
+    }
+  }
