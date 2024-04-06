@@ -16,6 +16,7 @@ function Desktop(){
         console.log(JSON.parse(JSON.stringify(updateWindow)));
         windows.map((a) => a.active = false)
         app.active = true;
+
         updateWindow = [...updateWindow, app];
         setWindows(updateWindow);
     }

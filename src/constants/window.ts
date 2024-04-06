@@ -1,3 +1,5 @@
+import { CSSProperties } from "react"
+
 export type WindowType = {
     x?: number,
     y?: number,
@@ -7,4 +9,7 @@ export type WindowType = {
     active?: boolean
     app: string,
     conteudo?: JSX.Element,
+    windowStyles?: CSSProperties,
+    headerStyles?: CSSProperties,
+    bodyStyles?: CSSProperties
 }
