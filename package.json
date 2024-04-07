@@ -16,13 +16,16 @@
     "local-echo": "github:wavesoft/local-echo",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
+    "react-color": "^2.19.3",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
+    "react-painter": "^0.4.0",
     "react-rnd": "^10.4.1"
   },
   "devDependencies": {
     "@types/node": "^20.12.5",
     "@types/react": "^18.2.66",
+    "@types/react-color": "^3.0.12",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",

@@ -38,6 +38,7 @@ iframe::-webkit-scrollbar-thumb
     padding-top: 10px;
     position: relative;
     z-index: 2;
+    cursor: move;
     .app{
       display: flex;
       align-items: center;

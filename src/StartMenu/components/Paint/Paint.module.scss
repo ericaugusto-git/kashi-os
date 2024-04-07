@@ -1,0 +1,18 @@
+.paint_container{
+    display: flex;
+    padding: 10px;
+    gap: 20px;
+    .actions{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        padding: 20px;
+        grid-auto-rows: max-content;
+        background-color: azure;
+        border-radius: 10px;
+        gap: 10px;
+    }
+    .canvas{
+        background-color: white;
+        border-radius: 2px;
+    }
+}

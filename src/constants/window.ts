@@ -5,6 +5,7 @@ export type WindowType = {
     y?: number,
     width?: string,
     height?: string,
+    cantMax?: boolean,
     icon?: string,
     active?: boolean
     app: string,

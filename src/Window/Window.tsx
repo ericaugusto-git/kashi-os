@@ -62,6 +62,8 @@ const Window = () => {
     console.log(updateWindow)
     setWindows(updateWindow);
   }
+  // const defaultX = 150 * windows.length
+  // const defaultY = 50 * windows.length
   return <>
   {windows.map((window) => (
   <div key={window.app} onMouseDown={() => handleWindowClick(window.app)}
@@ -73,7 +75,7 @@ const Window = () => {
     //   width: window.width ?? "40%",
     //   height: window.height ?? "400px" 
     // }}
-      
+    dragHandleClassName={styles.header}
   size={{ width: window.width ?? "40%",height: window.height ?? "400px"  }}
   position={{ x: window.x ?? 150, y:  window.y ?? 50 }}
   onDragStop={(_e, d) => { setWindowPosSize({ x: d.x, y: d.y }, window) }}
@@ -94,13 +96,15 @@ const Window = () => {
     <div className={styles.window} style={window.windowStyles}>
         <div className={styles.header} style={window.headerStyles}>
           <div className={styles.app}>
-            <div style={{maskImage: `url(${window.icon})`,width: "19px", height: "19px"}} className="svgMask"></div>
+          {window.icon?.includes(".svg") ? (
+            <div style={{ maskImage: `url(${window.icon})`, width: "21px", height: "19px" }} className="svgMask"></div>
+          ) : <img src={window.icon} style={{width: "21px", height: "19px"}}></img>}
             <span>{window.app}</span>
           </div>
           <div className={styles.actions}>
-              <button className={`${styles.action} ${styles.maximize}`} onClick={ () => maximizeWindow(window)}>
+              {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} onClick={ () => maximizeWindow(window)}>
 
-              </button>
+              </button>}
               <button className={`${styles.action} ${styles.close}`} onClick={() => handleCloseWindow(window)}>
 
               </button>
