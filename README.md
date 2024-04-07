@@ -11,7 +11,7 @@ Welcome to my portfolio! Featuring a sleek desktop-inspired UI, this site showca
 - [ ] Create dark and cappucino theme
 - [ ] Change language: english and pt-br
 - [ ] Calendar component
-- [ ] CMD
+- [x] CMD
 - [ ] Paint
 - [ ] Credits
 - [ ] Put to sleep: load lockscreen
