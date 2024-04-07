@@ -1,14 +1,15 @@
 import { motion } from "framer-motion";
-import { CSSProperties, useContext } from 'react';
-import { StartSetterContext, WindowContext } from '../App';
+import { useContext } from 'react';
+import { StartSetterContext } from '../App';
 import powerOff from '../assets/startMenu/power_off.svg';
 import sleep from '../assets/startMenu/sleep.svg';
 import cuteGif from '../assets/startMenu/start_menu.gif';
-import cables from '../assets/cables.gif';
 import { osApps } from '../constants/osApps';
 import { projects } from '../constants/projects';
 import { WindowType } from '../constants/window';
+import useOpenWindow from "../hooks/useOpenWindow";
 import styles from './StartMenu.module.scss';
+import Cmd from "./components/Cmd/Cmd";
 import Playlist from "./components/Playlist/Playlist";
 type WindowsTemplatesType = {
     [key: string]: {conteudo: JSX.Element} | WindowType;
@@ -16,21 +17,26 @@ type WindowsTemplatesType = {
 
 function StartMenu(){
     const [startMenuOpen] = useContext(StartSetterContext);
-    const [windows, setWindows] = useContext(WindowContext);
 
     const windowsTemplates: WindowsTemplatesType = {
-        ["playlist"]:  {conteudo: <Playlist/>, bodyStyles: {paddingRight: 0}, headerStyles: {paddingLeft: "25px"}}
+        ["playlist"]:  {conteudo: <Playlist/>,  bodyStyles: {paddingRight: 0}, headerStyles: {paddingLeft: "25px"}},
+        ["command line"]:  {conteudo: <Cmd/>,}
     }
-
-    const openApp = (app: WindowType) =>{ 
-        let updateWindow = windows.filter((a) => a.app != app.app);
-        console.log(JSON.parse(JSON.stringify(updateWindow)));
-        windows.map((a) => a.active = false)
-        app.active = true;
+    const openWindow = useOpenWindow();
+    const handleOpenApp = (app: WindowType) => {
         app = {...app, ...windowsTemplates[app.app as keyof WindowsTemplatesType]};
-        updateWindow = [...updateWindow, app];
-        setWindows(updateWindow);
+        openWindow(app);
     }
+    // const openApp = (app: WindowType) =>{ 
+    //     // let updateWindow = windows.filter((a) => a.app != app.app);
+    //     // console.log(JSON.parse(JSON.stringify(updateWindow)));
+    //     // windows.map((a) => a.active = false)
+    //     // app.active = true;
+    //     // app = {...app, ...windowsTemplates[app.app as keyof WindowsTemplatesType]};
+    //     // updateWindow = [...updateWindow, app];
+    //     // console.log(app)
+    //     // setWindows(updateWindow);
+    // }
 
     return (
             <motion.div 
@@ -78,7 +84,7 @@ function StartMenu(){
                     <ul>
                         {projects.map((project) =>  (
                         <li key={project.app}>
-                            <button onClick={() => openApp(project)}>
+                            <button onClick={() => handleOpenApp(project)}>
                             <img src={project.icon}></img>
                                 <span>
                                     {project.app}
@@ -98,7 +104,7 @@ function StartMenu(){
                     <ul>
                     {osApps.map((app) =>  (
                         <li key={app.app}>
-                            <button onClick={() => openApp(app)}>
+                            <button onClick={() => handleOpenApp(app)}>
                             <img src={app.icon}></img>
                                 <span>
                                     {app.app}

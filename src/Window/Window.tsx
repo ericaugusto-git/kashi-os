@@ -1,13 +1,12 @@
-import { useContext } from 'react';
 import { Rnd } from 'react-rnd';
-import { WindowContext } from '../App';
-import music from '../assets/startMenu/playlist.svg';
 import { WindowType } from '../constants/window';
+import { useWindowContext } from '../contexts/WindowContext';
 import styles from './Window.module.scss';
+import useCloseWindow from '../hooks/useCloseWindow';
 
 
 const Window = () => {
-  const [windows, setWindows] = useContext(WindowContext);
+  const [windows, setWindows] = useWindowContext();
 
   const handleWindowClick = (app: string) => {
     windows.map((a) => a.active = a.app === app);
@@ -17,11 +16,14 @@ const Window = () => {
     }));
     setWindows(updatedWindows);
   }
-
-  const closeWindow = (app: string) => {
-    const updateWindows = windows.filter((a) => a.app != app);
-    setWindows(updateWindows)
+  const closeWindow = useCloseWindow();
+  const handleCloseWindow = (window: WindowType) => {
+    closeWindow(window);
   }
+  // const closeWindow = (app: string) => {
+  //   const updateWindows = windows.filter((a) => a.app != app);
+  //   setWindows(updateWindows)
+  // }
 
   const maximizeWindow = (window: WindowType) => {
     if(window.width == "100%" && window.height == "95dvh"){
@@ -71,7 +73,7 @@ const Window = () => {
     //   width: window.width ?? "40%",
     //   height: window.height ?? "400px" 
     // }}
-
+      
   size={{ width: window.width ?? "40%",height: window.height ?? "400px"  }}
   position={{ x: window.x ?? 150, y:  window.y ?? 50 }}
   onDragStop={(_e, d) => { setWindowPosSize({ x: d.x, y: d.y }, window) }}
@@ -92,14 +94,14 @@ const Window = () => {
     <div className={styles.window} style={window.windowStyles}>
         <div className={styles.header} style={window.headerStyles}>
           <div className={styles.app}>
-            <img src={music} style={{fill: 'white'}}></img>
+            <div style={{maskImage: `url(${window.icon})`,width: "19px", height: "19px"}} className="svgMask"></div>
             <span>{window.app}</span>
           </div>
           <div className={styles.actions}>
               <button className={`${styles.action} ${styles.maximize}`} onClick={ () => maximizeWindow(window)}>
 
               </button>
-              <button className={`${styles.action} ${styles.close}`} onClick={() => closeWindow(window.app)}>
+              <button className={`${styles.action} ${styles.close}`} onClick={() => handleCloseWindow(window)}>
 
               </button>
           </div>

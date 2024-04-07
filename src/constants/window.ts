@@ -5,7 +5,7 @@ export type WindowType = {
     y?: number,
     width?: string,
     height?: string,
-    icone?: string,
+    icon?: string,
     active?: boolean
     app: string,
     conteudo?: JSX.Element,
