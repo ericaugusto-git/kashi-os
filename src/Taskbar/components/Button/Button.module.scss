@@ -3,6 +3,8 @@ $borderRadius: 10px;
 $padding: 7px;
 
 .default-outline-button {
+    font: inherit;
+    color: inherit;
     background: #282828;
     position: relative;
     border-radius: $borderRadius;

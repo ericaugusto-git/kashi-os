@@ -17,7 +17,7 @@ type WindowsTemplatesType = {
   };
 
 function StartMenu(){
-    const [startMenuOpen] = useContext(StartSetterContext);
+    const [startMenuOpen, setStartMenuOpen] = useContext(StartSetterContext);
 
     const windowsTemplates: WindowsTemplatesType = {
         ["playlist"]:  {conteudo: <Playlist/>,  bodyStyles: {paddingRight: 0}, headerStyles: {paddingLeft: "25px"}},
@@ -28,6 +28,7 @@ function StartMenu(){
     const handleOpenApp = (app: WindowType) => {
         app = {...app, ...windowsTemplates[app.app as keyof WindowsTemplatesType]};
         openWindow(app);
+        setStartMenuOpen(false);
     }
     // const openApp = (app: WindowType) =>{ 
     //     // let updateWindow = windows.filter((a) => a.app != app.app);

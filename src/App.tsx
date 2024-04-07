@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Background from "./Background"
+import { Dispatch, MutableRefObject, SetStateAction, createContext, useRef } from 'react';
+import Background from "./Background";
 import Desktop from "./Desktop/Desktop";
 import StartMenu from "./StartMenu/StartMenu";
-import Taskbar from "./Taskbar/Taskbar"
-import React, { createContext, useState } from 'react';
+import Taskbar from "./Taskbar/Taskbar";
 import Window from "./Window/Window";
 import WindowContextProvider from "./contexts/WindowContext";
+import useComponentVisible from "./hooks/useComponentVisible";
 
-export const StartSetterContext = createContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>]>([false, () => {}]);
+type ContextType = [boolean, Dispatch<SetStateAction<boolean>>, MutableRefObject<HTMLButtonElement | null>];
+export const StartSetterContext = createContext<ContextType>([false, () => {}, { current: null }]);
 
 function App() {
-    const [startMenuOpen, setStartMenuOpen] = useState(false)
+  const startButtonRef = useRef<HTMLButtonElement | null>(null);
+  const  [ startMenuRef, isStartMenuOpen, setisStartMenuOpen ] = useComponentVisible(false, startButtonRef);
 
     return (
       <>
@@ -25,8 +28,10 @@ function App() {
       <WindowContextProvider>
         <Desktop/>
         <Window/>
-        <StartSetterContext.Provider value={[startMenuOpen,setStartMenuOpen]}>
-          {startMenuOpen && <StartMenu/>}
+        <StartSetterContext.Provider value={[isStartMenuOpen,setisStartMenuOpen, startButtonRef]}>
+          <div ref={startMenuRef}>
+          {isStartMenuOpen && <StartMenu/>}
+          </div>
           <Taskbar/>
         </StartSetterContext.Provider>
       </WindowContextProvider>
