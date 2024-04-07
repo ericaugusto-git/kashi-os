@@ -1,19 +1,17 @@
-import { ReactNode } from 'react';
-import defaultStyles from './Button.module.scss'
-import PropTypes from 'prop-types';
+import { ReactNode, forwardRef } from 'react';
+import defaultStyles from './Button.module.scss';
 type CSSProperties = {
     [key: string]: string | number;
   };
 
 type ButtonPropsType = {
-    buttonClass: string, 
     children?: ReactNode,
     styles?: CSSProperties,
     handleClick?: () => void
 }
 
 
-function Button({buttonClass, styles,  children, handleClick}: ButtonPropsType){
+const Button = forwardRef<HTMLButtonElement, ButtonPropsType>(({handleClick, styles, children}: ButtonPropsType, ref) => {
     const height = !handleClick ? {height: "calc(100% - 14px)"} : {height: "100%"}
     const stylesMiddle = {
         ...height,
@@ -21,25 +19,13 @@ function Button({buttonClass, styles,  children, handleClick}: ButtonPropsType){
     }
     return (
     handleClick ? 
-    <button style={stylesMiddle} onClick={handleClick} className={defaultStyles[buttonClass]}>
+    <button ref={ref} style={stylesMiddle} onClick={handleClick} className={defaultStyles['default-outline-button']}>
         {children}
     </button> : 
-    <div style={stylesMiddle} className={defaultStyles[buttonClass]}>
+    <div style={stylesMiddle} className={defaultStyles['default-outline-button']}>
         {children}
     </div>
     )
-}
+});
 
 export default Button;
-
-Button.propTypes = {
-    icon: PropTypes.oneOfType([
-        PropTypes.string, // Accepts a string (file path for image or SVG)
-        PropTypes.element // Accepts an SVG component
-    ]),
-    children: PropTypes.node
-}
-
-Button.defaultProps = {
-    buttonClass: 'default-outline-button'
-}

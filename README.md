@@ -16,3 +16,9 @@ Welcome to my portfolio! Featuring a sleek desktop-inspired UI, this site showca
 - [ ] Credits
 - [ ] Put to sleep: load lockscreen
 - [ ] Shutdown
+- [x] Close startmenu and calendar with click outside
+- [ ] Refactor StartSetterContext
+
+## KNOWN ISSUES
+
+- [ ] Close unfocused windows
