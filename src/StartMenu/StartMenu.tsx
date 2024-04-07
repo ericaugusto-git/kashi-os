@@ -11,6 +11,7 @@ import useOpenWindow from "../hooks/useOpenWindow";
 import styles from './StartMenu.module.scss';
 import Cmd from "./components/Cmd/Cmd";
 import Playlist from "./components/Playlist/Playlist";
+import Paint from "./components/Paint/Paint";
 type WindowsTemplatesType = {
     [key: string]: {conteudo: JSX.Element} | WindowType;
   };
@@ -20,7 +21,8 @@ function StartMenu(){
 
     const windowsTemplates: WindowsTemplatesType = {
         ["playlist"]:  {conteudo: <Playlist/>,  bodyStyles: {paddingRight: 0}, headerStyles: {paddingLeft: "25px"}},
-        ["command line"]:  {conteudo: <Cmd/>,}
+        ["command line"]:  {conteudo: <Cmd/>},
+        ["paint"]:  {conteudo: <Paint/>, cantMax: true, height: "95dvh", width: "100%", x: 0, y: 0}
     }
     const openWindow = useOpenWindow();
     const handleOpenApp = (app: WindowType) => {
