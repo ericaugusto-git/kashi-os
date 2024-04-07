@@ -5,14 +5,12 @@ import StartMenu from "./StartMenu/StartMenu";
 import Taskbar from "./Taskbar/Taskbar"
 import React, { createContext, useState } from 'react';
 import Window from "./Window/Window";
-import { WindowType } from "./constants/window";
+import WindowContextProvider from "./contexts/WindowContext";
 
 export const StartSetterContext = createContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>]>([false, () => {}]);
-export const WindowContext = createContext<[WindowType[], React.Dispatch<React.SetStateAction<WindowType[]>>]>([[], () => {}]);
 
 function App() {
     const [startMenuOpen, setStartMenuOpen] = useState(false)
-    const [windows, setWindows] = useState<WindowType[]>([]);
 
     return (
       <>
@@ -24,14 +22,14 @@ function App() {
       <p style={{ fontFamily: 'Oxanium', marginBottom: '20px' }}>Oxanium: Eric Augusto Batista Carvalho</p>
     </div> */}
       <Background/>
-      <WindowContext.Provider value={[windows, setWindows ]}>
+      <WindowContextProvider>
         <Desktop/>
         <Window/>
         <StartSetterContext.Provider value={[startMenuOpen,setStartMenuOpen]}>
           {startMenuOpen && <StartMenu/>}
           <Taskbar/>
         </StartSetterContext.Provider>
-      </WindowContext.Provider>
+      </WindowContextProvider>
       </>
     )
 }

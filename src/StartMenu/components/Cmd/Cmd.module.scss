@@ -1,0 +1,12 @@
+.cmd_container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    .terminal{
+        height: 100%;
+        overflow: hidden;
+        border-radius: 0  0 2px 2px;
+    }
+}

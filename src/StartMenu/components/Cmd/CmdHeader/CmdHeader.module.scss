@@ -1,0 +1,27 @@
+.ascii{
+    white-space: pre;
+    background-color: rgba(0, 0, 0, 0.795);
+    z-index: 1;
+    font-family: monospace;
+    font-size: 12px;
+    line-height: 1.2;
+    padding-left:  10px;
+    padding-bottom: 20px;
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    border-radius: 2px 2px 0 0;
+    .device_info{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        .info{
+            display: flex;
+            gap: 5px;
+            .info_icon{
+                width: 14px;
+                height: 14px;
+            }
+        }
+    }
+}
