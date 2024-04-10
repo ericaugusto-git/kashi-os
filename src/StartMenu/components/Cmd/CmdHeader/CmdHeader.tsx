@@ -21,6 +21,9 @@ function CmdHeader() {
       {/* ASCII art content */}
       {asciiKoi}
       <div className={style.device_info}>
+        <div className={style.host}>
+          <span className={style.host_label}>eric</span><span >@</span><span className={style.host_label}>augusto.dev</span>
+        </div>
         {deviceInfo.map((info, i) => (
         <div key={i} className={style.info}>
           <div

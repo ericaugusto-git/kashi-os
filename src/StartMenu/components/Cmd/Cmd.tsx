@@ -60,8 +60,6 @@ function Cmd() {
 
     // Clean up function
     const resizeObserver = new ResizeObserver(() => {
-
-      console.log("resize");
       fitAddon.fit();
       // Do what you want to do when the size of the element changes
     });
