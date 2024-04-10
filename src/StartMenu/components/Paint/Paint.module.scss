@@ -3,16 +3,69 @@
     padding: 10px;
     gap: 20px;
     .actions{
-        display: grid;
+        // display: grid;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 220px;
         grid-template-columns: repeat(2, 1fr);
         padding: 20px;
         grid-auto-rows: max-content;
-        background-color: azure;
+        color: black;
+        background-color: #ebebeba6;
         border-radius: 10px;
         gap: 10px;
+        justify-content: space-between;
+        .slider{
+            width: 100%;
+        }
     }
     .canvas{
         background-color: white;
-        border-radius: 2px;
+        border-radius: 10px;
+    }
+
+}
+
+.buttonGroup{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* height: 30px; */
+    background: #494949;
+    // background: #211f23;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.colorPicker{
+    grid-row: 1 / 5;
+}
+.slider {
+
+    label{
+        font-family: "IBM Plex Mono", monospace;
+        text-transform: uppercase;
+        font-size: 14px;
+        text-align: center;
+    }
+}
+.slider_container{
+        width: 90%;
+        margin: auto;
+        span{
+
+            color: #196cd2;
+        }
+}
+
+.saveButton{
+    display: flex;
+    /* align-items: center; */
+    gap: 10px;
+    font-family: "IBM Plex Mono", monospace;
+    text-transform: uppercase;
+    img{
+        width: 21px;
     }
 }
