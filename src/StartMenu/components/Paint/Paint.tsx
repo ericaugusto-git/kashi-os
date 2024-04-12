@@ -73,12 +73,17 @@ const handleEraserToggle = () => {
 
 }
 
+window.addEventListener("resize", () => {
+  console.log("resize")
+  painterRef.current?.render();
+})
+
  const handleLineChange = (action: string) => {
   //  setpickerColor(action == "eraser" ?  "#FFFFFF" : pickerColor)
   //      setlineCap(action);
-  console.log(pickerColor)
    painterRef.current?.handleSetColor(action == "eraser" ?  "#FFFFFF" : pickerColor)
-   painterRef.current?.handleSetLineCap(action as LineCapType);
+   painterRef.current?.handleSetLineCap(action == "eraser" ? 'round' : action as LineCapType);
+   
   }
   function downloadBlob(blob: Blob, name = 'your_beautiful_art.png') {
     // For other browsers:

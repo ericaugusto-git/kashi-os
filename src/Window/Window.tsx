@@ -51,7 +51,8 @@ const Window = () => {
     setWindows(updateWindow);
   }
 
-  const setWindowPosSize = (posSize: {x: number, y:number, width?: string, height?: string}, window: WindowType) => {
+  const setWindowPosSize = (posSize: {x: number, y:number, width?: string, height?: string}, window: WindowType
+  ) => {
     if(isMaximized(window)){
       window.width = "40%";
       window.height = "400px"
@@ -86,6 +87,7 @@ const Window = () => {
   onDragStop={(_e, d) => { setWindowPosSize({ x: d.x, y: d.y }, window) }}
   onDragStart={(_e, d) => { setWindowPosSize({ x: d.x, y: d.y }, window) }}
   disableDragging={isMaximized(window)}
+  enableResizing={window.enableResizing ?? true}
   onResizeStop={(_e, _direction, ref, _delta, position) => {
     setWindowPosSize({
       width: ref.style.width,
@@ -126,6 +128,10 @@ const Window = () => {
           </div>
 ))}
   </>
+  
 };
+Window.defaultProps = {
+  enableResizing: true
+}
 
 export default Window;

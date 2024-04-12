@@ -12,5 +12,6 @@ export type WindowType = {
     conteudo?: JSX.Element,
     windowStyles?: CSSProperties,
     headerStyles?: CSSProperties,
-    bodyStyles?: CSSProperties
+    bodyStyles?: CSSProperties,
+    enableResizing?: boolean
 }
