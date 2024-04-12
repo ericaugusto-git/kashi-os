@@ -11,10 +11,6 @@ function Start(){
         maxWidth: '40px'
     }
     const [startMenuOpen, setStartMenuOpen, toggleButtonRef] = useContext(StartSetterContext)
-    useEffect(() => {
-        
-            
-    }, [])
     const handleClick = () => {
         setStartMenuOpen(previousValue => !previousValue);
     };

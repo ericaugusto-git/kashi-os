@@ -19,6 +19,7 @@
     "dayjs": "^1.11.10",
     "framer-motion": "^11.0.24",
     "local-echo": "github:wavesoft/local-echo",
+    "moment": "^2.30.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-color": "^2.19.3",

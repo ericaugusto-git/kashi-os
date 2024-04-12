@@ -1,7 +1,10 @@
 import React, { createContext, useContext, useState } from "react";
 import { WindowType } from "../constants/window";
 
-export const WindowContext = createContext<[WindowType[], React.Dispatch<React.SetStateAction<WindowType[]>>]>([[], () => {}]);
+
+type WindowContextType = [WindowType[], React.Dispatch<React.SetStateAction<WindowType[]>>]
+
+export const WindowContext = createContext<WindowContextType>([[], () => {}]);
 
 type WindowContextProviderProps = {
     children: React.ReactNode;

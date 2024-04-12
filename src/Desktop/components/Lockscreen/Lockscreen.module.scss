@@ -1,0 +1,17 @@
+.date_hour{
+    position: absolute;
+    left: 50%;
+    top: 42%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: #f5ca66;
+    color: white;
+    .hour{
+        font-size: 44px;
+        font-weight: 100;
+    }
+    // font-size: 100;
+}
