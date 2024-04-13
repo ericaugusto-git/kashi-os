@@ -2,7 +2,7 @@ $borderWidth: 1px;
 $borderRadius: 10px;
 $padding: 7px;
 
-.default-outline-button {
+.default_outline_button {
     font: inherit;
     color: inherit;
     background: #282828;
@@ -19,11 +19,15 @@ $padding: 7px;
     background-position: center center;
     background-origin: content-box;
     padding: $padding;
+    user-select: none;
     // height: 100%;
 
     min-width: 0;
   }
-  .default-outline-button:after {
+  .default_outline_button.coffe{
+    background-color: #544C46;
+  }
+  .default_outline_button:not(.coffe):after {
     content: '';
     position: absolute;
     top: calc(-1 * $borderWidth);
@@ -36,7 +40,7 @@ $padding: 7px;
     background-size: 300% 300%;
 }
 
-.default-outline-button:hover:after{
+.default_outline_button:hover:after{
     animation: animatedgradient 3s ease alternate infinite;
   }
   

@@ -3,7 +3,21 @@
     bottom: 61px;
     right: 10px;
     background: white;
-    border: 2px solid black;
+    // border: 2px solid black;
     border-radius: 8px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.calendar_container:not(.light){
+    color: white;
+    
+}
+
+.calendar_container.dark{
+    background: #101010;
+    background: #1c1c1c;
+}
+
+.calendar_container.coffe{
+    background: #381413;
 }

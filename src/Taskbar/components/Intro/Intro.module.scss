@@ -46,3 +46,8 @@
         }
     }
 }
+
+.intro_container:not(.light){
+    background-color: unset;
+    outline-color: white;
+}

@@ -7,6 +7,7 @@ import {
 } from "react";
 import Desktop from "./Desktop/Desktop";
 import PcStatusContextProvider from "./contexts/PcStatusContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 type ContextType = [
   boolean,
@@ -23,9 +24,11 @@ function App() {
 
 
   return (
-    <PcStatusContextProvider>
-        <Desktop/>
-    </PcStatusContextProvider>
+    <ThemeProvider>
+      <PcStatusContextProvider>
+          <Desktop/>
+      </PcStatusContextProvider>
+    </ThemeProvider>
   );
 }
 

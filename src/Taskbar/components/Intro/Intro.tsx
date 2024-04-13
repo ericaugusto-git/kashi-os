@@ -1,3 +1,4 @@
+import { useTheme } from '../../../contexts/ThemeContext';
 import styles from './Intro.module.scss'
 // import React, { useState, useEffect, useRef } from 'react';
 
@@ -32,9 +33,9 @@ function Intro(){
     //         window.removeEventListener('resize', fitText);
     //     };
     // }, []);
-
+    const [theme] = useTheme()
     return (
-        <div className={styles.intro_container}>
+        <div className={styles.intro_container + " " + styles[theme]}>
             <h6 className={styles.nome}>Eric Augusto Batista Carvalho</h6>
             <h6 className={styles.abrev}>Eric Augusto</h6>
             <span className={styles.front}>Front-end Developer</span>

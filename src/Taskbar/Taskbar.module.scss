@@ -6,10 +6,20 @@
     height: 41px;
     padding: 5px 10px;
     display: flex;
+    z-index: 2;
     gap: 10px;
     align-items: center;
     margin: 0;
     box-shadow: 0 4px 14px 7px rgba(0,0,0,.25);
+}
+.menu:not(.light){
+    color: white;
+}
+.menu.dark{
+    background-color: rgba(0, 0, 0, 0.603); /* Updated to use rgba for transparency */
+}
+.menu.coffe{
+    background-color: rgb(63 59 55 / 65%);
 }
 .actions_skills{
     display: flex;
