@@ -1,5 +1,6 @@
 import { ReactNode, forwardRef } from 'react';
 import defaultStyles from './Button.module.scss';
+import { useTheme } from '../../../contexts/ThemeContext';
 type CSSProperties = {
     [key: string]: string | number;
   };
@@ -17,12 +18,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonPropsType>(({handleClick, sty
         ...height,
         ...styles
     }
+    const [theme] = useTheme();
     return (
     handleClick ? 
-    <button ref={ref} style={stylesMiddle} onClick={handleClick} className={defaultStyles['default-outline-button']}>
+    <button ref={ref} style={stylesMiddle} onClick={handleClick} className={defaultStyles.default_outline_button + " " + defaultStyles[theme]}>
         {children}
     </button> : 
-    <div style={stylesMiddle} className={defaultStyles['default-outline-button']}>
+    <div style={stylesMiddle} className={defaultStyles.default_outline_button}>
         {children}
     </div>
     )

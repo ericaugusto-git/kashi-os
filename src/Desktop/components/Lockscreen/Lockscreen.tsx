@@ -1,24 +1,10 @@
 import moment from 'moment';
 import styles from './Lockscreen.module.scss';
 import { useEffect, useState } from 'react';
+import useDateTime from '../../../hooks/useDateTime';
 
 function Lockscreen() {
-    const [dateTime, setDateTime] = useState({
-        date: moment().format('LL'),
-        hour: moment().format('LT')
-    });
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const now = moment();
-            setDateTime({
-                date: now.format('LL'),
-                hour: now.format('LT')
-            });
-        }, 1000);
-        return () => clearInterval(interval);
-    }, []);
-
+    const [dateTime] = useDateTime();
     return ( 
         <div className={styles.date_hour}>
             <span className={styles.hour}>{dateTime.hour}</span>

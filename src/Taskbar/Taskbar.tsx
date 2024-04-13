@@ -1,3 +1,4 @@
+import { useTheme } from '../contexts/ThemeContext';
 import styles from './Taskbar.module.scss';
 import Actions from './components/Actions/Actions';
 import Clock from './components/Clock/Clock';
@@ -7,9 +8,9 @@ import Skills from './components/Skills';
 import Start from './components/Start';
 
 function Taskbar(){
-
+    const [theme] = useTheme()
     return (
-    <footer className={styles.menu}>
+    <footer className={styles.menu + " " + styles[theme]}>
         <Start/>
         <div className={styles.actions_skills}>
         <Skills />
