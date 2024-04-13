@@ -6,7 +6,8 @@ type ThemeContextType = [string, React.Dispatch<React.SetStateAction<string>>]
 
 
 function ThemeProvider({children}: ThemeProviderType) {
-  const [theme, setTheme] = useState("light")
+  const initialTheme = localStorage.getItem("theme") ?? "light";
+  const [theme, setTheme] = useState(initialTheme)
   return (
     <ThemeContext.Provider value={[theme, setTheme]}>
       {children}

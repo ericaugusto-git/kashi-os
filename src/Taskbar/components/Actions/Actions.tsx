@@ -25,7 +25,7 @@ function Actions(){
 
     const [theme, setTheme] = useTheme();
     const handleChangeTheme = (theme: string) => {
-        setTheme(theme)
+        setTheme(theme);
     }
 
     return(
