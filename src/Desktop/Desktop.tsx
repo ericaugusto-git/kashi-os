@@ -38,12 +38,17 @@ function Desktop(){
     // setWallpaper(theme === 'light' ? topography : code);
     if (isInitialMount.current) {
       isInitialMount.current = false;
+      setWallpaper(theme === 'dark' ? code : theme == 'coffe' ? lofi_girl : topography);
     } else {
-      console.log("true");
+      localStorage.setItem("theme", theme);
       setToggleAnimation(true);
       changeWallpaper();
     }
   }, [theme]);
+
+  const handleSetWallpaper = () => {
+    
+  }
 
 
   // const [a, setA] = useState(false);
