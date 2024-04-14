@@ -1,0 +1,73 @@
+.details{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    .info{
+        display: flex;
+        gap: 5px;
+        align-items: center;
+    }
+    .icon{
+        width: 30px;
+        background-color: black;
+        // mask-size: unset;
+        height: 30px;
+    }
+    .humidity{
+        width: 18px;
+        height: 18px;    
+    }
+}
+.details:not(.light){
+    .icon{
+        background-color: white;
+    }
+}
+
+.info:nth-child(even){
+    justify-content: end;
+}
+
+.graph{
+    height: 50px;
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+    align-items: end;
+    padding-bottom: 20px;
+    .y_axis{
+        display: flex;
+        flex-direction: column;
+        font-size: 8px;
+        height: 100%;
+        justify-content: space-between;
+    }
+    .line{
+        border-radius: 2px;
+        width: 10%;
+        background-color: #49ABD4;
+        position: relative;
+        span{
+            position: absolute;
+            font-size: 8px;
+            bottom: -25px;
+            text-align: center;
+        }
+    }
+    .line::after{
+        content: attr(data-tooltip);
+        position: absolute;
+        padding: 5px;
+        font-size: 8px;
+        background-color: rgba(0, 0, 0, 0.178);
+        text-align: center;
+        top: -25px;
+        border-radius: 3px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: none;
+    }
+    .line:hover::after{
+        display: block;
+    }
+}

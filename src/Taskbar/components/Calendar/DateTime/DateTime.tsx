@@ -1,11 +1,24 @@
+import { useTheme } from "../../../../contexts/ThemeContext";
 import useDateTime from "../../../../hooks/useDateTime";
+import styles from './DateTime.module.scss';
 
 function DateTime() {
-    const [dateTime] = useDateTime();
+    const [dateTime] = useDateTime('LLLL','LTS');
+    const hour = dateTime.hour.split(' ');
+  dateTime.date.split(' ').pop();
+   const dateA = dateTime.date.split(' ');
+   dateA.pop();
+    const date = dateA.join(' ')
+//    console.log(date)
+    const [theme] = useTheme();
     return ( 
-    <div>
-        
-    </div> 
+        <div className={styles.date_hour + " " + styles[theme]}>
+            <div className={styles.hour_container}>
+                <span className={styles.hour}>{hour[0]}</span>
+                <span>{hour[1]}</span>
+            </div>
+            <span className={styles.date}>{date}</span>
+        </div>
     );
 }
 

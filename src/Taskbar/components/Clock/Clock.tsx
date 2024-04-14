@@ -33,7 +33,7 @@ function Clock(){
     const date = new Intl.DateTimeFormat(locale).format(new Date(time));
     return (
         <>
-        <div ref={calendarRef} >
+        <div style={{position: 'absolute'}} ref={calendarRef} >
              { isCalendarOpen && <Calendar/>}
         </div>
         <Button ref={clockButtonRef} handleClick={openCalendar}>
