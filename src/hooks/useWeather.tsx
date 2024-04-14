@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useState, useEffect } from "react";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type WeatherType = {forecast: any, weather: any}
@@ -42,8 +43,9 @@ function useWeather() {
               setWeather(weatherObj)
       };
       const latLon = parsedLocalWeather?.weather?.coord;
+      const isOld = moment.unix(parsedLocalWeather?.forecast?.dt).isBefore(moment());
       if(!weather && (lat !== null && long !== null)){
-        if(!latLon || (latLon.lat != lat || latLon.lon != long)){
+        if(!latLon || isOld || (latLon.lat != lat || latLon.lon != long)){
           fetchWeather();
         }else{
           console.log(parsedLocalWeather)
