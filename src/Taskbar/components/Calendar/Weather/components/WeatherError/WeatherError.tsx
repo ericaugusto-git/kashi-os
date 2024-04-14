@@ -1,6 +1,6 @@
 import styles from './WeatherError.module.scss';
 
-function WeatherError({geoError}: {geoError: GeolocationPositionError}) {
+function WeatherError({geoError}: {geoError: GeolocationPositionError | null}) {
     const errorMsg =
     geoError?.code == 1
       ? "need location permission  to show weather info!"

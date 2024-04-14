@@ -24,7 +24,7 @@
         display: none;
     }
     .front{
-        letter-spacing: 19px;
+        letter-spacing: 16px;
         font-weight: 800;
         line-height: 19px;
         font-size: 14px;
@@ -34,7 +34,7 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 730px) {
     .intro_container{
         .abrev{
             display: block;
@@ -51,4 +51,7 @@
 .intro_container:not(.light){
     background-color: unset;
     outline-color: white;
+}
+
+@media (max-width: 1600px) {
 }
