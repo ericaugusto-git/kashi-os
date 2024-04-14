@@ -13,7 +13,7 @@ function WeatherBody({weather, forecast}: WeatherType) {
     const [theme] = useTheme();
     const [forecastList, setForecastList] = useState([]);
     useEffect(() => {
-        setForecastList(forecast.list.reduce((acc: any[], current: any) => { acc.push({date: moment(current.dt * 1000).format('LT'), temp: current.main.temp}); return acc}, []));
+        setForecastList(forecast.list.reduce((acc: any[], current: any) => { acc.push({date: moment(current.dt * 1000).format('LT'), temp: Math.round(current.main.temp)}); return acc}, []));
         console.log(forecastList)
         // Calculate maximum temperature value
     },[])

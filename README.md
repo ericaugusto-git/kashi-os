@@ -5,20 +5,23 @@ Welcome to my portfolio! Featuring a sleek desktop-inspired UI, this site showca
 ## TODO List
 
 - [ ] Minimize window when user open start menu
-- [ ] Create component for media player
-- [ ] Make media player responsive
+- [x] Create component for media player
+- [x] Make media player responsive
 - [ ] Set mute state on component re-render
-- [ ] Create dark and cappucino theme
+- [x] Create dark and cappucino theme
 - [ ] Change language: english and pt-br
-- [ ] Calendar component
+- [x] Calendar component
 - [x] CMD
-- [ ] Paint
+- [x] Paint
 - [ ] Credits
-- [ ] Put to sleep: load lockscreen
-- [ ] Shutdown
+- [x] Put to sleep: load lockscreen
+- [x] Shutdown
 - [x] Close startmenu and calendar with click outside
 - [ ] Refactor StartSetterContext
+- [ ] Paint redesign
 
 ## KNOWN ISSUES
 
 - [x] Close unfocused windows
+
+responsive taskbar
