@@ -1,0 +1,26 @@
+.error{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    // flex-direction: column;
+    .sad_zeus{
+        // width: 234px;
+        // height: 270px;
+                    // width: 164px;
+        // height: 190px;
+        position: relative;
+        width: 199px;
+        height: 230px;
+        .anime{
+            font-family: "Anime Ace", sans-serif;
+            text-align: center;
+            color: black;
+            font-size: 10px;
+            position: absolute;
+            width: 124px;
+            top: 2px;
+        }
+
+        background-image: url(../../../../../../assets/weather/sad_zeus.png);
+    }
+}

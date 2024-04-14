@@ -1,0 +1,33 @@
+
+
+.header{
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    // justify-content: space-between;
+    // align-items: center;
+    .icon{
+        height: 60px;
+        width: 100px;
+        margin-left: -25px;
+        margin-right: -18px;
+    }
+    .desc_container{
+        display: flex;
+        flex-direction: column;
+        .location{
+            font-size: 21px;
+            line-height: 16px;
+            // /* font-weight: 700; 
+        }
+        .desc{
+            font-weight: 200;
+        }
+        // align-items: end;
+        .temp{
+            // font-size: 24px;
+            color: #49ABD4;
+        }
+    }
+}
+// color: #6978AA;

@@ -48,21 +48,21 @@ function StartMenu() {
   };
   const [pcStatus, setPcStatus] = useContext(PcStatusContext);
   const handlePowerOff = () => {
-    console.log("shutdown");
+    
     setPcStatus("shutdown");
   };
   const handleSleep = () => {
-    console.log("sleep")
+    
     setPcStatus("sleeping");
   };
   // const openApp = (app: WindowType) =>{
   //     // let updateWindow = windows.filter((a) => a.app != app.app);
-  //     // console.log(JSON.parse(JSON.stringify(updateWindow)));
+  //     // 
   //     // windows.map((a) => a.active = false)
   //     // app.active = true;
   //     // app = {...app, ...windowsTemplates[app.app as keyof WindowsTemplatesType]};
   //     // updateWindow = [...updateWindow, app];
-  //     // console.log(app)
+  //     // 
   //     // setWindows(updateWindow);
   // }
 

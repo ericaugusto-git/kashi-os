@@ -1,0 +1,30 @@
+$hourSize: 44px;
+.date_hour{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 5px;
+    .hour_container{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        align-items: end;
+        .hour{
+            line-height: $hourSize;
+            font-size: $hourSize;
+        }
+        font-weight: 100;
+    }
+    .date{
+        color: wheat;
+    }
+}
+
+
+.date_hour.light{
+    .date{
+        color: #6f511b;
+    }
+}
+// #977e50
+// #af935e
+// #5b4721

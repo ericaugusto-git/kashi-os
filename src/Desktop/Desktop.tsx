@@ -32,13 +32,13 @@ function Desktop(){
   const changeWallpaper = async () => {
     await timeout(500);
     setToggleAnimation(false);
-    setWallpaper(theme === 'dark' ? code : theme == 'coffe' ? lofi_girl : topography);
+    handleSetWallpaper();
   }
   useEffect(() => {
     // setWallpaper(theme === 'light' ? topography : code);
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      setWallpaper(theme === 'dark' ? code : theme == 'coffe' ? lofi_girl : topography);
+      handleSetWallpaper();
     } else {
       localStorage.setItem("theme", theme);
       setToggleAnimation(true);
@@ -47,7 +47,7 @@ function Desktop(){
   }, [theme]);
 
   const handleSetWallpaper = () => {
-    
+    setWallpaper(theme === 'dark' ? code : theme == 'coffe' ? lofi_girl : topography);
   }
 
 
@@ -55,11 +55,11 @@ function Desktop(){
   useEffect(() => {
     // joke of the year
     const shutup = (event: MouseEvent) => {
-      console.log(startMenuRef.current)
-      console.log(event.target as Node)
-      console.log(startMenuRef?.current?.contains(event.target as Node))
+      
+      
+      
       if(!startMenuRef?.current?.contains(event.target as Node)){
-        console.log("what")
+        
         setPcStatus("on")
       }
     }
