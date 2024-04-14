@@ -5,12 +5,28 @@ import styles from './Window.module.scss';
 import useCloseWindow from '../hooks/useCloseWindow';
 import { Slider } from '@mui/material';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import { useRef } from 'react';
 
 
 const Window = () => {
   const [windows, setWindows] = useWindowContext();
-
-  const handleWindowClick = (app: string) => {
+  const closeRefs = useRef<Array<HTMLButtonElement | null>>([]); // Array of refs
+  const maximizeRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const handleWindowClick = (app: string, event: React.MouseEvent<HTMLDivElement>) => {
+    const index = windows.findIndex(window => window.app === app);
+    if (index !== -1 && closeRefs.current[index] && closeRefs.current[index]?.contains(event.target as Node)) {
+        handleCloseWindow(windows[index]);
+        return;
+    }
+    if (index !== -1 && maximizeRefs.current[index] && maximizeRefs.current[index]?.contains(event.target as Node)) {
+      if(!windows[index].active){
+        setTimeout(() => {
+          maximizeWindow(windows[index]);
+          
+        }, 100)
+      }
+  }
+    console.log("dsjdsds")
     windows.map((a) => a.active = a.app === app);
     const updatedWindows = windows.map(w => ({
       ...w,
@@ -20,6 +36,8 @@ const Window = () => {
   }
   const closeWindow = useCloseWindow();
   const handleCloseWindow = (window: WindowType) => {
+    console.log("click");
+
     closeWindow(window);
   }
   const isMaximized = (window: WindowType):boolean =>{
@@ -31,6 +49,7 @@ const Window = () => {
   // }
 
   const maximizeWindow = (window: WindowType) => {
+    console.log('sikjbi')
     if(isMaximized(window)){
       window.y =  50;
       window.x =  150;
@@ -42,6 +61,7 @@ const Window = () => {
       window.width =  "100%"; 
       window.height = "95dvh";
     }
+    // window.active = true;
     let updateWindow = windows.filter((a) => a.app != window.app);
     updateWindow = [
       ...updateWindow,
@@ -71,8 +91,8 @@ const Window = () => {
   // const defaultX = 150 * windows.length
   // const defaultY = 50 * windows.length
   return <>
-  {windows.map((window) => (
-  <div key={window.app} onMouseDown={() => handleWindowClick(window.app)}
+  {windows.map((window, index) => (
+  <div key={window.app} onMouseDown={(event) => handleWindowClick(window.app, event)}
 >
   <Rnd
     // default={{
@@ -109,12 +129,11 @@ const Window = () => {
             <span>{window.app}</span>
           </div>
           <div className={styles.actions}>
-              {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} onClick={ () => maximizeWindow(window)}>
+              {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} ref={ref => maximizeRefs.current[index] = ref} onClick={ () => maximizeWindow(window)}>
 
               </button>}
-              <button className={`${styles.action} ${styles.close}`} onClick={() => handleCloseWindow(window)}>
+              <button className={`${styles.action} ${styles.close}`} ref={ref => closeRefs.current[index] = ref} onClick={() => handleCloseWindow(window)}></button>
 
-              </button>
           </div>
         </div>
         <div className={styles.body} style={window.bodyStyles}>

@@ -21,4 +21,4 @@ Welcome to my portfolio! Featuring a sleek desktop-inspired UI, this site showca
 
 ## KNOWN ISSUES
 
-- [ ] Close unfocused windows
+- [x] Close unfocused windows
