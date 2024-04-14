@@ -7,11 +7,15 @@ import WeatherBody from "./components/WeatherBody/WeatherBody";
 
 function Weather() {
   const { weatherContext, error } = useWeatherContext();
-  const {weather, forecast } = weatherContext;
+  const weather = weatherContext?.weather
+  const forecast = weatherContext?.forecast
   const mainWeather = weather?.weather?.[0];
+  console.log(error);
+  console.log(weather);
+  console.log()
   return (
     <div className={styles.weather_container}>
-      {error && !weather ? (
+      {error || (!weather || !forecast) ? (
         <WeatherError geoError={error}/>
       ) : (
         <div>

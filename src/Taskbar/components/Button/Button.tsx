@@ -18,6 +18,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonPropsType>(({handleClick, sty
         ...height,
         ...styles
     }
+    
     const [theme] = useTheme();
     return (
     handleClick ? 

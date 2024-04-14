@@ -14,7 +14,9 @@ function Taskbar(){
     <footer className={styles.menu + " " + styles[theme]}>
         <Start/>
         <div className={styles.actions_skills}>
-        <Skills />
+        <div className={styles.skills}>
+            <Skills />
+        </div>
         <Actions/>
         </div>
         <Intro/>

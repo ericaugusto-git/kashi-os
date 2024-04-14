@@ -43,12 +43,11 @@ function useWeather() {
               setWeather(weatherObj)
       };
       const latLon = parsedLocalWeather?.weather?.coord;
-      const isOld = moment.unix(parsedLocalWeather?.forecast?.dt).isBefore(moment());
+      const isOld = moment.unix(parsedLocalWeather?.forecast?.list?.[0]?.dt).isBefore(moment());
       if(!weather && (lat !== null && long !== null)){
         if(!latLon || isOld || (latLon.lat != lat || latLon.lon != long)){
           fetchWeather();
         }else{
-          console.log(parsedLocalWeather)
           setWeather(parsedLocalWeather);
         }
       }
