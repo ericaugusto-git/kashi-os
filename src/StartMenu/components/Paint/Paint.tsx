@@ -140,8 +140,8 @@ window.addEventListener("resize", () => {
               />
                 </div>
             </div>
-            </div>
             <SketchPicker className={styles.colorPicker} color={pickerColor} onChangeComplete={e => setColor(eraserActive ? "#FFFFFF" :  e.hex)} onChange={e => setpickerColor(e.hex)}/>
+            </div>
             <div >
             <Button  children={<span  className={styles.saveButton}>save your art <img src={download}></img> </span>} handleClick={triggerSave} />
             </div>

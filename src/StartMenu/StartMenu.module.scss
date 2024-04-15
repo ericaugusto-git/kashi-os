@@ -15,6 +15,7 @@ $col2IconSize: 21px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 6px 7px 9px 6px;
+    height: calc(100% - 10px);
     color: white;
     font-family: 'NATS', sans-serif;
     button{
@@ -87,7 +88,8 @@ $col2IconSize: 21px;
     }
     
     .col_2{
-        
+        overflow: auto;
+
         padding: 0 5px;
         .title{
             font-family: 'NATS', sans-serif;

@@ -4,8 +4,7 @@ import { StartSetterContext } from "../App";
 import powerOff from "../assets/startMenu/power_off.svg";
 import sleep from "../assets/startMenu/sleep.svg";
 import cuteGif from "../assets/startMenu/start_menu.gif";
-import { osApps } from "../constants/osApps";
-import { projects } from "../constants/projects";
+import { windowsTemplates } from "../constants/windowsTemplate";
 import { WindowType } from "../constants/window";
 import useOpenWindow from "../hooks/useOpenWindow";
 import styles from "./StartMenu.module.scss";
@@ -14,41 +13,41 @@ import Playlist from "./components/Playlist/Playlist";
 import Paint from "./components/Paint/Paint";
 import { PcStatusContext } from "../contexts/PcStatusContext";
 type WindowsTemplatesType = {
-  [key: string]: { conteudo: JSX.Element } | WindowType;
+  [key: string]: WindowType;
 };
 
 function StartMenu() {
   const [startMenuOpen, setStartMenuOpen] = useContext(StartSetterContext);
-
-  const windowsTemplates: WindowsTemplatesType = {
-    ["playlist"]: {
-      conteudo: <Playlist />,
-      bodyStyles: { paddingRight: 0 },
-      headerStyles: { paddingLeft: "25px" },
-    },
-    ["command line"]: { conteudo: <Cmd /> },
-    ["paint"]: {
-      enableResizing: false,
-      conteudo: <Paint />,
-      cantMax: true,
-      height: "95dvh",
-      width: "100%",
-      x: 0,
-      y: 0,
-    },
-  };
+  const osApps = windowsTemplates.filter(a=> a.appType == 'os');
+  const projects = windowsTemplates.filter(a=> a.appType == 'project');
+  // const windowsTemplates: WindowsTemplatesType = {
+  //   ["playlist"]: {
+  //     conteudo: <Playlist />,
+  //     bodyStyles: { paddingRight: 0 },
+  //     headerStyles: { paddingLeft: "25px" },
+  //   },
+  //   ["command line"]: { conteudo: <Cmd /> },
+  //   ["paint"]: {
+  //     enableResizing: false,
+  //     conteudo: <Paint />,
+  //     cantMax: true,
+  //     height: "95dvh",
+  //     width: "100%",
+  //     x: 0,
+  //     y: 0,
+  //   },
+  // };
   const openWindow = useOpenWindow();
   const handleOpenApp = (app: WindowType) => {
-    app = {
-      ...app,
-      ...windowsTemplates[app.app as keyof WindowsTemplatesType],
-    };
+    // app = {
+    //   ...app,
+    //   ...windowsTemplates[app.app as keyof WindowsTemplatesType],
+    // };
     openWindow(app);
     setStartMenuOpen(false);
   };
-  const [pcStatus, setPcStatus] = useContext(PcStatusContext);
+  const [_, setPcStatus] = useContext(PcStatusContext);
   const handlePowerOff = () => {
-    
     setPcStatus("shutdown");
   };
   const handleSleep = () => {
@@ -71,7 +70,7 @@ function StartMenu() {
       layout
       style={{
         height: !startMenuOpen ? "0" : "315px",
-        width: !startMenuOpen ? "0" : "315px",
+        width: !startMenuOpen ? "0" : "335px",
         left: "10px",
         position: "fixed",
         bottom: "61px",
@@ -125,7 +124,7 @@ function StartMenu() {
           <li>
             <span className={styles.title}>O.S Apps</span>
             <ul>
-              {osApps.map((app) => (
+              {osApps.map((app:WindowType) => (
                 <li key={app.app}>
                   <button onClick={() => handleOpenApp(app)}>
                     <img src={app.icon}></img>

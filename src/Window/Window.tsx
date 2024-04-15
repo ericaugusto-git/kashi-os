@@ -12,7 +12,7 @@ const Window = () => {
   const [windows, setWindows] = useWindowContext();
   const closeRefs = useRef<Array<HTMLButtonElement | null>>([]); // Array of refs
   const maximizeRefs = useRef<Array<HTMLButtonElement | null>>([]);
-  const handleWindowClick = (app: string, event: React.MouseEvent<HTMLDivElement>) => {
+  const handleWindowClick = (app: string | null | undefined, event: React.MouseEvent<HTMLDivElement>) => {
     const index = windows.findIndex(window => window.app === app);
     if (index !== -1 && closeRefs.current[index] && closeRefs.current[index]?.contains(event.target as Node)) {
         handleCloseWindow(windows[index]);
@@ -139,7 +139,7 @@ const Window = () => {
         <div className={styles.body} style={window.bodyStyles}>
           {/* <div style={{backgroundColor: "white",width: "100%", height: "100%", boxSizing: "border-box"}}></div> */}
           {/* <iframe src="http://wikipedia.com" ></iframe> */}
-          {window.conteudo}
+          {window.conteudo && <window.conteudo />}
           {/* <div style={{width: "100%", height: "100%", backgroundImage: `url(${jdm})`, backgroundRepeat: "no-repeat", backgroundSize: "cover"}}></div> */}
         </div>
     </div>

@@ -8,8 +8,10 @@ export type WindowType = {
     cantMax?: boolean,
     icon?: string,
     active?: boolean
-    app: string,
-    conteudo?: JSX.Element,
+    app?: string | null,
+    appType: "project" | "os",
+    desktop?: boolean,
+    conteudo?: () => JSX.Element,
     windowStyles?: CSSProperties,
     headerStyles?: CSSProperties,
     bodyStyles?: CSSProperties,

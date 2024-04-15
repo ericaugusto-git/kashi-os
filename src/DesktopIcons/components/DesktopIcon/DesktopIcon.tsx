@@ -1,12 +1,10 @@
 import { CSSProperties } from 'react';
 import styles from './DesktopIcon.module.scss';
 import { useTheme } from '../../../contexts/ThemeContext';
+import { WindowType } from '../../../constants/window';
 
 type DesktopIconProp = {
-    app: {
-        icon: string,
-        app: string
-    },
+    app: WindowType,
     stylesProp?: CSSProperties
 }
 function DesktopIcon({app, stylesProp}: DesktopIconProp){
