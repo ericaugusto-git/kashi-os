@@ -2,17 +2,20 @@ import { FitAddon } from "@xterm/addon-fit";
 import { Terminal } from "@xterm/xterm";
 import LocalEchoController from "local-echo";
 import { useEffect, useRef } from "react";
+import { WindowType } from "../../../constants/window";
+import { windowsTemplates } from "../../../constants/windowsTemplate";
+import useCloseWindow from "../../../hooks/useCloseWindow";
+import useOpenWindow from "../../../hooks/useOpenWindow";
 import style from "./Cmd.module.scss";
 import CmdHeader from "./CmdHeader/CmdHeader";
-import useCloseWindow from "../../../hooks/useCloseWindow";
-import { osApps } from "../../../constants/osApps";
-
+type CmdApp = {original: string | null | undefined, executable: string | null | undefined}
 
 function Cmd() {
   const terminalRef = useRef(null);
   const terminal = new Terminal();
   const fitAddon = new FitAddon();
   const closeWindow = useCloseWindow();
+  const openWindow = useOpenWindow();
   useEffect(() => {
     // Create a new Terminal instance
     // Attach the terminal to the DOM
@@ -28,7 +31,7 @@ function Cmd() {
       cursorBlink: true,
       fontWeight: 100,
     };
-    console.log("called");
+    const apps = windowsTemplates.filter(a=> a.app != 'command line').reduce((acc: CmdApp[] , current: WindowType) => {acc.push({original: current.app, executable: current.app?.toLocaleLowerCase().replace(' ', '_') + ".exe"}); return acc},[])
     // Read a single line from the user'
     const echo = () => {
       localEcho
@@ -38,16 +41,17 @@ function Cmd() {
             terminal.clear();
           } else if(input == "help"){
             localEcho.printWide([
-              "jdm.exe",
-              "about.exe",
-              "discord_clone.exe",
-              "recipe.exe",
-              "finance.exe",
-              "credits.exe",
+              ...apps.map(a=> a.executable),
               "exit"
             ]);
           } else if(input == "exit"){
             closeWindow("command line")
+          } else{
+            const app = windowsTemplates.find(a=> a.app == apps.find(a=> a.executable == input)?.original);
+            console.log(app)
+            if(app){
+              openWindow(app);
+            }
           }
           echo();
         })

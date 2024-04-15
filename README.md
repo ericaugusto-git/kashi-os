@@ -23,5 +23,3 @@ Welcome to my portfolio! Featuring a sleek desktop-inspired UI, this site showca
 ## KNOWN ISSUES
 
 - [x] Close unfocused windows
-
-responsive taskbar

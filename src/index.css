@@ -224,3 +224,25 @@ h1 {
 
 
 
+/* Works on Firefox */
+* {
+  scrollbar-width:thin;
+  scrollbar-color: rgb(8, 20, 34) rgb(228, 228, 228);
+  scrollbar-color: rgb(187, 187, 187) rgb(228, 228, 228);
+  /* scrollbar-color: rgb(24, 8, 34) rgb(228, 228, 228); */
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgb(187, 187, 187);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  border: 3px solid rgb(187, 187, 187);
+}
