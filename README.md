@@ -9,7 +9,7 @@ Welcome to my portfolio! Featuring a sleek desktop-inspired UI, this site showca
 - [x] Make media player responsive
 - [ ] Set mute state on component re-render
 - [x] Create dark and cappucino theme
-- [ ] Change language: english and pt-br
+- [x] Change language: english and pt-br
 - [x] Calendar component
 - [x] CMD
 - [x] Paint
