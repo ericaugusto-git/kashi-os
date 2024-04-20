@@ -11,6 +11,7 @@ import download from '../../../assets/paint/download.svg'
 import square from '../../../assets/paint/square.svg'
 import ButtonGroup from "../../../Taskbar/components/ButtonGroup/ButtonGroup";
 import Button from "../../../Taskbar/components/Button/Button";
+import { useTranslation } from "react-i18next";
 
 export default function Paint() {
   const [pickerColor, setpickerColor] = useState('#000000');
@@ -70,8 +71,9 @@ const themeButtons = [
 ];
 const handleEraserToggle = () => {
   setEraserActive(previous => !previous);
-
 }
+
+const {t} = useTranslation();
 
 window.addEventListener("resize", () => {
   console.log("resize")
@@ -81,6 +83,7 @@ window.addEventListener("resize", () => {
  const handleLineChange = (action: string) => {
   //  setpickerColor(action == "eraser" ?  "#FFFFFF" : pickerColor)
   //      setlineCap(action);
+  setEraserActive(action == "eraser")
    painterRef.current?.handleSetColor(action == "eraser" ?  "#FFFFFF" : pickerColor)
    painterRef.current?.handleSetLineCap(action == "eraser" ? 'round' : action as LineCapType);
    
@@ -127,7 +130,8 @@ window.addEventListener("resize", () => {
             <ButtonGroup useMaskImage={true} handleClick={handleLineChange} selectedValue="round" buttons={themeButtons} stylesProp={{width: "26px", height: "30px"}}></ButtonGroup>
             </div>
             <div className={styles.slider}>
-                <label>{(eraserActive ? 'Ereaser' : 'Line') +  ' width'}</label>
+                {eraserActive ? <label>{t('eraser_width')}</label> : <label>{t('line_width')}</label>}
+                {/* <label>{t((eraserActive ? 'ereaser_' : 'line_') +  'width')}</label> */}
                 <div className={styles.slider_container}>
                 <Slider
                 marks={marks}

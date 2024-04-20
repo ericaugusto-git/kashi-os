@@ -21,16 +21,16 @@ function WeatherBody({weather, forecast}: WeatherType) {
         <div className={styles.body}>
         <div className={styles.details + " " + styles[theme]}>
             <div className={styles.info}>
-                <div className={"svgMask " + styles.icon} style={{maskImage: `url(${sunrise})`}}></div>
-                <span>{new Date(weather.sys.sunrise * 1000).toLocaleTimeString('en-IN')}</span>
+                <div className={"svgMask " + styles.icon} style={{maskImage: `url(${sunset})`}}></div>
+                <span>{new Date(weather.sys.sunset * 1000).toLocaleTimeString('en-IN')}</span>
             </div>
             <div className={styles.info}>
                 <div className={"svgMask " + styles.icon + " " + styles.humidity} style={{maskImage: `url(${humidity})`}}></div>
                 <span>{weather.main.humidity} %</span>
             </div>
             <div className={styles.info}>
-                <div className={"svgMask " + styles.icon} style={{maskImage: `url(${sunset})`}}></div>
-                <span>{new Date(weather.sys.sunset * 1000).toLocaleTimeString('en-IN')}</span>
+                <div className={"svgMask " + styles.icon} style={{maskImage: `url(${sunrise})`}}></div>
+                <span>{new Date(weather.sys.sunrise * 1000).toLocaleTimeString('en-IN')}</span>
             </div>
             <div className={styles.info}>
                 <div className={"svgMask " + styles.icon} style={{maskImage: `url(${wind})`}}></div>

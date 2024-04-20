@@ -6,12 +6,15 @@ import useCloseWindow from '../hooks/useCloseWindow';
 import { Slider } from '@mui/material';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 const Window = () => {
   const [windows, setWindows] = useWindowContext();
-  const closeRefs = useRef<Array<HTMLButtonElement | null>>([]); // Array of refs
+  const closeRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const maximizeRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const { t } = useTranslation();
+
   const handleWindowClick = (app: string | null | undefined, event: React.MouseEvent<HTMLDivElement>) => {
     const index = windows.findIndex(window => window.app === app);
     if (index !== -1 && closeRefs.current[index] && closeRefs.current[index]?.contains(event.target as Node)) {
@@ -34,22 +37,17 @@ const Window = () => {
     }));
     setWindows(updatedWindows);
   }
+
   const closeWindow = useCloseWindow();
   const handleCloseWindow = (window: WindowType) => {
-    console.log("click");
-
     closeWindow(window);
   }
+
   const isMaximized = (window: WindowType):boolean =>{
     return window.width == "100%" && window.height == "95dvh"
   }
-  // const closeWindow = (app: string) => {
-  //   const updateWindows = windows.filter((a) => a.app != app);
-  //   setWindows(updateWindows)
-  // }
 
   const maximizeWindow = (window: WindowType) => {
-    console.log('sikjbi')
     if(isMaximized(window)){
       window.y =  50;
       window.x =  150;
@@ -67,7 +65,6 @@ const Window = () => {
       ...updateWindow,
       window
     ]
-    
     setWindows(updateWindow);
   }
 
@@ -123,10 +120,11 @@ const Window = () => {
     <div className={styles.window} style={{cursor: isMaximized(window) ? 'normal' : 'move',...window.windowStyles}}>
         <div className={styles.header} style={window.headerStyles}>
           <div className={styles.app}>
-          {window.icon?.includes(".svg") ? (
+          {/* {window.icon?.includes(".svg") ? (
             <div style={{ maskImage: `url(${window.icon})`, width: "21px", height: "19px" }} className="svgMask"></div>
-          ) : <img src={window.icon} style={{width: "21px", height: "19px"}}></img>}
-            <span>{window.app}</span>
+          ) : <img src={window.icon} style={{width: "21px", height: "19px"}}></img>} */}
+          <img src={window.icon} style={{width: "21px", height: "19px"}}></img>
+            <span>{t(window.app)}</span>
           </div>
           <div className={styles.actions}>
               {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} ref={ref => maximizeRefs.current[index] = ref} onClick={ () => maximizeWindow(window)}>

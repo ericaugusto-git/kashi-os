@@ -10,9 +10,6 @@ function Weather() {
   const weather = weatherContext?.weather
   const forecast = weatherContext?.forecast
   const mainWeather = weather?.weather?.[0];
-  console.log(error);
-  console.log(weather);
-  console.log()
   return (
     <div className={styles.weather_container}>
       {error || (!weather || !forecast) ? (

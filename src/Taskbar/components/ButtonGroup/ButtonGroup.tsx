@@ -8,7 +8,7 @@ type ButtonGroupProps = {
         action: string 
     }[],
     stylesProp?: CSSProperties
-    selectedValue: string,
+    selectedValue: string | undefined,
     useMaskImage?: boolean,
     handleClick?: (action: string) => void
 }

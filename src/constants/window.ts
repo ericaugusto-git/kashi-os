@@ -7,13 +7,17 @@ export type WindowType = {
     height?: string,
     cantMax?: boolean,
     icon?: string,
+    //if it well use svg mask or not the color of the mask
+    mask?: string,
     active?: boolean
-    app?: string | null,
+    app: string,
     appType: "project" | "os",
     desktop?: boolean,
+    hideInStartMenu?: boolean,
     conteudo?: () => JSX.Element,
     windowStyles?: CSSProperties,
     headerStyles?: CSSProperties,
     bodyStyles?: CSSProperties,
-    enableResizing?: boolean
+    enableResizing?: boolean,
+    desktopStyles?: CSSProperties
 }

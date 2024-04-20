@@ -13,7 +13,6 @@ $padding: 7px;
     justify-content: center;
     color: white;
     border: none;
-    cursor: pointer;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -24,10 +23,13 @@ $padding: 7px;
 
     min-width: 0;
   }
+  button.default_outline_button{
+    cursor: pointer;
+  }
   .default_outline_button.coffe{
     background-color: #544C46;
   }
-  .default_outline_button:not(.coffe):after {
+  button.default_outline_button:not(.coffe):after {
     content: '';
     position: absolute;
     top: calc(-1 * $borderWidth);

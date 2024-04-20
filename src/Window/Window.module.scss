@@ -39,6 +39,7 @@ iframe::-webkit-scrollbar-thumb
     padding-top: 10px;
     position: relative;
     z-index: 2;
+    text-transform: capitalize;
     .app{
       display: flex;
       align-items: center;

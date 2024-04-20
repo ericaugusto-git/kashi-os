@@ -28,7 +28,7 @@ function DesktopIcons() {
   return <>
             <menu className={styles.desktop}>
                 {apps.map(app => <li key={app.app} onClick={() => openApp(app)}>
-                            <DesktopIcon app={app} />
+                            <DesktopIcon app={app} stylesProp={app.desktopStyles} />
                         </li>)}
             </menu>
 

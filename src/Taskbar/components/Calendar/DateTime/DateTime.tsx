@@ -8,7 +8,7 @@ function DateTime() {
   dateTime.date.split(' ').pop();
    const dateA = dateTime.date.split(' ');
    dateA.pop();
-    const date = dateA.join(' ')
+    const date = dateA.join(' ').replace(' às', '')
 //    console.log(date)
     const [theme] = useTheme();
     return ( 
