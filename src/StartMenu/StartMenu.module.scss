@@ -18,6 +18,7 @@ $col2IconSize: 21px;
     height: calc(100% - 10px);
     color: white;
     font-family: 'NATS', sans-serif;
+    z-index: 10;
     button{
         border: none;
         border-radius: 4px;
@@ -26,7 +27,8 @@ $col2IconSize: 21px;
         display: flex;
         gap: 7px;
         text-transform: capitalize;
-        text-wrap: nowrap;
+        // text-wrap: nowrap;
+        text-align: left;
         align-items: center;
         span{
             text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
@@ -102,13 +104,14 @@ $col2IconSize: 21px;
             gap: 5px;
         }
         button{
-            background-color: rgba(255, 255, 255, 0.80);
+            background-color: rgba(255, 255, 255, 0.60);
             font-size: 12px;
             align-items: center;
             cursor: pointer;
+            height: 28.3px;
         } 
         button:hover{
-            background-color: rgba(255, 255, 255, 0.60);
+            background-color: rgba(255, 255, 255, 0.30);
         }
     }
 
@@ -125,6 +128,12 @@ $col2IconSize: 21px;
             height: 100%;
             width: 100%;
         }
+    }
+}
+
+.start_menu:not(.light){
+    button{
+        background-color: rgb(107 107 107 / 80%);
     }
 }
 

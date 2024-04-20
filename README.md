@@ -23,3 +23,5 @@ Welcome to my portfolio! Featuring a sleek desktop-inspired UI, this site showca
 ## KNOWN ISSUES
 
 - [x] Close unfocused windows
+- [ ] Taskbar disappears when user open window on mobile
+- [ ] Window onClick functions not working on mobile

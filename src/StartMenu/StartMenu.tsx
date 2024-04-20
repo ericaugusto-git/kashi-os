@@ -12,14 +12,18 @@ import Cmd from "./components/Cmd/Cmd";
 import Playlist from "./components/Playlist/Playlist";
 import Paint from "./components/Paint/Paint";
 import { PcStatusContext } from "../contexts/PcStatusContext";
+import { useTranslation } from "react-i18next";
+import { useTheme } from "../contexts/ThemeContext";
 type WindowsTemplatesType = {
   [key: string]: WindowType;
 };
 
 function StartMenu() {
   const [startMenuOpen, setStartMenuOpen] = useContext(StartSetterContext);
-  const osApps = windowsTemplates.filter(a=> a.appType == 'os');
-  const projects = windowsTemplates.filter(a=> a.appType == 'project');
+  const osApps = windowsTemplates.filter(a=> a.appType == 'os' && !a.hideInStartMenu);
+  const projects = windowsTemplates.filter(a=> a.appType == 'project' && !a.hideInStartMenu);
+  const {t} = useTranslation();
+  const [theme] = useTheme()
   // const windowsTemplates: WindowsTemplatesType = {
   //   ["playlist"]: {
   //     conteudo: <Playlist />,
@@ -74,6 +78,7 @@ function StartMenu() {
         left: "10px",
         position: "fixed",
         bottom: "61px",
+        zIndex:10
       }}
       //   initial={{ scaleY: 0, transformOrigin: 'bottom center' }}
       //   animate={{ scaleY: 1 }}
@@ -84,7 +89,7 @@ function StartMenu() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className={styles.start_menu}>
+      <div className={styles.start_menu + " " + styles[theme]}>
         <div className={styles.col_1}>
           <div
             className={styles.cute_gif}
@@ -95,13 +100,13 @@ function StartMenu() {
               <li>
                 <button className={styles.sleep} onClick={handleSleep}>
                   <img src={sleep}></img>
-                  <span>put to sleep</span>
+                  <span>{t('sleep')}</span>
                 </button>
               </li>
               <li>
                 <button className={styles.power_off} onClick={handlePowerOff}>
                   <img src={powerOff}></img>
-                  <span>shut it down</span>
+                  <span>{t('shut')}</span>
                 </button>
               </li>
             </ul>
@@ -109,26 +114,26 @@ function StartMenu() {
         </div>
         <menu className={styles.col_2}>
           <li>
-            <span className={styles.title}>Projects</span>
+            <span className={styles.title}>{t('projects')}</span>
             <ul>
               {projects.map((project) => (
                 <li key={project.app}>
                   <button onClick={() => handleOpenApp(project)}>
                     <img src={project.icon}></img>
-                    <span>{project.app}</span>
+                    <span>{t(project.app)}</span>
                   </button>
                 </li>
               ))}
             </ul>
           </li>
           <li>
-            <span className={styles.title}>O.S Apps</span>
+            <span className={styles.title}>{t('os')} Apps</span>
             <ul>
-              {osApps.map((app:WindowType) => (
-                <li key={app.app}>
-                  <button onClick={() => handleOpenApp(app)}>
-                    <img src={app.icon}></img>
-                    <span>{app.app}</span>
+              {osApps.map((osApp:WindowType) => (
+                <li key={osApp.app}>
+                  <button onClick={() => handleOpenApp(osApp)}>
+                    <img src={osApp.icon}></img>
+                    <span>{t(osApp.app)}</span>
                   </button>
                 </li>
               ))}

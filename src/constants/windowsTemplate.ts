@@ -3,28 +3,29 @@ import Cmd from "../StartMenu/components/Cmd/Cmd";
 import Paint from "../StartMenu/components/Paint/Paint";
 import Playlist from "../StartMenu/components/Playlist/Playlist";
 import { WindowType } from "./window";
-import playlistIcon from '../assets/startMenu/playlist.png';
+import playlistIcon from '../assets/startMenu/playlist.svg';
 import cmd from '../assets/startMenu/cmd.png'
 import brush from '../assets/startMenu/brush.png'
 import handshake from '../assets/startMenu/handshake.svg'
 
-import perfil from "../assets/desktop/perfil.png";
+import perfil from "../assets/desktop/avatar.png";
 import jdm from "../assets/desktop/jdm.png";
-import discord from "../assets/desktop/discord.svg";
-import cookBook from "../assets/desktop/cook_book.svg";
-import finance from "../assets/desktop/finance.svg";
+import discord from "../assets/desktop/disc.svg";
+import cookBook from "../assets/desktop/food.svg";
+import finance from "../assets/desktop/finance.png";
 
 export const windowsTemplates: WindowType[] = [
     {
         app: "playlist",
         icon: playlistIcon,
+        mask: '#eb4034',
         conteudo: Playlist, // Specify Playlist as a component type
         bodyStyles: { paddingRight: 0 },
         headerStyles: { paddingLeft: "25px" },
         appType: 'os'
     },
     {
-        app: "command line",
+        app: "command_line",
         conteudo: Cmd,
         appType: 'os',
         icon: cmd,
@@ -42,18 +43,20 @@ export const windowsTemplates: WindowType[] = [
         y: 0,
     },
     {
-    icon: handshake, 
-    appType: 'os',
-    app:"Credits"
+        icon: handshake, 
+        appType: 'os',
+        app: "credits"
     },
     {
         appType: 'os',
         desktop: true,
-        app: "About me",
+        hideInStartMenu: true,
+        app: "about_me",
+        desktopStyles: {height: '46px', width: '46px', backgroundSize: '100%'},
         icon: perfil,
     },
-    {app: "JDM Store",appType: 'project', icon: jdm},
-    {app: "Discord Clone", appType: 'project', icon: discord},
-    {app: "Recipe Book",appType: 'project', icon: cookBook},
-    {app: "Finance",appType: 'project', icon: finance},
+    {app: "jdm_store", appType: 'project', icon: jdm, desktopStyles: {backgroundSize: '70%'}},
+    {app: "discord_clone", appType: 'project', icon: discord},
+    {app: "finance", appType: 'project', icon: finance},
+    {app: "recipe_book", appType: 'project', icon: cookBook},
 ];

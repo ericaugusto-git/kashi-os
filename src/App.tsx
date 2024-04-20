@@ -3,14 +3,15 @@ import {
   Dispatch,
   MutableRefObject,
   SetStateAction,
-  createContext,
-  useEffect
+  createContext
 } from "react";
+import '../i18n.js';
 import Desktop from "./Desktop/Desktop";
 import PcStatusContextProvider from "./contexts/PcStatusContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import useWeather from "./hooks/useWeather";
 import { WeatherProvider } from "./contexts/WheaterContext";
+
+
 
 type ContextType = [
   boolean,
@@ -24,7 +25,6 @@ export const StartSetterContext = createContext<ContextType>([
 ]);
 
 function App() {
-
   return (
     <ThemeProvider>
       <PcStatusContextProvider>

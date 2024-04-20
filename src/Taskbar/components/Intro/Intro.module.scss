@@ -34,6 +34,10 @@
     }
 }
 
+.front[data-valor="Desenvolvedor Front-end"]{
+    letter-spacing: 11px;
+}
+
 @media (max-width: 730px) {
     .intro_container{
         .abrev{
@@ -44,6 +48,9 @@
         }
         .front{
             letter-spacing: 2px;
+        }
+        .front[data-valor="Desenvolvedor Front-end"]{
+            letter-spacing: 0;
         }
     }
 }

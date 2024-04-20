@@ -1,39 +1,50 @@
-import { DateCalendar } from "@mui/x-date-pickers";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import styles from './Calendar.module.scss'
-import { useTheme } from "../../../contexts/ThemeContext";
-import Lockscreen from "../../../Desktop/components/Lockscreen/Lockscreen";
 import { ThemeProvider, createTheme } from "@mui/material";
+import { DateCalendar } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { ptBR } from "@mui/x-date-pickers/locales";
+import 'dayjs/locale/pt-br';
+import { BrowserView } from "react-device-detect";
+import { useTheme } from "../../../contexts/ThemeContext";
+import styles from "./Calendar.module.scss";
 import DateTime from "./DateTime/DateTime";
 import Weather from "./Weather/Weather";
-import { BrowserView } from "react-device-detect";
-const darkTheme = createTheme({
+import { ptBR as coreptBR } from '@mui/material/locale';
+const darkTheme = createTheme(
+{  
   palette: {
-    mode: 'dark',
-  },
-});
-const lightTheme = createTheme({
+    mode: "dark",
+  }
+},
+ptBR, // x-date-pickers translations
+coreptBR, // core translations
+);
+
+const lightTheme = createTheme({  
   palette: {
-    mode: 'light',
-  },
-});
+    mode: "light",
+  }
+},
+  ptBR
+);
 
 export default function Calendar() {
   const [theme] = useTheme();
   return (
     <>
-        <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
         <div className={styles.calendar_container + " " + styles[theme]}>
-      <LocalizationProvider dateAdapter={AdapterDayjs} >
-        <DateTime/> 
-        <DateCalendar readOnly />
-        <BrowserView>
-            <Weather/>
-        </BrowserView>
-      </LocalizationProvider>
+          <LocalizationProvider
+            dateAdapter={AdapterDayjs}
+          >
+            <DateTime />
+            <DateCalendar readOnly/>
+            <BrowserView>
+              <Weather />
+            </BrowserView>
+          </LocalizationProvider>
         </div>
-        </ThemeProvider>
+      </ThemeProvider>
     </>
   );
 }
