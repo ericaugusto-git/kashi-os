@@ -22,7 +22,8 @@ export const windowsTemplates: WindowType[] = [
         conteudo: Playlist, // Specify Playlist as a component type
         bodyStyles: { paddingRight: 0 },
         headerStyles: { paddingLeft: "25px" },
-        appType: 'os'
+        appType: 'os',
+        svgMask: {startMenu: true}
     },
     {
         app: "command_line",

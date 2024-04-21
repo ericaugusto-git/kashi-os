@@ -19,6 +19,7 @@ Welcome to my portfolio! Featuring a sleek desktop-inspired UI, this site showca
 - [x] Close startmenu and calendar with click outside
 - [ ] Refactor StartSetterContext
 - [ ] Paint redesign
+- [ ] Improve experience in mobile (oh boy...)
 
 ## KNOWN ISSUES
 

@@ -1,6 +1,8 @@
 import { ReactNode, forwardRef } from 'react';
 import defaultStyles from './Button.module.scss';
+import gradientStyles from './ButtonGradient.module.css';
 import { useTheme } from '../../../contexts/ThemeContext';
+import { Grid } from '@mui/material';
 type CSSProperties = {
     [key: string]: string | number;
   };
@@ -8,6 +10,7 @@ type CSSProperties = {
 type ButtonPropsType = {
     children?: ReactNode,
     styles?: CSSProperties,
+    outline?:boolean,
     handleClick?: () => void
 }
 

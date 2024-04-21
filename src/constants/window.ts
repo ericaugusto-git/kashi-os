@@ -14,6 +14,7 @@ export type WindowType = {
     appType: "project" | "os",
     desktop?: boolean,
     hideInStartMenu?: boolean,
+    svgMask?: {startMenu?: boolean, desktop?: boolean}
     conteudo?: () => JSX.Element,
     windowStyles?: CSSProperties,
     headerStyles?: CSSProperties,

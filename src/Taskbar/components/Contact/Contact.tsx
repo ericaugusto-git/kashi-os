@@ -1,5 +1,5 @@
 import Button from "../Button/Button";
-import mailIcon from "../../../assets/taskbar/contact/mail-icon.svg"
+import mailIcon from "../../../assets/taskbar/contact/mail.svg"
 import phoneIcon from "../../../assets/taskbar/contact/phone.svg"
 import likedinIcon from "../../../assets/taskbar/contact/linkedin.svg"
 import githubIcon from "../../../assets/taskbar/contact/github.svg"
@@ -18,14 +18,14 @@ function Contact(){
     return ( 
         <Button styles={{padding: "7px 10px"}}>
             <div className={styles.contact_info}>
-                <div className={styles.contact_item} onClick={openEmail}>
-                    <img src={mailIcon}></img>
-                    <a>eric72001@hotmail.com</a>
-                </div>
-                <div className={styles.contact_item} onClick={openPhone}>
-                    <img src={phoneIcon}></img>
-                    <a>(71) 98188-6126</a>
-                </div>
+                <a className={styles.contact_item} onClick={openEmail}>
+                    <div style={{ maskImage: `url(${mailIcon})` }} className={"svgMask " + styles.icon}></div>
+                    <span>eric72001@hotmail.com</span>
+                </a>
+                <a className={styles.contact_item} onClick={openPhone}>
+                    <div style={{ maskImage: `url(${phoneIcon})` }} className={"svgMask " + styles.icon}></div>
+                    <span>(71) 98188-6126</span>
+                </a>
                 <div className={styles.socials}>
                     <a href="https://github.com/ericaugusto-git" target="_blank"  className={styles.svg_link} style={{ maskImage: `url(${githubIcon})`}}></a>
                     <a href="https://www.linkedin.com/in/eric-augusto-775245a9/" target="_blank" className={styles.svg_link} style={{ maskImage: `url(${likedinIcon})`}}></a>

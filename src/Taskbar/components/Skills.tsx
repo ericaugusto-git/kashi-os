@@ -15,7 +15,7 @@ function Skills(){
     }
     const icons = [angularIcon,htmlIcon,saasIcon,typescriptIcon,reactIcon,pythonIcon];
     return (        
-    <Button styles={styles}>
+    <Button styles={styles} outline={false}>
         <div className='skills'>
             <div className="title-container">
             <h4 className='title'>skills</h4>

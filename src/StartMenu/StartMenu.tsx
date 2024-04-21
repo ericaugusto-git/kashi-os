@@ -14,6 +14,7 @@ import Paint from "./components/Paint/Paint";
 import { PcStatusContext } from "../contexts/PcStatusContext";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../contexts/ThemeContext";
+import { useWindowContext } from "../contexts/WindowContext";
 type WindowsTemplatesType = {
   [key: string]: WindowType;
 };
@@ -51,13 +52,15 @@ function StartMenu() {
     setStartMenuOpen(false);
   };
   const [_, setPcStatus] = useContext(PcStatusContext);
+  const [windows, setWindows] = useWindowContext();
   const handlePowerOff = () => {
+    setWindows([]);
     setPcStatus("shutdown");
   };
   const handleSleep = () => {
-    
     setPcStatus("sleeping");
   };
+  const appsSections = [{title: 'projects', apps: projects, handleOnClick: handleOpenApp},{title: 'os', apps: osApps, handleOnClick: handleOpenApp}]
   // const openApp = (app: WindowType) =>{
   //     // let updateWindow = windows.filter((a) => a.app != app.app);
   //     // 
@@ -113,32 +116,24 @@ function StartMenu() {
           </menu>
         </div>
         <menu className={styles.col_2}>
-          <li>
-            <span className={styles.title}>{t('projects')}</span>
+          {appsSections.map((section) => (
+            <li key={section.title}>
+            <span className={styles.title}>{t(section.title)}</span>
             <ul>
-              {projects.map((project) => (
-                <li key={project.app}>
-                  <button onClick={() => handleOpenApp(project)}>
-                    <img src={project.icon}></img>
-                    <span>{t(project.app)}</span>
+              {section.apps.map((app) => (
+                <li key={app.app}>
+                  <button onClick={() => section.handleOnClick(app)}>
+                    {/* <img src={app.icon}></img> */}
+              {app.svgMask?.startMenu ? (
+            <div style={{ maskImage: `url(${app.icon})` }} className={"svgMask " + styles.icon}></div>
+          ) : <img src={app.icon}></img>}
+                    <span>{t(app.app)}</span>
                   </button>
                 </li>
               ))}
             </ul>
-          </li>
-          <li>
-            <span className={styles.title}>{t('os')} Apps</span>
-            <ul>
-              {osApps.map((osApp:WindowType) => (
-                <li key={osApp.app}>
-                  <button onClick={() => handleOpenApp(osApp)}>
-                    <img src={osApp.icon}></img>
-                    <span>{t(osApp.app)}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </li>
+            </li>
+          ))}
         </menu>
       </div>
     </motion.div>

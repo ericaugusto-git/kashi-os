@@ -1,10 +1,10 @@
 .intro_container{
     padding: 0 20px;
     text-wrap: nowrap;
-    border-radius: 30px;
+    border-radius: 15px;
     flex: 2;
-    outline: 1px solid black;
-    outline: 1px solid #c1c1c1;
+    // outline: 1px solid black;
+    // outline: 1px solid #c1c1c1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,7 +57,7 @@
 
 .intro_container:not(.light){
     background-color: unset;
-    outline-color: white;
+    // outline-color: white;
 }
 
 @media (max-width: 1600px) {

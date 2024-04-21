@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../../contexts/ThemeContext';
 import styles from './Intro.module.scss'
+import gradient from './Gradient.module.css'
 // import React, { useState, useEffect, useRef } from 'react';
 
 function Intro(){
@@ -37,7 +38,7 @@ function Intro(){
     const { t } = useTranslation();
     const [theme] = useTheme()
     return (
-        <div className={styles.intro_container + " " + styles[theme]}>
+        <div className={`${styles.intro_container} ${gradient.gradient} ${gradient[theme]}`}>
             <h6 className={styles.nome}>Eric Augusto Batista Carvalho</h6>
             <h6 className={styles.abrev}>Eric Augusto</h6>
             <span data-valor={t('front')} className={styles.front}>{t('front')}</span>
