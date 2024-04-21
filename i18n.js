@@ -30,10 +30,15 @@ i18n
           weather_error: 'Could not get weather info. Sorry :(',
           command_line: 'command line',
           sleep: "sleep",
-          os: 'o.s',
+          os: 'o.s apps',
+          projects: "projects",
+          playlist: "playlist",
+          paint : "paint",
+          credits : "credits",
           shut: 'shutdown',
           eraser_width: 'Ereaser width',
-          line_width: 'Line width'
+          line_width: 'Line width',
+          resume: "resume.pdf",
         }
     },
     ["pt-BR"]: {
@@ -50,10 +55,11 @@ i18n
             credits: 'Créditos',
             sleep: 'suspender',
             shut: 'desligar',
-            os: 's.o',
+            os: 's.o apps',
             projects: 'projetos',
             eraser_width: 'Largura da borracha',
-            line_width: 'Largura da linha'
+            line_width: 'Largura da linha',
+            resume: "currículo.pdf"
         }
       }
     }

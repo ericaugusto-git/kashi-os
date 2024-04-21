@@ -34,7 +34,7 @@ function useWeather() {
  
   const lang = i18n.resolvedLanguage?.toLocaleLowerCase()?.replace('-', '_') ?? 'en'
 
-  const fetchWeather = async (langChange: boolean) => {
+  const fetchWeather = async (langChange?: boolean) => {
           const weatherReq = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/weather/?lat=${lat}&lon=${long}&units=metric&lang=${lang}&APPID=${import.meta.env.VITE_REACT_APP_API_KEY}`);
           const weather = await weatherReq.json();
           let forecast;
@@ -45,28 +45,31 @@ function useWeather() {
           }
           weather.coord.lat = lat;
           weather.coord.lon = long;
-          const weatherObj = {forecast: parsedLocalWeather?.forecast ?? forecast, weather, lang};
+          const weatherObj = {forecast: forecast ?? parsedLocalWeather.forecast, weather, lang};
           localStorage.setItem("weather", JSON.stringify(weatherObj));
           setWeather(weatherObj)
   };
   useEffect(() => {
-    console.log("real shit?")
+    const langChanged = parsedLocalWeather.lang != lang;
+    if(langChanged && weather){
+      fetchWeather(langChanged);
+    }
   }, [t])
   useEffect(() => {
       const latLon = parsedLocalWeather?.weather?.coord;
-      const isOld = moment.unix(parsedLocalWeather?.forecast?.list?.[0]?.dt).isBefore(moment());
-      const changeLanguage = parsedLocalWeather.lang != lang;
-      console.log(changeLanguage)
-      console.log(weather)
-      // TODO this a really ugly if else
-      if((changeLanguage || !parsedLocalWeather || isOld) && (lat !== null && long !== null)){
-        if(changeLanguage || !latLon || isOld || (latLon.lat != lat || latLon.lon != long)){
-          fetchWeather(changeLanguage);
-        }else{
+      const locationChange = latLon?.lat != lat || latLon?.lon != long;
+      const isOld =  moment.unix(parsedLocalWeather?.forecast?.list?.[0]?.dt).isBefore(moment());
+      console.log(isOld);
+      console.log(locationChange);
+      // TODO this a really ugly if else, this is terrible
+      if(!weather && lat && long){
+        if(!parsedLocalWeather || isOld || locationChange){
+          fetchWeather();
+        }else{ 
           setWeather(parsedLocalWeather);
         }
       }
-  }, [lat, long, t]);
+  }, [lat, long]);
 
 
 

@@ -5,7 +5,8 @@ $padding: 7px;
 .default_outline_button {
     font: inherit;
     color: inherit;
-    background: #282828;
+    background: #282828; 
+    // background: #111; 
     position: relative;
     border-radius: $borderRadius;
     display: flex;
@@ -23,6 +24,7 @@ $padding: 7px;
 
     min-width: 0;
   }
+
   button.default_outline_button{
     cursor: pointer;
   }
@@ -59,4 +61,5 @@ $padding: 7px;
       }
   }
   
-  
+
+

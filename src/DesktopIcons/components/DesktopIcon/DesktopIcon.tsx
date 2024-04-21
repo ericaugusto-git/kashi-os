@@ -6,15 +6,19 @@ import { useTranslation } from 'react-i18next';
 
 type DesktopIconProp = {
     app: WindowType,
-    stylesProp?: CSSProperties
+    imgWrapperStyles?: CSSProperties,
+    buttonStyles?: CSSProperties,
+    svgMask?: boolean
 }
-function DesktopIcon({app, stylesProp}: DesktopIconProp){
+function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgMask}: DesktopIconProp){
     const [theme] = useTheme();
     const { t } = useTranslation();
-    const stylesDefault: CSSProperties = {...stylesProp, backgroundImage: `url(${app.icon})`}
+    const icon = svgMask ? { } :  {backgroundImage: `url(${app.icon})`}
+    const stylesDefault: CSSProperties = {...imgWrapperStyles, ...icon}
     return (
-        <button className={styles.desktop_icon + " " + styles[theme]}>
-            <div style={stylesDefault} className={styles.img_wrapper + " backgroundImage"}>
+        <button className={styles.desktop_icon + " " + styles[theme]} style={buttonStyles}>
+            <div style={stylesDefault} className={styles.img_wrapper + " " +  (!svgMask ? 'backgroundImage' : '')}>
+                {svgMask && <div style={{ maskImage: `url(${app.icon})` }} className={"svgMask " + styles.icon}></div>}
             {/* {app.icon?.includes(".svg") ? (
             <div style={{ maskImage: `url(${app.icon})` }} className={"svgMask " + styles.icon}></div>
           ) : <img src={app.icon}></img>} */}
