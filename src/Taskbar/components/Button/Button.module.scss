@@ -28,10 +28,13 @@ $padding: 7px;
   button.default_outline_button{
     cursor: pointer;
   }
-  .default_outline_button.coffe{
+  button.default_outline_button:hover{
+    background: #3d3d3d;
+  }
+  button.default_outline_button.coffe{
     background-color: #544C46;
   }
-  button.default_outline_button:not(.coffe):after {
+  .default_outline_button.gradient:not(.coffe):after {
     content: '';
     position: absolute;
     top: calc(-1 * $borderWidth);

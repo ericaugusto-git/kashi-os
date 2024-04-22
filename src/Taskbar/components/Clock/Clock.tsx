@@ -4,11 +4,13 @@ import Button from '../Button/Button';
 import styles from './Clock.module.scss';
 import Calendar from '../Calendar/Calendar';
 import useComponentVisible from '../../../hooks/useComponentVisible';
+import { useTheme } from '../../../contexts/ThemeContext';
 
 function Clock(){
     const now = new Date();
     const [time, setTime] = useState(new Date());
     const clockButtonRef = useRef(null) 
+    const [theme] = useTheme();
     const  [ calendarRef, isCalendarOpen, setIsCalendarOpen ] = useComponentVisible(false, clockButtonRef);
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -31,13 +33,15 @@ function Clock(){
     const meridiem = formattedTime.split(' ')[1];
     const [hourWithZero, minutesWithZero] = formattedTime.split(':').map(part => part.padStart(2, '0')) ?? [];
     const date = new Intl.DateTimeFormat(locale).format(new Date(time));
+    const buttonStyles = {color: 'unset', background: "rgb(40 40 40 / 13%)",backdropFilter: "blur(3px)"} 
+    const buttonHoverStyles = {background: "rgb(40 40 40 / 20%)"}
     return (
         <>
         <div style={{position: 'absolute'}} ref={calendarRef} >
              { isCalendarOpen && <Calendar/>}
         </div>
-        <Button ref={clockButtonRef} handleClick={openCalendar}>
-            <div className={styles.clock_container}>
+        <Button ref={clockButtonRef} handleClick={openCalendar} styles={buttonStyles} hoverStyles={buttonHoverStyles}>
+            <div className={styles.clock_container + " " + styles[theme]}>
             <div className={styles.clock} style={{ maskImage: `url(${clockIcon})`}}></div>
             <div className={styles.date_container}>
                 <div className={styles.hour_complete}>

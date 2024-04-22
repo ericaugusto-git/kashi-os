@@ -15,7 +15,7 @@ function Start(){
         setStartMenuOpen(previousValue => !previousValue);
     };
     return (
-        <Button  ref={toggleButtonRef} styles={styles} handleClick={handleClick}>
+        <Button  ref={toggleButtonRef} styles={styles} handleClick={handleClick} outline={true}>
             <div style={{height: "21px", width: "21px"}}>
                 <img style={{height: "100%", width: "100%"}} src={startIcon}></img>
             </div>

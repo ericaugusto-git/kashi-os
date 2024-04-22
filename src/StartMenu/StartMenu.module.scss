@@ -133,7 +133,11 @@ $col2IconSize: 21px;
 
 .start_menu:not(.light){
     button{
-        background-color: rgb(107 107 107 / 80%);
+        color: white;
+        background-color: rgba(0, 0, 0, 0.692);
+        .icon{
+            background-color: white;
+        }
     }
 }
 

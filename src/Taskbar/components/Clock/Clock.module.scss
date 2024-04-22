@@ -5,7 +5,7 @@
     .clock{
         width: 21px;
         height: 21px;
-        background-color: white;
+        background-color: rgb(255, 255, 255);
     }
     .hour_complete{
         display: flex;
@@ -37,6 +37,12 @@
         .meridem{
             font-weight: 100;
         }
+    }
+}
+
+.clock_container.light{
+    .clock{
+        background-color: rgb(0, 0, 0);
     }
 }
 
