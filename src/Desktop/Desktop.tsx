@@ -4,7 +4,7 @@ import DesktopIcons from '../DesktopIcons/DesktopIcons';
 import StartMenu from '../StartMenu/StartMenu';
 import Taskbar from '../Taskbar/Taskbar';
 import Window from "../Window/Window";
-import code from '../assets/code.mp4';
+import code from '../assets/coding.mp4';
 import lockscreen from '../assets/lockscreen.mp4';
 import topography from '../assets/topography.mp4';
 import lofi_girl from '../assets/lofi_girl.mp4';

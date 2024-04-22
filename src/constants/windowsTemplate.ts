@@ -4,7 +4,7 @@ import Paint from "../StartMenu/components/Paint/Paint";
 import Playlist from "../StartMenu/components/Playlist/Playlist";
 import { WindowType } from "./window";
 import playlistIcon from '../assets/startMenu/playlist.svg';
-import cmd from '../assets/startMenu/cmd.png'
+import cmd from '../assets/startMenu/cmd2.png'
 import brush from '../assets/startMenu/brush.png'
 import handshake from '../assets/startMenu/handshake.svg'
 
