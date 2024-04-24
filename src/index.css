@@ -69,43 +69,7 @@ h1 {
   /* padding: 20px; */
   /* display: flex; */
 }
-.skills{
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-  .title-container{
-    display: flex;
-    flex: 1; 
-    gap: 3px;
-    justify-content: start;
 
-    hr {
-      margin: 0;
-      align-self: center;
-      border: none;
-      border-top: 1px dashed #6D6D6D;
-      /* flex-basis: 10px; */
-      width: 52%; /* or this */
-    }
-  }
-  .title{
-    text-align: start;
-      margin: 0 !important;
-      font-size: 15px;
-  }
-  .icons{
-    display: flex;
-    gap: 10px;
-    .icon{
-      height: 15px;
-      width: 16px;
-      background-size: auto 100%;
-      background-position: center; /* Center the image */
-      background-repeat: no-repeat;
-    }
-  }
-}
 
 .dashed_separator{
   margin: 0;

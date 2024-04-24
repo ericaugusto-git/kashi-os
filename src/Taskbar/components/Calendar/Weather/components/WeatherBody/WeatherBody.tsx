@@ -41,7 +41,7 @@ function WeatherBody({weather, forecast}: WeatherType) {
                 <div className={styles.y_axis}>
                     <span>50</span>
                     <span>25</span>
-                    <span>0</span>
+                    <span style={{lineHeight: '6px'}}>0</span>
                 </div>
                 {forecastList.map((v: any,i) => (
                 <div key={i} className={styles.line} style={{height: v.temp + 'px'}} data-tooltip={v.temp + '°C'}>

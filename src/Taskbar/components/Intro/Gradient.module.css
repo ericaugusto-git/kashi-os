@@ -40,9 +40,6 @@
     }
   }
   
-  .gradient:hover::before {
-    animation-play-state: paused;
-  }
   
   @property --angle {
     syntax: "<angle>";
