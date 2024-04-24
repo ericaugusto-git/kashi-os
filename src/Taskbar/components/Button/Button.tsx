@@ -22,7 +22,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonPropsType>(({handleClick, sty
         ...height,
         ...styles
     }
-    console.log(stylesMiddle)
     const [theme] = useTheme();
 
     const [hovered, setHovered] = useState(false); // State to track hover status

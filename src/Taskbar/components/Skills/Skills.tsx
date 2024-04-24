@@ -1,0 +1,71 @@
+import Button from "../Button/Button";
+import angularIcon from '../../../assets/taskbar/skills/angular.png'
+import htmlIcon from '../../../assets/taskbar/skills/html.svg'
+import saasIcon from '../../../assets/taskbar/skills/sass.svg'
+import typescriptIcon from '../../../assets/taskbar/skills/typescript.svg'
+import reactIcon from '../../../assets/taskbar/skills/react.svg'
+import pythonIcon from '../../../assets/taskbar/skills/python.png'
+import styles from './Skills.module.scss';
+import { useState } from "react";
+
+type Skill = {
+    experience: {time: string,description: string },
+    expColor: string,
+    icon: string;
+}
+
+function Skills(){
+    const buttonStyles = {
+        alignItems: "start",
+        justifyContent: "start",
+        padding: "2px 20px 4px 10px",
+        height: "calc(100% - 4px)",
+        border: "1px solid #696969",
+        color: "#676767",
+        background: "#121212"
+    }
+    // const icons: Skill[] = [
+    //     { experience: { time: "2+", description: "years of professional experience" }, expColor: "#dd0031", icon: angularIcon }, // Angular color
+    //     { experience: { time: "4+", description: "years" }, expColor: "#e34c26", icon: htmlIcon }, // HTML color
+    //     { experience: { time: "2+", description: "years" }, expColor: "#c69", icon: saasIcon },    // Sass color
+    //     { experience: { time: "2+ ", description: "years of professional experience" }, expColor: "#007acc", icon: typescriptIcon }, // TypeScript color
+    //     { experience: { time: "5", description: "months as a hobby :)" }, expColor: "#61dafb", icon: reactIcon }, // React color
+    //     { experience: { time: "3+", description: "years of experience" }, expColor: "#306998", icon: pythonIcon } // Python color
+    // ];
+    const icons: Skill[] = [
+        { experience: { time: "2+", description: "years" }, expColor: "#dd0031", icon: angularIcon }, // Angular color
+        { experience: { time: "4+", description: "years" }, expColor: "#e34c26", icon: htmlIcon }, // HTML color
+        { experience: { time: "2+", description: "years" }, expColor: "#c69", icon: saasIcon },    // Sass color
+        { experience: { time: "2+ ", description: "years" }, expColor: "#007acc", icon: typescriptIcon }, // TypeScript color
+        { experience: { time: "5", description: "months" }, expColor: "#61dafb", icon: reactIcon }, // React color
+        { experience: { time: "3+", description: "years" }, expColor: "#306998", icon: pythonIcon } // Python color
+    ];
+    
+    
+    const [hovered, setHovered] = useState<Skill | null>(null); // State to track hover status
+    const handleMouseEnter = (icon: Skill) => {
+        setHovered(icon);
+      };
+  
+      const handleMouseLeave = () => {
+        setHovered(null);
+      };
+
+    return (        
+    <Button styles={buttonStyles} outline={false}>
+        <div className={styles.skills}>
+            <div className={styles["title-container"]}>
+            <h4 className={styles['title']}>{hovered ? (<><span style={{color: hovered.expColor}}>{hovered.experience.time}</span> {hovered.experience.description} of exp.</>) : 'skills'}</h4>
+            {!hovered && [1,2,3,4,5,6,7,8].map((i) => (<div key={i} className={styles.dot}></div>))}
+            </div>
+            <div className={styles["icons"]}>
+                {icons.map((icon, index) => (
+                    <div onMouseEnter={() => handleMouseEnter(icon)} onMouseLeave={() => handleMouseLeave()} className={`${styles["icon"]}  ${icon.icon == hovered?.icon ? '' : 'svgMask' }`} key={icon.icon} style={{[icon.icon == hovered?.icon ? 'backgroundImage' : 'maskImage']: `url(${icon.icon})`}}>
+                        {/* <img className="icon" key={index} src={icon} alt={`Skill ${index}`} /> */}
+                    </div>
+                ))}
+            </div>
+        </div>
+    </Button>)
+}
+export default Skills;
