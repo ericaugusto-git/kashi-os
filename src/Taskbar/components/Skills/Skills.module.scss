@@ -9,7 +9,10 @@
       gap: 3px;
       justify-content: start;
       align-items: center;
-  
+      span{
+        font-weight: 900;
+        line-height: 20px;
+      }
     //   hr {
     //     margin: 0;
     //     align-self: center;
@@ -38,6 +41,19 @@
         background-repeat: no-repeat;
         position: relative;
       }
+    }
+  }
+
+  .svgMask {
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: cover;
+    background-color: #ffffff; /* Your desired color */
+  }
+
+  .skills.light{
+    .icon.svgMask{
+      background-color: black;
     }
   }
 

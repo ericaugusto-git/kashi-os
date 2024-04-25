@@ -1,4 +1,16 @@
-$hoverColor: #53b7f2;
+$hoverColor: #56a7d6;
+.contact_info.light{
+  .contact_item{
+    background-color: #cfcfcf;
+    color: #323232;
+    .icon{
+      background-color: #323232;
+    }
+  }
+  .svg_link{
+    background-color: #323232;
+  }
+}
 .contact_info{
     display: flex;
     gap: 5px;
@@ -20,14 +32,21 @@ $hoverColor: #53b7f2;
     }
     .contact_item:hover{
       
-      a{
+      &{
         color: $hoverColor;
       }
       .icon{
           background-color: $hoverColor;
       }
     }
+      
+  .svg_link:hover {
+    background-color: $hoverColor;
+  }
 }
+
+
+
 .socials{
     display: flex;
     gap: 10px;
@@ -38,10 +57,7 @@ $hoverColor: #53b7f2;
     width: 20px; 
     height: 20px;
   }
-  
-  .svg_link:hover {
-    background-color: #53b7f2;
-  }
+
   a{
     font-size: 12px;
   }

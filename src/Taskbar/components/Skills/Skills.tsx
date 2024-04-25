@@ -7,6 +7,7 @@ import reactIcon from '../../../assets/taskbar/skills/react.svg'
 import pythonIcon from '../../../assets/taskbar/skills/python.png'
 import styles from './Skills.module.scss';
 import { useState } from "react";
+import { useTheme } from "../../../contexts/ThemeContext";
 
 type Skill = {
     experience: {time: string,description: string },
@@ -15,14 +16,17 @@ type Skill = {
 }
 
 function Skills(){
+    const [theme] = useTheme();
+
     const buttonStyles = {
         alignItems: "start",
         justifyContent: "start",
         padding: "2px 20px 4px 10px",
-        height: "calc(100% - 4px)",
-        border: "1px solid #696969",
-        color: "#676767",
-        background: "#121212"
+        height: "calc(100% - 8px)",
+        border: theme == 'light' ? '1px solid rgb(207 207 207)' : "1px solid #696969",
+        color:  "#676767",
+        // color: "#AEB2BA",
+        background: theme == 'light' ? "#f9f9f9" : "#121212"
     }
     // const icons: Skill[] = [
     //     { experience: { time: "2+", description: "years of professional experience" }, expColor: "#dd0031", icon: angularIcon }, // Angular color
@@ -33,7 +37,7 @@ function Skills(){
     //     { experience: { time: "3+", description: "years of experience" }, expColor: "#306998", icon: pythonIcon } // Python color
     // ];
     const icons: Skill[] = [
-        { experience: { time: "2+", description: "years" }, expColor: "#dd0031", icon: angularIcon }, // Angular color
+        { experience: { time: "2+", description: "years" }, expColor: "#FE38BA", icon: angularIcon }, // Angular color
         { experience: { time: "4+", description: "years" }, expColor: "#e34c26", icon: htmlIcon }, // HTML color
         { experience: { time: "2+", description: "years" }, expColor: "#c69", icon: saasIcon },    // Sass color
         { experience: { time: "2+ ", description: "years" }, expColor: "#007acc", icon: typescriptIcon }, // TypeScript color
@@ -53,14 +57,14 @@ function Skills(){
 
     return (        
     <Button styles={buttonStyles} outline={false}>
-        <div className={styles.skills}>
+        <div className={styles.skills + " " + styles[theme]}>
             <div className={styles["title-container"]}>
-            <h4 className={styles['title']}>{hovered ? (<><span style={{color: hovered.expColor}}>{hovered.experience.time}</span> {hovered.experience.description} of exp.</>) : 'skills'}</h4>
+            <span className={styles['title']}>{hovered ? (<><span style={{color: hovered.expColor}}>{hovered.experience.time}</span> <span style={{color: '#AEB2BA'}}>{hovered.experience.description} of exp.</span></>) : 'skills'}</span>
             {!hovered && [1,2,3,4,5,6,7,8].map((i) => (<div key={i} className={styles.dot}></div>))}
             </div>
             <div className={styles["icons"]}>
                 {icons.map((icon, index) => (
-                    <div onMouseEnter={() => handleMouseEnter(icon)} onMouseLeave={() => handleMouseLeave()} className={`${styles["icon"]}  ${icon.icon == hovered?.icon ? '' : 'svgMask' }`} key={icon.icon} style={{[icon.icon == hovered?.icon ? 'backgroundImage' : 'maskImage']: `url(${icon.icon})`}}>
+                    <div onMouseEnter={() => handleMouseEnter(icon)} onMouseLeave={() => handleMouseLeave()} className={`${styles["icon"]}  ${icon.icon == hovered?.icon ? '' : styles['svgMask'] }`} key={icon.icon} style={{[icon.icon == hovered?.icon ? 'backgroundImage' : 'maskImage']: `url(${icon.icon})`}}>
                         {/* <img className="icon" key={index} src={icon} alt={`Skill ${index}`} /> */}
                     </div>
                 ))}

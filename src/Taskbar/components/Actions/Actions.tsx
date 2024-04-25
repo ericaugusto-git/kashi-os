@@ -24,6 +24,7 @@ function Actions(){
         {icon: globeIcon, action: 'en', label: "EN"},
     ];
     const buttonStyles = {
+        height: "calc(100% - 16px)",
         padding: "8px 10px",
     }
 
@@ -45,7 +46,7 @@ function Actions(){
             <div className={styles.actions}>
                 <ButtonGroup selectedValue={theme} buttons={themeButtons} handleClick={handleChangeTheme} stylesProp={{width: "26px"}}></ButtonGroup>
                 <hr style={{width: "25px"}} className="dashed_separator"></hr>
-                <ButtonGroup selectedValue={i18n.resolvedLanguage} handleClick={handleChangeLanguage} buttons={languageButtons}></ButtonGroup>
+                <ButtonGroup selectedValue={i18n.resolvedLanguage} handleClick={handleChangeLanguage} stylesProp={{padding: "3px 6px"}} buttons={languageButtons}></ButtonGroup>
             </div>
         </Button>
     )

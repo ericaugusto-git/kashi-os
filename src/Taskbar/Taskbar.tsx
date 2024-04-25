@@ -6,7 +6,7 @@ import Contact from './components/Contact/Contact';
 import Intro from './components/Intro/Intro';
 
 import Skills from './components/Skills/Skills';
-import Start from './components/Start';
+import Start from './components/Start/Start';
 
 function Taskbar(){
     const [theme] = useTheme()
@@ -20,9 +20,9 @@ function Taskbar(){
         <Actions/>
         </div>
         <Intro/>
-        <div className={styles.contact}>
+        {/* <div className={styles.contact}>
             <Contact/>
-        </div>
+        </div> */}
         <Clock/>
     </footer>
     )
