@@ -8,8 +8,9 @@
     flex-direction: column;
     flex-wrap: wrap;
     gap: 40px;
-    height: calc(100% - 92px);
+    height: calc(100% - 90px);
     width: fit-content;
+    max-width: fit-content;
 }
 
 @media (max-width: 1024px) {
@@ -18,3 +19,4 @@
         padding: 15px 5px;
     }
 }
+

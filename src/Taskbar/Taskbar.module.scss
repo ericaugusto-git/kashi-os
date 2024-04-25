@@ -27,7 +27,7 @@
 }
 
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .actions_skills{
         height: unset;
         position: fixed;
@@ -52,9 +52,9 @@
     }
 }
 @media (max-width: 1580px) { 
-    .skills{
-        display: none;
-    }
+    // .skills{
+    //     display: none;
+    // }
  }
 @media (max-width: 1440px) { 
     .contact{
