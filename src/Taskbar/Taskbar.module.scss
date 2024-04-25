@@ -21,31 +21,36 @@
     background-color: rgb(63 59 55 / 65%);
 }
 .actions_skills{
-    display: flex;
-    gap: 10px;
-    height: 100%;
+    display: none;
 }
 
 
 @media (max-width: 1200px) {
-    .actions_skills{
+    .skills_actions{
         height: unset;
         position: fixed;
-        top: 270px;
-        right: -200px;
         display: flex;
-        /* flex-direction: column; */
         gap: 35px;
+        position: fixed;
+        top: 240px;
+        right: -220px;
         /* flex-flow: column-reverse; */
+        // flex-direction: column;
         transform-origin: center;
         backface-visibility: hidden;
-        align-items: center;
         transform: rotate(-90deg) scale(0.9999);
         transform-style: preserve-3d;
         backface-visibility: hidden;    
         -webkit-filter: blur(0);
         filter: blur(.0px);
         backface-visibility: hidden;
+    }
+    .actions{
+        top: 270px;
+    }
+
+    .skills, .actions{
+        display: none;
     }
     .contact{
         display: none;
