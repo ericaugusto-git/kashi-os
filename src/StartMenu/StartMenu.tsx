@@ -90,7 +90,7 @@ function StartMenu() {
         <div className={styles.col_1}>
           <div
             className={styles.cute_gif}
-            style={{ backgroundImage: `url(${cuteGif})` }}
+            style={{ backgroundImage: `url("${cuteGif}")` }}
           ></div>
           <menu>
             <ul>

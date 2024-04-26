@@ -13,7 +13,7 @@ type DesktopIconProp = {
 function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgMask}: DesktopIconProp){
     const [theme] = useTheme();
     const { t } = useTranslation();
-    const icon = svgMask ? { } :  {backgroundImage: `url(${app.icon})`}
+    const icon = svgMask ? { } :  {backgroundImage: `url("${app.icon}")`}
     const stylesDefault: CSSProperties = {...imgWrapperStyles, ...icon}
     return (
         <button className={styles.desktop_icon + " " + styles[theme]} style={buttonStyles}>
