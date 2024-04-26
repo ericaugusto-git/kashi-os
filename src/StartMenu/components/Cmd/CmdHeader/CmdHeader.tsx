@@ -1,5 +1,5 @@
 import style from "./CmdHeader.module.scss";
-import clockIcon from "../../../../assets/taskbar/clock/clock.svg";
+import clockIcon from "../../../../assets/taskbar/clock.svg";
 import screenIcon from "../../../../assets/cmd/screen_icon.svg";
 import xtermjsIcon from "../../../../assets/cmd/xterm.svg";
 import reactIcon from '../../../../assets/taskbar/skills/react.svg'
