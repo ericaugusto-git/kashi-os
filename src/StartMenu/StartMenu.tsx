@@ -119,7 +119,7 @@ function StartMenu() {
                   <button onClick={() => section.handleOnClick(app)}>
                     {/* <img src={app.icon}></img> */}
               {app.svgMask?.startMenu ? (
-            <div style={{ maskImage: `url(${app.icon})` }} className={"svgMask " + styles.icon}></div>
+            <div style={{ maskImage: `url("${app.icon}")` }} className={"svgMask " + styles.icon}></div>
           ) : <img src={app.icon}></img>}
                     <span>{t(app.app)}</span>
                   </button>

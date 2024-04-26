@@ -101,10 +101,10 @@ function Playlist(){
             </div>
             <div className={styles.actions}>
                 <button className={`svgMask ${styles.previous}`} onClick={previousMusic}></button>
-                <button style={{maskImage: `url(${isPlaying ? pause : play})`}}  onClick={togglePlay} className={`svgMask ${styles.pause_play}`}></button>
+                <button style={{maskImage: `url("${isPlaying ? pause : play}")`}}  onClick={togglePlay} className={`svgMask ${styles.pause_play}`}></button>
                 <button className={`svgMask ${styles.next}`}></button>
             </div>
-            <button className={`svgMask ${styles.mute_speaker}`} style={{maskImage: `url(${isMuted ? mute : speaker})`}} onClick={toggleMute}></button>
+            <button className={`svgMask ${styles.mute_speaker}`} style={{maskImage: `url("${isMuted ? mute : speaker}")`}} onClick={toggleMute}></button>
         </div>
         </div>
     </div>

@@ -28,7 +28,7 @@ function CmdHeader() {
         <div key={i} className={style.info}>
           <div
             className={"svgMask " + style.info_icon}
-            style={{ maskImage: `url(${info.icon})` }}
+            style={{ maskImage: `url("${info.icon}")` }}
           ></div>
           {info.conteudo}
         </div>
