@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import clockIcon from '../../../assets/taskbar/clock/clock.svg';
+import clockIcon from '../../../assets/taskbar/clock.svg';
 import Button from '../Button/Button';
 import styles from './Clock.module.scss';
 import Calendar from '../Calendar/Calendar';
