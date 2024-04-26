@@ -3,7 +3,7 @@ import clockIcon from "../../../../assets/taskbar/clock/clock.svg";
 import screenIcon from "../../../../assets/cmd/screen_icon.svg";
 import xtermjsIcon from "../../../../assets/cmd/xterm.svg";
 import reactIcon from '../../../../assets/taskbar/skills/react.svg'
-import { asciiKoi } from "../../../../constants/asciiKoi";
+import { asciiArt } from "../../../../constants/asciiArt";
 import * as rdd from "react-device-detect";
 
 function CmdHeader() {
@@ -19,7 +19,7 @@ function CmdHeader() {
   return (
     <div className={style.ascii}>
       {/* ASCII art content */}
-      {asciiKoi}
+      {asciiArt}
       <div className={style.device_info}>
         <div className={style.host}>
           <span className={style.host_label}>eric</span><span >@</span><span className={style.host_label}>augusto.dev</span>

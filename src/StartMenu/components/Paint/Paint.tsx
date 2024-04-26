@@ -1,17 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-import ReactPainter from "react-painter";
-import { LineCapType, LineJoinType } from "react-painter/dist/ReactPainter";
-import styles from "./Paint.module.scss";
+import { Slider } from "@mui/material";
+import { useRef, useState } from "react";
 import { SketchPicker } from 'react-color';
-import {  Slider } from "@mui/material";
-import eraser from '../../../assets/paint/eraser.svg'
-import dashed from '../../../assets/paint/dashed.svg'
-import round from '../../../assets/paint/round.svg'
-import download from '../../../assets/paint/download.svg'
-import square from '../../../assets/paint/square.svg'
-import ButtonGroup from "../../../Taskbar/components/ButtonGroup/ButtonGroup";
-import Button from "../../../Taskbar/components/Button/Button";
 import { useTranslation } from "react-i18next";
+import ReactPainter from "react-painter";
+import { LineCapType } from "react-painter/dist/ReactPainter";
+import Button from "../../../Taskbar/components/Button/Button";
+import ButtonGroup from "../../../Taskbar/components/ButtonGroup/ButtonGroup";
+import dashed from '../../../assets/paint/dashed.svg';
+import download from '../../../assets/paint/download.svg';
+import eraser from '../../../assets/paint/eraser.svg';
+import round from '../../../assets/paint/round.svg';
+import square from '../../../assets/paint/square.svg';
+import styles from "./Paint.module.scss";
 
 export default function Paint() {
   const [pickerColor, setpickerColor] = useState('#000000');
@@ -30,7 +30,7 @@ export default function Paint() {
   ];
   const [lineWidth, setLineWidth] = useState<number>(MIN);
   const [eraserActive, setEraserActive] = useState(false);
-  const [lineCap, setlineCap] = useState("round");
+  const [lineCap] = useState("round");
   // const canvasRef = useRef<HTMLDivElement>(null);
   // const [windowWidth, setWindowWidth] = useState<number | undefined>(100);
   // const [windowHeight, setWindowHeight] = useState<number | undefined>(200);
@@ -69,9 +69,7 @@ const themeButtons = [
   {action: 'square', icon: square},
   {action: 'eraser', icon: eraser}
 ];
-const handleEraserToggle = () => {
-  setEraserActive(previous => !previous);
-}
+
 
 const {t} = useTranslation();
 
@@ -122,7 +120,7 @@ window.addEventListener("resize", () => {
       color={pickerColor}
       lineCap={lineCap}
       onSave={(blob) => downloadBlob(blob)}
-      render={({ canvas, triggerSave, setLineCap, setColor, setLineWidth, setLineJoin }) => (
+      render={({ canvas, triggerSave, setColor, setLineWidth }) => (
         <div className={styles.paint_container}>
           <div className={styles.actions}>
             <div style={{width: "100%", display: "flex", gap: "10px", flexDirection: "column"}}>

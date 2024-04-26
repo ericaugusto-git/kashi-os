@@ -28,7 +28,7 @@ function Actions(){
         padding: "8px 10px",
     }
 
-    const { t, i18n } = useTranslation();
+    const { i18n } = useTranslation();
     const [theme, setTheme] = useTheme();
     // TODO is it good to have global change inside a component?
     moment.locale(i18n.resolvedLanguage);

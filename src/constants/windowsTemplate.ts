@@ -1,18 +1,17 @@
-import React from 'react';
 import Cmd from "../StartMenu/components/Cmd/Cmd";
 import Paint from "../StartMenu/components/Paint/Paint";
 import Playlist from "../StartMenu/components/Playlist/Playlist";
-import { WindowType } from "./window";
+import brush from '../assets/startMenu/brush.png';
+import cmd from '../assets/startMenu/cmd2.png';
+import handshake from '../assets/startMenu/handshake.svg';
 import playlistIcon from '../assets/startMenu/playlist.svg';
-import cmd from '../assets/startMenu/cmd2.png'
-import brush from '../assets/startMenu/brush.png'
-import handshake from '../assets/startMenu/handshake.svg'
+import { WindowType } from "./window";
 
 import perfil from "../assets/desktop/avatar.png";
-import jdm from "../assets/desktop/jdm.png";
 import discord from "../assets/desktop/disc.svg";
-import cookBook from "../assets/desktop/food.svg";
 import finance from "../assets/desktop/finance.png";
+import cookBook from "../assets/desktop/food.svg";
+import jdm from "../assets/desktop/jdm.png";
 
 export const windowsTemplates: WindowType[] = [
     {
@@ -30,6 +29,8 @@ export const windowsTemplates: WindowType[] = [
         conteudo: Cmd,
         appType: 'os',
         icon: cmd,
+        
+        bodyStyles: { padding: 0 },
     },
     {
         app: "paint",

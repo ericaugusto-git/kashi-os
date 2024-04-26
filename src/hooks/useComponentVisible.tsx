@@ -19,11 +19,7 @@ export default function useComponentVisible(initialIsVisible: boolean, toggleBut
             
             
           if (ref.current && !ref.current.contains(event.target as Node) && !toggleButtonRef?.current?.contains(event.target as Node)) {
-            setIsComponentVisible(previousValues => { 
-                
-                
-                return false;
-            });
+            setIsComponentVisible(false);
           }
         }
         // Bind the event listener

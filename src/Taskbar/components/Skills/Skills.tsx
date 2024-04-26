@@ -1,13 +1,13 @@
-import Button from "../Button/Button";
-import angularIcon from '../../../assets/taskbar/skills/angular.png'
-import htmlIcon from '../../../assets/taskbar/skills/html.svg'
-import saasIcon from '../../../assets/taskbar/skills/sass.svg'
-import typescriptIcon from '../../../assets/taskbar/skills/typescript.svg'
-import reactIcon from '../../../assets/taskbar/skills/react.svg'
-import pythonIcon from '../../../assets/taskbar/skills/python.png'
-import styles from './Skills.module.scss';
 import { useState } from "react";
+import angularIcon from '../../../assets/taskbar/skills/angular.png';
+import htmlIcon from '../../../assets/taskbar/skills/html.svg';
+import pythonIcon from '../../../assets/taskbar/skills/python.png';
+import reactIcon from '../../../assets/taskbar/skills/react.svg';
+import saasIcon from '../../../assets/taskbar/skills/sass.svg';
+import typescriptIcon from '../../../assets/taskbar/skills/typescript.svg';
 import { useTheme } from "../../../contexts/ThemeContext";
+import Button from "../Button/Button";
+import styles from './Skills.module.scss';
 
 type Skill = {
     experience: {time: string,description: string },
@@ -63,7 +63,7 @@ function Skills(){
             {!hovered && [1,2,3,4,5,6,7,8].map((i) => (<div key={i} className={styles.dot}></div>))}
             </div>
             <div className={styles["icons"]}>
-                {icons.map((icon, index) => (
+                {icons.map((icon, _) => (
                     <div onMouseEnter={() => handleMouseEnter(icon)} onMouseLeave={() => handleMouseLeave()} className={`${styles["icon"]}  ${icon.icon == hovered?.icon ? '' : styles['svgMask'] }`} key={icon.icon} style={{[icon.icon == hovered?.icon ? 'backgroundImage' : 'maskImage']: `url(${icon.icon})`}}>
                         {/* <img className="icon" key={index} src={icon} alt={`Skill ${index}`} /> */}
                     </div>

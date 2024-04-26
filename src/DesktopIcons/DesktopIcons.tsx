@@ -1,10 +1,12 @@
+import { useTranslation } from "react-i18next";
+import resume from "../assets/desktop/resume.svg";
+import curriculum from "../assets/resume/Eric Augusto resume.pdf";
 import { WindowType } from "../constants/window";
 import { windowsTemplates } from "../constants/windowsTemplate";
 import useOpenWindow from "../hooks/useOpenWindow";
 import styles from "./DestopIcons.module.scss";
 import DesktopIcon from "./components/DesktopIcon/DesktopIcon";
-import resume from "../assets/desktop/resume.svg";
-import { useTranslation } from "react-i18next";
+
 function DesktopIcons() {
   const apps = windowsTemplates.filter(a=> a.appType == 'project' || a.desktop);
   // apps.unshift({
@@ -16,7 +18,7 @@ function DesktopIcons() {
   //   }
   // });
   const openWindow = useOpenWindow();
-  const {t, i18n} = useTranslation();
+  const { i18n} = useTranslation();
 
   const handleDesktopIconCLick = (app: WindowType) => {
     // app.conteudo = <div className="backgroundImage" style={{
@@ -31,7 +33,7 @@ function DesktopIcons() {
     console.log(i18n.resolvedLanguage);
     window.open(i18n.resolvedLanguage == 'pt-BR' ? "https://drive.google.com/file/d/16NKogC8sO8VohS8i6Cvv0FU3NWEozyad/view?usp=sharing" : "https://drive.google.com/file/d/1JbOMaBScSv1RJPg5DOIh9EJg3XzphZuK/view?usp=sharing", "_blank");
   }
-
+console.log(curriculum)
   return <>
             <menu className={styles.desktop}>
                 {apps.map(app => <li key={app.app} onClick={() => handleDesktopIconCLick(app)}>

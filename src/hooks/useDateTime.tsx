@@ -2,10 +2,6 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 
 
-type DateTimeProps = {
-    date_format?: string,
-    hour_format?: string
-};
 
 interface DateTime {
     date: string;

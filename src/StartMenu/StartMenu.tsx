@@ -1,23 +1,17 @@
 import { motion } from "framer-motion";
 import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { StartSetterContext } from "../App";
 import powerOff from "../assets/startMenu/power_off.svg";
 import sleep from "../assets/startMenu/sleep.svg";
 import cuteGif from "../assets/startMenu/start_menu.gif";
-import { windowsTemplates } from "../constants/windowsTemplate";
 import { WindowType } from "../constants/window";
-import useOpenWindow from "../hooks/useOpenWindow";
-import styles from "./StartMenu.module.scss";
-import Cmd from "./components/Cmd/Cmd";
-import Playlist from "./components/Playlist/Playlist";
-import Paint from "./components/Paint/Paint";
+import { windowsTemplates } from "../constants/windowsTemplate";
 import { PcStatusContext } from "../contexts/PcStatusContext";
-import { useTranslation } from "react-i18next";
 import { useTheme } from "../contexts/ThemeContext";
 import { useWindowContext } from "../contexts/WindowContext";
-type WindowsTemplatesType = {
-  [key: string]: WindowType;
-};
+import useOpenWindow from "../hooks/useOpenWindow";
+import styles from "./StartMenu.module.scss";
 
 function StartMenu() {
   const [startMenuOpen, setStartMenuOpen] = useContext(StartSetterContext);
@@ -51,8 +45,8 @@ function StartMenu() {
     openWindow(app);
     setStartMenuOpen(false);
   };
-  const [_, setPcStatus] = useContext(PcStatusContext);
-  const [windows, setWindows] = useWindowContext();
+  const [, setPcStatus] = useContext(PcStatusContext);
+  const [, setWindows] = useWindowContext();
   const handlePowerOff = () => {
     setWindows([]);
     setPcStatus("shutdown");

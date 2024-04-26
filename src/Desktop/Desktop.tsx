@@ -6,8 +6,8 @@ import Taskbar from '../Taskbar/Taskbar';
 import Window from "../Window/Window";
 import code from '../assets/coding.mp4';
 import lockscreen from '../assets/lockscreen.mp4';
-import topography from '../assets/topography.mp4';
 import lofi_girl from '../assets/lofi_girl.mp4';
+import topography from '../assets/topography.mp4';
 import { PcStatusContext } from '../contexts/PcStatusContext';
 import { useTheme } from '../contexts/ThemeContext';
 import WindowContextProvider from '../contexts/WindowContext';
@@ -21,7 +21,7 @@ function Desktop(){
   const startButtonRef = useRef<HTMLButtonElement | null>(null);
   const [startMenuRef, isStartMenuOpen, setisStartMenuOpen] = useComponentVisible(false, startButtonRef);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [theme, setTheme] = useTheme();
+  const [theme] = useTheme();
   const [wallpaper, setWallpaper] = useState(topography)
   const [toggleAnimation, setToggleAnimation] = useState(false);
   const isInitialMount = useRef(true); 

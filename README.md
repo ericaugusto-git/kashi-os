@@ -20,6 +20,8 @@ Welcome to my portfolio! Featuring a sleek desktop-inspired UI, this site showca
 - [ ] Refactor StartSetterContext
 - [ ] Paint redesign
 - [ ] Improve experience in mobile (oh boy...)
+- [ ] Move all heavy assets to CDN
+- [ ] Re-do folders structure
 
 ## KNOWN ISSUES
 
