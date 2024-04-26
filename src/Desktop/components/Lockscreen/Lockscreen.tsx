@@ -1,7 +1,5 @@
-import moment from 'moment';
-import styles from './Lockscreen.module.scss';
-import { useEffect, useState } from 'react';
 import useDateTime from '../../../hooks/useDateTime';
+import styles from './Lockscreen.module.scss';
 
 function Lockscreen() {
     const [dateTime] = useDateTime();

@@ -1,12 +1,10 @@
+import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Rnd } from 'react-rnd';
 import { WindowType } from '../constants/window';
 import { useWindowContext } from '../contexts/WindowContext';
-import styles from './Window.module.scss';
 import useCloseWindow from '../hooks/useCloseWindow';
-import { Slider } from '@mui/material';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import styles from './Window.module.scss';
 
 
 const Window = () => {
@@ -112,7 +110,7 @@ const Window = () => {
       ...position,
     }, window);
   }}
-    minWidth={320}
+    minWidth={350}
     minHeight={500}
     bounds="window"
     style={{zIndex: window.active ? 2 : 1}}

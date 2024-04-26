@@ -1,6 +1,5 @@
-import { CSSProperties, useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { StartSetterContext } from "../../../App";
-import startIcon from "../../../assets/taskbar/start_icon.png";
 import Button from "../Button/Button";
 import styles from "./Start.module.scss";
 interface MousePosition {
@@ -18,7 +17,7 @@ function Start() {
   const hoverStyles = {
     backgroundColor: '#3d3d3d'
   }
-  const [startMenuOpen, setStartMenuOpen, toggleButtonRef] =
+  const [_, setStartMenuOpen, toggleButtonRef] =
     useContext(StartSetterContext);
   const handleClick = () => {
     setStartMenuOpen((previousValue) => !previousValue);

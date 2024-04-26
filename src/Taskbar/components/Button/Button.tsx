@@ -1,8 +1,6 @@
 import { ReactNode, forwardRef, useState } from 'react';
-import defaultStyles from './Button.module.scss';
-import gradientStyles from './ButtonGradient.module.css';
 import { useTheme } from '../../../contexts/ThemeContext';
-import { Grid } from '@mui/material';
+import defaultStyles from './Button.module.scss';
 type CSSProperties = {
     [key: string]: string | number;
   };
