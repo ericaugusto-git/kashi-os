@@ -18,7 +18,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgMask}: DesktopIcon
     return (
         <button className={styles.desktop_icon + " " + styles[theme]} style={buttonStyles}>
             <div style={stylesDefault} className={styles.img_wrapper + " " +  (!svgMask ? 'backgroundImage' : '')}>
-                {svgMask && <div style={{ maskImage: `url(${app.icon})` }} className={"svgMask " + styles.icon}></div>}
+                {svgMask && <div style={{ maskImage: `url("${app.icon}")` }} className={"svgMask " + styles.icon}></div>}
             {/* {app.icon?.includes(".svg") ? (
             <div style={{ maskImage: `url(${app.icon})` }} className={"svgMask " + styles.icon}></div>
           ) : <img src={app.icon}></img>} */}
