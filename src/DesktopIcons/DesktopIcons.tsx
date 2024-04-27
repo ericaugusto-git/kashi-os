@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { WindowType } from "../constants/window";
 import { windowsTemplates } from "../constants/windowsTemplate";
 import useOpenWindow from "../hooks/useOpenWindow";
