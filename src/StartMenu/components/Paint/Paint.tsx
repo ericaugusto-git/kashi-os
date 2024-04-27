@@ -37,10 +37,8 @@ export default function Paint() {
   // useEffect(() => {
   //   // Function to update window width and height
   //   const handleResize = () => {
-  //     console.log("canvas")
   //     setWindowWidth(canvasRef.current?.clientWidth);
   //     setWindowHeight(canvasRef.current?.clientHeight);
-  //     console.log(canvasRef.current?.clientWidth)
   //   };
   //   const resizeObserver = new ResizeObserver(() => {
 

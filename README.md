@@ -1,6 +1,6 @@
 # Portfolio
 
-Welcome to my portfolio! Featuring a sleek desktop-inspired UI, this site showcase a collection of applications that I have developed. Explore my projects and discover the creativity and functionality behind each one. Whether you're seeking innovative solutions or simply curious about my work, this portfolio offers a glimpse into my skills and expertise. Thank you for visiting!
+Welcome to my portfolio, the O.S version! Featuring a desktop-inspired UI, this site showcase a collection of applications that I have developed. Explore my projects and discover the creativity and functionality behind each one. Whether you're seeking innovative solutions or simply curious about my work, this portfolio offers a glimpse into my skills and expertise. Many thanks for stopping by!
 
 ## TODO List
 
@@ -22,6 +22,7 @@ Welcome to my portfolio! Featuring a sleek desktop-inspired UI, this site showca
 - [ ] Improve experience in mobile (oh boy...)
 - [ ] Move all heavy assets to CDN
 - [ ] Re-do folders structure
+- [ ] Add fallback image for when the wallpaper don't load and fallback color for when the image don't load lol
 
 ## KNOWN ISSUES
 

@@ -30,10 +30,10 @@ function DesktopIcons() {
   };
 
   const openResume = () => {
-    console.log(i18n.resolvedLanguage);
+    
     window.open(i18n.resolvedLanguage == 'pt-BR' ? "https://drive.google.com/file/d/16NKogC8sO8VohS8i6Cvv0FU3NWEozyad/view?usp=sharing" : "https://drive.google.com/file/d/1JbOMaBScSv1RJPg5DOIh9EJg3XzphZuK/view?usp=sharing", "_blank");
   }
-console.log(curriculum)
+
   return <>
             <menu className={styles.desktop}>
                 {apps.map(app => <li key={app.app} onClick={() => handleDesktopIconCLick(app)}>

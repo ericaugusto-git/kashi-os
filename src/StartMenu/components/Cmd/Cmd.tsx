@@ -48,7 +48,7 @@ function Cmd() {
             closeWindow("command line")
           } else{
             const app = windowsTemplates.find(a=> a.app == apps.find(a=> a.executable == input)?.original);
-            console.log(app)
+            
             if(app){
               openWindow(app);
             }
