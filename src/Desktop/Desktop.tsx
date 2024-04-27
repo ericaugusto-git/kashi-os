@@ -4,10 +4,6 @@ import DesktopIcons from '../DesktopIcons/DesktopIcons';
 import StartMenu from '../StartMenu/StartMenu';
 import Taskbar from '../Taskbar/Taskbar';
 import Window from "../Window/Window";
-import code from '../assets/coding.mp4';
-import lockscreen from '../assets/lockscreen.mp4';
-import lofi_girl from '../assets/lofi_girl.mp4';
-import topography from '../assets/topography.mp4';
 import { PcStatusContext } from '../contexts/PcStatusContext';
 import { useTheme } from '../contexts/ThemeContext';
 import WindowContextProvider from '../contexts/WindowContext';
@@ -17,6 +13,8 @@ import Lockscreen from './components/Lockscreen/Lockscreen';
 
 
 function Desktop(){
+  const topography = 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Topography.mp4';
+  const lockscreen = 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Lockscreen.mp4';
   const [pcStatus,setPcStatus] = useContext(PcStatusContext);
   const startButtonRef = useRef<HTMLButtonElement | null>(null);
   const [startMenuRef, isStartMenuOpen, setisStartMenuOpen] = useComponentVisible(false, startButtonRef);
@@ -30,7 +28,7 @@ function Desktop(){
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   const changeWallpaper = async () => {
-    await timeout(500);
+    await timeout(1000);
     setToggleAnimation(false);
     handleSetWallpaper();
   }
@@ -47,7 +45,7 @@ function Desktop(){
   }, [theme]);
 
   const handleSetWallpaper = () => {
-    setWallpaper(theme === 'dark' ? code : theme == 'coffe' ? lofi_girl : topography);
+    setWallpaper(theme === 'dark' ? 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Coding.mp4' : theme == 'coffe' ? 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Lofi%20Girl.mp4' : 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Topography.mp4');
   }
 
 
