@@ -64,7 +64,7 @@ function Skills(){
             </div>
             <div className={styles["icons"]}>
                 {icons.map((icon, _) => (
-                    <div onMouseEnter={() => handleMouseEnter(icon)} onMouseLeave={() => handleMouseLeave()} className={`${styles["icon"]}  ${icon.icon == hovered?.icon ? '' : styles['svgMask'] }`} key={icon.icon} style={{[icon.icon == hovered?.icon ? 'backgroundImage' : 'maskImage']: `url(${icon.icon})`}}>
+                    <div onMouseEnter={() => handleMouseEnter(icon)} onMouseLeave={() => handleMouseLeave()} className={`${styles["icon"]}  ${icon.icon == hovered?.icon ? '' : styles['svgMask'] }`} key={icon.icon} style={{[icon.icon == hovered?.icon ? 'backgroundImage' : 'maskImage']: `url("${icon.icon}")`}}>
                         {/* <img className="icon" key={index} src={icon} alt={`Skill ${index}`} /> */}
                     </div>
                 ))}
