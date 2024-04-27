@@ -41,7 +41,7 @@ const Window = () => {
   }
 
   const isMaximized = (window: WindowType):boolean =>{
-    return window.width == "100%" && window.height == "95dvh"
+    return window.width == "100%" && window.height == "94.6dvh"
   }
 
   const maximizeWindow = (window: WindowType) => {
@@ -54,7 +54,7 @@ const Window = () => {
       window.y =  0;
       window.x =  0;
       window.width =  "100%"; 
-      window.height = "95dvh";
+      window.height = "94.6dvh";
     }
     // window.active = true;
     let updateWindow = windows.filter((a) => a.app != window.app);
@@ -110,7 +110,7 @@ const Window = () => {
     }, window);
   }}
     minWidth={350}
-    minHeight={500}
+    minHeight={350}
     bounds="window"
     style={{zIndex: window.active ? 2 : 1}}
   >

@@ -1,6 +1,4 @@
 import { useTranslation } from "react-i18next";
-import resume from "../assets/desktop/resume.svg";
-import curriculum from "../assets/resume/Eric Augusto resume.pdf";
 import { WindowType } from "../constants/window";
 import { windowsTemplates } from "../constants/windowsTemplate";
 import useOpenWindow from "../hooks/useOpenWindow";
@@ -37,11 +35,11 @@ function DesktopIcons() {
   return <>
             <menu className={styles.desktop}>
                 {apps.map(app => <li key={app.app} onClick={() => handleDesktopIconCLick(app)}>
-                            <DesktopIcon app={app} imgWrapperStyles={app.desktopStyles} />
+                            <DesktopIcon app={app} svgMask={app.svgMask?.desktop} buttonStyles={app.desktopStyles?.button} imgWrapperStyles={app.desktopStyles?.img} />
                 </li>)}
-                <li onClick={openResume}>
+                {/* <li onClick={openResume}>
                   <DesktopIcon  app={{app: 'resume', icon: resume, appType: 'os', hideInStartMenu: true,}} buttonStyles={{textTransform: 'none'}} svgMask={true}></DesktopIcon>
-                </li>
+                </li> */}
             </menu>
 
         </>;

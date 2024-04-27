@@ -1,0 +1,33 @@
+.resume{
+    display: flex;
+    justify-content: center;
+    background: grey;
+    .saveWrapper{
+        margin: 5px;
+        // margin-left: auto;
+        height: fit-content;
+        display: flex;
+        justify-content: end;
+        .saveButton{
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            justify-self: end;
+            img{
+                width: 21px;
+            }
+        }
+}
+}
+
+@container (inline-size < 600px) {
+    .resume{
+        display: block;
+    }
+}
+
+@container (inline-size < 800px) {
+      .saveWrapper{
+          display: none !important;
+      }
+  }
