@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { createElement, useContext, useEffect, useRef, useState } from 'react';
 import { StartSetterContext } from '../App';
 import DesktopIcons from '../DesktopIcons/DesktopIcons';
 import StartMenu from '../StartMenu/StartMenu';
@@ -23,19 +23,40 @@ function Desktop(){
   const [wallpaper, setWallpaper] = useState(topography)
   const [toggleAnimation, setToggleAnimation] = useState(false);
   const isInitialMount = useRef(true); 
+  const [preloadedVideos, setPreloadedVideos] = useState({});
+
 
   function timeout(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   const changeWallpaper = async () => {
-    await timeout(1000);
-    setToggleAnimation(false);
+    await timeout(500);
     handleSetWallpaper();
+    setToggleAnimation(false);
   }
   useEffect(() => {
     // setWallpaper(theme === 'light' ? topography : code);
+    const preloadVideo = (src: string) => {
+      const video = document.createElement('video');
+      video.preload = 'auto'; // Optimize for preloading
+      const source = document.createElement('source');
+      source.src = src;
+      source.type = 'video/mp4';
+      video.appendChild(source);
+      video.load();
+      
+      setPreloadedVideos(prevState => ({
+        ...prevState,
+        [src]: video,
+      }));
+    };
     if (isInitialMount.current) {
       isInitialMount.current = false;
+      Object.values(themes).forEach((ltheme: string) => {
+        if(theme != ltheme) 
+          preloadVideo(ltheme)
+        }
+      );
       handleSetWallpaper();
     } else {
       localStorage.setItem("theme", theme);
@@ -43,9 +64,14 @@ function Desktop(){
       changeWallpaper();
     }
   }, [theme]);
-
+  const themes = {
+    dark: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Coding.mp4',
+    coffe: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Lofi%20Girl.mp4',
+    light: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Topography.mp4'
+  };
+  
   const handleSetWallpaper = () => {
-    setWallpaper(theme === 'dark' ? 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Coding.mp4' : theme == 'coffe' ? 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Lofi%20Girl.mp4' : 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Topography.mp4');
+    setWallpaper(themes[theme as keyof typeof themes]);
   }
 
 
@@ -74,7 +100,7 @@ useEffect(() => {
     return (
       <div className={(pcStatus == 'on' ? styles.desktop : styles[pcStatus]) + " " + styles[theme]}>
                 {/* <div className={styles.circle + " " + (a ? styles.active : 'disable')}></div> */}
-        <video ref={videoRef} autoPlay muted loop className={styles.background_video}  disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
+        <video ref={videoRef} preload='auto' autoPlay muted loop className={styles.background_video}  disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
         <source src={pcStatus === 'sleeping' ? lockscreen : wallpaper} type="video/mp4" />
         Your browser does not support the video tag.
         </video>

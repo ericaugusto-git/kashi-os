@@ -38,7 +38,6 @@ function Actions(){
 
     const handleChangeLanguage = (lang: string) => {
         i18n.changeLanguage(lang);
-        console.log(lang)
         moment.locale(lang.toLocaleLowerCase());
     }
     return(

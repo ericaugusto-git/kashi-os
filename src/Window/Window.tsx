@@ -27,7 +27,6 @@ const Window = () => {
         }, 100)
       }
   }
-    console.log("dsjdsds")
     windows.map((a) => a.active = a.app === app);
     const updatedWindows = windows.map(w => ({
       ...w,

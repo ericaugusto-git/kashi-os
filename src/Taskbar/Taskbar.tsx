@@ -13,7 +13,6 @@ function Taskbar(){
     const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
     useLayoutEffect(() => {
       function updateSize() {
-          console.log(window.innerWidth)
         setSize([window.innerWidth, window.innerHeight]);
       }
       window.addEventListener('resize', updateSize);

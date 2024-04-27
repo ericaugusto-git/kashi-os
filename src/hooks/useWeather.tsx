@@ -59,8 +59,8 @@ function useWeather() {
       const latLon = parsedLocalWeather?.weather?.coord;
       const locationChange = latLon?.lat != lat || latLon?.lon != long;
       const isOld =  moment.unix(parsedLocalWeather?.forecast?.list?.[0]?.dt).isBefore(moment());
-      console.log(isOld);
-      console.log(locationChange);
+      
+      
       // TODO this a really ugly if else, this is terrible
       if(!weather && lat && long){
         if(!parsedLocalWeather || isOld || locationChange){

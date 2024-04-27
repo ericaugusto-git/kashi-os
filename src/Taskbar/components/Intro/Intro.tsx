@@ -13,13 +13,10 @@ function Intro(){
     //         setTimeout(() => {
     //             const containerWidth = textRef.current?.['parentElement']?.['clientWidth'];
     //             const textWidth = textRef.current?.['scrollWidth'];
-    //             console.log(containerWidth);
-    //             console.log(textWidth)
     //             if (containerWidth !== undefined && textWidth !== undefined) {
     //                 const availableSpace = containerWidth - textWidth;
     //                 const numCharacters = (textRef.current?.['textContent'] || '').length - 1;
     //                 const newLetterSpacing = Math.max(availableSpace / numCharacters, 0);
-    //                 console.log(newLetterSpacing)
     //                 setLetterSpacing(newLetterSpacing);
     //             }
     //         })

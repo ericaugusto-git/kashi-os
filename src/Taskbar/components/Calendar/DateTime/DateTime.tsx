@@ -9,7 +9,6 @@ function DateTime() {
    const dateA = dateTime.date.split(' ');
    dateA.pop();
     const date = dateA.join(' ').replace(' às', '')
-//    console.log(date)
     const [theme] = useTheme();
     return ( 
         <div className={styles.date_hour + " " + styles[theme]}>
