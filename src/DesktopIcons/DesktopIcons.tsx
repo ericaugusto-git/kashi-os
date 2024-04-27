@@ -16,7 +16,6 @@ function DesktopIcons() {
   //   }
   // });
   const openWindow = useOpenWindow();
-  const { i18n} = useTranslation();
 
   const handleDesktopIconCLick = (app: WindowType) => {
     // app.conteudo = <div className="backgroundImage" style={{
@@ -27,10 +26,6 @@ function DesktopIcons() {
     openWindow(app);
   };
 
-  const openResume = () => {
-    
-    window.open(i18n.resolvedLanguage == 'pt-BR' ? "https://drive.google.com/file/d/16NKogC8sO8VohS8i6Cvv0FU3NWEozyad/view?usp=sharing" : "https://drive.google.com/file/d/1JbOMaBScSv1RJPg5DOIh9EJg3XzphZuK/view?usp=sharing", "_blank");
-  }
 
   return <>
             <menu className={styles.desktop}>
