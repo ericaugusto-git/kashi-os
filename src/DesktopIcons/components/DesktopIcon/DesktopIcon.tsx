@@ -1,8 +1,8 @@
 import { CSSProperties } from 'react';
-import styles from './DesktopIcon.module.scss';
-import { useTheme } from '../../../contexts/ThemeContext';
-import { WindowType } from '../../../constants/window';
 import { useTranslation } from 'react-i18next';
+import { WindowType } from '../../../constants/window';
+import { useTheme } from '../../../contexts/ThemeContext';
+import styles from './DesktopIcon.module.scss';
 
 type DesktopIconProp = {
     app: WindowType,

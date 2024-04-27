@@ -1,4 +1,4 @@
-import { createElement, useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { StartSetterContext } from '../App';
 import DesktopIcons from '../DesktopIcons/DesktopIcons';
 import StartMenu from '../StartMenu/StartMenu';
@@ -10,20 +10,19 @@ import WindowContextProvider from '../contexts/WindowContext';
 import useComponentVisible from '../hooks/useComponentVisible';
 import styles from './Desktop.module.scss';
 import Lockscreen from './components/Lockscreen/Lockscreen';
+import { wallpapers } from '../constants/wallpapers';
 
 
 function Desktop(){
-  const topography = 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Topography.mp4';
-  const lockscreen = 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Lockscreen.mp4';
   const [pcStatus,setPcStatus] = useContext(PcStatusContext);
   const startButtonRef = useRef<HTMLButtonElement | null>(null);
   const [startMenuRef, isStartMenuOpen, setisStartMenuOpen] = useComponentVisible(false, startButtonRef);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [theme] = useTheme();
-  const [wallpaper, setWallpaper] = useState(topography)
+  const [wallpaper, setWallpaper] = useState(wallpapers.light)
   const [toggleAnimation, setToggleAnimation] = useState(false);
   const isInitialMount = useRef(true); 
-  const [preloadedVideos, setPreloadedVideos] = useState({});
+  const [, setPreloadedVideos] = useState({});
 
 
   function timeout(ms: number) {
@@ -52,9 +51,9 @@ function Desktop(){
     };
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      Object.values(themes).forEach((ltheme: string) => {
-        if(theme != ltheme) 
-          preloadVideo(ltheme)
+      Object.values(wallpapers).forEach((wallpaper: string) => {
+        if(theme != wallpaper) 
+          preloadVideo(wallpaper)
         }
       );
       handleSetWallpaper();
@@ -64,14 +63,9 @@ function Desktop(){
       changeWallpaper();
     }
   }, [theme]);
-  const themes = {
-    dark: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Coding.mp4',
-    coffe: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Lofi%20Girl.mp4',
-    light: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Topography.mp4'
-  };
-  
+
   const handleSetWallpaper = () => {
-    setWallpaper(themes[theme as keyof typeof themes]);
+    setWallpaper(wallpapers[theme as keyof typeof wallpapers]);
   }
 
 
@@ -101,7 +95,7 @@ useEffect(() => {
       <div className={(pcStatus == 'on' ? styles.desktop : styles[pcStatus]) + " " + styles[theme]}>
                 {/* <div className={styles.circle + " " + (a ? styles.active : 'disable')}></div> */}
         <video ref={videoRef} preload='auto' autoPlay muted loop className={styles.background_video}  disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
-        <source src={pcStatus === 'sleeping' ? lockscreen : wallpaper} type="video/mp4" />
+        <source src={pcStatus === 'sleeping' ? wallpapers.lockscreen : wallpaper} type="video/mp4" />
         Your browser does not support the video tag.
         </video>
         <div data-active={toggleAnimation ? true : false} className={styles.circle}></div>

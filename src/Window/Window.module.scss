@@ -9,10 +9,12 @@ $padding: 15px;
     width: 100%;
     color: white;
     position: relative;
+    overflow: hidden;
   }
   
   .body{
     padding: $padding;
+    padding-top: 0;
     height: calc(100% - ($padding * 3));
     width: 100%;
     cursor: default;

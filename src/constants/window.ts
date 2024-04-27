@@ -7,7 +7,7 @@ export type WindowType = {
     height?: string,
     cantMax?: boolean,
     icon?: string,
-    //if it well use svg mask or not the color of the mask
+    //if it well use svg mask or not also the color of the mask
     mask?: string,
     active?: boolean
     app: string,
@@ -20,5 +20,8 @@ export type WindowType = {
     headerStyles?: CSSProperties,
     bodyStyles?: CSSProperties,
     enableResizing?: boolean,
-    desktopStyles?: CSSProperties
+    desktopStyles?: {
+        button?: CSSProperties,
+        img?: CSSProperties
+    }
 }
