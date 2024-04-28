@@ -23,7 +23,8 @@ export const windowsTemplates: WindowType[] = [
         bodyStyles: { paddingRight: 0 },
         headerStyles: { paddingLeft: "25px" },
         appType: 'os',
-        svgMask: {startMenu: true}
+        svgMask: {startMenu: true},
+        maxHeight: 415
     },
     {
         app: "command_line",

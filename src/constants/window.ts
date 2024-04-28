@@ -5,6 +5,8 @@ export type WindowType = {
     y?: number,
     width?: string,
     height?: string,
+    maxWidth?: number,
+    maxHeight?: number,
     cantMax?: boolean,
     icon?: string,
     //if it well use svg mask or not also the color of the mask
