@@ -14,9 +14,7 @@ import PcStatusContextProvider from "./contexts/PcStatusContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { WeatherProvider } from "./contexts/WheaterContext";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-import { GetObjectCommand, ListObjectsCommand, S3, S3Client } from "@aws-sdk/client-s3"
 
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 
 type ContextType = [
