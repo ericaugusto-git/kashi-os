@@ -7,7 +7,7 @@ import useCloseWindow from '../hooks/useCloseWindow';
 import styles from './Window.module.scss';
 
 
-const Window = () => {
+const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const [windows, setWindows] = useWindowContext();
   const closeRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const maximizeRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -84,6 +84,7 @@ const Window = () => {
   }
   // const defaultX = 150 * windows.length
   // const defaultY = 50 * windows.length
+  console.log(wrapperClass)
   return <>
   {windows.map((window, index) => (
   <div key={window.app} onMouseDown={(event) => handleWindowClick(window.app, event)}
@@ -95,6 +96,7 @@ const Window = () => {
     //   width: window.width ?? "40%",
     //   height: window.height ?? "400px" 
     // }}
+    
     dragHandleClassName={styles.header}
   size={{ width: window.width ?? "40%",height: window.height ?? "400px"  }}
   position={{ x: window.x ?? 150, y:  window.y ?? 50 }}
@@ -111,7 +113,7 @@ const Window = () => {
   }}
     minWidth={window.maxWidth ?? 350}
     minHeight={window.maxHeight ?? 350}
-    bounds="window"
+    bounds={"."+  wrapperClass}
     style={{zIndex: window.active ? 2 : 1}}
   >
     <div className={styles.window} style={{cursor: isMaximized(window) ? 'normal' : 'move',...window.windowStyles}}>
