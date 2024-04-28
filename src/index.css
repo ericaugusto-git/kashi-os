@@ -233,3 +233,6 @@ background-image: conic-gradient(#381D6A 80%, #E0D1FF 88%, #E0D1FF 92%, #381D6A 
 
 
 
+.encore-dark-theme{
+  border-radius: 0 !important;
+}

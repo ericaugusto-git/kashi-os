@@ -34,3 +34,12 @@
         }
     }
 }
+
+@container (inline-size < 430px) {
+    .ascii {
+        justify-content: center;
+        .device_info{
+            display: none;
+        }
+    }
+}

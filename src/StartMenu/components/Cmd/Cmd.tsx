@@ -1,7 +1,8 @@
 import { FitAddon } from "@xterm/addon-fit";
 import { Terminal } from "@xterm/xterm";
 import LocalEchoController from "local-echo";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { WindowType } from "../../../constants/window";
 import { windowsTemplates } from "../../../constants/windowsTemplate";
 import useCloseWindow from "../../../hooks/useCloseWindow";
@@ -16,9 +17,16 @@ function Cmd() {
   const fitAddon = new FitAddon();
   const closeWindow = useCloseWindow();
   const openWindow = useOpenWindow();
+  const {t} = useTranslation();
+  const [apps, setApps] = useState<CmdApp[]>([]);
+  useEffect(() => {
+    const initialApps = windowsTemplates.filter(a=> a.app != 'command_line').reduce((acc: CmdApp[] , current: WindowType) => {acc.push({original: current.app, executable: t(current.app)?.toLocaleLowerCase().replaceAll(' ', '_').split('.')[0].normalize('NFD').replace(/[\u0300-\u036f]/g, "") + ".exe"}); return acc},[])
+    setApps(initialApps);
+  }, [t])
   useEffect(() => {
     // Create a new Terminal instance
     // Attach the terminal to the DOM
+    const mountTerminal = () => {
     terminal.loadAddon(fitAddon)
     terminal.open(terminalRef.current!);
     fitAddon.fit();
@@ -31,7 +39,6 @@ function Cmd() {
       cursorBlink: true,
       fontWeight: 100,
     };
-    const apps = windowsTemplates.filter(a=> a.app != 'command line').reduce((acc: CmdApp[] , current: WindowType) => {acc.push({original: current.app, executable: current.app?.toLocaleLowerCase().replace(' ', '_') + ".exe"}); return acc},[])
     // Read a single line from the user'
     const echo = () => {
       localEcho
@@ -58,7 +65,10 @@ function Cmd() {
         .catch((error: string) => terminal.writeln(`Error reading: ${error}`));
     };
     echo();
-
+  }
+  if(apps.length > 0 && terminalRef.current){
+    mountTerminal();
+  }
     // Run some command in the terminal
     // terminal.write();
 
@@ -68,14 +78,12 @@ function Cmd() {
       // Do what you want to do when the size of the element changes
     });
     resizeObserver.observe(terminalRef.current!);
-    // if(terminalRef.current){
-    // }
     return () => {
       // Dispose the terminal instance to release resources
       resizeObserver.disconnect();
       terminal.dispose();
     };
-  }, []); // Run only once on component mount
+  }, [apps]); // Run only once on component mount
 
   return (
     <div className={style.cmd_container}>

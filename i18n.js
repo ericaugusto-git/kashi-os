@@ -50,7 +50,7 @@ i18n
             finance: 'CS50 finance',
             front: 'Desenvolvedor Front-end',
             weather_permission: 'Habilite a localizacao para mostrar o clima',
-            weather_error: 'Não consegui informacoes do clima. Foi mal :(',
+            weather_error: 'Nao achamos a previsao do tempo. Foi mal :(',
             command_line: 'Prompt de Comando',
             credits: 'Créditos',
             sleep: 'suspender',
