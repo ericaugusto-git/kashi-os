@@ -31,4 +31,4 @@ Welcome to my portfolio, the O.S version! Featuring a desktop-inspired UI, this 
 - [x] Close unfocused windows
 - [ ] Taskbar disappears when user open window on mobile
 - [ ] Window onClick functions not working on mobile
-- [ ] Resizing window should stop at taskbar
+- [x] Resizing window should stop at taskbar
