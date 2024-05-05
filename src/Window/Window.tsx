@@ -125,7 +125,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
           <img src={window.icon} style={{width: "21px", height: "19px"}}></img>
             <span>{t(window.app)}</span>
           </div>
-          {window.link && <div className={styles.link}><div style={{maskImage: `url("${lock}")`, width: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '')}</a></div>}
+          {window.link && <div className={styles.link}><div style={{maskImage: `url("${lock}")`, minWidth: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '')}</a></div>}
           <div style={!window.link ? {marginLeft: 'auto'} : {}} className={styles.actions}>
               {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} ref={ref => maximizeRefs.current[index] = ref} onClick={ () => maximizeWindow(window)}>
 
