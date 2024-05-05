@@ -31,4 +31,9 @@ Welcome to my portfolio, the O.S version! Featuring a desktop-inspired UI, this 
 - [x] Taskbar disappears when user open window on mobile
 - [x] Window onClick functions not working on mobile
 - [x] Resizing window should stop at taskbar
-- [ ] Iframe reloads when changing window focus
+- [x] Iframe reloads when changing window focus
+
+### Cool open source projects to add in the future
+
+-[] https://github.com/1j01/jspaint
+

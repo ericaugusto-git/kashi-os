@@ -188,11 +188,12 @@ $size: 21px; // (Fully responsive)
 	transform: translateX(-50%);
 	border-radius: 50% 50% 50% 50% / 30% 30% 70% 70%;
 }
-
-.startBtnWrapper:hover{
-    .eye, .eye-pupil{
-        animation: look-around 4s infinite paused; /* Start the animation in a paused state */
-        animation: blink paused;
-
-    }
+@media (hover: hover) {
+	.startBtnWrapper:hover{
+		.eye, .eye-pupil{
+			animation: look-around 4s infinite paused; /* Start the animation in a paused state */
+			animation: blink paused;
+	
+		}
+	}
 }
