@@ -41,7 +41,7 @@ export const windowsTemplates: WindowType[] = [
         conteudo: Paint,
         cantMax: true,
         icon: brush,
-        height: (innerHeight - 52) + 'px',
+        height: '100%',
         width: "100%",
         x: 0,
         y: 0,
