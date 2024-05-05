@@ -25,5 +25,7 @@ export type WindowType = {
     desktopStyles?: {
         button?: CSSProperties,
         img?: CSSProperties
-    }
+    },
+    // link for project to open with iframe
+    link?: string
 }

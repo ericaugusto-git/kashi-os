@@ -19,20 +19,11 @@ $padding: 15px;
     width: 100%;
     cursor: default;
     box-sizing: border-box;
+    iframe{
+      border: none;
+      border-radius: 5px;
+    }
   }
-
-  iframe::-webkit-scrollbar
-  {
-	width: 10px;
-	background-color: #F5F5F5;
-}
-
-iframe::-webkit-scrollbar-thumb
-{
-  	border-radius: 10px;
-	background-color: #000000;
-	border: 2px solid #555555;
-}
 
 
   .header{
@@ -46,6 +37,7 @@ iframe::-webkit-scrollbar-thumb
       display: flex;
       align-items: center;
       gap: 15px;
+      text-wrap: nowrap;
       img{
         width: 19px;
         height: 19px;
@@ -55,8 +47,18 @@ iframe::-webkit-scrollbar-thumb
       }
     }
   }
+  .link{
+    width: 100%;
+    text-align: center;
+    text-transform: lowercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    text-decoration: none;
+  }
   .actions{
-    margin-left: auto;
+    justify-self: end;
     display: flex;
     align-items: center;
     gap: 15px;

@@ -5,7 +5,7 @@ import { WindowType } from '../constants/window';
 import { useWindowContext } from '../contexts/WindowContext';
 import useCloseWindow from '../hooks/useCloseWindow';
 import styles from './Window.module.scss';
-
+import lock from '../assets/window/lock.svg';
 
 const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const [windows, setWindows] = useWindowContext();
@@ -125,7 +125,8 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
           <img src={window.icon} style={{width: "21px", height: "19px"}}></img>
             <span>{t(window.app)}</span>
           </div>
-          <div className={styles.actions}>
+          {window.link && <div className={styles.link}><div style={{maskImage: `url('${lock}')`, width: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '')}</a></div>}
+          <div style={!window.link ? {marginLeft: 'auto'} : {}} className={styles.actions}>
               {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} ref={ref => maximizeRefs.current[index] = ref} onClick={ () => maximizeWindow(window)}>
 
               </button>}
@@ -136,7 +137,8 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
         <div className={styles.body} style={window.bodyStyles}>
           {/* <div style={{backgroundColor: "white",width: "100%", height: "100%", boxSizing: "border-box"}}></div> */}
           {/* <iframe src="http://wikipedia.com" ></iframe> */}
-          {window.conteudo && <window.conteudo />}
+          {window.link ? <iframe src={window.link} width="100%" height="100%"></iframe> : window.conteudo && <window.conteudo />}
+          
           {/* <div style={{width: "100%", height: "100%", backgroundImage: `url(${jdm})`, backgroundRepeat: "no-repeat", backgroundSize: "cover"}}></div> */}
         </div>
     </div>
