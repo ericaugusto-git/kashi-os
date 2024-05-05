@@ -33,6 +33,7 @@ $padding: 15px;
     position: relative;
     z-index: 2;
     text-transform: capitalize;
+    gap: 40px;
     .app{
       display: flex;
       align-items: center;
@@ -56,6 +57,13 @@ $padding: 15px;
     justify-content: center;
     gap: 3px;
     text-decoration: none;
+    overflow: hidden;
+    a{
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
   .actions{
     justify-self: end;
