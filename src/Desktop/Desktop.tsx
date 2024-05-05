@@ -101,9 +101,9 @@ useEffect(() => {
         <div data-active={toggleAnimation ? true : false} className={styles.circle}></div>
         <div style={{display: pcStatus === 'sleeping' ? 'none' : ''}}>
    <WindowContextProvider>
+            <Window  wrapperClass={styles.desktopIconsWrapper}/>
             <div className={styles.desktopIconsWrapper}>
             <DesktopIcons />
-            <Window  wrapperClass={styles.desktopIconsWrapper}/>
             </div>
             <StartSetterContext.Provider
               value={[isStartMenuOpen, setisStartMenuOpen, startButtonRef]}>

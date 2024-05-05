@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Rnd } from 'react-rnd';
 import { WindowType } from '../constants/window';
@@ -9,11 +9,12 @@ import lock from '../assets/window/lock.svg';
 
 const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const [windows, setWindows] = useWindowContext();
+  const [isDragging, setIsDragging] = useState(false);
   const closeRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const maximizeRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const { t } = useTranslation();
 
-  const handleWindowClick = (app: string | null | undefined, event: React.MouseEvent<HTMLDivElement>) => {
+  const handleWindowClick = (app: string | null | undefined, event: React.MouseEvent<HTMLDivElement> | React.TouchEvent) => {
     const index = windows.findIndex(window => window.app === app);
     if (index !== -1 && closeRefs.current[index] && closeRefs.current[index]?.contains(event.target as Node)) {
         handleCloseWindow(windows[index]);
@@ -41,20 +42,21 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   }
 
   const isMaximized = (window: WindowType):boolean =>{
-    return window.width == "100%" && window.height == "94.6dvh"
+    return window.width == "100%" && window.height == (innerHeight - 51) + 'px' 
   }
 
-  const maximizeWindow = (window: WindowType) => {
+  const maximizeWindow = (window: WindowType, event?: React.TouchEvent) => {
+    event?.stopPropagation();
     if(isMaximized(window)){
       window.y =  50;
-      window.x =  150;
+      window.x = innerWidth >= 1000 ? 150 : 0;
       window.width = "40%";
       window.height = "400px"
     }else{
       window.y =  0;
       window.x =  0;
       window.width =  "100%"; 
-      window.height = "94.6dvh";
+      window.height = (innerHeight - 51) + 'px';
     }
     // window.active = true;
     let updateWindow = windows.filter((a) => a.app != window.app);
@@ -62,15 +64,19 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
       ...updateWindow,
       window
     ]
+    console.log(updateWindow)
     setWindows(updateWindow);
   }
 
   const setWindowPosSize = (posSize: {x: number, y:number, width?: string, height?: string}, window: WindowType
   ) => {
-    if(isMaximized(window)){
-      window.width = "40%";
-      window.height = "400px"
-    }
+    console.log('trying')
+    if(!isDragging && !posSize.width) return;
+    setIsDragging(false);
+    // if(isMaximized(window)){
+    //   window.width = "40%";
+    //   window.height = "400px"
+    // }
     window = {...window, ...posSize};
     
     let updateWindow = windows.filter((a) => a.app != window.app);
@@ -84,10 +90,9 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   }
   // const defaultX = 150 * windows.length
   // const defaultY = 50 * windows.length
-  console.log(wrapperClass)
   return <>
   {windows.map((window, index) => (
-  <div key={window.app} onMouseDown={(event) => handleWindowClick(window.app, event)}
+  <div key={window.app} onTouchStart={(event) => handleWindowClick(window.app, event)} onMouseDown={(event) => handleWindowClick(window.app, event)}
 >
   <Rnd
     // default={{
@@ -100,8 +105,9 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     dragHandleClassName={styles.header}
   size={{ width: window.width ?? "40%",height: window.height ?? "400px"  }}
   position={{ x: window.x ?? 150, y:  window.y ?? 50 }}
-  onDragStop={(_e, d) => { setWindowPosSize({ x: d.x, y: d.y }, window) }}
-  onDragStart={(_e, d) => { setWindowPosSize({ x: d.x, y: d.y }, window) }}
+  onDragStop={(_e, d) => { setWindowPosSize({ x: d.x, y: d.y }, window) }}  
+  onDragStart={(_e, d) => { setWindowPosSize({ x: d.x, y: d.y }, window) }}  
+  onDrag={() => setIsDragging(true)}
   disableDragging={isMaximized(window)}
   enableResizing={window.enableResizing ?? true}
   onResizeStop={(_e, _direction, ref, _delta, position) => {
@@ -114,7 +120,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     minWidth={window.maxWidth ?? 350}
     minHeight={window.maxHeight ?? 350}
     bounds={"."+  wrapperClass}
-    style={{zIndex: window.active ? 2 : 1}}
+    style={{zIndex: window.active ? 10 : 5}}
   >
     <div className={styles.window} style={{cursor: isMaximized(window) ? 'normal' : 'move',...window.windowStyles}}>
         <div className={styles.header} style={window.headerStyles}>
@@ -127,10 +133,10 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
           </div>
           {window.link && <div className={styles.link}><div style={{maskImage: `url("${lock}")`, minWidth: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '')}</a></div>}
           <div style={!window.link ? {marginLeft: 'auto'} : {}} className={styles.actions}>
-              {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} ref={ref => maximizeRefs.current[index] = ref} onClick={ () => maximizeWindow(window)}>
+              {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} ref={ref => maximizeRefs.current[index] = ref} onTouchStart={(e) => maximizeWindow(window, e)} onClick={ () => maximizeWindow(window)}>
 
               </button>}
-              <button className={`${styles.action} ${styles.close}`} ref={ref => closeRefs.current[index] = ref} onClick={() => handleCloseWindow(window)}></button>
+              <button className={`${styles.action} ${styles.close}`} ref={ref => closeRefs.current[index] = ref} onTouchStart={() => handleCloseWindow(window)} onClick={() => handleCloseWindow(window)}></button>
 
           </div>
         </div>
