@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import angularIcon from '../../../assets/taskbar/skills/angular.png';
 import htmlIcon from '../../../assets/taskbar/skills/html.svg';
 import pythonIcon from '../../../assets/taskbar/skills/python.png';
@@ -55,11 +55,25 @@ function Skills(){
         setHovered(null);
       };
 
+      useEffect(() => {
+        // This function will be called every time `hovered` state changes
+        const handleAnimation = () => {
+          const element = document.querySelector(`.${styles['text-slide']}`) as HTMLElement;
+          if (element) {
+            element.classList.remove(styles['text-slide']); // Remove existing animation class
+            void element.offsetWidth; // Trigger reflow to restart the animation
+            element.classList.add(styles['text-slide']); // Add animation class back to trigger animation
+          }
+        };
+    
+        handleAnimation(); // Call the animation function initially to apply the animation
+      }, [hovered]); // Run the effect whenever hovered state changes
+
     return (        
     <Button styles={buttonStyles} outline={false}>
         <div className={styles.skills + " " + styles[theme]}>
             <div className={styles["title-container"]}>
-            <span className={styles['title']}>{hovered ? (<><span style={{color: hovered.expColor}}>{hovered.experience.time}</span> <span style={{color: '#AEB2BA'}}>{hovered.experience.description} of exp.</span></>) : 'skills'}</span>
+            <span className={styles['title']}>{hovered ? (<div className={styles['text-slide']}><span style={{color: hovered.expColor}}>{hovered.experience.time}</span> <span style={{color: '#AEB2BA'}}>{hovered.experience.description} of exp.</span></div>) : 'skills'}</span>
             {!hovered && [1,2,3,4,5,6,7,8].map((i) => (<div key={i} className={styles.dot}></div>))}
             </div>
             <div className={styles["icons"]}>
