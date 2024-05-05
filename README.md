@@ -32,3 +32,4 @@ Welcome to my portfolio, the O.S version! Featuring a desktop-inspired UI, this 
 - [ ] Taskbar disappears when user open window on mobile
 - [ ] Window onClick functions not working on mobile
 - [x] Resizing window should stop at taskbar
+- [ ] Iframe reloads when changing window focus

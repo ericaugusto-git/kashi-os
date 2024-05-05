@@ -56,8 +56,9 @@ export const windowsTemplates: WindowType[] = [
         desktop: true,
         hideInStartMenu: true,
         app: "about_me",
+        link: 'https://ericaugusto.pages.dev',
         desktopStyles: {img: {height: '46px', width: '46px', backgroundSize: '100%'}},
-        icon: perfil,
+        icon: perfil
     },
     {app: "jdm_store", appType: 'project', icon: jdm, desktopStyles: {img: {backgroundSize: '70%'}}},
     {app: "discord_clone", appType: 'project', icon: discord},

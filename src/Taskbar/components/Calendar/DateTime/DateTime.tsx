@@ -5,10 +5,9 @@ import styles from './DateTime.module.scss';
 function DateTime() {
     const [dateTime] = useDateTime('LLLL','LTS');
     const hour = dateTime.hour.split(' ');
-  dateTime.date.split(' ').pop();
-   const dateA = dateTime.date.split(' ');
-   dateA.pop();
-    const date = dateA.join(' ').replace(' às', '')
+    dateTime.date.split(' ').pop();
+    const dateA = dateTime.date.split(' ');
+    const date = dateA.slice(0,-2).join(' ')
     const [theme] = useTheme();
     return ( 
         <div className={styles.date_hour + " " + styles[theme]}>

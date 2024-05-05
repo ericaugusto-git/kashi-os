@@ -2,11 +2,12 @@
     position: fixed;
     bottom: 61px;
     right: 10px;
-    background: white;
+    background: rgb(255, 255, 255, 0.80);
     // border: 2px solid black;
     border-radius: 8px;
     width: 330px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    backdrop-filter: blur(6px);
 }
 
 .calendar_container:not(.light){
@@ -16,7 +17,7 @@
 
 .calendar_container.dark{
     background: #101010;
-    background: #1c1c1c;
+    background: rgba(28, 28, 28, 0.80);
 }
 
 .calendar_container.coffe{
