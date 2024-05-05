@@ -64,3 +64,19 @@
     border-radius: 50%;
     display: inline-block;
   }
+
+  @keyframes text-slide {
+    from {
+      opacity: 0;
+      transform: translateY(-15%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+  
+  .text-slide {
+    animation: text-slide 0.3s cubic-bezier(0.83, 0, 0.17, 1);
+  }
+  
