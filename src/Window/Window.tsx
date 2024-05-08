@@ -15,22 +15,33 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
 
   const handleWindowClick = (app: string, index: number, event: React.TouchEvent | React.MouseEvent) => {
     if (index !== -1 && closeRefs.current[index] && closeRefs.current[index]?.contains(event.target as Node)) {
-      console.log('close')
       return;
     }
     windows.map((a) => a.active = a.app === app);
-    console.log('close')
+    
     const updatedWindows = windows.map(w => ({
       ...w,
       active: w.app === app
     }));
+    
     setWindows(updatedWindows);
   }
 
   const closeWindow = useCloseWindow();
   const handleCloseWindow = (window: WindowType) => {
-    console.log(window)
+    
     closeWindow(window);
+  }
+
+  const handleMinimized = (app: string)=> {
+    const updatedWindows = windows.map(w => ({
+      ...w,
+      active: false
+    }));
+    const newApp = updatedWindows.find(a => a.app == app);
+    if(newApp)
+      newApp.minimized = true;
+    setWindows(updatedWindows);
   }
 
   const isMaximized = (index: number):boolean =>{
@@ -46,10 +57,10 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     const windowRef = windowRefs.current[index];
     if(windowRef){
       const isMax = isMaximized(index);
-      console.log(isMax)
+      
       const size = isMax ? {width: "40%", height: window.height ?? '400px'} : {width: "100%", height: (innerHeight - 51) + 'px'};
       windowRef?.updateSize(size);
-      console.log(( 20 / 100) * innerWidth)
+      
       windowRef?.updatePosition(!isMax ? {x: 0, y: 0} : {x: Math.round(0.08 * innerWidth) , y: Math.round(0.02 * innerHeight)});
     }
     // window.active = true;
@@ -64,10 +75,8 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   // was used to handle position and drag soon to be deleted
   // const setWindowPosSize = (posSize: {x: number, y:number, width?: string, height?: string}, window: WindowType
   // ) => {
-  //   console.log('trying')
   //   if(!isDragging && !posSize.width) return;
   //   setIsDragging(false);
-  //   console.log('doing it')
   //   // if(isMaximized(window)){
   //   //   window.width = "40%";
   //   //   window.height = "400px"
@@ -103,7 +112,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     minWidth={window.maxWidth ?? 350}
     minHeight={window.maxHeight ?? 350}
     bounds={"."+  wrapperClass}
-    style={{zIndex: window.active ? 10 : 5}}
+    style={{zIndex: window.active ? 10 : 5, display: window.minimized ? 'none' : ''}}
   >
     <div className={styles.window} style={{cursor: isMaximized(index) ? 'normal' : 'move',...window.windowStyles}}>
         <div className={styles.header} style={window.headerStyles}>
@@ -117,13 +126,14 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
           {window.link && <div className={styles.link}><div style={{maskImage: `url("${lock}")`, minWidth: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '')}</a></div>}
           <div style={!window.link ? {marginLeft: 'auto'} : {}} className={styles.actions}>
               {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} onTouchStart={() => maximizeWindow(window, index)} onClick={ () => maximizeWindow(window, index)}></button>}
+              <button className={`${styles.action} ${styles.minimize}`} onTouchStart={() => handleMinimized(window.app)} onClick={() => handleMinimized(window.app)}></button>
               <button className={`${styles.action} ${styles.close}`} ref={ref => closeRefs.current[index] = ref}  onTouchStart={() => handleCloseWindow(window)} onClick={() => handleCloseWindow(window)}></button>
           </div>
         </div>
         <div className={styles.body} style={window.bodyStyles}>
           {/* <div style={{backgroundColor: "white",width: "100%", height: "100%", boxSizing: "border-box"}}></div> */}
           {/* <iframe src="http://wikipedia.com" ></iframe> */}
-          {window.link ? <iframe onClick={() => {console.log('djishisdk')}} src={window.link} width="100%" height="100%"></iframe> : window.conteudo && <window.conteudo />}
+          {window.link ? <iframe src={window.link} width="100%" height="100%"></iframe> : window.conteudo && <window.conteudo />}
           
           {/* <div style={{width: "100%", height: "100%", backgroundImage: `url(${jdm})`, backgroundRepeat: "no-repeat", backgroundSize: "cover"}}></div> */}
         </div>

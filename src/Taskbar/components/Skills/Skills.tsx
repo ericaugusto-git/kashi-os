@@ -72,8 +72,8 @@ function Skills(){
     return (        
     <Button styles={buttonStyles} outline={false}>
         <div className={styles.skills + " " + styles[theme]}>
-            <div className={styles["title-container"]}>
-            <span className={styles['title']}>{hovered ? (<div className={styles['text-slide']}><span style={{color: hovered.expColor}}>{hovered.experience.time}</span> <span style={{color: '#AEB2BA'}}>{hovered.experience.description} of exp.</span></div>) : 'skills'}</span>
+            <div className={`${styles["title-container"]} ${styles['text-slide']}`}>
+            <span className={styles['title']}>{hovered ? (<><span style={{color: hovered.expColor}}>{hovered.experience.time}</span> <span style={{color: '#AEB2BA'}}>{hovered.experience.description} of exp.</span></>) : 'skills'}</span>
             {!hovered && [1,2,3,4,5,6,7,8].map((i) => (<div key={i} className={styles.dot}></div>))}
             </div>
             <div className={styles["icons"]}>

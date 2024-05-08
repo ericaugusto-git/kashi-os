@@ -26,7 +26,6 @@ function Start() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    // console.log(e)
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
   const calculatePupilPosition = (side: string): MousePosition => {

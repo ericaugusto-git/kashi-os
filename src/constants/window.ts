@@ -11,7 +11,8 @@ export type WindowType = {
     icon?: string,
     //if it well use svg mask or not also the color of the mask
     mask?: string,
-    active?: boolean
+    active?: boolean,
+    minimized?: boolean,
     app: string,
     appType: "project" | "os",
     desktop?: boolean,
@@ -24,7 +25,8 @@ export type WindowType = {
     enableResizing?: boolean,
     desktopStyles?: {
         button?: CSSProperties,
-        img?: CSSProperties
+        img?: CSSProperties,
+        svg?: CSSProperties
     },
     // link for project to open with iframe
     link?: string

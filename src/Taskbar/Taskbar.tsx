@@ -3,10 +3,10 @@ import { useTheme } from '../contexts/ThemeContext';
 import styles from './Taskbar.module.scss';
 import Actions from './components/Actions/Actions';
 import Clock from './components/Clock/Clock';
-import Intro from './components/Intro/Intro';
 
 import Skills from './components/Skills/Skills';
 import Start from './components/Start/Start';
+import Windows from './components/Windows/Windows';
 
 function Taskbar(){
     const [theme] = useTheme();
@@ -25,7 +25,7 @@ function Taskbar(){
         <div className={styles.skills}>
         <Skills />
         </div>
-        <Intro/>
+        <Windows/>
         <div className={styles.actions}>
         <Actions />
         </div>
