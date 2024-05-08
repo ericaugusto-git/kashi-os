@@ -10,11 +10,13 @@ function useOpenWindow(): (app: WindowType) => void {
             if(!prevWindows.find(a => a.app == app.app)){
                 app.x = app.x ?? 0 * ((windows.length + 1) / 2)
                 app.y = app.y ?? 50 * ((windows.length + 1) / 2)
-                return [...updatedWindows, { ...app, active: true }]; // Add the new window
+                return [...updatedWindows, { ...app, active: true, minimized: false }]; // Add the new window
             }else{
                 const ap = updatedWindows.find(a=> a.app == app.app);
-                if(ap)
-                 ap.active = true;
+                if(ap){
+                    ap.active = true;
+                    ap.minimized = false;
+                }
                 return [...updatedWindows]; // Add the new window
             }
         });

@@ -64,5 +64,5 @@ export const windowsTemplates: WindowType[] = [
     {app: "discord_clone", appType: 'project', icon: discord},
     {app: "finance", appType: 'project', icon: finance},
     {app: "recipe_book", appType: 'project', icon: cookBook},
-    {app: 'resume', icon: resume, appType: 'os', desktop: true, hideInStartMenu: true, svgMask: {desktop: true}, conteudo: Resume, desktopStyles: {button: {textTransform: 'none'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, },
+    {app: 'resume', icon: resume, appType: 'os', desktop: true, hideInStartMenu: true, svgMask: {desktop: true}, conteudo: Resume, desktopStyles: {button: {textTransform: 'none'}, svg: {maskSize: '60%'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, },
 ];

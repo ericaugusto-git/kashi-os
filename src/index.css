@@ -27,8 +27,8 @@
   border-top: 1px solid;
 } */
 
-*{
-    /* font-family: 'Inter', sans-serif; */
+#detach-button-host{
+  display: none;
 }
 
 body{
@@ -44,6 +44,7 @@ body{
 
 
 
+
 a {
   font-weight: 500;
   color: #ffffff;
@@ -51,15 +52,6 @@ a {
 a:hover {
   color: #53b7f2;
 }
-
-
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-
 
 .menu {
   position: fixed;
@@ -81,53 +73,6 @@ h1 {
   width: 100%;
 }
 
-.box {
-  margin: 0;
-  height: 100%;
-  padding-bottom: 40px;
-}
-
-.media {
-  display: flex;
-  align-items: flex-start;
-}
-
-.media-left {
-  margin-right: 10px;
-}
-
-.image.is-64x64 img {
-  width: 64px;
-  height: 64px;
-}
-
-.media-content {
-  flex: 1;
-}
-
-.content {
-  margin-bottom: 10px;
-}
-
-.level {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.level-left {
-  display: flex;
-  align-items: center;
-}
-
-.level-item {
-  margin-right: 10px;
-}
-
-#detach-button-host {
-  display: none !important;
-}
-
 .backgroundImage{
   background-size: cover;
   background-position: center;
@@ -141,6 +86,8 @@ h1 {
   background-color: #ffffff; /* Your desired color */
 }
 
+
+
 .xterm{
   height: 100%;
   
@@ -152,87 +99,9 @@ h1 {
 
 
 
-/* Works on Firefox */
-* {
-  scrollbar-width:thin;
-  scrollbar-color: rgb(8, 20, 34) rgb(228, 228, 228);
-  scrollbar-color: rgb(187, 187, 187) rgb(228, 228, 228);
-  /* scrollbar-color: rgb(24, 8, 34) rgb(228, 228, 228); */
-}
-
-/* Works on Chrome, Edge, and Safari */
-*::-webkit-scrollbar {
-  width: 12px;
-}
-
-*::-webkit-scrollbar-track {
-  background: rgb(187, 187, 187);
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: rgb(255, 255, 255);
-  border-radius: 20px;
-  border: 3px solid rgb(187, 187, 187);
-}
-
-
 .card {
   isolation: isolate;
 }
-
-.media-object {
-  --border-width: 1px;
-  --radius: 15px;
-  position: relative;
-  border-radius: var(--radius);
-  border: var(--border-width) solid transparent;
-}
-
-.media-object::before {
-  content: " ";
-  position: absolute;
-  inset: calc(var(--border-width) * -1);
-  z-index: -1;
-  border: inherit;
-  border-radius: inherit;
-  background-image: conic-gradient(from var(--angle), #d8d8d8 80%, #000000 88%, #000000 92%, #d8d8d8 100%);
-  /* background-image: conic-gradient(from var(--angle), #381D6A 80%, #E0D1FF 88%, #E0D1FF 92%, #381D6A 100%); */
-  background-origin: border-box;
-  -webkit-mask:
-    linear-gradient(black, black) content-box,
-    linear-gradient(black, black);  
-  mask: linear-gradient(black, black),
-        linear-gradient(black, black);
-  -webkit-mask-clip: content-box, border-box;  
-  mask-clip: content-box, border-box;
-  -webkit-mask-composite: xor;  
-  mask-composite: exclude;
-  animation: spin 4s linear infinite;
-}
-
-@supports not (background: paint(something)) {
-  .media-object::before {
-background-image: conic-gradient(#381D6A 80%, #E0D1FF 88%, #E0D1FF 92%, #381D6A 100%);    
-  }
-}
-
-.media-object:hover::before {
-  animation-play-state: paused;
-}
-
-@property --angle {
-  syntax: "<angle>";
-  inherits: true;
-  initial-value: 0turn;
-}
-
-@keyframes spin {
-  to {
-    --angle: 1turn;
-  }
-}
-
-
 
 .encore-dark-theme{
   border-radius: 0 !important;

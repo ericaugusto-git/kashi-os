@@ -71,9 +71,26 @@ $padding: 15px;
     align-items: center;
     gap: 15px;
   }
+  @media (max-width: 1024px) {
+    .action::before,
+    .action::after {
+      content: '';
+      position: absolute;
+      top: -15px; /* Adjust top and bottom to expand hitbox vertically */
+      bottom: -15px;
+      left: -15px; /* Adjust left and right to expand hitbox horizontally */
+      right: -15px;
+      z-index: -1; /* Push pseudo-elements below button content */
+    }
+    .action{
+      width: 16px;
+      height: 16px;
+    }
+  }
   .action{
     width: 14px;
     height: 14px;
+    position: relative;
     border-radius: 60px;
     border: none;
     cursor: pointer;
@@ -92,11 +109,17 @@ $padding: 15px;
   .close:hover{
     background-image: url(../assets/window/close.svg);
   }
-    .maximize:hover{
-      background-image: url(../assets/window/maximize.svg);
-    }
-    .maximize{
+  .minimize{
+    background-color: #FEBC2D;
+  }
+  .minimize:hover{
+    background-image: url(../assets/window/minimize.svg);
+  }
+  .maximize{
     background-color: #2ECB76;
+  }
+  .maximize:hover{
+    background-image: url(../assets/window/maximize.svg);
   }
   .window {
     container-type: inline-size;

@@ -29,9 +29,20 @@
     }
 }
 
-.desktop_icon:hover .img_wrapper{
-    background-color: rgb(217,217,217,0.50);
+.desktop_icon.fromTaskbar.appActive .img_wrapper{
+    background-color: rgba(136, 159, 175, 0.603) !important;
 }
+.desktop_icon:hover .img_wrapper{
+    background-color: rgb(217,217,217,0.50) !important;
+}
+
+.desktop_icon.fromTaskbar.appActive.dark .img_wrapper{
+    background-color: hsla(261, 21%, 54%, 0.575) !important;
+}
+.desktop_icon.fromTaskbar.appActive.coffe .img_wrapper{
+    background-color: hsla(26, 9%, 30%, 0.603) !important;
+}
+
 
 
 .desktop_icon:not(.light){

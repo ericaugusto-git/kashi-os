@@ -1,0 +1,58 @@
+
+.taskbarWindowsWrapper{
+    display: flex;
+    flex: 2;
+    position: relative;
+    .introsWrapper{
+        flex: 2;
+        width: 100%;
+        height: 100%;
+    }
+    .taskbarWindows{
+        display: flex;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        gap: 5px;
+        padding: 2px;
+        flex: 2;
+        // background-clip: content-box !important;
+        border:  1px solid #505050;
+        backdrop-filter: blur(6px);
+        border: 1px solid #5479b6;
+        // border: 1px solid #dd83b9;
+        backdrop-filter: blur(6px);
+        background: #1c1c23;
+        border-radius: 9px;
+        li{
+            list-style: none;
+            height: 100%;
+            background-size: 60%;
+            height: 87%;
+            padding-left: 2px;        
+        }
+    }
+    .taskbarWindows.dark{
+        border-color: #381D6A;
+    }
+    .taskbarWindows.coffe{
+        border-color: #544C46;
+    }
+    .img_wrapper{
+        width: 46px;
+        height: 40px;
+        padding: 14px 11px;
+    }
+    
+    // .taskbarWindows.light{
+    //     background: rgb(63 63 63 / 90%);
+    // }
+    
+    // .taskbarWindows.dark{
+    //     background: rgba(0, 0, 0, 0.658);
+    // }
+    
+    // .taskbarWindows.coffe{
+    //     background: hsl(37deg 23% 57% / 70%);
+    // }
+}

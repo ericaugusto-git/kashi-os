@@ -8,25 +8,29 @@ type DesktopIconProp = {
     app: WindowType,
     imgWrapperStyles?: CSSProperties,
     buttonStyles?: CSSProperties,
-    svgMask?: boolean
+    svgStyles?: CSSProperties,
+    svgMask?: boolean,
+    fromTaskbar?: boolean
 }
-function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgMask}: DesktopIconProp){
+function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, fromTaskbar}: DesktopIconProp){
     const [theme] = useTheme();
     const { t } = useTranslation();
     const icon = svgMask ? { } :  {backgroundImage: `url("${app.icon}")`}
     const stylesDefault: CSSProperties = {...imgWrapperStyles, ...icon}
+    const svgDefault = {...svgStyles, maskImage: `url("${app.icon}")` }
     return (
-        <button className={styles.desktop_icon + " " + styles[theme]} style={buttonStyles}>
+        <button className={`${styles.desktop_icon} ${styles[theme]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive}`} style={buttonStyles}>
+            {app.active}
             <div style={stylesDefault} className={styles.img_wrapper + " " +  (!svgMask ? 'backgroundImage' : '')}>
-                {svgMask && <div style={{ maskImage: `url("${app.icon}")` }} className={"svgMask " + styles.icon}></div>}
+                {svgMask && <div style={svgDefault} className={"svgMask " + styles.icon}></div>}
             {/* {app.icon?.includes(".svg") ? (
             <div style={{ maskImage: `url(${app.icon})` }} className={"svgMask " + styles.icon}></div>
           ) : <img src={app.icon}></img>} */}
           {/* <img src={app.icon}></img> */}
             </div>
-            <span className={styles.label}>
+           {!fromTaskbar && <span className={styles.label}>
                 {t(app.app)}
-            </span>
+            </span>}
         </button>
     )
 }

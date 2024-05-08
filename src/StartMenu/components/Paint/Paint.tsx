@@ -42,7 +42,6 @@ export default function Paint() {
   //   };
   //   const resizeObserver = new ResizeObserver(() => {
 
-  //     console.log("resize");
   //     handleResize();
   //     // Do what you want to do when the size of the element changes
   //   });
@@ -54,9 +53,8 @@ export default function Paint() {
   //     resizeObserver.disconnect();
   //   };
   // }, []); // Empty dependency array ensures that effect runs only once
-  // console.log("re render")
 const handleLineWidthChange = (event: React.ChangeEvent<HTMLInputElement>, setter: (width: number) => void) => {
-  console.log(event);
+  
   const width = Number(event.target.value);
   setter(width);
   setLineWidth(width);
@@ -72,7 +70,7 @@ const themeButtons = [
 const {t} = useTranslation();
 
 window.addEventListener("resize", () => {
-  console.log("resize")
+  
   painterRef.current?.render();
 })
 
