@@ -11,6 +11,13 @@
     height: calc(100% - 90px);
     width: fit-content;
     max-width: fit-content;
+    user-select: none;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 @media (max-width: 1024px) {
