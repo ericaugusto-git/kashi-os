@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Rnd } from 'react-rnd';
 import lock from '../assets/window/lock.svg';
@@ -10,11 +10,14 @@ import styles from './Window.module.scss';
 const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const [windows, setWindows] = useWindowContext();
   const windowRefs = useRef<Array<Rnd | null>>([]);
+  const windowRef = useRef<HTMLDivElement>(null)
   const closeRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const minimizedRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const { t } = useTranslation();
 
+
   const handleWindowClick = (app: string, index: number, event: React.TouchEvent | React.MouseEvent) => {
-    if (index !== -1 && closeRefs.current[index] && closeRefs.current[index]?.contains(event.target as Node)) {
+    if (index !== -1 && (closeRefs.current[index] && closeRefs.current[index]?.contains(event.target as Node)) || (minimizedRefs.current[index] && minimizedRefs.current[index]?.contains(event.target as Node))) {
       return;
     }
     windows.map((a) => a.active = a.app === app);
@@ -60,10 +63,21 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
       
       const size = isMax ? {width: "40%", height: window.height ?? '400px'} : {width: "100%", height: (innerHeight - 51) + 'px'};
       windowRef?.updateSize(size);
-      
-      windowRef?.updatePosition(!isMax ? {x: 0, y: 0} : {x: Math.round(0.08 * innerWidth) , y: Math.round(0.02 * innerHeight)});
+      windowRef?.updatePosition(!isMax ? {x: 0, y: 0} : {x: window.x ?? Math.round(0.08 * innerWidth) , y: window.y ?? Math.round(0.02 * innerHeight)});
     }
     // window.active = true;
+  }
+
+  const handleDragStop = (posSize: {x: number, y:number, width?: string, height?: string}, window: WindowType) => {
+    const updatedWindows = windows.map((w,i) => {
+        if(w.app == window.app && !isMaximized(i)){
+          w.x = posSize.x;
+          w.y = posSize.y;
+        }
+        return w;
+      }
+    );
+    setWindows(updatedWindows);
   }
   // resize window with drag on full screen
   // const handleDragStart = (window: WindowType, index: number) => {
@@ -94,7 +108,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
 
   // const defaultX = 150 * windows.length
   // const defaultY = 50 * windows.length
-  return <>
+  return <div ref={windowRef}>
   {windows.map((window, index) => (
   <div key={window.app} onTouchStart={(event) => handleWindowClick(window.app, index, event)} onMouseDown={(event) => handleWindowClick(window.app, index, event)}
 >
@@ -112,6 +126,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     minWidth={window.maxWidth ?? 350}
     minHeight={window.maxHeight ?? 350}
     bounds={"."+  wrapperClass}
+    onDragStop={(e, d) => { handleDragStop(d, window)} }
     style={{zIndex: window.active ? 10 : 5, display: window.minimized ? 'none' : ''}}
   >
     <div className={styles.window} style={{cursor: isMaximized(index) ? 'normal' : 'move',...window.windowStyles}}>
@@ -126,7 +141,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
           {window.link && <div className={styles.link}><div style={{maskImage: `url("${lock}")`, minWidth: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '')}</a></div>}
           <div style={!window.link ? {marginLeft: 'auto'} : {}} className={styles.actions}>
               {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} onTouchStart={() => maximizeWindow(window, index)} onClick={ () => maximizeWindow(window, index)}></button>}
-              <button className={`${styles.action} ${styles.minimize}`} onTouchStart={() => handleMinimized(window.app)} onClick={() => handleMinimized(window.app)}></button>
+              <button className={`${styles.action} ${styles.minimize}`} ref={ref => minimizedRefs.current[index] = ref} onTouchStart={() => handleMinimized(window.app)} onClick={() => handleMinimized(window.app)}></button>
               <button className={`${styles.action} ${styles.close}`} ref={ref => closeRefs.current[index] = ref}  onTouchStart={() => handleCloseWindow(window)} onClick={() => handleCloseWindow(window)}></button>
           </div>
         </div>
@@ -141,7 +156,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   </Rnd>
           </div>
 ))}
-  </>
+  </div>
   
 };
 Window.defaultProps = {

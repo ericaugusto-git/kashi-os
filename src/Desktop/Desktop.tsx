@@ -6,7 +6,7 @@ import Taskbar from '../Taskbar/Taskbar';
 import Window from "../Window/Window";
 import { PcStatusContext } from '../contexts/PcStatusContext';
 import { useTheme } from '../contexts/ThemeContext';
-import WindowContextProvider from '../contexts/WindowContext';
+import WindowContextProvider, { useWindowContext } from '../contexts/WindowContext';
 import useComponentVisible from '../hooks/useComponentVisible';
 import styles from './Desktop.module.scss';
 import Lockscreen from './components/Lockscreen/Lockscreen';
@@ -23,7 +23,9 @@ function Desktop(){
   const [toggleAnimation, setToggleAnimation] = useState(false);
   const isInitialMount = useRef(true); 
   const [, setPreloadedVideos] = useState({});
-
+  const [, setWindows] = useWindowContext();
+  const windowRef = useRef<HTMLDivElement>(null);
+  
 
   function timeout(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -68,7 +70,6 @@ function Desktop(){
     setWallpaper(wallpapers[theme as keyof typeof wallpapers]);
   }
 
-
   // const [a, setA] = useState(false);
   useEffect(() => {
     // joke of the year
@@ -92,7 +93,7 @@ useEffect(() => {
   videoRef.current?.load();
 }, [pcStatus, theme, wallpaper]);
     return (
-      <div className={(pcStatus == 'on' ? styles.desktop : styles[pcStatus]) + " " + styles[theme]}>
+      <div  className={(pcStatus == 'on' ? styles.desktop : styles[pcStatus]) + " " + styles[theme]}>
                 {/* <div className={styles.circle + " " + (a ? styles.active : 'disable')}></div> */}
         <video ref={videoRef} preload='auto' autoPlay muted loop className={styles.background_video}  disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
         <source src={pcStatus === 'sleeping' ? wallpapers.lockscreen : wallpaper} type="video/mp4" />
@@ -101,8 +102,12 @@ useEffect(() => {
         <div data-active={toggleAnimation ? true : false} className={styles.circle}></div>
         <div style={{display: pcStatus === 'sleeping' ? 'none' : ''}}>
    <WindowContextProvider>
-            <Window  wrapperClass={styles.desktopIconsWrapper}/>
-            <div className={styles.desktopIconsWrapper}>
+   <div ref={windowRef}>
+        <Window  wrapperClass={styles.desktopIconsWrapper}>
+          {/* Add your Window component content here */}
+        </Window>
+      </div>   
+      <div className={styles.desktopIconsWrapper}>
             <DesktopIcons />
             </div>
             <StartSetterContext.Provider

@@ -7,6 +7,7 @@ import Clock from './components/Clock/Clock';
 import Skills from './components/Skills/Skills';
 import Start from './components/Start/Start';
 import Windows from './components/Windows/Windows';
+import MiniAllBtn from './components/MiniAllBtn/MiniAllBtn';
 
 function Taskbar(){
     const [theme] = useTheme();
@@ -38,6 +39,7 @@ function Taskbar(){
             <Contact/>
         </div> */}
         <Clock/>
+        <MiniAllBtn/>
     </footer>
     )
 }

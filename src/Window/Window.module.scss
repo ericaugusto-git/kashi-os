@@ -10,6 +10,12 @@ $padding: 15px;
     color: white;
     position: relative;
     overflow: hidden;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
   }
   
   .body{
@@ -34,6 +40,7 @@ $padding: 15px;
     text-transform: capitalize;
     user-select: none;
     gap: 40px;
+    
     .app{
       display: flex;
       align-items: center;
@@ -72,16 +79,16 @@ $padding: 15px;
     gap: 15px;
   }
   @media (max-width: 1024px) {
-    .action::before,
-    .action::after {
-      content: '';
-      position: absolute;
-      top: -15px; /* Adjust top and bottom to expand hitbox vertically */
-      bottom: -15px;
-      left: -15px; /* Adjust left and right to expand hitbox horizontally */
-      right: -15px;
-      z-index: -1; /* Push pseudo-elements below button content */
-    }
+    // .action::before,
+    // .action::after {
+    //   content: '';
+    //   position: absolute;
+    //   top: -15px; /* Adjust top and bottom to expand hitbox vertically */
+    //   bottom: -15px;
+    //   left: -15px; /* Adjust left and right to expand hitbox horizontally */
+    //   right: -15px;
+    //   z-index: -1; /* Push pseudo-elements below button content */
+    // }
     .action{
       width: 16px;
       height: 16px;
