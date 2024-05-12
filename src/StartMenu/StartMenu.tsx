@@ -7,7 +7,7 @@ import sleep from "../assets/startMenu/sleep.svg";
 import cuteGif from "../assets/startMenu/start_menu.gif";
 import { WindowType } from "../constants/window";
 import { windowsTemplates } from "../constants/windowsTemplate";
-import { PcStatusContext } from "../contexts/PcStatusContext";
+import {  usePcStatus } from "../contexts/PcStatusContext";
 import { useTheme } from "../contexts/ThemeContext";
 import { useWindowContext } from "../contexts/WindowContext";
 import useOpenWindow from "../hooks/useOpenWindow";
@@ -45,7 +45,7 @@ function StartMenu() {
     openWindow(app);
     setStartMenuOpen(false);
   };
-  const [, setPcStatus] = useContext(PcStatusContext);
+  const [, setPcStatus] = usePcStatus();
   const [, setWindows] = useWindowContext();
   const handlePowerOff = () => {
     setWindows([]);

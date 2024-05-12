@@ -1,0 +1,47 @@
+$paddingX: 30px;
+.contextMenu{
+    border: 1px solid #dadada;
+    background-color: #ffffff;
+    padding: 5px;
+    border-radius: 3px;
+    position: absolute;
+    z-index: 20;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin: 0;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    // width: 200px;
+    li{
+        cursor: pointer;
+        padding: 1px;
+        // padding-left: $paddingX;
+        padding-right: $paddingX;
+        // border-radius: 10px;
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        img, .svgMask{
+            width: 16px;
+            height: 13px;
+        }
+        .svgMask{
+            background-color: #49AB88;
+        }
+    }
+    li:hover{
+        background-color: #ececec63;
+    }
+    li:first-child, li:nth-child(2){
+        justify-content: space-between;
+        padding-right: 1px;
+    }
+
+}
+.separator{
+    border-bottom: 1px solid #e1e1e1;
+
+    border-bottom: 1px solid #f1ca09;
+}

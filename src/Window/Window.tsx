@@ -126,7 +126,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     minWidth={window.maxWidth ?? 350}
     minHeight={window.maxHeight ?? 350}
     bounds={"."+  wrapperClass}
-    onDragStop={(e, d) => { handleDragStop(d, window)} }
+    onDragStop={(_, d) => { handleDragStop(d, window)} }
     style={{zIndex: window.active ? 10 : 5, display: window.minimized ? 'none' : ''}}
   >
     <div className={styles.window} style={{cursor: isMaximized(index) ? 'normal' : 'move',...window.windowStyles}}>

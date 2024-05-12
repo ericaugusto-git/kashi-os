@@ -4,7 +4,6 @@ Welcome to my portfolio, the O.S version! Featuring a desktop-inspired UI, this 
 
 ## TODO List
 
-- [ ] Minimize window when user open start menu
 - [x] Create component for media player
 - [x] Make media player responsive
 - [x] Create dark and cappucino theme
@@ -22,8 +21,8 @@ Welcome to my portfolio, the O.S version! Featuring a desktop-inspired UI, this 
 - [ ] Only ask for location if it's on pc
 - [x] Move all heavy assets to CDN
 - [ ] Re-do folders structure
-- [ ] Add fallback image for when the wallpaper don't load and fallback color for when the image don't load lol
-- [ ] Hyprland inspired window animations
+- [x] Add fallback image for when the wallpaper don't load and fallback color for when the image don't load lol
+- [x] Hyprland inspired change wallpaper animations
 
 ## KNOWN ISSUES
 
