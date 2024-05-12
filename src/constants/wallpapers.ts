@@ -1,7 +1,13 @@
-export const wallpapers = {
-    dark: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Coding.mp4',
-    coffe: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Lofi%20Girl.mp4',
-    light: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Topography.mp4',
-    lockscreen: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Lockscreen.mp4'
-  };
+import { Themes } from './../contexts/ThemeContext';
+export type Wallpaper =  {video: string, img: string};
+export type Wallpapers = {
+  [key in Themes | 'lockscreen']: Wallpaper
+};
+export const wallpapers: Wallpapers = {
+    dark: {video: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Coding.mp4', img: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Fdark.jpg'},
+    coffe: {video: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Lofi%20Girl.mp4', img: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Fcozy.jpg'},
+    light: {video: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Topography.mp4', img: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flight.jpg'},
+    lockscreen: {video: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/Lockscreen.mp4', img: 'https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flockscreen.jpg'},
+
+  }
   

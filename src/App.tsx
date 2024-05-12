@@ -10,7 +10,7 @@ import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import '../i18n.js';
 import Desktop from "./Desktop/Desktop";
-import PcStatusContextProvider from "./contexts/PcStatusContext";
+import {PcStatusContextProvider} from "./contexts/PcStatusContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { WeatherProvider } from "./contexts/WheaterContext";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;

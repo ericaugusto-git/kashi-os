@@ -53,7 +53,7 @@ i18n
             weather_error: 'Nao achamos a previsao do tempo. Foi mal :(',
             command_line: 'Prompt de Comando',
             credits: 'Créditos',
-            sleep: 'suspender',
+            sleep: 'mimir',
             shut: 'desligar',
             os: 's.o apps',
             projects: 'projetos',

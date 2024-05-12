@@ -1,4 +1,7 @@
-.background_video {
+.wallpaper_wrapper{
+
+}
+.background_video, .wallpaper_wrapper {
     position: absolute;
       z-index: 0;
       top: 0;
@@ -7,8 +10,9 @@
       height: 100%;
       object-fit: cover;
   }
+
   
-  .sleeping .background_video{
+  .sleeping .wallpaper_wrapper{
     cursor: pointer;
   }
 
@@ -44,36 +48,79 @@
   }
 
 
-  .circle, .circleExpanded {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+  .circle {
+    // position: absolute;
+    // width: 100%;
+    // height: 100%;
     background: rgb(255, 255, 255);
     z-index: 1;
-    transition: clip-path 0.3s linear;
+    // transition: clip-path 0.3s linear;
     clip-path: circle(0% at 0 100%);
+    // animation: 1s circle linear;
+    z-index: 30;
+    animation: circle 1.2s linear forwards;
+
 }
 
-.dark .circle{
-  background: rgb(12, 12, 12);
+.wallpaperImg{
+  position: fixed;
+  background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    height: 100% !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
-.coffe .circle{
+
+
+
+.dark {
+  .circle{
+    background: black;
+  }
+  .wallpaper_wrapper{
+    background: rgb(12, 12, 12);
+  }
+}
+.light {
+  .circle{
+    background: rgb(103, 103, 103);
+  }
+  .wallpaper_wrapper{
+    background: rgb(255, 255, 255);
+  }
+}
+.coffe {
+  .circle{
   background: #250706;
 }
-
-  .circle[data-active="true"]{
-    clip-path: circle(150% at 0 100%);
+.wallpaper_wrapper{
+  background: #413634;
+}
 }
 
-  
-  @keyframes expand {
-    0% {
-      transform: translate(0, 0) scale(1);
-    }
-    50% {
-      transform: translate(100vw, 100vh) scale(2);
-    }
-    100% {
-      transform: translate(0, 0) scale(1);
-    }
+@keyframes circle {
+  0% {
+    clip-path: circle(0% at 0 100%);
   }
+  10% {
+    clip-path: circle(10% at 0 100%);
+  }
+  20% {
+    clip-path: circle(20% at 0 100%);
+  }
+  50% {
+    clip-path: circle(50% at 0 100%);
+  }
+  80% {
+    clip-path: circle(80% at 0 100%);
+  }
+  90% {
+    clip-path: circle(120% at 0 100%);
+  }
+  100% {
+    clip-path: circle(150% at 0 100%);
+  }
+}

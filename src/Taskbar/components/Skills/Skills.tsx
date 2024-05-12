@@ -24,9 +24,9 @@ function Skills(){
         padding: "2px 20px 4px 10px",
         height: "calc(100% - 8px)",
         border: theme == 'light' ? '1px solid rgb(207 207 207)' : "1px solid #696969",
-        color:  "#676767",
+        color: theme == 'coffe' ? 'rgb(99 128 136)' : "#676767",
         // color: "#AEB2BA",
-        background: theme == 'light' ? "#f9f9f9" : "#121212"
+        background: theme == 'light' ?  "#f9f9f9" : theme == 'dark' ? "#121212" : 'rgb(75 65 66)'
     }
     // const icons: Skill[] = [
     //     { experience: { time: "2+", description: "years of professional experience" }, expColor: "#dd0031", icon: angularIcon }, // Angular color

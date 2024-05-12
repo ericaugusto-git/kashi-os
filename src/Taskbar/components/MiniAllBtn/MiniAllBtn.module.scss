@@ -9,6 +9,13 @@
     background: hsla(0, 0%, 0%, 0.226);
 }
 
+.miniallbtn.dark{
+    background: hsl(0deg 0% 63.14% / 22.6%);
+}
+.miniallbtn.dark:hover{
+    background: hsla(0, 0%, 63%, 0.473);
+}
+
 .miniallbtn:hover{
     background: hsla(0, 0%, 0%, 0.451);
 }
