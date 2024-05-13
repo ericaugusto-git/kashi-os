@@ -11,6 +11,7 @@ import perfil from "../assets/desktop/avatar.png";
 import discord from "../assets/desktop/disc.svg";
 import finance from "../assets/desktop/finance.png";
 import cookBook from "../assets/desktop/food.svg";
+import portfolio from "../assets/portfolio.png";
 import jdm from "../assets/desktop/jdm.png";
 import Resume from "../Resume/Resume";
 
@@ -51,14 +52,23 @@ export const windowsTemplates: WindowType[] = [
         appType: 'os',
         app: "credits"
     },
+    // {
+    //     appType: 'os',
+    //     desktop: true,
+    //     hideInStartMenu: true,
+    //     app: "about_me",
+    //     link: 'https://ericaugusto.pages.dev',
+    //     desktopStyles: {img: {height: '46px', width: '46px', backgroundSize: '100%'}},
+    //     icon: perfil
+    // },
     {
         appType: 'os',
         desktop: true,
         hideInStartMenu: true,
-        app: "about_me",
+        app: "portfolio",
         link: 'https://ericaugusto.pages.dev',
-        desktopStyles: {img: {height: '46px', width: '46px', backgroundSize: '100%'}},
-        icon: perfil
+        desktopStyles: {img: {height: '46px', width: '46px', backgroundSize: '70%'}},
+        icon: portfolio
     },
     {app: "jdm_store", link: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FjpjNX650FS4XtJrolls9RW%2FJDM%3Fpage-id%3D%26type%3Ddesign%26node-id%3D1-6%26viewport%3D741%252C598%252C0.23%26t%3DfBBVvALWC6PAzlv0-1%26scaling%3Dscale-down-width%26mode%3Ddesign', appType: 'project', icon: jdm, desktopStyles: {img: {backgroundSize: '70%'}}},
     {app: "discord_clone", appType: 'project', icon: discord},
