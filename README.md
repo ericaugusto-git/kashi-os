@@ -18,7 +18,7 @@ Welcome to my portfolio, the O.S version! Featuring a desktop-inspired UI, this 
 - [ ] Refactor StartSetterContext
 - [ ] Paint redesign
 - [x] Improve experience in mobile (oh boy...)
-- [ ] Only ask for location if it's on pc
+- [x] Only ask for location if it's on pc
 - [x] Move all heavy assets to CDN
 - [ ] Re-do folders structure
 - [x] Add fallback image for when the wallpaper don't load and fallback color for when the image don't load lol
@@ -34,5 +34,6 @@ Welcome to my portfolio, the O.S version! Featuring a desktop-inspired UI, this 
 
 ### Cool open source projects to add in the future
 
--[] https://github.com/1j01/jspaint
+- [ ] https://github.com/1j01/jspaint
+- [ ] https://demo.emulatorjs.org
 

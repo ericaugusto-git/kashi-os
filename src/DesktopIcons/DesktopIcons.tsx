@@ -3,38 +3,45 @@ import { windowsTemplates } from "../constants/windowsTemplate";
 import useOpenWindow from "../hooks/useOpenWindow";
 import styles from "./DestopIcons.module.scss";
 import DesktopIcon from "./components/DesktopIcon/DesktopIcon";
+import { motion } from "framer-motion";
 
 function DesktopIcons() {
   const apps = windowsTemplates.filter(a=> a.appType == 'project' || a.desktop);
-  // apps.unshift({
-    // app: "About me",
-    // icon: perfil,
-  //   styles: {
-  //     height: "46px",
-  //     width: "46px"
-  //   }
-  // });
   const openWindow = useOpenWindow();
-
   const handleDesktopIconCLick = (app: WindowType) => {
-    // app.conteudo = <div className="backgroundImage" style={{
-    //   width: "100%",
-    //   height: "100%",
-    //   backgroundImage: `url(${jdm})`
-    // }}></div>;
     openWindow(app);
+  };
+
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
+      }
+    }
+  };
+  
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
   };
 
 
   return <>
-            <menu className={styles.desktop}>
-                {apps.map(app => <li key={app.app} onClick={() => handleDesktopIconCLick(app)}>
+            <motion.menu initial="hidden" animate="visible"   variants={container}  className={styles.desktop}>
+                {apps.map(app => <motion.li whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.9 }} variants={item} key={app.app} onClick={() => handleDesktopIconCLick(app)}>
                             <DesktopIcon app={app} svgMask={app.svgMask?.desktop} buttonStyles={app.desktopStyles?.button} imgWrapperStyles={app.desktopStyles?.img} />
-                </li>)}
+                </motion.li>)}
                 {/* <li onClick={openResume}>
                   <DesktopIcon  app={{app: 'resume', icon: resume, appType: 'os', hideInStartMenu: true,}} buttonStyles={{textTransform: 'none'}} svgMask={true}></DesktopIcon>
                 </li> */}
-            </menu>
+            </motion.menu>
 
         </>;
 }

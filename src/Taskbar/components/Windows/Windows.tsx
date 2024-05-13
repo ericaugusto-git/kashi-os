@@ -5,11 +5,18 @@ import { useTheme } from "../../../contexts/ThemeContext";
 import { useWindowContext } from "../../../contexts/WindowContext";
 import Intro from "../Intro/Intro";
 import styles from './Windows.module.scss';
+import { motion } from "framer-motion";
 
 export default function Windows(){
     const [windows, setWindows] = useWindowContext();
     const [theme] = useTheme();
-    
+    const item = {
+        hidden: { x: 20, opacity: 0 },
+        visible: {
+          x: 0,
+          opacity: 1
+        }
+      };
     const buttonStyles: CSSProperties = {width: '100%', height: '100%'};
     const imgWrapperStyles: CSSProperties = {height: '40px', padding: '0', borderRadius: '5px', backgroundColor: 'unset'}
 
@@ -41,9 +48,9 @@ export default function Windows(){
         {windows?.length > 0 && <ul className={`${styles.taskbarWindows} ${styles[theme]}`}>
         {windows.map((window) => (
             
-            <li key={window.app} onClick={() => handleDesktopIconCLick(window)}>
+            <motion.li initial="hidden" animate="visible"  variants={item} key={window.app} onClick={() => handleDesktopIconCLick(window)}>
                  <DesktopIcon fromTaskbar={true} app={window} svgStyles={window.desktopStyles?.svg} svgMask={window.svgMask?.desktop} buttonStyles={buttonStyles} imgWrapperStyles={{...window.desktopStyles?.img, ...imgWrapperStyles}} />
-            </li>
+            </motion.li>
         ))}
         </ul>}
     </div>

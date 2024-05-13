@@ -16,6 +16,7 @@ const initialContextMenu = {
   x: 0,
   y: 0,
 };
+import {isMobile} from 'react-device-detect';
 
 function Desktop() {
 
@@ -26,10 +27,11 @@ function Desktop() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [theme] = useTheme();
   const liveValue = localStorage.getItem('live');
-  const [isLiveWallpaper, setisLiveWallpaper] = useState(liveValue ? liveValue == 'true' : true);
+  const [isLiveWallpaper, setisLiveWallpaper] = useState(liveValue ? liveValue == 'true' : !isMobile);
   const isInitialMount = useRef(true);
   const [contextMenu, setContextMenu] = useState(initialContextMenu);
-
+  const [wallpaperKey, setWallpaperKey] = useState('light');
+  const [fallbackKey, setFallbackKey] = useState<string | null>(null);
   function timeout(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
@@ -98,16 +100,19 @@ function Desktop() {
   };
   
   useEffect(() => {
-    if(pcStatus != "shutdown")
-    videoRef.current?.load();
+    // const sourceElement = videoRef?.current?.childNodes[0] as HTMLElement;
+    // const sourceSrc = sourceElement?.getAttribute('src');
+    // console.log(sourceSrc);
+    if(pcStatus != "shutdown"){
+      videoRef.current?.load();
+    }
   }, [pcStatus]);
+
 
   const hideContextMenu = () => {
     setContextVisible(false)
   }
 
-  const [wallpaperKey, setWallpaperKey] = useState('light');
-  const [fallbackKey, setFallbackKey] = useState<string | null>(null);
   return (
     <div
       className={
