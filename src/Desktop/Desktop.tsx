@@ -66,7 +66,9 @@ function Desktop() {
     if (isInitialMount.current) {
       isInitialMount.current = false;
       Object.values(wallpapers).forEach((wallpaper) => {
-          preloadVideo(wallpaper.video)
+          if(!isMobile){
+            preloadVideo(wallpaper.video)
+          }
           new Image().src = wallpaper.img;
       });
       setWallpaperKey(theme)
