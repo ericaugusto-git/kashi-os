@@ -7,7 +7,6 @@ import handshake from '../assets/startMenu/handshake.svg';
 import playlistIcon from '../assets/startMenu/playlist.svg';
 import { WindowType } from "./window";
 import resume from "../assets/desktop/resume.svg";
-import perfil from "../assets/desktop/avatar.png";
 import discord from "../assets/desktop/disc.svg";
 import finance from "../assets/desktop/finance.png";
 import cookBook from "../assets/desktop/food.svg";
