@@ -33,7 +33,7 @@ function Clock(){
     const meridiem = formattedTime.split(' ')[1];
     const [hourWithZero, minutesWithZero] = formattedTime.split(':').map(part => part.padStart(2, '0')) ?? [];
     const date = new Intl.DateTimeFormat(locale).format(new Date(time));
-    const buttonStyles = {color: 'unset', background: theme == 'light' ? "rgb(40 40 40 / 13%)" : "rgb(129 129 129 / 13%)" ,backdropFilter: "blur(3px)"} 
+    const buttonStyles = {color: 'unset', background: theme == 'light' ? "rgb(40 40 40 / 13%)" : "rgb(129 129 129 / 13%)" ,backdropFilter: "blur(3px)", maxWidth: '187.72px'} 
     const buttonHoverStyles = {background: theme == 'light' ? "rgb(40 40 40 / 20%)" : "rgb(129 129 129 / 20%)" }
     return (
         <>

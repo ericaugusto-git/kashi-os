@@ -17,7 +17,7 @@ type ContextMenu = {
 export default function ContextMenu({x, y, hideContextMenu, setIsLiveWallpaper, isLiveWallpaper}: ContextMenu){
     const contextRef = useRef<HTMLUListElement>(null);
     const {t} = useTranslation();
-    const [, setPcStatus] = usePcStatus();
+    const [pcStatus, setPcStatus] = usePcStatus();
     const [, setWindows] = useWindowContext();
     const handleClick = (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -52,10 +52,10 @@ export default function ContextMenu({x, y, hideContextMenu, setIsLiveWallpaper, 
           (71) 98188-6126
         </li>
         <div className={styles.separator}></div>
-        <li onClick={handleSleep}>
+        {pcStatus != 'sleeping' && <li onClick={handleSleep}>
           <div className={"svgMask " + styles.svgMask} style={{maskImage: `url("${sleep}")`}}></div>
           <span>{t('sleep')}</span>
-        </li>
+        </li>}
         <li onClick={handlePowerOff}>
           <img src={powerOff}></img>
           <span>{t('shut')}</span>

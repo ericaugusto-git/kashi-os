@@ -1,10 +1,13 @@
 import moment from "moment";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import {isMobile} from 'react-device-detect';
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type WeatherType = {forecast: any, weather: any}
 
 function useWeather() {
+
   const [lat, setLat] = useState<number | null>(null);
   const [long, setLong] = useState<number | null>(null);
   const localWeather: string | null = localStorage.getItem("weather") ?? null;
@@ -20,12 +23,14 @@ function useWeather() {
   const { t, i18n } = useTranslation();
   useEffect(() => {
     const fetchLocation = async () => {
-      navigator.geolocation.getCurrentPosition(position => {
-        setLat(position.coords.latitude);
-        setLong(position.coords.longitude);
-      }, error => {
-        setError(error);
-      });
+      if(!isMobile){
+        navigator.geolocation.getCurrentPosition(position => {
+          setLat(position.coords.latitude);
+          setLong(position.coords.longitude);
+        }, error => {
+          setError(error);
+        });
+      }
     };
     if (lat === null || long === null) {
       fetchLocation();
