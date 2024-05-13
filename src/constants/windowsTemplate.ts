@@ -53,12 +53,9 @@ export const windowsTemplates: WindowType[] = [
     },
     // {
     //     appType: 'os',
-    //     desktop: true,
-    //     hideInStartMenu: true,
     //     app: "about_me",
-    //     link: 'https://ericaugusto.pages.dev',
+    //     link: 'https://ericaugusto-os.pages.dev',
     //     desktopStyles: {img: {height: '46px', width: '46px', backgroundSize: '100%'}},
-    //     icon: perfil
     // },
     {
         appType: 'os',
