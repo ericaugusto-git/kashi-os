@@ -11,6 +11,9 @@
     .label{
         font-family: 'IBM Plex Mono';
         font-size: 16px;
+        // text-shadow:#ffffff 0px 1px 8px;
+
+        // text-shadow:#000000 0px 1px 8px;
     }
     .img_wrapper{
         width: 46px;
@@ -49,6 +52,9 @@
     color: white;
     .img_wrapper{
         backdrop-filter: blur(2px);
+    }
+    .label{
+        // text-shadow:#ffffff 0px 1px 8px;
     }
 }
 .desktop_icon:is(.light) .icon{

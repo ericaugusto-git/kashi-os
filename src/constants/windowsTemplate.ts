@@ -13,6 +13,8 @@ import cookBook from "../assets/desktop/food.svg";
 import portfolio from "../assets/portfolio.png";
 import jdm from "../assets/desktop/jdm.png";
 import Resume from "../Resume/Resume";
+import Credits from "../StartMenu/components/Credits/Credits";
+import fav from '../../public/favicon.ico';
 
 export const windowsTemplates: WindowType[] = [
     {
@@ -49,14 +51,17 @@ export const windowsTemplates: WindowType[] = [
     {
         icon: handshake, 
         appType: 'os',
+        conteudo: Credits,
         app: "credits"
     },
-    // {
-    //     appType: 'os',
-    //     app: "about_me",
-    //     link: 'https://ericaugusto-os.pages.dev',
-    //     desktopStyles: {img: {height: '46px', width: '46px', backgroundSize: '100%'}},
-    // },
+    {
+        appType: 'os',
+        app: "vm",
+        link: 'https://ericaugusto-os.pages.dev',
+        desktop: false,
+        hideInStartMenu: true,
+        icon: fav
+    },
     {
         appType: 'os',
         desktop: true,
