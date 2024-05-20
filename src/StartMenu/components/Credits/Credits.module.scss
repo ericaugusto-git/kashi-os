@@ -1,0 +1,25 @@
+.credits{
+    background-color: #0e0e0e;
+    height: 100%;
+    overflow: auto;
+    border-radius: 10px;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+    text-align: center;
+    .title {
+        font-weight: bold;
+        font-size: 31px;
+    }
+    span{
+        display: block;
+        font-weight: 100;
+    }
+    ul{
+        text-align: left;
+        list-style:circle;
+    }
+}
+
+.credits::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
