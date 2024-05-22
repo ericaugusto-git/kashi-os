@@ -1,4 +1,5 @@
 
+import { t } from 'i18next';
 import styles from './Credits.module.scss'
 
 
@@ -31,9 +32,13 @@ const Credits = () => {
         {name: "Coding Deck Live Wallpaper", url: "https://moewalls.com/sci-fi/coding-deck-live-wallpaper/"},
         {name: "Flying Studio Ghibli GIF By Luigi Salas", url: "https://giphy.com/gifs/pixel-art-arial-cardinal-bird-N5B19awm2YvwMwf8JE"},
         {name: "Anime room", url: "https://x.com/ArsXC"},
-        {name: "ぺい@ティア148 J-01b", url: "https://x.com/kuroneko_no_pei/status/1655339224306941955"},
-        {name: "Comet", url: "https://whvn.cc/p95y2j"},
-        {name: "Chillhop Music", url: "https://x.com/Chillhopdotcom/status/1573449135637909511"}
+        {name: 'sakura cityscape by freepik', url: 'https://www.freepik.com/free-ai-image/beautiful-anime-sakura-cityscape-cartoon-scene_94944970.htm#fromView=search&page=4&position=2&uuid=3113be0f-ccae-4d04-b266-25f28091581'},
+        {name: 'cozy home by freepik', url: 'https://www.freepik.com/free-ai-image/anime-style-cozy-home-interior-with-furnishings_133783495.htm#fromView=search&page=1&position=9&uuid=99c72bd1-0cd1-437a-a19b-d4a24b3c56b'},
+        {name: 'city landscape by freepik', url: 'https://www.freepik.com/free-ai-image/digital-art-with-city-landscape-architecture_94154622.htm#fromView=search&page=15&position=42&uuid=170e98ab-6829-44bd-bf26-381dfe22412a'},
+        
+        // {name: "ぺい@ティア148 J-01b", url: "https://x.com/kuroneko_no_pei/status/1655339224306941955"},
+        // {name: "Comet", url: "https://whvn.cc/p95y2j"},
+        // {name: "Chillhop Music", url: "https://x.com/Chillhopdotcom/status/1573449135637909511"}
       ]
   return (
     <div className={styles.credits}>
@@ -58,6 +63,8 @@ const Credits = () => {
           </li>
         ))}
       </ul>
+      <span>All images remain property of their original owners. Please contact me if you want you want your proprety removed from the website <a href='mailto:eric72001@hotmail.com'>eric72001@hotmail.com</a></span>
+      <span className={styles.copyright}><span>&copy;</span> 2024 Eric Augusto. {t('rights')}</span>
     </div>
   );
 };

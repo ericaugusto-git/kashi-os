@@ -39,6 +39,7 @@ i18n
           eraser_width: 'Ereaser width',
           line_width: 'Line width',
           resume: "resume.pdf",
+          "rights": "All rights reserved",
         }
     },
     ["pt-BR"]: {
@@ -59,7 +60,8 @@ i18n
             projects: 'projetos',
             eraser_width: 'Largura da borracha',
             line_width: 'Largura da linha',
-            resume: "currículo.pdf"
+            resume: "currículo.pdf",
+            rights: "Todos os direitos reservados"
         }
       }
     }
