@@ -6,6 +6,7 @@
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
     scrollbar-width: none;  /* Firefox */
     text-align: center;
+    user-select:text !important;
     .title {
         font-weight: bold;
         font-size: 31px;
@@ -22,4 +23,14 @@
 
 .credits::-webkit-scrollbar { 
     display: none;  /* Safari and Chrome */
+}
+
+.copyright{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 50px;
+    span{
+        display: initial;
+    }
 }

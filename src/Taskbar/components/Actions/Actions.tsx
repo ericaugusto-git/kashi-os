@@ -14,8 +14,8 @@ import moment from "moment";
 
 // Set the locale at the beginning of your file
 function Actions(){
-    const themeButtons: {icon: string, action: Themes}[] = [
-        {icon: sunsetIcon, action: 'light'},
+    const themeButtons: {icon: string, action: Themes, useSvg?: boolean}[] = [
+        {icon: sunsetIcon, action: 'light', useSvg: true},
         {icon: moonIcon, action: 'dark'},
         {icon: cappuccinoIcon, action: 'coffe'}
     ];
