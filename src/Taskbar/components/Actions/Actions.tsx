@@ -43,7 +43,7 @@ function Actions(){
     return(
         <Button styles={buttonStyles}>
             <div className={styles.actions}>
-                <ButtonGroup selectedValue={theme} buttons={themeButtons} handleClick={handleChangeTheme} stylesProp={{width: "26px"}}></ButtonGroup>
+                <ButtonGroup selectedValue={theme} buttons={themeButtons} handleClick={handleChangeTheme} stylesProp={{width: "26px", height: "26px"}}></ButtonGroup>
                 <hr style={{width: "25px"}} className="dashed_separator"></hr>
                 <ButtonGroup selectedValue={i18n.resolvedLanguage} handleClick={handleChangeLanguage} stylesProp={{padding: "3px 6px"}} buttons={languageButtons}></ButtonGroup>
             </div>

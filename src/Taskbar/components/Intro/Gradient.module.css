@@ -1,6 +1,6 @@
 .gradient {
     --border-width: 1px;
-    --radius: 15px;
+    --radius: 10px;
     position: relative;
     border-radius: var(--radius);
     border: var(--border-width) solid transparent;

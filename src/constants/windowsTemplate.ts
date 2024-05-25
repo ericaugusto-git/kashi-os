@@ -15,7 +15,8 @@ import jdm from "../assets/desktop/jdm.png";
 import Resume from "../Resume/Resume";
 import Credits from "../StartMenu/components/Credits/Credits";
 import fav from '../../public/favicon.ico';
-
+import emulatorJs from '/public/EmulatorJS.png';
+import EmulatorJS from '../EmulatorJS/EmulatorJS'
 export const windowsTemplates: WindowType[] = [
     {
         app: "playlist",
@@ -74,6 +75,7 @@ export const windowsTemplates: WindowType[] = [
     {app: "jdm_store", link: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FjpjNX650FS4XtJrolls9RW%2FJDM%3Fpage-id%3D%26type%3Ddesign%26node-id%3D1-6%26viewport%3D741%252C598%252C0.23%26t%3DfBBVvALWC6PAzlv0-1%26scaling%3Dscale-down-width%26mode%3Ddesign', appType: 'project', icon: jdm, desktopStyles: {img: {backgroundSize: '70%'}}},
     {app: "discord_clone", appType: 'project', icon: discord},
     {app: "finance", appType: 'project', icon: finance},
-    {app: "recipe_book", appType: 'project', icon: cookBook},
+    {app: "recipe_book", appType: 'project', icon: cookBook,},
     {app: 'resume', icon: resume, appType: 'os', desktop: true, hideInStartMenu: true, svgMask: {desktop: true}, conteudo: Resume, desktopStyles: {button: {textTransform: 'none'}, svg: {maskSize: '60%'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, },
+    {app: "EmulatorJS", appType: 'os', desktop: true, conteudo: EmulatorJS, icon: emulatorJs},
 ];

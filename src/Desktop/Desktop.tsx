@@ -146,7 +146,7 @@ function Desktop() {
           <StartSetterContext.Provider
             value={[isStartMenuOpen, setisStartMenuOpen, startButtonRef]}
           >
-            <div ref={startMenuRef}>{isStartMenuOpen && <StartMenu />}</div>
+            <div ref={startMenuRef}>{<StartMenu />}</div>
             <Taskbar />
           </StartSetterContext.Provider>
         </WindowContextProvider>
