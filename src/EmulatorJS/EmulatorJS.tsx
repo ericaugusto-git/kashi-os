@@ -3,54 +3,43 @@ import styles from "./EmulatorJS.module.scss";
 
 export default function EmulatorJS() {
   const [gameUrl, setGameUrl] = useState<string>("");
+  const [stateUrl, setStateUrl] = useState<string | null>(null);
   const dropZoneRef = useRef<HTMLDivElement | null>(null);
   const dbRef = useRef<IDBDatabase | null>(null);
   const [fileList, setFileList] = useState<File[]>([]);
+  const [currentGame, setCurrentGame] = useState<File | null>(null);
 
   useEffect(() => {
     const openDB = async () => {
-      const dbRequest = indexedDB.open("ROMsDatabase", 1);
+      const dbRequest = indexedDB.open("ROMsDatabase", 2);
+
+      dbRequest.onupgradeneeded = function (event) {
+        console.log("needed")
+        const db = (event.target as IDBOpenDBRequest).result as IDBDatabase;
+        if (!db.objectStoreNames.contains("roms")) {
+          db.createObjectStore("roms", { keyPath: "id", autoIncrement: true });
+        }
+        if (!db.objectStoreNames.contains("saveStates")) {
+          db.createObjectStore("saveStates", { keyPath: "gameName" });
+        }
+      };
 
       dbRequest.onsuccess = function (event) {
         const db = (event.target as IDBOpenDBRequest).result as IDBDatabase;
         dbRef.current = db;
 
-        db.transaction("roms", "readwrite").oncomplete = function () {
-          console.log("Database upgrade completed");
-        };
-
-        // Retrieve the first ROM from the database if it exists
+        // Retrieve ROMs
         const transaction = db.transaction("roms", "readonly");
         const romsStore = transaction.objectStore("roms");
-        const request = romsStore.openCursor();
-        const romList: File[] = [];
-        request.onsuccess = function (event) {
-          const cursor = (event.target as IDBRequest<IDBCursorWithValue>)
-            .result;
-          if (cursor) {
-            const rom = cursor.value;
-            romList.push(rom.romFile); // Assuming the file name is stored in 'fileName' property
-            cursor.continue();
-            console.log(romList);
-          } else {
-            console.log("List of files:", fileList);
-            setFileList(romList);
-          }
+        const request = romsStore.getAll();
+        request.onsuccess = function () {
+          const romList: File[] = request.result.map((rom) => rom.romFile);
+          setFileList(romList);
         };
       };
 
       dbRequest.onerror = function (event) {
-        console.error(
-          "Error opening database:",
-          (event.target as IDBOpenDBRequest).error
-        );
-      };
-
-      dbRequest.onupgradeneeded = function (event) {
-        const db = (event.target as IDBOpenDBRequest).result as IDBDatabase;
-        if (!db.objectStoreNames.contains("roms")) {
-          db.createObjectStore("roms", { keyPath: "id", autoIncrement: true });
-        }
+        console.error("Error opening database:", (event.target as IDBOpenDBRequest).error);
       };
     };
 
@@ -76,7 +65,6 @@ export default function EmulatorJS() {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
     if (file && file.name.endsWith(".gba")) {
-      // Save file to IndexedDB
       const db = dbRef.current;
       if (db) {
         const transaction = db.transaction("roms", "readwrite");
@@ -90,16 +78,57 @@ export default function EmulatorJS() {
           console.error("Error adding ROM file to IndexedDB");
         };
       }
-      setGame(file)
-    //   const url = URL.createObjectURL(file);
-    //   setGameUrl(url);
+      setGame(file);
+      setCurrentGame(file);
+      loadSavedState(file.name);
     }
   };
 
   const setGame = (game: File) => {
     const url = URL.createObjectURL(game);
     setGameUrl(url);
-  }
+  };
+
+  const loadSavedState = async (gameName: string) => {
+    if (dbRef.current) {
+      const transaction = dbRef.current.transaction("saveStates", "readonly");
+      const store = transaction.objectStore("saveStates");
+      const request = store.get(gameName);
+      request.onsuccess = function (event) {
+        const result = request.result;
+        if (result) {
+          const blob = new Blob([result.saveData], { type: "application/octet-stream" });
+          const stateUrl = URL.createObjectURL(blob);
+          setStateUrl(stateUrl);
+        }
+      };
+      request.onerror = function () {
+        console.error("Error retrieving saved state from IndexedDB");
+      };
+    }
+  };
+
+  useEffect(() => {
+    const handleMessage = async (event: MessageEvent) => {
+      if (event.data.type === "SAVE_STATE_DATA") {
+        const saveData = event.data.state;
+        console.log('message')
+        console.log(saveData);
+        const gameName = currentGame?.name;
+        if (dbRef.current && gameName) {
+          const transaction = dbRef.current.transaction("saveStates", "readwrite");
+          const store = transaction.objectStore("saveStates");
+          await store.put({ gameName, saveData });
+          console.log("Game state saved");
+        }
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, [currentGame]);
 
   return (
     <div className={`${styles.emulator_wrapper} ${!gameUrl && styles.emulator_grid}`}>
@@ -133,13 +162,25 @@ export default function EmulatorJS() {
                                 }
                             </style>
                                 <script>
-                                    // EmulatorJS initialization code
                                     window.EJS_player = '#game';
                                     window.EJS_core = 'gba';
                                     window.EJS_color = '#0064ff';
                                     window.EJS_startOnLoaded = true;
                                     window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
                                     window.EJS_gameUrl = "${gameUrl}";
+                                    ${stateUrl ? `window.EJS_loadStateURL = "${stateUrl}";` : ''}
+            
+                                    window.EJS_onSaveState = ({ screenshot, state }) => {
+                                        window.parent.postMessage({ type: "SAVE_STATE_DATA", state }, "*");
+                                    }
+
+                                    window.addEventListener("message", (event) => {
+                                        if (event.data.type === "SAVE_STATE") {
+                                            const saveState = EJS_saveState();
+                                            window.parent.postMessage({ type: "SAVE_STATE_DATA", state: saveState }, "*");
+                                        }
+                                    });
+
                                 </script>
                                 <script src="https://cdn.emulatorjs.org/stable/data/loader.js" async></script>
                             </head>
@@ -151,21 +192,30 @@ export default function EmulatorJS() {
             className={styles.game}
           ></iframe>
         ) : (
-          <p>drag and drop gae herew</p>
+          <p>Drag and drop game here</p>
         )}
       </div>
       {!gameUrl && (
-          <fieldset>
-            <legend>Your games list ({fileList.length})</legend>
-            <ul className={styles.games_list}>
-              {fileList.map((file, i) => (
-                <li key={i} className={styles.game} onClick={() => setGame(file)}>
-                  {file.name}
-                </li>
-              ))}
-            </ul>
-          </fieldset>
+        <fieldset>
+          <legend>Your game list ({fileList.length})</legend>
+          <ul className={styles.games_list}>
+            {fileList.map((file, i) => (
+              <li key={i} className={styles.game} onClick={() => {
+                setGame(file);
+                setCurrentGame(file);
+                loadSavedState(file.name);
+              }}>
+                {file.name}
+              </li>
+            ))}
+          </ul>
+        </fieldset>
       )}
+      {/* {gameUrl && (
+        <div>
+          <button onClick={saveGameState}>Save Game</button>
+        </div>
+      )} */}
     </div>
   );
 }
