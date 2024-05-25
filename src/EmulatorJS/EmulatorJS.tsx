@@ -94,7 +94,7 @@ export default function EmulatorJS() {
       const transaction = dbRef.current.transaction("saveStates", "readonly");
       const store = transaction.objectStore("saveStates");
       const request = store.get(gameName);
-      request.onsuccess = function (event) {
+      request.onsuccess = function () {
         const result = request.result;
         if (result) {
           const blob = new Blob([result.saveData], { type: "application/octet-stream" });
