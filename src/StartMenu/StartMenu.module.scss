@@ -39,6 +39,8 @@ $col2IconSize: 21px;
         img{
             max-width: $col2IconSize;
             max-height: $col2IconSize;
+            min-width: $col2IconSize;
+            min-height: $col2IconSize;
             width: auto;
             height: auto;
         }
@@ -90,7 +92,7 @@ $col2IconSize: 21px;
     }
     
     .col_2{
-        overflow: auto;
+        overflow: hidden;
 
         padding: 0 5px;
         .title{
@@ -103,15 +105,18 @@ $col2IconSize: 21px;
             flex-direction: column;
             gap: 5px;
         }
-        button{
-            background-color: rgba(255, 255, 255, 0.60);
+        .app_button{
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+            overflow: visible;
+            background-color: rgb(225 225 225 / 87%);
+            // rgb(225 225 225 / 54%)
             font-size: 12px;
             align-items: center;
             cursor: pointer;
             height: 28.3px;
         } 
         button:hover{
-            background-color: rgba(255, 255, 255, 0.30);
+            opacity: 0.8;
         }
     }
 
@@ -132,14 +137,25 @@ $col2IconSize: 21px;
 }
 
 .start_menu:not(.light){
-    button{
-        color: white;
+    // .cols_2{
+    // }
+    &.coffe .app_button{
+        background-color: rgb(75 65 66 / 78%);
+        box-shadow: 0 0 2px;
+    }
+
+    &.dark .app_button{
+    }
+    .app_button{
         background-color: rgba(0, 0, 0, 0.692);
+        color: white;
         .icon{
             background-color: white;
         }
     }
 }
+
+
 
 .start_menu:before{
     content: "";
@@ -156,6 +172,13 @@ $col2IconSize: 21px;
     z-index: 0;
 }
 
+.start_menu.dark:before{
+    background:linear-gradient(45deg,#c7c7c7,#000000); 
+}
+
+.start_menu.coffe:before{
+    background:linear-gradient(45deg,rgb(171, 201, 213),rgb(75, 65, 66)); 
+}
 .playlistContainer{
     /* gap: 25px; */
     width: 100%;

@@ -1,0 +1,54 @@
+.emulator_wrapper{
+    height: 100%;
+}
+.emulator_grid{
+    display: grid;
+    gap: 10px;
+    grid-template-rows: repeat(3,1fr);
+}
+.emulator{
+    grid-row: span 2/span 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    border-radius: 6px;
+    align-items: center;
+    justify-content: center;
+    iframe{
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.dropArea{
+    border: 2px dashed #ccc;
+}
+
+.dragOver{
+    border: 2px solid #0CAFFF;
+    background-color: #0caeff4d;
+}
+// fieldset{
+//     padding-right: 3px;
+//     padding-left: 3px;
+// }
+fieldset{
+    border-width: 1px;
+    margin: 0;
+}
+.games_list{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    list-style: none;
+    padding: 0;
+    margin-right: -7px;
+    margin-left: -7px;
+    .game{
+        cursor: pointer;
+        padding-left: 3px;
+    }
+    .game:hover{
+        background-color: black;
+    }
+}

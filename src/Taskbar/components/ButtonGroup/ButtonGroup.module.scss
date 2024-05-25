@@ -13,7 +13,7 @@
     text-wrap: nowrap;
     padding: 3px;
     .svg_icon{
-        background-color: #575757;
+        background-color: #ffffff;
     }
     img{
         width: 100%;
@@ -31,6 +31,10 @@
 
 .ghost_button.dark{
     background-color: hsl(260 10% 11% / 1)
+}
+
+.ghost_button.light     .svg_icon{
+    background-color: #272727;
 }
 
 .ghost_button.coffe{
