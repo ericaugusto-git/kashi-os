@@ -77,5 +77,5 @@ export const windowsTemplates: WindowType[] = [
     {app: "finance", appType: 'project', icon: finance},
     {app: "recipe_book", appType: 'project', icon: cookBook,},
     {app: 'resume', icon: resume, appType: 'os', desktop: true, hideInStartMenu: true, svgMask: {desktop: true}, conteudo: Resume, desktopStyles: {button: {textTransform: 'none'}, svg: {maskSize: '60%'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, },
-    {app: "EmulatorJS", appType: 'os', desktop: true, conteudo: EmulatorJS, icon: emulatorJs},
+    {app: "EmulatorJS", appType: 'os', desktop: true, conteudo: EmulatorJS, icon: emulatorJs, customClose: true},
 ];

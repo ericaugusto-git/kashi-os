@@ -30,7 +30,6 @@ function StartMenu() {
       try {
         const response = await fetch(`https://api.giphy.com/v1/gifs/${gifId}?api_key=${import.meta.env.VITE_REACT_GIPHY_API_KEY}`);
         const data = await response.json();
-        console.log(data)
         setGifUrl(data.data.images.original.url);
       } catch (error) {
         console.error('Error fetching the GIF:', error);
