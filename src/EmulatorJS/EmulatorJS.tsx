@@ -1,11 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
-import controller from '../assets/emulator/controller.svg';
-import info from '../assets/emulator/info.svg';
+import controller from "../assets/emulator/controller.svg";
+import info from "../assets/emulator/info.svg";
 import { emulatorCores } from "../constants/emulatorCores";
 import useCloseWindow from "../hooks/useCloseWindow";
 import styles from "./EmulatorJS.module.scss";
+import { useTranslation } from "react-i18next";
 
-export default function EmulatorJS({closeBtnRefs, closeRefIndex}: {closeBtnRefs?: Array<HTMLButtonElement | null>, closeRefIndex?: number}) {
+export default function EmulatorJS({
+  closeBtnRefs,
+  closeRefIndex,
+}: {
+  closeBtnRefs?: Array<HTMLButtonElement | null>;
+  closeRefIndex?: number;
+}) {
   const [gameUrl, setGameUrl] = useState<string | null>("");
   const [stateUrl, setStateUrl] = useState<string | null>(null);
   const dropZoneRef = useRef<HTMLDivElement | null>(null);
@@ -14,8 +21,7 @@ export default function EmulatorJS({closeBtnRefs, closeRefIndex}: {closeBtnRefs?
   const [currentGame, setCurrentGame] = useState<File | null>(null);
   const [currentCore, setCurrentCore] = useState<string | null>("");
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
-
-
+  const {t, i18n} = useTranslation();
   useEffect(() => {
     const openDB = async () => {
       const dbRequest = indexedDB.open("ROMsDatabase", 2);
@@ -45,7 +51,10 @@ export default function EmulatorJS({closeBtnRefs, closeRefIndex}: {closeBtnRefs?
       };
 
       dbRequest.onerror = function (event) {
-        console.error("Error opening database:", (event.target as IDBOpenDBRequest).error);
+        console.error(
+          "Error opening database:",
+          (event.target as IDBOpenDBRequest).error
+        );
       };
     };
 
@@ -61,13 +70,13 @@ export default function EmulatorJS({closeBtnRefs, closeRefIndex}: {closeBtnRefs?
   useEffect(() => {
     const closeBtnRef = closeBtnRefs?.[closeRefIndex as number];
     const handleClose = () => {
-      saveBeforeLeave('close');
-    }
+      saveBeforeLeave("close");
+    };
     closeBtnRef?.addEventListener("click", handleClose);
     return () => {
       closeBtnRef?.removeEventListener("click", handleClose);
-    }
-  }, [])
+    };
+  }, []);
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -78,18 +87,20 @@ export default function EmulatorJS({closeBtnRefs, closeRefIndex}: {closeBtnRefs?
     dropZoneRef.current?.classList.remove(styles.dragOver);
   };
 
-
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
-    handleFileChange(null,file);
+    handleFileChange(null, file);
   };
 
-  const handleFileChange = (event?: React.ChangeEvent<HTMLInputElement> | null, drop_file?: File) => {
+  const handleFileChange = (
+    event?: React.ChangeEvent<HTMLInputElement> | null,
+    drop_file?: File
+  ) => {
     const file = drop_file ?? event?.target.files?.[0];
     if (file) {
-      const gameAlreadyExists = fileList.find(game => game.name == file.name);
-      if(gameAlreadyExists){
+      const gameAlreadyExists = fileList.find((game) => game.name == file.name);
+      if (gameAlreadyExists) {
         openGame(file);
         return;
       }
@@ -103,7 +114,7 @@ export default function EmulatorJS({closeBtnRefs, closeRefIndex}: {closeBtnRefs?
           setFileList((prev) => {
             const newList = [...prev, file];
             return newList;
-          })
+          });
           romsStore.add(rom);
         }
         openGame(file, core);
@@ -132,8 +143,7 @@ export default function EmulatorJS({closeBtnRefs, closeRefIndex}: {closeBtnRefs?
     setGame(file, core);
     setCurrentGame(file);
     loadSavedState(file.name);
-  }
-
+  };
 
   const loadSavedState = async (gameName: string) => {
     if (dbRef.current) {
@@ -143,7 +153,9 @@ export default function EmulatorJS({closeBtnRefs, closeRefIndex}: {closeBtnRefs?
       request.onsuccess = function () {
         const result = request.result;
         if (result) {
-          const blob = new Blob([result.saveData], { type: "application/octet-stream" });
+          const blob = new Blob([result.saveData], {
+            type: "application/octet-stream",
+          });
           const stateUrl = URL.createObjectURL(blob);
           setStateUrl(stateUrl);
         }
@@ -155,18 +167,20 @@ export default function EmulatorJS({closeBtnRefs, closeRefIndex}: {closeBtnRefs?
   };
   const saveBeforeLeave = (leaveMode: string) => {
     if (iframeRef.current) {
-      iframeRef.current.contentWindow?.postMessage({ type: "REQUEST_SAVE_STATE", leaveMode: leaveMode }, "*");
-    }else if(leaveMode == 'close'){
+      iframeRef.current.contentWindow?.postMessage(
+        { type: "REQUEST_SAVE_STATE", leaveMode: leaveMode },
+        "*"
+      );
+    } else if (leaveMode == "close") {
       closeEmulator();
     }
   };
 
-
-  const closeWindow = useCloseWindow();  
+  const closeWindow = useCloseWindow();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const closeEmulator = () => {
-    closeWindow('EmulatorJS');
-  }
+    closeWindow("EmulatorJS");
+  };
 
   useEffect(() => {
     const handleMessage = async (event: MessageEvent) => {
@@ -174,15 +188,28 @@ export default function EmulatorJS({closeBtnRefs, closeRefIndex}: {closeBtnRefs?
         const saveData = event.data.state;
         const gameName = currentGame?.name;
         if (dbRef.current && gameName) {
-          const transaction = dbRef.current.transaction("saveStates", "readwrite");
+          const transaction = dbRef.current.transaction(
+            "saveStates",
+            "readwrite"
+          );
           const store = transaction.objectStore("saveStates");
-          await store.put({ gameName, saveData });
-          const leaveMode = event.data.leaveMode;
-          if(leaveMode == 'game_list'){
-            setGameUrl("");
-          }else if(leaveMode == 'close'){
-            closeEmulator();
-          }
+          const request = store.put({ gameName, saveData });
+
+          // Listen for the success and error events
+          request.onsuccess = () => {
+            const leaveMode = event.data.leaveMode;
+              if (leaveMode == "game_list") {
+                setGameUrl("");
+                setCurrentCore(null);
+              } else if (leaveMode == "close") {
+                closeEmulator();
+              }
+          };
+  
+          request.onerror = (error) => {
+            console.error("Failed to save data:", error);
+            // Handle the error as needed
+          };
         }
       }
     };
@@ -193,29 +220,45 @@ export default function EmulatorJS({closeBtnRefs, closeRefIndex}: {closeBtnRefs?
     };
   }, [currentGame, closeEmulator]);
 
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-{ gameUrl &&     <div title="Voltar para lista de jogos" onClick={() => saveBeforeLeave("game_list")} className={`svgMask ${styles.icon} ${styles.game_icon}`} style={{maskImage: `url("${controller}")`}}></div>
-}      <div className={styles.tooltip}
-      data-tooltip={`Systems available thanks to the amazing work of the EmulatorJS Devs: \n \n Atari 2600, Atari 5200, Atari 7800, Atari Jaguar, Atari Lynx, Neo Geo Pocket, Nintendo 64, Nintendo DS, Nintendo Entertainment System, Nintendo Game Boy, Nintendo Game Boy Advance, Nintendo Game Boy Color, PC Engine, Sega 32X, Sega Game Gear, Sega Genesis / Mega Drive, Sega Master System, Super Nintendo Entertainment System, Virtual Boy, WonderSwan`}>
-        <div className={`svgMask ${styles.icon}`} style={{maskImage: `url("${info}")`}}></div>
+        {currentCore == 'n64' && <span>Save is unstable with Nintendo 64, working on it :)</span>}
+        {gameUrl && (
+          <div
+            title="Voltar para lista de jogos"
+            onClick={() => saveBeforeLeave("game_list")}
+            className={`svgMask ${styles.icon} ${styles.game_icon}`}
+            style={{ maskImage: `url("${controller}")` }}
+          ></div>
+        )}{" "}
+        <div
+          className={styles.tooltip}
+          data-tooltip={`${t('systems')} \n \n Atari 2600, Atari 5200, Atari 7800, Atari Jaguar, Atari Lynx, Neo Geo Pocket, Nintendo 64, Nintendo DS, Nintendo Entertainment System, Nintendo Game Boy, Nintendo Game Boy Advance, Nintendo Game Boy Color, PC Engine, Sega 32X, Sega Game Gear, Sega Genesis / Mega Drive, Sega Master System, Super Nintendo Entertainment System, Virtual Boy, WonderSwan`}
+        >
+          <div
+            className={`svgMask ${styles.icon}`}
+            style={{ maskImage: `url("${info}")` }}
+          ></div>
+        </div>
       </div>
-      </div>
-    <div className={`${styles.emulator_wrapper} ${!gameUrl && styles.emulator_grid}`}>
       <div
-        ref={dropZoneRef}
-        onDragOver={handleDragOver}
-        onDrop={handleDrop}
-        onDragLeave={handleDragLeave}
-        className={`${styles.emulator} ${!gameUrl && styles.dropArea}`}
+        className={`${styles.emulator_wrapper} ${
+          !gameUrl && styles.emulator_grid
+        }`}
       >
-        {gameUrl ? (
-          <iframe
-            title="Emulator"
-            ref={iframeRef}
-            srcDoc={`
+        <div
+          ref={dropZoneRef}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          onDragLeave={handleDragLeave}
+          className={`${styles.emulator} ${!gameUrl && styles.dropArea}`}
+        >
+          {gameUrl ? (
+            <iframe
+              title="Emulator"
+              ref={iframeRef}
+              srcDoc={`
                             <!DOCTYPE html>
                             <html lang="en">
                             <head>
@@ -241,7 +284,12 @@ export default function EmulatorJS({closeBtnRefs, closeRefIndex}: {closeBtnRefs?
                                     window.EJS_startOnLoaded = true;
                                     window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
                                     window.EJS_gameUrl = "${gameUrl}";
-                                    ${stateUrl ? `window.EJS_loadStateURL = "${stateUrl}";` : ''}
+                                    window.EJS_language = "${i18n.resolvedLanguage == 'en' ? 'en-US' : i18n.resolvedLanguage}"
+                                    ${
+                                      stateUrl
+                                        ? `window.EJS_loadStateURL = "${stateUrl}";`
+                                        : ""
+                                    }
 
                                     let leaveMode = '';
                                     window.EJS_onSaveState = ({ screenshot, state }) => {
@@ -264,41 +312,48 @@ export default function EmulatorJS({closeBtnRefs, closeRefIndex}: {closeBtnRefs?
                             </body>
                             </html>
                         `}
-            className={styles.game}
-          ></iframe>
-        ) : (
-          <>
-            <label htmlFor="fileInput" className={styles.upload_label}>
-              Click here or drag a file to upload
-            </label>
-          <input
-          style={{display: 'none'}}
-            id="fileInput"
-            type="file"
-            onChange={handleFileChange}
-            className={styles.file_input}
-          />
-        </>
+              className={styles.game}
+            ></iframe>
+          ) : (
+            <>
+              <label htmlFor="fileInput" className={styles.upload_label}>
+                {t('drag')}
+              </label>
+              <input
+                style={{ display: "none" }}
+                id="fileInput"
+                type="file"
+                onChange={handleFileChange}
+                className={styles.file_input}
+              />
+            </>
+          )}
+        </div>
+        {!gameUrl && (
+          <fieldset className={styles.games_list_wrapper}>
+            <legend>
+              {t('game_list')} ({fileList.length}){" "}
+              <span>{t("save_notice")}</span>
+            </legend>
+            <ul className={styles.games_list}>
+              {fileList.map((file, i) => (
+                <li
+                  key={i}
+                  className={styles.game}
+                  onClick={() => openGame(file)}
+                >
+                  {file.name}
+                </li>
+              ))}
+            </ul>
+          </fieldset>
         )}
-      </div>
-      {!gameUrl && (
-        <fieldset className={styles.games_list_wrapper}>
-          <legend>Your game list ({fileList.length}) <span>well disappear including save if you clear cache btw</span></legend>
-          <ul className={styles.games_list}>
-            {fileList.map((file, i) => (
-              <li key={i} className={styles.game} onClick={() => openGame(file)}>
-                {file.name}
-              </li>
-            ))}
-          </ul>
-        </fieldset>
-      )}
-      {/* {gameUrl && (
+        {/* {gameUrl && (
         <div>
           <button onClick={saveGameState}>Save Game</button>
         </div>
       )} */}
-    </div>
+      </div>
     </div>
   );
 }

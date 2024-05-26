@@ -39,7 +39,11 @@ i18n
           eraser_width: 'Ereaser width',
           line_width: 'Line width',
           resume: "resume.pdf",
-          "rights": "All rights reserved",
+          rights: "All rights reserved",
+          drag: "Click here or drag and drop a game",
+          game_list: "Your game list",
+          systems: "Systems available thanks to the amazing work of the EmulatorJS Devs:",
+          save_notice: "well disappear including save if you clear cache"
         }
     },
     ["pt-BR"]: {
@@ -61,7 +65,11 @@ i18n
             eraser_width: 'Largura da borracha',
             line_width: 'Largura da linha',
             resume: "currículo.pdf",
-            rights: "Todos os direitos reservados"
+            rights: "Todos os direitos reservados",
+            drag: "Clique aqui ou arreste e solte o jogo",
+            game_list: "Seus jogos",
+            systems: "Sistemas diponíveis graças aos DEVS fora da curva do EmulatorJS:",
+            save_notice: "irão desaparecer incluindo save quando cache for apagado"
         }
       }
     }

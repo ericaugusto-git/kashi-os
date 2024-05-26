@@ -31,9 +31,10 @@ Welcome to my portfolio, the O.S version! Featuring a desktop-inspired UI, this 
 - [x] Window onClick functions not working on mobile
 - [x] Resizing window should stop at taskbar
 - [x] Iframe reloads when changing window focus
+- [ ] Autosave with nitendo 64 games corrupt the save
 
 ### Cool open source projects to add in the future
 
 - [ ] https://github.com/1j01/jspaint
-- [ ] https://demo.emulatorjs.org
+- [x] https://demo.emulatorjs.org
 
