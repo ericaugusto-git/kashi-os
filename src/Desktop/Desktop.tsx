@@ -105,7 +105,6 @@ function Desktop() {
   useEffect(() => {
     // const sourceElement = videoRef?.current?.childNodes[0] as HTMLElement;
     // const sourceSrc = sourceElement?.getAttribute('src');
-    // console.log(sourceSrc);
     if(pcStatus != "shutdown"){
       videoRef.current?.load();
     }

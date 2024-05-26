@@ -32,8 +32,8 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
 
   const closeWindow = useCloseWindow();
   const handleCloseWindow = (window: WindowType) => {
-    
-    closeWindow(window);
+    if(!window.customClose)  
+      closeWindow(window);
   }
 
   const handleMinimized = (app: string)=> {
@@ -60,7 +60,6 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     const windowRef = windowRefs.current[index];
     if(windowRef){
       const isMax = isMaximized(index);
-      
       const size = isMax ? {width: "40%", height: window.height ?? '400px'} : {width: "100%", height: (innerHeight - 51) + 'px'};
       windowRef?.updateSize(size);
       windowRef?.updatePosition(!isMax ? {x: 0, y: 0} : {x: window.x ?? Math.round(0.08 * innerWidth) , y: window.y ?? Math.round(0.02 * innerHeight)});
@@ -127,7 +126,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     minHeight={window.maxHeight ?? 350}
     bounds={"."+  wrapperClass}
     onDragStop={(_, d) => { handleDragStop(d, window)} }
-    style={{zIndex: window.active ? 10 : 5, display: window.minimized ? 'none' : ''}}
+    style={{zIndex: window.active ? 2 : 1, display: window.minimized ? 'none' : ''}}
   >
     <div className={styles.window} style={{cursor: isMaximized(index) ? 'normal' : 'move',...window.windowStyles}}>
         <div className={styles.header} style={window.headerStyles}>
@@ -148,7 +147,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
         <div className={styles.body} style={window.bodyStyles}>
           {/* <div style={{backgroundColor: "white",width: "100%", height: "100%", boxSizing: "border-box"}}></div> */}
           {/* <iframe src="http://wikipedia.com" ></iframe> */}
-          {window.link ? <iframe src={window.link} width="100%" height="100%"></iframe> : window.conteudo && <window.conteudo />}
+          {window.link ? <iframe src={window.link} width="100%" height="100%"></iframe> : window.conteudo && <window.conteudo closeBtnRefs={closeRefs.current} closeRefIndex={index} />}
           
           {/* <div style={{width: "100%", height: "100%", backgroundImage: `url(${jdm})`, backgroundRepeat: "no-repeat", backgroundSize: "cover"}}></div> */}
         </div>
