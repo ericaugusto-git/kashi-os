@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Rnd } from 'react-rnd';
 import lock from '../assets/window/lock.svg';
@@ -9,6 +9,7 @@ import styles from './Window.module.scss';
 
 const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const [windows, setWindows] = useWindowContext();
+  const [noTransition, seNoTransition] = useState(false);
   const windowRefs = useRef<Array<Rnd | null>>([]);
   const windowRef = useRef<HTMLDivElement>(null)
   const closeRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -47,11 +48,12 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     setWindows(updatedWindows);
   }
 
-  const isMaximized = (index: number):boolean =>{
+  const isMaximized = (index: number, lastHeight?: number):boolean =>{
     const windowRef = windowRefs.current[index];
     if(windowRef){
       const {width, height} =  windowRef.resizable.state;
-      return width == "100%" && height == (innerHeight - 51) + 'px' 
+      const windowHeight = lastHeight ?? innerHeight;
+      return width == "100%" && height == (windowHeight - 51) + 'px' 
     }
     return false;
   }
@@ -68,6 +70,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   }
 
   const handleDragStop = (posSize: {x: number, y:number, width?: string, height?: string}, window: WindowType) => {
+    seNoTransition(false);
     const updatedWindows = windows.map((w,i) => {
         if(w.app == window.app && !isMaximized(i)){
           w.x = posSize.x;
@@ -78,35 +81,36 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     );
     setWindows(updatedWindows);
   }
-  // resize window with drag on full screen
-  // const handleDragStart = (window: WindowType, index: number) => {
-  //   const windowRef = windowRefs.current[index];
-  //   if(isMaximized(index)){
-  //     windowRef?.updateSize({width: "50%", height: window.height ?? '400px'})
-  //   }
-  // }
-  // was used to handle position and drag soon to be deleted
-  // const setWindowPosSize = (posSize: {x: number, y:number, width?: string, height?: string}, window: WindowType
-  // ) => {
-  //   if(!isDragging && !posSize.width) return;
-  //   setIsDragging(false);
-  //   // if(isMaximized(window)){
-  //   //   window.width = "40%";
-  //   //   window.height = "400px"
-  //   // }
-  //   window = {...window, ...posSize};
-    
-  //   let updateWindow = windows.filter((a) => a.app != window.app);
-    
-  //   updateWindow = [
-  //     ...updateWindow,
-  //     window
-  //   ]
-  //   setWindows(updateWindow);
-  // }
 
-  // const defaultX = 150 * windows.length
-  // const defaultY = 50 * windows.length
+  // const [windowSize, setWindowSize] = useState({
+  //   width: window.innerWidth,
+  //   height: window.innerHeight,
+  // });
+
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //       windows.forEach((window,i) => {
+  //         console.log(isMaximized(i, windowSize.height))
+  //         if(isMaximized(i, windowSize.height)){
+  //           maximizeWindow(window, i);
+  //         }
+  //       })
+  //     // }
+  //     setWindowSize({
+  //       width: window.innerWidth,
+  //       height: window.innerHeight,
+  //     });
+  //   };
+
+  //   window.addEventListener('resize', handleResize);
+
+  //   // Cleanup the event listener on component unmount
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, [windows]);
+
+  
   return <div ref={windowRef}>
   {windows.map((window, index) => (
   <div key={window.app} onTouchStart={(event) => handleWindowClick(window.app, index, event)} onMouseDown={(event) => handleWindowClick(window.app, index, event)}
@@ -125,10 +129,17 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     minWidth={window.maxWidth ?? 350}
     minHeight={window.maxHeight ?? 350}
     bounds={"."+  wrapperClass}
+    onResize={() => {seNoTransition(true)}}
+    onResizeStop={() => seNoTransition(false)}
+    onDrag={() => {seNoTransition(true)}}
     onDragStop={(_, d) => { handleDragStop(d, window)} }
-    style={{zIndex: window.active ? 2 : 1, display: window.minimized ? 'none' : ''}}
+    
+    style={{zIndex: window.active ? 2 : 1,   transitionProperty: noTransition ? 'none' : 'width, height, transform, opacity, visibility',
+    transitionDuration: '0.3s', visibility: window.minimized ? 'hidden' : 'visible', 
+    transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'}}
   >
-    <div className={styles.window} style={{cursor: isMaximized(index) ? 'normal' : 'move',...window.windowStyles}}>
+    <div className={styles.window} style={{cursor: isMaximized(index) ? 'normal' : 'move',...window.windowStyles,  opacity: window.minimized ? '0' : '1', transitionProperty: 'opacity',  transitionDuration: '0.5s',
+    transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'}}>
         <div className={styles.header} style={window.headerStyles}>
           <div className={styles.app}>
           {/* {window.icon?.includes(".svg") ? (
