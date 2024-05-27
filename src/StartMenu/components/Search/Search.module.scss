@@ -1,0 +1,125 @@
+.search_container {
+    position: fixed;
+    height: 30%;
+    width: 40%;
+    top: 40%;
+    left: 50%;
+    position: fixed;
+    margin-top: -10%;
+    margin-left: -20%;
+    z-index: 999;
+// width: 500px;
+// height: 200px;
+// top: 50%;
+// left: 50%;
+// margin-top: -100px; /* Negative half of height. */
+// margin-left: -250px; /* Negative half of width. */
+    background-color: #2E333F;
+    padding: 7px;
+    border-radius: 17px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    .search_bar{
+        $padding: 10px;
+        outline: 1px solid white;
+        border-radius: 10px;
+        // height: 82%;
+        width: calc(100% - ($padding * 2));
+        height: 274px;
+        background-size: cover;
+        background-image: url('https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/varanda.png');
+        display: flex;
+        align-items: center;
+        // justify-content: center;
+        padding-left: $padding;
+        padding-right: $padding;
+        .search_input_container{
+            width: 100%;
+            input::placeholder {
+                color: #ffffff; 
+              }
+              
+              /* For cross-browser compatibility, include vendor prefixes */
+              input::-webkit-input-placeholder {
+                color: #ffffff; 
+              }
+              
+              input:-ms-input-placeholder {
+                color: #ffffff; 
+              }
+              
+              input::-ms-input-placeholder {
+                color: #ffffff; 
+              }
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            // border-bo: 1px solid;
+            .icon{
+                width: 14px;
+                height: 14px;
+            }
+        }
+    }
+    .apps_container{
+        padding: 5px;   
+        height: 100%;
+        overflow: auto;
+        .apps{
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-weight: 100;
+            .app{
+                padding-left: 3px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-transform: lowercase;
+                cursor: pointer;
+            }
+            .app:hover, .focused{
+                background-color: #424a5c;
+            }
+            .icon{
+                width: 12px;
+                height: 12px;
+            }
+        } 
+    }
+}
+
+/* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
+/** {
+  scrollbar-width: thin;
+  scrollbar-color: #4B5469 #2B303C;
+}*/
+
+/* Chrome, Edge and Safari */
+.apps_container::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+  .apps_container::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: #2E333F;
+  }
+  
+  .apps_container::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #4B5469;
+  }
+  
+  .apps_container::-webkit-scrollbar-thumb:hover {
+    background-color: #67738F;
+  }
+  
+  .apps_container::-webkit-scrollbar-thumb:active {
+    background-color: #67738F;
+  }
+  

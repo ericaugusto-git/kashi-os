@@ -14,8 +14,8 @@ import portfolio from "../assets/portfolio.png";
 import jdm from "../assets/desktop/jdm.png";
 import Resume from "../Resume/Resume";
 import Credits from "../StartMenu/components/Credits/Credits";
-import fav from '../../public/favicon.ico';
-import emulatorJs from '/public/EmulatorJS.png';
+import fav from '/favicon.ico';
+import emulatorJs from '/EmulatorJS.png';
 import EmulatorJS from '../EmulatorJS/EmulatorJS'
 export const windowsTemplates: WindowType[] = [
     {
@@ -37,11 +37,13 @@ export const windowsTemplates: WindowType[] = [
         
         bodyStyles: { padding: 0 },
     },
+    {app: "EmulatorJS", appType: 'os', conteudo: EmulatorJS, icon: emulatorJs, customClose: true},
     {
         app: "paint",
         appType: 'os',
         enableResizing: false,
         conteudo: Paint,
+        hideInStartMenu: true,
         cantMax: true,
         icon: brush,
         height: '100%',
@@ -53,12 +55,13 @@ export const windowsTemplates: WindowType[] = [
         icon: handshake, 
         appType: 'os',
         conteudo: Credits,
-        app: "credits"
+        app: "credits",
+        svgMask: {search: true}
     },
     {
         appType: 'os',
         app: "vm",
-        link: 'https://ericaugusto-os.pages.dev',
+        link: 'https://ericaugusto-os.pages.dev?interframe=true',
         desktop: false,
         hideInStartMenu: true,
         icon: fav
@@ -76,6 +79,5 @@ export const windowsTemplates: WindowType[] = [
     {app: "discord_clone", appType: 'project', icon: discord},
     {app: "finance", appType: 'project', icon: finance},
     {app: "recipe_book", appType: 'project', icon: cookBook,},
-    {app: 'resume', icon: resume, appType: 'os', desktop: true, hideInStartMenu: true, svgMask: {desktop: true}, conteudo: Resume, desktopStyles: {button: {textTransform: 'none'}, svg: {maskSize: '60%'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, },
-    {app: "EmulatorJS", appType: 'os', desktop: true, conteudo: EmulatorJS, icon: emulatorJs, customClose: true},
+    {app: 'resume', icon: resume, appType: 'os', desktop: true, hideInStartMenu: true, svgMask: {desktop: true, search: true}, conteudo: Resume, desktopStyles: {button: {textTransform: 'none'}, svg: {maskSize: '60%'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, },
 ];

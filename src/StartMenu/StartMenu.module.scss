@@ -3,7 +3,7 @@ $borderRadius: 7px;
 $col2IconSize: 21px;
 
 .start_menu{
-    position: relative;
+    // position: relative;
     // bottom: 61px;
     // left: 10px;
     // height: 300px;
@@ -19,6 +19,24 @@ $col2IconSize: 21px;
     color: white;
     font-family: 'NATS', sans-serif;
     z-index: 10;
+    .search{
+        margin-top: 5px;
+        .search_label{
+            gap: 5px;
+            text-transform: none;
+        }
+        .app_button, .search_label{
+            align-items: center;
+            display: flex;
+            // text-transform: none;
+            justify-content: space-between;
+        }
+        .icon{
+            width: 14px;
+            height: 14px;
+            background-color: #232323;
+        }
+    }
     button{
         border: none;
         border-radius: 4px;

@@ -6,7 +6,7 @@
     height: 41px;
     padding: 5px 10px;
     display: flex;
-    z-index: 2;
+    z-index: 3;
     gap: 10px;
     margin: 0;
     box-shadow: 0 4px 14px 7px rgba(0,0,0,.25);
@@ -28,25 +28,7 @@
 
 
 @media (max-width: 1200px) {
-    .skills_actions{
-        height: unset;
-        position: fixed;
-        display: flex;
-        gap: 35px;
-        position: fixed;
-        top: 240px;
-        right: -220px;
-        /* flex-flow: column-reverse; */
-        // flex-direction: column;
-        transform-origin: center;
-        backface-visibility: hidden;
-        transform: rotate(-90deg) scale(0.9999);
-        transform-style: preserve-3d;
-        backface-visibility: hidden;    
-        -webkit-filter: blur(0);
-        filter: blur(.0px);
-        backface-visibility: hidden;
-    }
+
     .actions{
         top: 270px;
     }
@@ -58,6 +40,8 @@
         display: none;
     }
 }
+
+
 @media (max-width: 1580px) { 
     // .skills{
     //     display: none;

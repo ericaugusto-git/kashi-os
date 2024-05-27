@@ -140,6 +140,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   >
     <div className={styles.window} style={{cursor: isMaximized(index) ? 'normal' : 'move',...window.windowStyles,  opacity: window.minimized ? '0' : '1', transitionProperty: 'opacity',  transitionDuration: '0.5s',
     transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'}}>
+      <div className={styles.glass_effect}></div>
         <div className={styles.header} style={window.headerStyles}>
           <div className={styles.app}>
           {/* {window.icon?.includes(".svg") ? (
@@ -148,7 +149,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
           <img src={window.icon} style={{width: "21px", height: "19px"}}></img>
             <span>{t(window.app)}</span>
           </div>
-          {window.link && <div className={styles.link}><div style={{maskImage: `url("${lock}")`, minWidth: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '')}</a></div>}
+          {window.link && <div className={styles.link}><div style={{maskImage: `url("${lock}")`, minWidth: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '').split('?')[0]}</a></div>}
           <div style={!window.link ? {marginLeft: 'auto'} : {}} className={styles.actions}>
               {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} onTouchStart={() => maximizeWindow(window, index)} onClick={ () => maximizeWindow(window, index)}></button>}
               <button className={`${styles.action} ${styles.minimize}`} ref={ref => minimizedRefs.current[index] = ref} onTouchStart={() => handleMinimized(window.app)} onClick={() => handleMinimized(window.app)}></button>
