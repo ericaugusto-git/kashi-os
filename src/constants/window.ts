@@ -17,7 +17,7 @@ export type WindowType = {
     appType: "project" | "os",
     desktop?: boolean,
     hideInStartMenu?: boolean,
-    svgMask?: {startMenu?: boolean, desktop?: boolean}
+    svgMask?: {startMenu?: boolean, desktop?: boolean, search?: boolean}
     conteudo?: ({closeBtnRefs, closeRefIndex}: {closeBtnRefs?: Array<HTMLButtonElement | null>, closeRefIndex?: number}) => JSX.Element,
     customClose?: boolean,
     windowStyles?: CSSProperties,

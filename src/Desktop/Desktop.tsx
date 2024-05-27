@@ -17,6 +17,9 @@ const initialContextMenu = {
   y: 0,
 };
 import {isMobile} from 'react-device-detect';
+import Search from "../StartMenu/components/Search/Search";
+import Actions from "../Taskbar/components/Actions/Actions";
+import Skills from "../Taskbar/components/Skills/Skills";
 
 function Desktop() {
 
@@ -24,6 +27,7 @@ function Desktop() {
   const startButtonRef = useRef<HTMLButtonElement | null>(null);
   const [startMenuRef, isStartMenuOpen, setisStartMenuOpen] = useComponentVisible(false, startButtonRef);
   const [contextMenuRef, isContextMenu, setContextVisible] = useComponentVisible(false);
+  const [searchRef, searchVisible, setSearchVisible] = useComponentVisible(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [theme] = useTheme();
   const liveValue = localStorage.getItem('live');
@@ -115,6 +119,27 @@ function Desktop() {
     setContextVisible(false)
   }
 
+    const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div
       className={
@@ -137,6 +162,7 @@ function Desktop() {
       </div>
       <div style={{ display: pcStatus === "sleeping" ? "none" : "" }}>
         <WindowContextProvider>
+          <div ref={searchRef}><Search searchVisible={searchVisible} setSearchVisible={setSearchVisible} /></div>
           <Window wrapperClass={styles.desktopIconsWrapper}>
           </Window>
           <div  className={styles.desktopIconsWrapper}>
@@ -145,11 +171,18 @@ function Desktop() {
           <StartSetterContext.Provider
             value={[isStartMenuOpen, setisStartMenuOpen, startButtonRef]}
           >
-            <div ref={startMenuRef}>{<StartMenu />}</div>
+            <div ref={startMenuRef}>{<StartMenu setSearchVisible={setSearchVisible} />}</div>
             <Taskbar />
           </StartSetterContext.Provider>
         </WindowContextProvider>
       </div>
+      {windowSize.width <= 1200 && 
+        <div className={styles.skills_actions}>
+                    <Actions />
+                    <div className={styles.skills2}>
+                      <Skills />
+                    </div>
+        </div>}
       {pcStatus === "sleeping" && <Lockscreen />}
     </div>
   );

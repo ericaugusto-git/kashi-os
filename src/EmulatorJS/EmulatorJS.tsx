@@ -22,6 +22,7 @@ export default function EmulatorJS({
   const [currentCore, setCurrentCore] = useState<string | null>("");
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const {t, i18n} = useTranslation();
+  const [locale,setLocale] = useState(i18n.resolvedLanguage == 'en' ? 'en-US' : i18n.resolvedLanguage);
   useEffect(() => {
     const openDB = async () => {
       const dbRequest = indexedDB.open("ROMsDatabase", 2);
@@ -73,7 +74,9 @@ export default function EmulatorJS({
       saveBeforeLeave("close");
     };
     closeBtnRef?.addEventListener("click", handleClose);
+    closeBtnRef?.addEventListener("touchend", handleClose);
     return () => {
+      closeBtnRef?.removeEventListener("touchend", handleClose);
       closeBtnRef?.removeEventListener("click", handleClose);
     };
   }, []);
@@ -139,6 +142,10 @@ export default function EmulatorJS({
     setCurrentCore(core);
   };
 
+  useEffect(() => {
+    saveBeforeLeave('locale_change');
+  },[t])
+
   const openGame = (file: File, core?: string) => {
     setGame(file, core);
     setCurrentGame(file);
@@ -199,10 +206,12 @@ export default function EmulatorJS({
           request.onsuccess = () => {
             const leaveMode = event.data.leaveMode;
               if (leaveMode == "game_list") {
-                setGameUrl("");
-                setCurrentCore(null);
+                exitGame();
               } else if (leaveMode == "close") {
                 closeEmulator();
+              } else if(leaveMode == 'locale_change'){
+                exitGame();
+                handleSetLocale()
               }
           };
   
@@ -220,10 +229,19 @@ export default function EmulatorJS({
     };
   }, [currentGame, closeEmulator]);
 
+  const handleSetLocale = ()=> {
+    setLocale(i18n.resolvedLanguage == 'en' ? 'en-US' : i18n.resolvedLanguage);
+  }
+
+  const exitGame = () => {
+    setGameUrl("");
+    setCurrentCore(null);
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        {currentCore == 'n64' && <span>Save is unstable with Nintendo 64, working on it :)</span>}
+        {currentCore == 'n64' && <span style={{fontSize: '11px'}}>Save is unstable with Nintendo 64, working on it :)</span>}
         {gameUrl && (
           <div
             title="Voltar para lista de jogos"
@@ -284,7 +302,7 @@ export default function EmulatorJS({
                                     window.EJS_startOnLoaded = true;
                                     window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
                                     window.EJS_gameUrl = "${gameUrl}";
-                                    window.EJS_language = "${i18n.resolvedLanguage == 'en' ? 'en-US' : i18n.resolvedLanguage}"
+                                    window.EJS_language = "${locale}"
                                     ${
                                       stateUrl
                                         ? `window.EJS_loadStateURL = "${stateUrl}";`

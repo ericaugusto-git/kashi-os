@@ -125,3 +125,40 @@
     clip-path: circle(150% at 0 100%);
   }
 }
+
+
+.skills_actions{
+  height: unset;
+  position: fixed;
+  display: flex;
+  gap: 35px;
+  position: fixed;
+  top: 240px;
+  right: -220px;
+  /* flex-flow: column-reverse; */
+  // flex-direction: column;
+  transform-origin: center;
+  backface-visibility: hidden;
+  transform: rotate(-90deg) scale(0.9999);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;    
+  -webkit-filter: blur(0);
+  filter: blur(.0px);
+  backface-visibility: hidden;
+}
+
+@media (max-height: 580px) {
+  .skills_actions{
+      top: 130px;
+      right: -110px;
+  }
+  .skills2{
+      display: none;
+  }
+}
+
+@media (max-height: 350px) {
+  .skills_actions{
+      display: none;
+  }
+}
