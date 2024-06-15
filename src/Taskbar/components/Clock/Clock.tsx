@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import clockIcon from '../../../assets/taskbar/clock.svg';
 import Button from '../Button/Button';
 import styles from './Clock.module.scss';
 import Calendar from '../Calendar/Calendar';
@@ -22,7 +21,7 @@ function Clock(){
             clearInterval(intervalId);
         }
     }, []);
-    const openCalendar = () => {
+    const openCalendar = () => { 
         setIsCalendarOpen(previous => !previous)
     }
     // const hourWithZero = String(time.getHours()).padStart(2, '0');
@@ -42,7 +41,7 @@ function Clock(){
         </div>
         <Button ref={clockButtonRef} handleClick={openCalendar} styles={buttonStyles} hoverStyles={buttonHoverStyles}>
             <div className={styles.clock_container + " " + styles[theme]}>
-            <div className={styles.clock} style={{ maskImage: `url("${clockIcon}")`}}></div>
+            {/* <div className={styles.clock} style={{ maskImage: `url("${clockIcon}")`}}></div> */}
             <div className={styles.date_container}>
                 <div className={styles.hour_complete}>
                     <div className={styles.hour_container}>

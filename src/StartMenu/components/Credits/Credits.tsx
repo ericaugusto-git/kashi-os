@@ -17,6 +17,7 @@ const Credits = () => {
         { name: "@xterm/addon-fit", version: "^0.10.0", url: "https://github.com/xtermjs/xterm.js" },
         { name: "@xterm/xterm", version: "^5.5.0", url: "https://xtermjs.org/" },
         { name: "local-echo", version: "github:wavesoft/local-echo", url: "https://github.com/wavesoft/local-echo" },
+        { name: "wttr", version: "", url: "https://github.com/chubin/wttr.in" },
         { name: "prop-types", version: "^15.8.1", url: "https://github.com/facebook/prop-types" },
         { name: "dayjs", version: "^1.11.10", url: "https://day.js.org/" },
         { name: "moment", version: "^2.30.1", url: "https://momentjs.com/" },

@@ -20,6 +20,7 @@ import {isMobile} from 'react-device-detect';
 import Search from "../StartMenu/components/Search/Search";
 import Actions from "../Taskbar/components/Actions/Actions";
 import Skills from "../Taskbar/components/Skills/Skills";
+import Lofi from "./components/Lofi/Lofi";
 
 function Desktop() {
 
@@ -89,15 +90,15 @@ function Desktop() {
   useEffect(() => {
     // joke of the year
     const shutup = (event: MouseEvent) => {
-      if (!startMenuRef?.current?.contains(event.target as Node)) {
+      console.log(pcStatus)
+      console.log( pcStatus != 'lofi')
+      if (!startMenuRef?.current?.contains(event.target as Node) && pcStatus != 'lofi') {
         setPcStatus("on");
       }
     };
-    window.addEventListener("click", (event: MouseEvent) => {
-      shutup(event);
-    });
+    window.addEventListener("click",shutup);
     return () => window.removeEventListener("click", shutup);
-  }, []);
+  }, [pcStatus, setPcStatus, startMenuRef]);
 
   const handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -148,11 +149,11 @@ function Desktop() {
         styles[theme]
       }
     >
-      {/* <div className={styles.circle + " " + (a ? styles.active : 'disable')}></div> */}
-      {isContextMenu && <div ref={contextMenuRef} ><ContextMenu isLiveWallpaper={isLiveWallpaper} hideContextMenu={hideContextMenu} setIsLiveWallpaper={setisLiveWallpaper} x={contextMenu.x} y={contextMenu.y}/></div>}
+      {/* The context menu */}
+      {isContextMenu && <div ref={contextMenuRef} ><ContextMenu  isLiveWallpaper={isLiveWallpaper} hideContextMenu={hideContextMenu} setIsLiveWallpaper={setisLiveWallpaper} x={contextMenu.x} y={contextMenu.y}/></div>}
+      {/* The wallpaper */}
       <div onContextMenu={handleContextMenu} className={styles.wallpaper_wrapper}>
       {Object.keys(wallpapers).map((key) => {
-        
         return (key == wallpaperKey || key == fallbackKey)   && 
         (isLiveWallpaper ? <video key={key} ref={(ref) => {if(pcStatus === 'sleeping' || key == wallpaperKey) {videoRef.current = ref}}}  preload='auto' autoPlay muted loop className={`${styles.background_video} ${fallbackKey == key && styles.circle}`}  disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
             <source src={ pcStatus === 'sleeping' ? wallpapers.lockscreen.video : wallpapers[key as keyof Wallpapers].video} type="video/mp4" />
@@ -160,7 +161,9 @@ function Desktop() {
           </video> : <div key={key} className={`backgroundImage ${fallbackKey == key && styles.circle} ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${pcStatus === 'sleeping' ? wallpapers.lockscreen.img : wallpapers[key as keyof Wallpapers].img}")`}}></div>)
       })}
       </div>
-      <div style={{ display: pcStatus === "sleeping" ? "none" : "" }}>
+
+      {/* wrapper for the actual high elements of the desktop, Windows array, Taskbar, Desktopicons */}
+      <div style={{ display: pcStatus === "sleeping" || pcStatus == "lofi" ? "none" : "" }}>
         <WindowContextProvider>
           <div ref={searchRef}><Search searchVisible={searchVisible} setSearchVisible={setSearchVisible} /></div>
           <Window wrapperClass={styles.desktopIconsWrapper}>
@@ -175,7 +178,6 @@ function Desktop() {
             <Taskbar />
           </StartSetterContext.Provider>
         </WindowContextProvider>
-      </div>
       {windowSize.width <= 1200 && 
         <div className={styles.skills_actions}>
                     <Actions />
@@ -183,7 +185,9 @@ function Desktop() {
                       <Skills />
                     </div>
         </div>}
+      </div>
       {pcStatus === "sleeping" && <Lockscreen />}
+      {pcStatus === 'lofi' && <div onContextMenu={handleContextMenu}><Lofi/></div>}
     </div>
   );
 }
