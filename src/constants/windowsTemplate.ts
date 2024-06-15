@@ -34,7 +34,7 @@ export const windowsTemplates: WindowType[] = [
         conteudo: Cmd,
         appType: 'os',
         icon: cmd,
-        
+        windowStyles: { backdropFilter: 'blur(20px)', backgroundColor: 'rgb(0 0 0 / 83%)'},
         bodyStyles: { padding: 0 },
     },
     {app: "EmulatorJS", appType: 'os', conteudo: EmulatorJS, icon: emulatorJs, customClose: true},

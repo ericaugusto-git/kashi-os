@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, MutableRefObject } from 'react';
 
 
 
-export default function useComponentVisible(initialIsVisible: boolean, toggleButtonRef?: MutableRefObject<HTMLButtonElement | null>) {
+export default function useComponentVisible(initialIsVisible: boolean, toggleButtonRef?: MutableRefObject<HTMLButtonElement | HTMLAnchorElement | null>) {
     const ref = useRef<HTMLDivElement | null>(null);
     const [isComponentVisible, setIsComponentVisible] = useState(initialIsVisible);
     

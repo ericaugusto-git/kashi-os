@@ -34,6 +34,7 @@ function DesktopIcons() {
 
 
   return <>
+  
             <motion.menu initial="hidden" animate="visible"   variants={container}  className={styles.desktop}>
                 {apps.map(app => <motion.li whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.9 }} variants={item} key={app.app} onClick={() => handleDesktopIconCLick(app)}>
                             <DesktopIcon app={app} svgMask={app.svgMask?.desktop} buttonStyles={app.desktopStyles?.button} imgWrapperStyles={app.desktopStyles?.img} />

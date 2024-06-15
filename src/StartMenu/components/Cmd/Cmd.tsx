@@ -8,88 +8,139 @@ import { windowsTemplates } from "../../../constants/windowsTemplate";
 import useCloseWindow from "../../../hooks/useCloseWindow";
 import useOpenWindow from "../../../hooks/useOpenWindow";
 import style from "./Cmd.module.scss";
-import CmdHeader from "./CmdHeader/CmdHeader";
+import { asciiArt } from "../../../constants/asciiArt";
+import { accentColorAnsi, terminal_config } from "./terminal_config";
+import { useTheme } from "../../../contexts/ThemeContext";
 type CmdApp = {original: string | null | undefined, executable: string | null | undefined}
+import * as rdd from "react-device-detect";
 
+//Starts up xtermjs
 function Cmd() {
   const terminalRef = useRef(null);
-  const terminal = new Terminal();
-  const fitAddon = new FitAddon();
+  const containerRef = useRef(null)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [localEcho, setLocalEcho] = useState<any>();
+  const [terminal, setTerminal] = useState<Terminal>();
+  const [echoCalled, setEchoCalled] = useState<boolean>(false);
   const closeWindow = useCloseWindow();
   const openWindow = useOpenWindow();
-  const {t} = useTranslation();
+  const {t, i18n } = useTranslation();
   const [apps, setApps] = useState<CmdApp[]>([]);
+  const [theme] = useTheme();
+
   useEffect(() => {
-    const initialApps = windowsTemplates.filter(a=> a.app != 'command_line').reduce((acc: CmdApp[] , current: WindowType) => {acc.push({original: current.app, executable: t(current.app)?.toLocaleLowerCase().replaceAll(' ', '_').split('.')[0].normalize('NFD').replace(/[\u0300-\u036f]/g, "") + ".exe"}); return acc},[])
-    setApps(initialApps);
-  }, [t])
-  useEffect(() => {
-    // Create a new Terminal instance
-    // Attach the terminal to the DOM
+    const terminal = new Terminal();
+    const fitAddon = new FitAddon();
     const mountTerminal = () => {
     terminal.loadAddon(fitAddon)
     terminal.open(terminalRef.current!);
     fitAddon.fit();
-    // Create a local echo controller (xterm.js v3)]
-    const localEcho = new LocalEchoController(terminal);
-    // Create a local echo controller (xterm.js >=v4)
-    terminal.options = {
-      // fontFamily: `'Source Code Pro', 'monospace'`,
-      fontFamily: "courier-new, courier, monospace",
-      cursorBlink: true,
-      fontWeight: 100,
-    };
-    // Read a single line from the user'
-    const echo = () => {
-      localEcho
-        .read("~$ ")
-        .then((input: string) => {
-          if (input == "clear") {
-            terminal.clear();
-          } else if(input == "help"){
-            localEcho.printWide([
-              ...apps.map(a=> a.executable),
-              "exit"
-            ]);
-          } else if(input == "exit"){
-            closeWindow("command line")
-          } else{
-            const app = windowsTemplates.find(a=> a.app == apps.find(a=> a.executable == input)?.original);
-            
-            if(app){
-              openWindow(app);
-            }
-          }
-          echo();
-        })
-        .catch((error: string) => terminal.writeln(`Error reading: ${error}`));
-    };
-    echo();
+    terminal.focus();
+    const localEcho = new LocalEchoController();
+    terminal.loadAddon(localEcho);
+    setLocalEcho(localEcho);
+    terminal.options = terminal_config;
+    setTerminal(terminal);
   }
-  if(apps.length > 0 && terminalRef.current){
+  if(terminalRef.current){
     mountTerminal();
   }
-    // Run some command in the terminal
-    // terminal.write();
-
-    // Clean up function
     const resizeObserver = new ResizeObserver(() => {
       fitAddon.fit();
-      // Do what you want to do when the size of the element changes
     });
     resizeObserver.observe(terminalRef.current!);
     return () => {
-      // Dispose the terminal instance to release resources
       resizeObserver.disconnect();
       terminal.dispose();
     };
-  }, [apps]); // Run only once on component mount
+  }, []);
+
+  useEffect(() => {
+    const initialApps = JSON.parse(JSON.stringify(windowsTemplates)).filter((a: WindowType)=> a.app != 'command_line').reduce((acc: CmdApp[] , current: WindowType) => {acc.push({original: current.app, executable: t(current.app)?.toLocaleLowerCase().replaceAll(' ', '_').split('.')[0].normalize('NFD').replace(/[\u0300-\u036f]/g, "")}); return acc},[])
+    setApps(initialApps);
+  }, [t, i18n]);
+
+  useEffect(() => {
+    if(localEcho && terminal){
+      console.log(rdd)
+    const getUserInfo = () => {
+      const today = new Date();
+      const [day, month, year] = [today.getDate(), today.getMonth() + 1, today.getFullYear()];
+      const device = `${rdd.osName} ${rdd.osVersion} • ${rdd.browserName}`;
+      const deviceInfo = [
+      {conteudo: `${accentColorAnsi}eric\x1b[0m@${accentColorAnsi}augusto.dev\x1b[0m`},
+      {conteudo: '---------------------'},
+      {label: 'os1', conteudo: 'ericaugusto-os v1.0.0'},
+      {label: 'host', conteudo: device},
+      {label: 'Kernel', conteudo: `${rdd.engineName} ${rdd.engineVersion}`},
+      {label: 'resolution', conteudo: `${window.screen.width}x${window.screen.height}`},
+      {label: 'terminal', conteudo: 'xtermjs'},
+      {label: 'terminal_font', conteudo: terminal_config.fontFamily},
+      {label: 'theme', conteudo: theme},
+      {label: 'locale', conteudo: i18n.resolvedLanguage},
+      {label: 'date', conteudo: `${year}年${month}月${day}日`}, 
+      ]
+      deviceInfo.map((a) => 
+        a.label = a.label ? `${accentColorAnsi}${t(a.label)}: \x1b[0m` : ''
+    );
+          return deviceInfo;
+  }
+  console.log(apps)
+  const echo = async () => {
+      localEcho
+        .read("~$ ")
+        .then(async (input: string) => {
+          switch (input) {
+            case "clear":
+              localEcho.clear();
+              break;
+            case "help":
+              console.log(apps);
+              ["neofetch", "weather",...apps.map(a=> a.executable), "exit"].forEach((cmd) => {
+                localEcho.println(cmd)
+              })
+              break;
+            case "exit":
+              closeWindow("command_line");
+              break;
+            case 'weather': {
+              const weatherResponse = await fetch(`https://wttr.in/?1nAF&lang=${i18n.resolvedLanguage?.toLowerCase()}`);
+              const weatherText = await weatherResponse.text();
+              localEcho.println(weatherText);
+              break;
+            }
+            case "neofetch": {
+              const fetchInfo = getUserInfo();
+              console.log
+              asciiArt.forEach((line, lineIndex) => {
+                const { label, conteudo } = fetchInfo?.[lineIndex] ?? '';
+                localEcho.println(`${accentColorAnsi}${line}\x1b[0m ${conteudo ? label + conteudo : ''}`);
+              });
+              break;
+            }
+            default: {
+              const app = windowsTemplates.find(a => a.app == apps.find(a => a.executable == input)?.original);
+              if (app) {
+                openWindow(app);
+              } else {
+                localEcho.printWide([`command not found: ${input}. Try 'help' to get started.`]);
+              }
+            }
+          }
+          echo();
+        }).catch((error: string) => {terminal.writeln(`oopsy daisy! Error reading: ${error}`); echo()});
+  };
+  if(!echoCalled){
+    echo();
+    setEchoCalled(true)
+  }
+}
+  }, [terminal, localEcho, theme, apps, echoCalled])
+
 
   return (
-    <div className={style.cmd_container}>
+    <div className={style.cmd_container} ref={containerRef}>
       {/* ASCII art container */}
-      <CmdHeader/>
-
       {/* Xterm container */}
       <div ref={terminalRef} className={style.terminal} />
     </div>

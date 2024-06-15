@@ -1,0 +1,25 @@
+.gifs {
+    position: fixed;
+    display: flex;
+    height: 30%;
+    top: -40%;
+    width: 100%;
+    box-shadow: 0 0px 43px -11px #dcc4da;
+    z-index: 2;
+    transition: top 0.2s ease;
+    &.active{
+        top: 0;
+    }
+    .gif {
+        flex: 1;
+        transition: flex-grow 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .gif:hover {
+        flex-grow: 5;
+    }
+}
+
+
+
