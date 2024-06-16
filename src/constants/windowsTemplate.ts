@@ -11,7 +11,7 @@ import discord from "../assets/desktop/disc.svg";
 import finance from "../assets/desktop/finance.png";
 import cookBook from "../assets/desktop/food.svg";
 import portfolio from "../assets/portfolio.png";
-import jdm from "../assets/desktop/jdm.png";
+import jdm from "../assets/desktop/jdm.svg";
 import Resume from "../Resume/Resume";
 import Credits from "../StartMenu/components/Credits/Credits";
 import fav from '/favicon.ico';
@@ -34,7 +34,7 @@ export const windowsTemplates: WindowType[] = [
         conteudo: Cmd,
         appType: 'os',
         icon: cmd,
-        windowStyles: { backdropFilter: 'blur(20px)', backgroundColor: 'rgb(0 0 0 / 83%)'},
+        windowStyles: { backdropFilter: 'blur(20px)', backgroundColor: 'rgb(0 0 0 / 70%)'},
         bodyStyles: { padding: 0 },
     },
     {app: "EmulatorJS", appType: 'os', conteudo: EmulatorJS, icon: emulatorJs, customClose: true},

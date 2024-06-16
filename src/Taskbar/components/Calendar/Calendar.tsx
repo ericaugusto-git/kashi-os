@@ -33,7 +33,7 @@ export default function Calendar() {
   return (
     <>
       <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-        <div className={styles.calendar_container + " " + styles[theme]}>
+        <div className={styles.calendar_container + " " + styles[theme.value]}>
           <LocalizationProvider
             dateAdapter={AdapterDayjs}
           >

@@ -1,9 +1,6 @@
-import { ReactNode, forwardRef, useState } from 'react';
+import { CSSProperties, ReactNode, forwardRef, useState } from 'react';
 import { useTheme } from '../../../contexts/ThemeContext';
 import defaultStyles from './Button.module.scss';
-type CSSProperties = {
-    [key: string]: string | number;
-  };
 
 type ButtonPropsType = {
     children?: ReactNode,
@@ -34,10 +31,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonPropsType>(({handleClick, sty
 
     return (
     handleClick ? 
-    <button ref={ref} style={hovered ? {...stylesMiddle, ...hoverStyles} : stylesMiddle}   onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} className={`${defaultStyles.default_outline_button } ${outline ? defaultStyles.gradient : ''} ${defaultStyles[theme]}`}>
+    <button ref={ref} style={hovered ? {...stylesMiddle, ...hoverStyles} : stylesMiddle}   onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} className={`${defaultStyles.default_outline_button } ${outline ? defaultStyles.gradient : ''} ${defaultStyles[theme.value]}`}>
         {children}
     </button> : 
-    <div style={stylesMiddle} className={`${defaultStyles.default_outline_button } ${outline ? defaultStyles.gradient : ''} ${defaultStyles[theme]}`}>
+    <div style={stylesMiddle} className={`${defaultStyles.default_outline_button } ${outline ? defaultStyles.gradient : ''} ${defaultStyles[theme.value]}`}>
         {children}
     </div>
     )

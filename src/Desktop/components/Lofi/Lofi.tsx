@@ -15,6 +15,7 @@ export default function Lofi() {
   const [theme] = useTheme();
 
 
+
   const [gifUrl, setGifUrl] = useState("");
   const [gifId, setGifId] = useState(localStorage.getItem('gifId') ?? gifs[17].id);
   const gifsBtnRef = useRef<HTMLButtonElement>(null)
@@ -44,7 +45,7 @@ export default function Lofi() {
   return (
     <FullScreen handle={handle}>
           {/* <span className={styles.loading}>Loading gif... :)</span> */}
-    <div style={{ '--background-image': `url("${gifUrl}")` } as React.CSSProperties} className={`${styles.lofi_wrapper} ${styles[theme]}`}>
+    <div style={{ '--background-image': `url("${gifUrl}")` } as React.CSSProperties} className={`${styles.lofi_wrapper} ${styles[theme.value]}`}>
     <Gifs gifsRef={gifsRef} gifsActive={gifsActive} setGifId={setGifId}/>
     <LofiPlayer gifsBtnRef={gifsBtnRef} setGifsActive={setGifsActive}/>
     <div className={styles.actions}>

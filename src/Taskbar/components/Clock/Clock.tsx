@@ -40,7 +40,7 @@ function Clock(){
              { isCalendarOpen && <Calendar/>}
         </div>
         <Button ref={clockButtonRef} handleClick={openCalendar} styles={buttonStyles} hoverStyles={buttonHoverStyles}>
-            <div className={styles.clock_container + " " + styles[theme]}>
+            <div className={styles.clock_container + " " + styles[theme.value]}>
             {/* <div className={styles.clock} style={{ maskImage: `url("${clockIcon}")`}}></div> */}
             <div className={styles.date_container}>
                 <div className={styles.hour_complete}>

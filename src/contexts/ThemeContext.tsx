@@ -1,13 +1,18 @@
 import { createContext, useContext, useState } from "react"
 
-const ThemeContext = createContext<ThemeContextType>(["light", () => {}]);
+const ThemeContext = createContext<ThemeContextType>([{value: "light", wallpaper: 0}, () => {}]);
 type ThemeProviderType = {children: React.ReactNode}
-type ThemeContextType = [Themes, React.Dispatch<React.SetStateAction<Themes>>]
-export type Themes = 'light' | 'dark' | 'coffe' 
+type ThemeContextType = [Theme, React.Dispatch<React.SetStateAction<Theme>>]
+export type Themes = 'light' | 'dark' | 'coffe';
+export type Theme = {value: 'light' | 'dark' | 'coffe', wallpaper: number }
 
 function ThemeProvider({children}: ThemeProviderType) {
-  const initialTheme: Themes = (localStorage.getItem("theme") as Themes) ?? "light";
-  const [theme, setTheme] = useState<Themes>(initialTheme)
+  const localTheme = localStorage.getItem('theme');
+  if(typeof localTheme === 'string'){
+    localStorage.removeItem('theme');
+  }
+  const initialTheme: Theme = localStorage.getItem("theme") ? JSON.parse(localStorage.getItem('theme') as string) as Theme : {value: "light", wallpaper: 0};
+  const [theme, setTheme] = useState<Theme>(initialTheme)
   return (
     <ThemeContext.Provider value={[theme, setTheme]}>
       {children}

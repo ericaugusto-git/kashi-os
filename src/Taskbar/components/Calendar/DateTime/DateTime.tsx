@@ -10,7 +10,7 @@ function DateTime() {
     const date = dateA.slice(0,-2).join(' ')
     const [theme] = useTheme();
     return ( 
-        <div className={styles.date_hour + " " + styles[theme]}>
+        <div className={styles.date_hour + " " + styles[theme.value]}>
             <div className={styles.hour_container}>
                 <span className={styles.hour}>{hour[0]}</span>
                 <span>{hour[1]}</span>

@@ -29,7 +29,7 @@ function ButtonGroup({buttons, stylesProp, selectedValue, useMaskImage, handleCl
             {
             buttons.map((button) => 
             <button key={button.action}  style={stylesProp}
-            className={`${selected === button.action ? styles['ghost_button_selected'] : ''} ${button?.label?.length ?? 0 > 0 ? styles['ghost_button_w_label'] : ''} ${styles.ghost_button} ${styles[theme]}`}
+            className={`${selected === button.action ? styles['ghost_button_selected'] : ''} ${button?.label?.length ?? 0 > 0 ? styles['ghost_button_w_label'] : ''} ${styles.ghost_button} ${styles[theme.value]}`}
             onClick={() => handleButtonClick(button.action) }>
                 {button.useSvg || useMaskImage ? <div className={`svgMask ${styles.svg_icon}`} style={{maskImage: `url("${button.icon}")`, maskSize: "100%", width: "100%", height: "100%"}}></div> : <img src={button.icon}></img>}
                 <span>
