@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { CSSProperties, useContext, useState } from "react";
 import { StartSetterContext } from "../../../App";
 import Button from "../Button/Button";
 import styles from "./Start.module.scss";
@@ -8,15 +8,14 @@ interface MousePosition {
   }
   
 function Start() {
-  const buttonStyles = {
-    height: "41px",
-    width: "41px",
-    backgroundColor: '#161616',
-    border: "1px solid rgb(255 255 242)"
+  const buttonStyles: CSSProperties = {
+    height: "29px",
+    width: "45px",
+    backgroundColor: '#A0ACD7',
+    border: "1px solid rgb(255 255 242)",
+    borderRadius: '50px'
   };
-  const hoverStyles = {
-    backgroundColor: '#3d3d3d'
-  }
+
   const [_, setStartMenuOpen, toggleButtonRef] =
     useContext(StartSetterContext);
   const handleClick = () => {
@@ -51,7 +50,6 @@ function Start() {
     <div  onMouseMove={handleMouseMove} className={styles.startBtnWrapper}>
     <Button
       ref={toggleButtonRef}
-      hoverStyles={hoverStyles}
       styles={buttonStyles}
       handleClick={handleClick}
       outline={true}

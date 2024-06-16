@@ -50,9 +50,7 @@ a {
   font-weight: 500;
   color: #ffffff;
 }
-a:hover {
-  color: #53b7f2;
-}
+
 
 .menu {
   position: fixed;
@@ -214,3 +212,11 @@ input[type="week"] {
 
 /* Chrome, Edge and Safari */
 
+.taskbar_icon{
+  --size: 15px;
+  width: var(--size);
+  height: var(--size);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}

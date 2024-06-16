@@ -28,7 +28,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
   const { t } = useTranslation();
   const [theme] = useTheme();
   const [gifUrl, setGifUrl] = useState("");
-  const [gifId, setGifId] = useState(gifsId[theme]); // Replace with the specific GIF ID
+  const [gifId, setGifId] = useState(gifsId[theme.value]); // Replace with the specific GIF ID
 
   useEffect(() => {
     const fetchGif = async () => {
@@ -69,7 +69,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
   }, []);
 
   useEffect(() => {
-    setGifId(gifsId[theme]);
+    setGifId(gifsId[theme.value]);
   }, [theme]);
   // const windowsTemplates: WindowsTemplatesType = {
   //   ["playlist"]: {
@@ -144,7 +144,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
             width: "369px",
             left: "10px",
             position: "fixed",
-            bottom: "61px",
+            top: "41px",
             zIndex: 10,
           }}
           // initial={{ scaleY: 0, transformOrigin: 'bottom center' }}
@@ -156,7 +156,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
           // exit={{ opacity: 0 }}
           // transition={{ duration: 0.5 }}
         >
-          <div className={styles.start_menu + " " + styles[theme]}>
+          <div className={styles.start_menu + " " + styles[theme.value]}>
             <div className={styles.col_1}>
               <div
                 className={styles.cute_gif}

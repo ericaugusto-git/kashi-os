@@ -12,7 +12,7 @@ function Taskbar(){
     const [theme] = useTheme();
 
     return (
-    <footer className={styles.menu + " " + styles[theme]}>
+    <footer className={styles.menu + " " + styles[theme.value]}>
         <Start/>
         <div className={styles.skills}>
         <Skills />

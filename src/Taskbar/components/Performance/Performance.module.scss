@@ -1,0 +1,21 @@
+.performance{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    button{
+        $size: 18px;
+        width: $size;
+        height: $size;
+    }
+    span{
+        font-weight: 100;
+        text-wrap: nowrap;
+    }
+    .heap_total{
+        font-weight: bold;
+    }
+     .size_change {
+        width: 80px; /* Adjust as needed */
+        text-align: right;
+      }
+}

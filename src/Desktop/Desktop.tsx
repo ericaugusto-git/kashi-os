@@ -21,6 +21,7 @@ import Search from "../StartMenu/components/Search/Search";
 import Actions from "../Taskbar/components/Actions/Actions";
 import Skills from "../Taskbar/components/Skills/Skills";
 import Lofi from "./components/Lofi/Lofi";
+import TaskbarHypr from "../Taskbar/TaskbarHypr";
 
 function Desktop() {
 
@@ -36,16 +37,17 @@ function Desktop() {
   const isInitialMount = useRef(true);
   const [contextMenu, setContextMenu] = useState(initialContextMenu);
   const [wallpaperKey, setWallpaperKey] = useState('light');
+  const [wallpaperIndex, setWallpaperIndex] = useState(0);
   const [fallbackKey, setFallbackKey] = useState<string | null>(null);
   function timeout(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
   const changeWallpaper = async () => {
-    setFallbackKey(theme);
+    setFallbackKey(theme.value);
     await timeout(1200);
     setFallbackKey((prevFall) => {
-      if(prevFall == theme){
-        setWallpaperKey(theme);
+      if(prevFall == theme.value){
+        setWallpaperKey(theme.value);
         return null;
       }
       return prevFall;
@@ -58,7 +60,7 @@ function Desktop() {
   }, [isLiveWallpaper]);
 
   useEffect(() => {
-    // setWallpaper(theme === 'light' ? topography : code);
+    // setWallpaper(theme.value === 'light' ? topography : code);
     const preloadVideo = (src: string) => {
       const video = document.createElement("video");
       video.preload = "auto"; // Optimize for preloading
@@ -74,15 +76,14 @@ function Desktop() {
           if(!isMobile){
             preloadVideo(wallpaper.video)
           }
-          new Image().src = wallpaper.img;
+          new Image().src = wallpaper.imgs[0];
       });
-      setWallpaperKey(theme)
+      setWallpaperKey(theme.value)
     } else {
-      localStorage.setItem("theme", theme);
+      localStorage.setItem("theme.value", theme.value);
       changeWallpaper();
     }
-  }, [theme]);
-
+  }, [theme.value]);
 
 
 
@@ -146,9 +147,10 @@ function Desktop() {
       className={
         (pcStatus == "on" ? styles.desktop : styles[pcStatus]) +
         " " +
-        styles[theme]
+        styles[theme.value]
       }
     >
+      
       {/* The context menu */}
       {isContextMenu && <div ref={contextMenuRef} ><ContextMenu  isLiveWallpaper={isLiveWallpaper} hideContextMenu={hideContextMenu} setIsLiveWallpaper={setisLiveWallpaper} x={contextMenu.x} y={contextMenu.y}/></div>}
       {/* The wallpaper */}
@@ -158,7 +160,7 @@ function Desktop() {
         (isLiveWallpaper ? <video key={key} ref={(ref) => {if(pcStatus === 'sleeping' || key == wallpaperKey) {videoRef.current = ref}}}  preload='auto' autoPlay muted loop className={`${styles.background_video} ${fallbackKey == key && styles.circle}`}  disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
             <source src={ pcStatus === 'sleeping' ? wallpapers.lockscreen.video : wallpapers[key as keyof Wallpapers].video} type="video/mp4" />
             Your browser does not support the video tag.
-          </video> : <div key={key} className={`backgroundImage ${fallbackKey == key && styles.circle} ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${pcStatus === 'sleeping' ? wallpapers.lockscreen.img : wallpapers[key as keyof Wallpapers].img}")`}}></div>)
+          </video> : <div key={key} className={`backgroundImage ${fallbackKey == key && styles.circle} ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${pcStatus === 'sleeping' ? wallpapers.lockscreen.imgs[0] : wallpapers[theme.value as keyof Wallpapers].imgs[0]}")`}}></div>)
       })}
       </div>
 
@@ -169,13 +171,14 @@ function Desktop() {
           <Window wrapperClass={styles.desktopIconsWrapper}>
           </Window>
           <div  className={styles.desktopIconsWrapper}>
-            <DesktopIcons />
+            {/* <DesktopIcons /> */}
           </div>
           <StartSetterContext.Provider
             value={[isStartMenuOpen, setisStartMenuOpen, startButtonRef]}
           >
             <div ref={startMenuRef}>{<StartMenu setSearchVisible={setSearchVisible} />}</div>
-            <Taskbar />
+            {/* <Taskbar /> */}
+            <TaskbarHypr/>
           </StartSetterContext.Provider>
         </WindowContextProvider>
       {windowSize.width <= 1200 && 

@@ -44,9 +44,9 @@ export default function ContextMenu({x, y, hideContextMenu, setIsLiveWallpaper, 
           Static wallpaper
           {!isLiveWallpaper && <img src={check}></img>}
         </li>
-        {/* <li onClick={() => setPcStatus('lofi')}>
+        <li onClick={() => setPcStatus('lofi')}>
           Lofi
-        </li> */}
+        </li>
         <div className={styles.separator}></div>
         <li onClick={() => handleContact('mailto:eric72001@hotmail.com')}>
             eric72001@hotmail.com

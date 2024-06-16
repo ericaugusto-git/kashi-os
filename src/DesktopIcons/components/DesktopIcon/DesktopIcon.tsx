@@ -19,7 +19,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
     const stylesDefault: CSSProperties = {...imgWrapperStyles, ...icon}
     const svgDefault = {...svgStyles, maskImage: `url("${app.icon}")` }
     return (
-        <button className={`${styles.desktop_icon} ${styles[theme]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive}`} style={buttonStyles}>
+        <button className={`${styles.desktop_icon} ${styles[theme.value]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive}`} style={buttonStyles}>
             {app.active}
             <div style={stylesDefault} className={styles.img_wrapper + " " +  (!svgMask ? 'backgroundImage' : '')}>
                 {svgMask && <div style={svgDefault} className={"svgMask " + styles.icon}></div>}

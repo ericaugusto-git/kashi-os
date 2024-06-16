@@ -70,8 +70,8 @@ function Skills(){
       }, [hovered]); // Run the effect whenever hovered state changes
 
     return (        
-    <Button styles={buttonStyles} outline={false}>
-        <div className={styles.skills + " " + styles[theme]}>
+    // <Button styles={buttonStyles} outline={false}>
+        <div className={styles.skills + " " + styles[theme.value]}>
             <div className={`${styles["title-container"]} ${styles['text-slide']}`}>
             <span className={styles['title']}>{hovered ? (<><span style={{color: hovered.expColor}}>{hovered.experience.time}</span> <span style={{color: '#AEB2BA'}}>{hovered.experience.description} of exp.</span></>) : 'skills'}</span>
             {!hovered && [1,2,3,4,5,6,7,8].map((i) => (<div key={i} className={styles.dot}></div>))}
@@ -84,6 +84,7 @@ function Skills(){
                 ))}
             </div>
         </div>
-    </Button>)
+    // </Button>
+  )
 }
 export default Skills;

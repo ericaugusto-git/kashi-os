@@ -1,0 +1,11 @@
+.date_time{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    text-transform: capitalize;
+    div{
+       display: flex; 
+       align-items: center;
+       gap: 6px;
+    }
+}

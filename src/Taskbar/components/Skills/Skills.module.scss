@@ -1,7 +1,7 @@
 .skills{
     display: flex;
-    flex-direction: column;
     height: 100%;
+    align-items: center;
     justify-content: space-between;
     .title-container{
       display: flex;
@@ -9,6 +9,7 @@
       gap: 3px;
       justify-content: start;
       align-items: center;
+      margin-right: 100px;
       span{
         font-weight: 900;
         line-height: 20px;

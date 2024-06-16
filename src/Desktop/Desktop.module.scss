@@ -24,7 +24,10 @@
   }
 
   .desktopIconsWrapper{
-    height: calc(100dvh - 51px);
+    height: calc(100dvh - 36.99px);
+    width: 100%;
+    bottom: 0;
+    position: fixed;
   }
   
   .shutdown {

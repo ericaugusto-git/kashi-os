@@ -9,7 +9,7 @@ function useOpenWindow(): (app: WindowType) => void {
                 .map(window => ({ ...window, active: false })); // Deactivate all windows
             if(!prevWindows.find(a => a.app == app.app)){
                 app.x = app.x ?? Math.round(0.08 * innerWidth) * ((windows.length + 1) / 2)
-                app.y = app.y ?? 50 * ((windows.length + 1) / 2)
+                app.y = app.y ?? 80 * ((windows.length + 1) / 2)
                 return [...updatedWindows, { ...app, active: true, minimized: false }]; // Add the new window
             }else{
                 const ap = updatedWindows.find(a=> a.app == app.app);
