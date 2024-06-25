@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import style from './ClockHypr.module.scss';
-import calendar from '../../../assets/taskbar/calendar.svg';
-import clock from '../../../assets/taskbar/clock.svg';
 import moment from 'moment';
 import 'moment/locale/pt-br'; // Import the pt-br locale
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Calendar from '../Calendar/Calendar';
-import useComponentVisible from '../../../hooks/useComponentVisible';
+import calendar from '../../../assets/taskbar/calendar.svg';
+import clock from '../../../assets/taskbar/clock.svg';
+import style from './ClockHypr.module.scss';
 
 export default function ClockHypr() {
     const now = moment();

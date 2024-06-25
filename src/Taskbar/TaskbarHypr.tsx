@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { Dispatch, MutableRefObject, SetStateAction, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import powerOff from "../assets/startMenu/power_off.svg";
@@ -7,19 +8,16 @@ import wallpaper_change from '../assets/taskbar/wallpaper_change.svg';
 import { useDesktopPosition } from "../contexts/DesktopPositonContext";
 import { useWindowContext } from "../contexts/WindowContext";
 import useComponentVisible from "../hooks/useComponentVisible";
+import LocaleSwitcher from "./LocaleSwitcher/LocaleSwitcher";
 import style from './TaskbarHypr.module.scss';
 import Battery from "./components/Battery/Battery";
 import Calendar from "./components/Calendar/Calendar";
 import ClockHypr from "./components/ClockHypr/ClockHypr";
-import Network from "./components/Network/Network";
 import Performance from "./components/Performance/Performance";
 import Start from "./components/Start/Start";
 import ThemeSwitcher from "./components/ThemeSwitcher/ThemeSwitcher";
 import WallpaperSwitcher from "./components/WallpaperSwitcher/WallpaperSwitcher";
 import WindowsHypr from "./components/WindowsHypr/WindowsHypr";
-import LocaleSwitcher from "./LocaleSwitcher/LocaleSwitcher";
-import { PcStatusMenu } from "./components/PcStatusMenu/PcStatusMenu";
-import { AnimatePresence, motion } from "framer-motion";
 
 
 export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {setPcStatusMenuOpen: Dispatch<SetStateAction<boolean>>, pcStatusButtonRef: MutableRefObject<HTMLButtonElement | null>}){

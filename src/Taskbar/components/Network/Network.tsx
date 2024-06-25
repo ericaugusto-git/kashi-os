@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import wifi from '../../../assets/taskbar/wifi.svg';
 import ethernet from '../../../assets/taskbar/ethernet.svg';
+import wifi from '../../../assets/taskbar/wifi.svg';
 
 // Extending Navigator interface to include Network Information API
 interface NavigatorConnection extends Navigator {
@@ -20,7 +20,7 @@ interface NetworkInformation extends EventTarget {
 }
 
 export default function Network() {
-    const [isOnline, setOnline] = useState<boolean>(navigator.onLine);
+    const [_, setOnline] = useState<boolean>(navigator.onLine);
     const navigatorConnection = navigator as NavigatorConnection;
     const connection = navigatorConnection.connection || navigatorConnection.mozConnection || navigatorConnection.webkitConnection;
     const [type, setType] = useState<string | undefined>(connection?.type);

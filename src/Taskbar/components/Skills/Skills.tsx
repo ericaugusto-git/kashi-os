@@ -6,7 +6,6 @@ import reactIcon from '../../../assets/taskbar/skills/react.svg';
 import saasIcon from '../../../assets/taskbar/skills/sass.svg';
 import typescriptIcon from '../../../assets/taskbar/skills/typescript.svg';
 import { useTheme } from "../../../contexts/ThemeContext";
-import Button from "../Button/Button";
 import styles from './Skills.module.scss';
 
 type Skill = {
@@ -18,16 +17,16 @@ type Skill = {
 function Skills(){
     const [theme] = useTheme();
 
-    const buttonStyles = {
-        alignItems: "start",
-        justifyContent: "start",
-        padding: "2px 20px 4px 10px",
-        height: "calc(100% - 8px)",
-        border: theme == 'light' ? '1px solid rgb(207 207 207)' : "1px solid #696969",
-        color: theme == 'cozy' ? 'rgb(171 201 213)' : "#676767",
-        // color: "#AEB2BA",
-        background: theme == 'light' ?  "#f9f9f9" : theme == 'dark' ? "#121212" : 'rgb(75 65 66)'
-    }
+    // const buttonStyles = {
+    //     alignItems: "start",
+    //     justifyContent: "start",
+    //     padding: "2px 20px 4px 10px",
+    //     height: "calc(100% - 8px)",
+    //     border: theme == 'light' ? '1px solid rgb(207 207 207)' : "1px solid #696969",
+    //     color: theme == 'cozy' ? 'rgb(171 201 213)' : "#676767",
+    //     // color: "#AEB2BA",
+    //     background: theme == 'light' ?  "#f9f9f9" : theme == 'dark' ? "#121212" : 'rgb(75 65 66)'
+    // }
     // const icons: Skill[] = [
     //     { experience: { time: "2+", description: "years of professional experience" }, expColor: "#dd0031", icon: angularIcon }, // Angular color
     //     { experience: { time: "4+", description: "years" }, expColor: "#e34c26", icon: htmlIcon }, // HTML color

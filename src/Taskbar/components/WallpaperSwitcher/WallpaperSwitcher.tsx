@@ -1,21 +1,18 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { Theme } from '../../../constants/themes';
+import { CSSProperties } from 'react';
 import { wallpapers } from '../../../constants/wallpapers';
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useWallpaper } from '../../../contexts/WallpaperContext';
 import style from './WallpaperSwitcher.module.scss';
-import { CSSProperties } from 'react';
 
-interface Theme2 extends Theme {
-    theme:string
-}
+
 
 type WallpaperSwitcherProps = {
     wallpaperSwitcherOpen: boolean
 }
 
 export default function WallpaperSwitcher({wallpaperSwitcherOpen}: WallpaperSwitcherProps){
-    const [theme, setTheme] = useTheme();
+    const [theme] = useTheme();
     const [wallpaperIndex, setWallpaperIndex] = useWallpaper();
     const handleChangeTheme = (index: number) => {
         localStorage.setItem(theme + "Wallpaper", index.toString())

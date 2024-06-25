@@ -1,11 +1,11 @@
-import { wallpapers } from "../../../constants/wallpapers";
-import style from "./ThemeSwitcher.module.scss";
-import { Themes, useTheme } from "../../../contexts/ThemeContext";
-import { CSSProperties, useState } from "react";
-import { Theme, themes } from "../../../constants/themes";
 import { AnimatePresence, motion } from "framer-motion";
+import { CSSProperties } from "react";
+import { Theme, themes } from "../../../constants/themes";
+import { wallpapers } from "../../../constants/wallpapers";
+import { Themes, useTheme } from "../../../contexts/ThemeContext";
 import { useWallpaper } from "../../../contexts/WallpaperContext";
 import { getWppIndex } from "../../../utils/utils";
+import style from "./ThemeSwitcher.module.scss";
 
 interface Theme2 extends Theme {
   theme: string;
@@ -22,10 +22,7 @@ export default function ThemeSwitcher({
   const [_, setWallpaperIndex] = useWallpaper();
   const themesList: Theme2[] = [];
   Object.keys(wallpapers).forEach((key) => {
-    const theme = JSON.parse("{}");
     if (key !== "lockscreen") {
-      const wallpaperIndex =
-        (localStorage.getItem(theme + "wallpaper") as unknown as number) ?? 0;
       themesList.push({
         theme: key,
         wpp: wallpapers[key as Themes][getWppIndex(key as Themes)],

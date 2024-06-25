@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import moment from 'moment';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import brasilFlag from '../../assets/taskbar/languages_icons/brazil_flag.svg';
 import globeIcon from '../../assets/taskbar/languages_icons/globe.svg';
-import { useTranslation } from 'react-i18next';
-import moment from 'moment';
 const LocaleSwitcher = () => {
   const [isVisible, setIsVisible] = useState(true);
 

@@ -1,6 +1,5 @@
-import { CSSProperties, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { StartSetterContext } from "../../../App";
-import Button from "../Button/Button";
 import styles from "./Start.module.scss";
 interface MousePosition {
     x: number;
@@ -8,12 +7,12 @@ interface MousePosition {
   }
   
 function Start() {
-  const buttonStyles: CSSProperties = {
-    height: "29px",
-    width: "45px",
-    border: "1px solid rgb(255 255 242)",
-    borderRadius: '50px'
-  };
+  // const buttonStyles: CSSProperties = {
+  //   height: "29px",
+  //   width: "45px",
+  //   border: "1px solid rgb(255 255 242)",
+  //   borderRadius: '50px'
+  // };
 
   const [_, setStartMenuOpen, toggleButtonRef] =
     useContext(StartSetterContext);

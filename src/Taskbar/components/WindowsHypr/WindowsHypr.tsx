@@ -1,19 +1,12 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useTheme } from "../../../contexts/ThemeContext";
-import { useWindowContext } from "../../../contexts/WindowContext";
-import styles from './WindowsHypr.module.scss';
-import { WindowType } from "../../../constants/window";
 import { Dispatch, SetStateAction } from "react";
+import { WindowType } from "../../../constants/window";
+import { useTheme } from "../../../contexts/ThemeContext";
+import styles from './WindowsHypr.module.scss';
 
 export default function WindowsHypr({windows, setWindows}: {windows: WindowType[], setWindows: Dispatch<SetStateAction<WindowType[]>>}){
     const [theme] = useTheme();
-    const item = {
-        hidden: { x: 20, opacity: 0 },
-        visible: {
-          x: 0,
-          opacity: 1
-        }
-      };
+
 
       const handleDesktopIconCLick = (app: WindowType) => {
         // app.conteudo = <div className="backgroundImage" style={{

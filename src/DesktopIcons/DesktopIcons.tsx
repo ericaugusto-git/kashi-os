@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { WindowType } from "../constants/window";
 import { windowsTemplates } from "../constants/windowsTemplate";
@@ -5,7 +6,6 @@ import { useDesktopPosition } from "../contexts/DesktopPositonContext";
 import useOpenWindow from "../hooks/useOpenWindow";
 import styles from "./DestopIcons.module.scss";
 import DesktopIcon from "./components/DesktopIcon/DesktopIcon";
-import { motion } from "framer-motion";
 
 function DesktopIcons() {
   const [position] = useDesktopPosition();
@@ -102,7 +102,7 @@ function DesktopIcons() {
   return <>
   
            {isAnimating && <motion.menu id="desktop_icons" initial="hidden" animate={"visible"}  variants={container}   className={`${styles.desktop} ${styles[position]}`}>
-                {apps.map((app, index) => <motion.li  id={app.app} whileHover={{ scale: position == 'top' ? 1.2 : 1.05 }} whileTap={{ scale: 0.9 }}  variants={item} key={app.app} onClick={() => handleDesktopIconCLick(app)}>
+                {apps.map((app) => <motion.li  id={app.app} whileHover={{ scale: position == 'top' ? 1.2 : 1.05 }} whileTap={{ scale: 0.9 }}  variants={item} key={app.app} onClick={() => handleDesktopIconCLick(app)}>
                             <DesktopIcon app={app} svgStyles={app.desktopStyles?.svg} svgMask={app.svgMask?.desktop} buttonStyles={app.desktopStyles?.button} imgWrapperStyles={app.desktopStyles?.img} />
                 </motion.li>)}
                 {/* <li onClick={openResume}>

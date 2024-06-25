@@ -5,9 +5,7 @@ import DesktopIcons from "../DesktopIcons/DesktopIcons";
 import StartMenu from "../StartMenu/StartMenu";
 import Search from "../StartMenu/components/Search/Search";
 import TaskbarHypr from "../Taskbar/TaskbarHypr";
-import Actions from "../Taskbar/components/Actions/Actions";
 import { PcStatusMenu } from "../Taskbar/components/PcStatusMenu/PcStatusMenu";
-import Skills from "../Taskbar/components/Skills/Skills";
 import Window from "../Window/Window";
 import { themes, transitionMs } from "../constants/themes";
 import { wallpapers } from "../constants/wallpapers";
@@ -111,7 +109,7 @@ function Desktop() {
     setContextVisible(false)
   }
 
-    const [windowSize, setWindowSize] = useState({
+    const [_, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
