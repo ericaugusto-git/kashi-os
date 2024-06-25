@@ -13,7 +13,7 @@ export default function MiniAllBtn(){
             return [...updatedWindows]; // Add the new window
         });
     } 
-    return <div className={`${styles['miniallbtn']} ${styles[theme.value]}`} onTouchStart={handleClick} onClick={handleClick}>
+    return <div className={`${styles['miniallbtn']} ${styles[theme]}`} onTouchStart={handleClick} onClick={handleClick}>
 
     </div>
 }

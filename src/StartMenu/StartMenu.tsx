@@ -3,8 +3,8 @@ import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react
 import { useTranslation } from "react-i18next";
 import { StartSetterContext } from "../App";
 import powerOff from "../assets/startMenu/power_off.svg";
-import search from "../assets/startMenu/search.svg";
 import sleep from "../assets/startMenu/sleep.svg";
+import search from "../assets/startMenu/search.svg";
 import { WindowType } from "../constants/window";
 import { windowsTemplates } from "../constants/windowsTemplate";
 import { usePcStatus } from "../contexts/PcStatusContext";
@@ -12,10 +12,12 @@ import { Themes, useTheme } from "../contexts/ThemeContext";
 import { useWindowContext } from "../contexts/WindowContext";
 import useOpenWindow from "../hooks/useOpenWindow";
 import styles from "./StartMenu.module.scss";
+import { useDesktopPosition } from "../contexts/DesktopPositonContext";
+import { fetchGif } from "../utils/utils";
 const gifsId: { [key in Themes]: string } = {
   dark: "OMFfLpauGoT4c",
   light: "N5B19awm2YvwMwf8JE",
-  coffe: "k8kITi9SAwe9JWbUaH",
+  cozy: "k8kITi9SAwe9JWbUaH",
 };
 function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateAction<boolean>>}) {
   const [startMenuOpen, setStartMenuOpen] = useContext(StartSetterContext);
@@ -27,25 +29,15 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
   );
   const { t } = useTranslation();
   const [theme] = useTheme();
+  const [position] = useDesktopPosition();
   const [gifUrl, setGifUrl] = useState("");
-  const [gifId, setGifId] = useState(gifsId[theme.value]); // Replace with the specific GIF ID
+  const [gifId, setGifId] = useState(gifsId[theme]); // Replace with the specific GIF ID
 
   useEffect(() => {
-    const fetchGif = async () => {
-      try {
-        const response = await fetch(
-          `https://api.giphy.com/v1/gifs/${gifId}?api_key=${
-            import.meta.env.VITE_REACT_GIPHY_API_KEY
-          }`
-        );
-        const data = await response.json();
-        setGifUrl(data.data.images.original.url);
-      } catch (error) {
-        console.error("Error fetching the GIF:", error);
-      }
-    };
-
-    fetchGif();
+    const updateGif = async () => {
+      setGifUrl(await fetchGif(gifId));
+    }
+    updateGif();
   }, [gifId]);
 
   useEffect(() => {
@@ -69,7 +61,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
   }, []);
 
   useEffect(() => {
-    setGifId(gifsId[theme.value]);
+    setGifId(gifsId[theme]);
   }, [theme]);
   // const windowsTemplates: WindowsTemplatesType = {
   //   ["playlist"]: {
@@ -144,7 +136,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
             width: "369px",
             left: "10px",
             position: "fixed",
-            top: "41px",
+            [position]: "45px",
             zIndex: 10,
           }}
           // initial={{ scaleY: 0, transformOrigin: 'bottom center' }}
@@ -156,7 +148,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
           // exit={{ opacity: 0 }}
           // transition={{ duration: 0.5 }}
         >
-          <div className={styles.start_menu + " " + styles[theme.value]}>
+          <div className={styles.start_menu + " " + styles[theme]}>
             <div className={styles.col_1}>
               <div
                 className={styles.cute_gif}
@@ -235,3 +227,4 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
 }
 
 export default StartMenu;
+

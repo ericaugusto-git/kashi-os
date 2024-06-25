@@ -31,7 +31,7 @@ export default function Network() {
 
     useEffect(() => {
         const updateNetworkInfo = () => {
-            console.log(connection?.type);
+            
             setType(connection?.type);
         };
         window.addEventListener("online", updateNetworkStatus);

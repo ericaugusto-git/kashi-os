@@ -1,0 +1,84 @@
+.status_menu{
+    position: fixed;
+    height: 50%;
+    width: 40%;
+    top: 40%;
+    left: 50%;
+    position: fixed;
+    margin-top: -10%;
+    margin-left: -20%;   
+    // background-color: rgb(var(--theme-color),.8);
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: 80px;
+    z-index: 3;
+    div{
+        mask-size: 10%;
+    }
+    
+    .btn{
+        background: rgb(var(--theme-color),.6);
+        backdrop-filter: blur(10px);
+        position: relative;
+        border: 0;
+        cursor: pointer;
+        span{
+            color: white;
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            // color: rgb(var(--accent-color));
+        }
+
+        &:nth-child(1){
+            transform-origin: bottom right;
+            border-radius: 80px 0 0 0;
+        }
+        &:nth-child(2){
+            transform-origin: bottom left;
+            border-radius: 0 80px 0 0;
+        }
+        &:nth-child(3), .lofi{
+            transform-origin: top right;
+            border-radius:  0 0 0 80px;
+        }
+        &:nth-child(4){
+            transform-origin: top left;
+            border-radius: 0 0 80px 0;
+        }
+        &, div{
+            transition: transform 200ms ease;
+        }
+        div{
+            height: 100%;
+            width: 100%;
+        }
+        &:hover{
+            transform: scale(1.05);
+            // &:nth-child(1){
+            //     border-radius: 80px 10px 0 10px;
+            // }
+            // &:nth-child(2){
+            //     border-radius: 10px 80px 10px 0 !important;
+            // }
+            // &:nth-child(2){
+            //     transform-origin: bottom left;
+            //     border-radius: 0 80px 0 0;
+            // }
+            // &:nth-child(3), .lofi{
+            //     transform-origin: top right;
+            //     border-radius:  0 0 0 80px;
+            // }
+            // &:nth-child(4){
+            //     transform-origin: top left;
+            //     border-radius: 0 0 80px 0;
+            // }
+        }
+    }
+    .lofi{
+        background-size: cover;
+    }
+}

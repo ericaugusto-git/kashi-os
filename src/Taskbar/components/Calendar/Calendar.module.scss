@@ -1,6 +1,6 @@
 .calendar_container{
     position: fixed;
-    top: 41px;
+    z-index: 9;
     background: rgba(255, 255, 255, 0.507);
     // border: 2px solid black;
     border-radius: 8px;
@@ -9,22 +9,6 @@
     width: 330px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     backdrop-filter: blur(6px);
-}
-
-.calendar_container:not(.light){
+    background-color: rgba(var(--theme-color), .8);
     color: white;
-    
 }
-
-.calendar_container.dark{
-    background: #101010;
-    background: rgba(28, 28, 28, 0.80);
-}
-
-.calendar_container.coffe{
-    background: #413634;
-
-    // background: hsl(2 49% 55% / 1);
-    // background: #8f7042;
-}
-

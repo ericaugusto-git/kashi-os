@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { WindowType } from '../../../constants/window';
 import { useTheme } from '../../../contexts/ThemeContext';
 import styles from './DesktopIcon.module.scss';
+import { useDesktopPosition } from '../../../contexts/DesktopPositonContext';
 
 type DesktopIconProp = {
     app: WindowType,
@@ -14,12 +15,13 @@ type DesktopIconProp = {
 }
 function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, fromTaskbar}: DesktopIconProp){
     const [theme] = useTheme();
+    const [position] = useDesktopPosition();
     const { t } = useTranslation();
     const icon = svgMask ? { } :  {backgroundImage: `url("${app.icon}")`}
     const stylesDefault: CSSProperties = {...imgWrapperStyles, ...icon}
     const svgDefault = {...svgStyles, maskImage: `url("${app.icon}")` }
     return (
-        <button className={`${styles.desktop_icon} ${styles[theme.value]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive}`} style={buttonStyles}>
+        <button className={`${styles.desktop_icon} ${styles[position]} ${styles[theme]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive}`} style={buttonStyles}>
             {app.active}
             <div style={stylesDefault} className={styles.img_wrapper + " " +  (!svgMask ? 'backgroundImage' : '')}>
                 {svgMask && <div style={svgDefault} className={"svgMask " + styles.icon}></div>}
@@ -28,7 +30,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
           ) : <img src={app.icon}></img>} */}
           {/* <img src={app.icon}></img> */}
             </div>
-           {!fromTaskbar && <span className={styles.label}>
+           {!fromTaskbar && position == 'bottom' && <span className={styles.label}>
                 {t(app.app)}
             </span>}
         </button>

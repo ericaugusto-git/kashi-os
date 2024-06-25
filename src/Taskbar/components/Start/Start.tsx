@@ -11,7 +11,6 @@ function Start() {
   const buttonStyles: CSSProperties = {
     height: "29px",
     width: "45px",
-    backgroundColor: '#A0ACD7',
     border: "1px solid rgb(255 255 242)",
     borderRadius: '50px'
   };
@@ -48,11 +47,10 @@ function Start() {
   
   return (
     <div  onMouseMove={handleMouseMove} className={styles.startBtnWrapper}>
-    <Button
+    <button
       ref={toggleButtonRef}
-      styles={buttonStyles}
-      handleClick={handleClick}
-      outline={true}
+      className={styles.start_btn}
+      onClick={handleClick}
     >
       {/* <div style={{height: "21px", width: "21px"}}>
                 <img style={{height: "100%", width: "100%"}} src={startIcon}></img>
@@ -70,7 +68,7 @@ function Start() {
         <div className={styles['muzzle']}></div>
       </div>
     </div>
-    </Button>
+    </button>
     </div>
   );
 }

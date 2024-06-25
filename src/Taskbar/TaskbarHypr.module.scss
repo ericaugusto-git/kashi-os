@@ -1,7 +1,6 @@
 $paddingX: 12px;
 .taskbar{
     position: fixed;
-    top: 0;
     width: calc(100% - ($paddingX * 2));
     height: 25px;
     padding: 6px 12px;
@@ -20,7 +19,13 @@ $paddingX: 12px;
 
 .taskbar_section_wrapper{
     border-radius: 99999px;
-    background-color: #A0ACD7;
+    background-color: rgb(var(--theme-color));
+    // -webkit-transition: background-color var(--theme-transition-ms) linear;
+    // -ms-transition: background-color var(--theme-transition-ms) linear;
+    // transition: background-color var(--theme-transition-ms) linear;
+    transition: width 6s ease-in-out; /* Adjust the duration and easing as needed */
+    transition: all 0.6s ease-out;
+
     height: 100%;
     display: flex;
     gap: 10px;
@@ -34,6 +39,20 @@ $paddingX: 12px;
     justify-self: start;
     text-transform: capitalize;
     margin-right: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 4px;
+    .front{
+        // font-weight: 100;
+        // text-transform: lowercase;
+        color: hsl(0 0% 63% / 1);
+    }
+    .welcome{
+        font-size: 9px;
+    }
 }
 
 

@@ -45,7 +45,7 @@ export default function Windows(){
     return <div className={styles.taskbarWindowsWrapper}>
         {/* Workaround for https://issues.chromium.org/issues/41471914 */}
         <div className={styles.introsWrapper} style={{ position: windows?.length == 0 ? 'relative' : 'absolute' }}><Intro/> </div> 
-        {windows?.length > 0 && <ul className={`${styles.taskbarWindows} ${styles[theme.value]}`}>
+        {windows?.length > 0 && <ul className={`${styles.taskbarWindows} ${styles[theme]}`}>
         {windows.map((window) => (
             
             <motion.li initial="hidden" animate="visible"  variants={item} key={window.app} onClick={() => handleDesktopIconCLick(window)}>

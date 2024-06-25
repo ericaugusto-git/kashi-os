@@ -19,7 +19,7 @@ type VideoData =  {
 export default function LofiPlayer({setGifsActive, gifsBtnRef}: {setGifsActive: React.Dispatch<React.SetStateAction<boolean >>,  gifsBtnRef: React.RefObject<HTMLButtonElement>}) {
     const playerRef = useRef<HTMLDivElement>(null);
     const [player, setPlayer] = useState<Player | null>(null);
-    const [videoId, setVideoId] = useState('jfKfPfyJRdk');
+    const [videoId, setVideoId] = useState(localStorage.getItem("radioId") ?? 'jfKfPfyJRdk');
     const [isPlaying, setIsPlaying] = useState(false)
     const local = localStorage.getItem('lofiVolume');
     const [volume, setVolume] = useState<number>(local != null ? +local : 50); // Initial volume set to 50%
@@ -30,40 +30,45 @@ export default function LofiPlayer({setGifsActive, gifsBtnRef}: {setGifsActive: 
       tag.src = 'https://www.youtube.com/iframe_api';
       const firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag?.parentNode?.insertBefore(tag, firstScriptTag);
-      console.log(volume)
-      // Define the function for YouTube API to call when it's ready
-      window.onYouTubeIframeAPIReady = () => {
-        if (playerRef.current) {
-          const newPlayer = new window.YT.Player(playerRef.current, {
-            height: '50',
-            width: '50',
-            videoId: videoId,
-            playerVars: {
-              controls: 0,
-              autoplay: 1,            
-            },
-            events: {
-              'onReady': onPlayerReady,
-              'onStateChange': onPlayerReady,
-            },
-          });
-  
-          setPlayer(newPlayer as Player);
-      }
-  };
-  
-  
-  
-  // Function called when the player is ready
-  const onPlayerReady = (event: YT.PlayerEvent) => {
+        // Function called when the player is ready
+      const onPlayerReady = (event: YT.PlayerEvent) => {
         setVideoData({...(event.target as Player).getVideoData(), url: event.target.getVideoUrl()})
         const playerState: YT.PlayerState = event.target.getPlayerState();
         setIsPlaying(() => playerState == 1);
         const local = localStorage.getItem('lofiVolume');
         const currentVolume = local != null ? +local : volume;
-        console.log(currentVolume)
+        
         event.target.setVolume(currentVolume); // Set the initial volume
       };
+      // Define the function for YouTube API to call when it's ready
+      const createPlayer = () => {
+          if (playerRef.current && window.YT?.Player) {
+            const newPlayer = new window.YT.Player(playerRef.current, {
+              height: '50',
+              width: '50',
+              videoId: videoId,
+              playerVars: {
+                controls: 0,
+                autoplay: 1,            
+              },
+              events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerReady,
+              },
+            });
+    
+            setPlayer(newPlayer as Player);
+        }
+      }
+      if(!window.YT?.Player){
+        window.onYouTubeIframeAPIReady = createPlayer
+      }else{
+        createPlayer();
+      }
+  
+  
+  
+
   
       // Cleanup function
       return () => {
@@ -74,14 +79,7 @@ export default function LofiPlayer({setGifsActive, gifsBtnRef}: {setGifsActive: 
       };
     }, []);
   
-    useEffect(() => {
-      // console.log(player?.getVideoData());
-    //   if(player){
-    //     setVideoData(player.getVideoData());
-    //     console.log(player);
-    //     console.log(videoData)
-    // }
-    }, [player])
+
   
   
   
@@ -102,8 +100,10 @@ export default function LofiPlayer({setGifsActive, gifsBtnRef}: {setGifsActive: 
       } else if (direction === 'prev') {
         newIndex = (index - 1 + playlist.length) % playlist.length;
       }
-      setVideoId(() => playlist[newIndex]);
-      player?.loadVideoById(playlist[newIndex]);
+      const newId = playlist[newIndex];
+      setVideoId(() => newId);
+      localStorage.setItem("radioId", newId)
+      player?.loadVideoById(newId);
     };
   
   

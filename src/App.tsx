@@ -10,8 +10,10 @@ import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import '../i18n.js';
 import Desktop from "./Desktop/Desktop";
-import {PcStatusContextProvider} from "./contexts/PcStatusContext";
+import { DesktopPositionContextProvider } from "./contexts/DesktopPositonContext.js";
+import { PcStatusContextProvider } from "./contexts/PcStatusContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { WallpaperProvider } from "./contexts/WallpaperContext.js";
 import { WeatherProvider } from "./contexts/WheaterContext";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
@@ -31,11 +33,15 @@ export const StartSetterContext = createContext<ContextType>([
 function App() {
   return (
     <ThemeProvider>
-      <PcStatusContextProvider>
-        <WeatherProvider>
-          <Desktop/>
-        </WeatherProvider>
-      </PcStatusContextProvider>
+      <WallpaperProvider>
+        <PcStatusContextProvider>
+          <WeatherProvider>
+            <DesktopPositionContextProvider>
+              <Desktop/>
+            </DesktopPositionContextProvider>
+          </WeatherProvider>
+        </PcStatusContextProvider>
+      </WallpaperProvider>
     </ThemeProvider>
   );
 }

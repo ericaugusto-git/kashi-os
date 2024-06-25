@@ -1,18 +1,18 @@
 import { createContext, useContext, useState } from "react"
+import { wallpapers } from "../constants/wallpapers";
 
-const ThemeContext = createContext<ThemeContextType>([{value: "light", wallpaper: 0}, () => {}]);
+const ThemeContext = createContext<ThemeContextType>(["light", () => {}]);
 type ThemeProviderType = {children: React.ReactNode}
-type ThemeContextType = [Theme, React.Dispatch<React.SetStateAction<Theme>>]
-export type Themes = 'light' | 'dark' | 'coffe';
-export type Theme = {value: 'light' | 'dark' | 'coffe', wallpaper: number }
+type ThemeContextType = [Themes, React.Dispatch<React.SetStateAction<Themes>>]
+export type Themes = 'light' | 'dark' | 'cozy' 
+
 
 function ThemeProvider({children}: ThemeProviderType) {
-  const localTheme = localStorage.getItem('theme');
-  if(typeof localTheme === 'string'){
-    localStorage.removeItem('theme');
+  let initialTheme: Themes = (localStorage.getItem("theme") as Themes) ?? "light";
+  if(!wallpapers[initialTheme]){
+    initialTheme = 'light'
   }
-  const initialTheme: Theme = localStorage.getItem("theme") ? JSON.parse(localStorage.getItem('theme') as string) as Theme : {value: "light", wallpaper: 0};
-  const [theme, setTheme] = useState<Theme>(initialTheme)
+  const [theme, setTheme] = useState<Themes>(initialTheme)
   return (
     <ThemeContext.Provider value={[theme, setTheme]}>
       {children}

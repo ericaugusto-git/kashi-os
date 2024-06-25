@@ -18,7 +18,7 @@ function Contact(){
     const [theme] = useTheme();
     return ( 
         <Button styles={{padding: "7px 10px"}}>
-            <div className={`${styles.contact_info} ${styles[theme.value]}`}>
+            <div className={`${styles.contact_info} ${styles[theme]}`}>
                 <a className={styles.contact_item} onClick={openEmail}>
                     <div style={{ maskImage: `url("${mailIcon}")` }} className={"svgMask " + styles.icon}></div>
                     <span>eric72001@hotmail.com</span>

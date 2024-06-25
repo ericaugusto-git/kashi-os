@@ -18,7 +18,7 @@ function WeatherBody({weather, forecast}: WeatherType) {
     },[])
     return (  
         <div className={styles.body}>
-        <div className={styles.details + " " + styles[theme.value]}>
+        <div className={styles.details + " " + styles[theme]}>
             <div className={styles.info}>
                 <div className={"svgMask " + styles.icon} style={{maskImage: `url("${sunset}")`}}></div>
                 <span>{new Date(weather.sys.sunset * 1000).toLocaleTimeString('en-IN')}</span>

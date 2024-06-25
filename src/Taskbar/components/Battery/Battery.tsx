@@ -22,19 +22,19 @@ export default function Battery() {
         const navigatorWithBattery = navigator as NavigatorBattery;
 
         navigatorWithBattery.getBattery().then((battery) => {
-            console.log('Battery Level:', battery.level * 100, '%');
-            console.log('Charging:', battery.charging);
+            
+            
             setBattery(battery);
 
             // Level change event listener
             const handleLevelChange = () => {
-                console.log('Battery Level changed:', battery.level * 100, '%');
+                
                 setBattery({ ...battery });
             };
 
             // Charging change event listener
             const handleChargingChange = () => {
-                console.log('Charging status changed:', battery.charging);
+                
                 setBattery({ ...battery });
             };
 

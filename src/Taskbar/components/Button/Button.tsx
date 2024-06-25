@@ -31,10 +31,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonPropsType>(({handleClick, sty
 
     return (
     handleClick ? 
-    <button ref={ref} style={hovered ? {...stylesMiddle, ...hoverStyles} : stylesMiddle}   onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} className={`${defaultStyles.default_outline_button } ${outline ? defaultStyles.gradient : ''} ${defaultStyles[theme.value]}`}>
+    <button ref={ref} style={hovered ? {...stylesMiddle, ...hoverStyles} : stylesMiddle}   onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} className={`${defaultStyles.default_outline_button } ${outline ? defaultStyles.gradient : ''} ${defaultStyles[theme]}`}>
         {children}
     </button> : 
-    <div style={stylesMiddle} className={`${defaultStyles.default_outline_button } ${outline ? defaultStyles.gradient : ''} ${defaultStyles[theme.value]}`}>
+    <div style={stylesMiddle} className={`${defaultStyles.default_outline_button } ${outline ? defaultStyles.gradient : ''} ${defaultStyles[theme]}`}>
         {children}
     </div>
     )

@@ -10,6 +10,7 @@ import styles from "./Calendar.module.scss";
 import DateTime from "./DateTime/DateTime";
 import Weather from "./Weather/Weather";
 import { ptBR as coreptBR } from '@mui/material/locale';
+import { useDesktopPosition } from "../../../contexts/DesktopPositonContext";
 const darkTheme = createTheme(
 {  
   palette: {
@@ -30,10 +31,11 @@ const lightTheme = createTheme({
 
 export default function Calendar() {
   const [theme] = useTheme();
+  const [position] = useDesktopPosition();
   return (
     <>
       <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-        <div className={styles.calendar_container + " " + styles[theme.value]}>
+        <div style={{[position]: '41px'}} className={styles.calendar_container + " " + styles[theme]}>
           <LocalizationProvider
             dateAdapter={AdapterDayjs}
           >

@@ -7,6 +7,9 @@ import { WindowType } from "../../../constants/window";
 import { windowsTemplates } from "../../../constants/windowsTemplate";
 import useOpenWindow from "../../../hooks/useOpenWindow";
 import styles from "./Search.module.scss";
+import { wallpapers } from "../../../constants/wallpapers";
+import { useTheme } from "../../../contexts/ThemeContext";
+import { useWallpaper } from "../../../contexts/WallpaperContext";
 
 export default function Search({searchVisible, setSearchVisible}: {searchVisible: boolean, setSearchVisible: Dispatch<SetStateAction<boolean>>}) {
     const initialApps: WindowType[] = _.cloneDeep(windowsTemplates).sort((a: WindowType, b: WindowType) => a.app.toLowerCase().localeCompare(b.app.toLowerCase()));
@@ -16,7 +19,8 @@ const [inputValue, setInputValue] = useState<string>('');
 const inputRef = useRef<HTMLInputElement>(null);
 const listRef = useRef<HTMLUListElement>(null); // Ref for the <ul> element
 const [focusedIndex, setFocusedIndex] = useState<number>(0); // Index of the focused app
-
+const [theme] = useTheme();
+const [wallpaperIndex] = useWallpaper();
 const handleInputChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
     // Update the state with the new input value
     const newInput = event.target.value;
@@ -66,7 +70,7 @@ const handleInputChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
             setSearchVisible(false);
         } else if (event.code === 'ArrowDown') {
             // Move focus to the next app item
-            console.log(apps.length - 1)
+            
             setFocusedIndex(prevIndex => Math.min(prevIndex + 1, apps.length - 1));
         } else if (event.code === 'ArrowUp') {
             // Move focus to the previous app item
@@ -97,7 +101,7 @@ useEffect(() => {
     <AnimatePresence>
         {searchVisible && 
             <motion.div initial={{scale: 0}} animate={{scale: 1}} exit={{scale: 0, opacity: 0}} className={styles.search_container}>
-            <div className={`backgroundImage ${styles.search_bar}`}>
+            <div className={`backgroundImage ${styles.search_bar}`} style={{backgroundImage: `url("${wallpapers[theme][wallpaperIndex]}")`}}>
                 <div className={styles.search_input_container}>
                 <div
                     style={{ maskImage: `url("${search}")` }}

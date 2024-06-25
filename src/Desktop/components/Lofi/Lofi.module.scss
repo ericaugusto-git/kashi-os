@@ -18,20 +18,56 @@
   font-weight: bold;
   font-size: 21px;
   transform: translate(-50%, -50%);
+  
 }
 
 .actions{
   position: fixed;
   bottom: 10px;
   right: 10px;
-  display: flex;
-  gap: 10px;
+  
+    border-radius: 99999px;
+    background-color: rgb(var(--theme-color));
+    -webkit-transition: background-color var(--theme-transition-ms) linear;
+    -ms-transition: background-color var(--theme-transition-ms) linear;
+    transition: background-color var(--theme-transition-ms) linear;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 3px 20px;
+    font-size: 11px;
+    line-height: 8px;
+
   button{
     width: 21px;
     height: 21px;
     cursor: pointer;
+    border: none;
+    background: transparent;
+    transition: background-color 0.2s linear;
+    border-radius: 8px;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .full{
+    background-color: rgba(82, 158, 185, 0.2);
+  }
+  .pomodoro{
+    background-color: rgba(255, 213, 0, 0.226);
+    background-size: 140%;
+    padding: 0;
+  }
+  .pomodoro:hover{
+    background-color: rgba(255, 213, 0, 0.8);
+  }
+  .full:hover{
+    background-color: rgba(82, 158, 185);
   }
   .close{
-    background-color: rgb(224, 70, 70);
+    background-color: rgba(214, 54, 54, 0.205);
+  }
+  .close:hover{
+    background-color: rgba(214, 54, 54);
   }
 }

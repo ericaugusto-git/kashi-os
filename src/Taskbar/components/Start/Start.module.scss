@@ -1,4 +1,4 @@
-$color-black: #A0ACD7;
+$color-black: rgb(var(--theme-color));
 $color-white: 	#fffff2;
 $size: 21px; // (Fully responsive)
 
@@ -14,6 +14,17 @@ $size: 21px; // (Fully responsive)
 
 }
 // Ears
+.start_btn{
+	cursor: pointer;
+	height: 29px;
+    width: 45px;
+	border-radius: 50px;
+	background-color: rgb(var(--theme-color));
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	border: 1px solid rgb(255 255 242);
+}
 .ear {
 	position: absolute;
 	top: -30%;
@@ -142,7 +153,9 @@ $size: 21px; // (Fully responsive)
 	top: 25%;
 	height: 50%;
 	width: 20%;
-	background: $color-black;
+	background: rgb(128, 97, 97);
+	background: rgb(71, 71, 71);
+
 	border-radius: 50%;
 	animation: look-around 4s infinite;
 	

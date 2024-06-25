@@ -24,7 +24,7 @@ function Skills(){
         padding: "2px 20px 4px 10px",
         height: "calc(100% - 8px)",
         border: theme == 'light' ? '1px solid rgb(207 207 207)' : "1px solid #696969",
-        color: theme == 'coffe' ? 'rgb(171 201 213)' : "#676767",
+        color: theme == 'cozy' ? 'rgb(171 201 213)' : "#676767",
         // color: "#AEB2BA",
         background: theme == 'light' ?  "#f9f9f9" : theme == 'dark' ? "#121212" : 'rgb(75 65 66)'
     }
@@ -71,7 +71,7 @@ function Skills(){
 
     return (        
     // <Button styles={buttonStyles} outline={false}>
-        <div className={styles.skills + " " + styles[theme.value]}>
+        <div className={styles.skills + " " + styles[theme]}>
             <div className={`${styles["title-container"]} ${styles['text-slide']}`}>
             <span className={styles['title']}>{hovered ? (<><span style={{color: hovered.expColor}}>{hovered.experience.time}</span> <span style={{color: '#AEB2BA'}}>{hovered.experience.description} of exp.</span></>) : 'skills'}</span>
             {!hovered && [1,2,3,4,5,6,7,8].map((i) => (<div key={i} className={styles.dot}></div>))}

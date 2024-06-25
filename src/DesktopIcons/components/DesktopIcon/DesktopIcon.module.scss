@@ -8,10 +8,11 @@
     cursor: pointer;
     padding: 0;
     text-transform: capitalize;
+    color: white;
     .label{
         font-family: 'IBM Plex Mono';
-        font-size: 16px;
-        text-shadow: 0 0px rgb(236, 236, 236);
+        font-size: 14px;
+        text-shadow: 1px 1px rgb(0, 0, 0);
         // text-shadow:#ffffff 0px 1px 8px;
 
         // text-shadow:#000000 0px 1px 8px;
@@ -20,9 +21,10 @@
         width: 46px;
         height: 40px;
         padding: 14px 11px;
-        background-color: rgb(217,217,217,0.25);
+        // background-color: rgb(var(--theme-color),0.8);
         border-radius: 12px;
         background-size: 60%;
+        transition: opacity 100ms linear;
         img, .icon{
             width: 100%;
             height: 100%;
@@ -31,56 +33,53 @@
             mask-size: 90%;
         }
     }
-}
-
-.desktop_icon.fromTaskbar.appActive .img_wrapper{
-    background-color: rgba(136, 159, 175, 0.603) !important;
-}
-.desktop_icon:hover .img_wrapper{
-    background-color: rgb(217,217,217,0.50) !important;
-}
-
-.desktop_icon.fromTaskbar.appActive.dark .img_wrapper{
-    background-color: hsla(261, 21%, 54%, 0.575) !important;
-}
-.desktop_icon.fromTaskbar.appActive.coffe .img_wrapper{
-    background-color: hsla(26, 9%, 30%, 0.603) !important;
-}
-
-
-
-.desktop_icon:not(.light){
-    color: white;
-    .img_wrapper{
-        // backdrop-filter: blur(2px);
-    }
-    .label{
-        text-shadow: 0px 1px black;
-        // text-shadow:#ffffff 0px 1px 8px;
+    .img_wrapper:hover{
+        opacity: .8;
     }
 }
-.desktop_icon:is(.light) .icon{
-    background-color: black;
+
+.top .img_wrapper{
+    background-color: transparent;
+    width: 36px;
+    height: 30px;
 }
 
-.desktop_icon.dark .img_wrapper{
-        background-color: rgba(0, 0, 0, 0.25);
-    }
+// .desktop_icon.fromTaskbar.appActive .img_wrapper{
+//     background-color: rgba(136, 159, 175, 0.603) !important;
+// }
+// .desktop_icon:hover .img_wrapper{
+//     background-color: rgb(217,217,217,0.50) !important;
+// }
 
-.desktop_icon.dark:hover .img_wrapper{
-    background-color: rgba(73, 73, 73, 0.205);
-}
+// .desktop_icon.fromTaskbar.appActive.dark .img_wrapper{
+//     background-color: hsla(261, 21%, 54%, 0.575) !important;
+// }
+// .desktop_icon.fromTaskbar.appActive.coffe .img_wrapper{
+//     background-color: hsla(26, 9%, 30%, 0.603) !important;
+// }
 
-.desktop_icon.coffe .img_wrapper{
-        background-color: rgb(207 185 151 / 44%);
-        background-color: #a8c5d138;
-}
 
-.desktop_icon.coffe:hover .img_wrapper{
-    background-color: rgb(207 185 151 / 55%);
-    background-color: rgba(230, 194, 172, 0.178);
 
-}
+
+
+// .desktop_icon.dark .img_wrapper{
+//         background-color: rgba(0, 0, 0, 0.25);
+//     }
+
+// .desktop_icon.dark:hover .img_wrapper{
+//     background-color: rgba(73, 73, 73, 0.205);
+// }
+
+// .desktop_icon.coffe .img_wrapper{
+//         background-color: rgb(207 185 151 / 44%);
+//         background-color: #a8c5d138;
+// }
+
+// .desktop_icon.coffe:hover .img_wrapper{
+//     background-color: rgb(207 185 151 / 55%);
+//     background-color: rgba(230, 194, 172, 0.178);
+
+// }
 
 @media (max-width: 1024px) {
     .desktop_icon{

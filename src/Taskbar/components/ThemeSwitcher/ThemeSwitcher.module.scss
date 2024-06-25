@@ -1,36 +1,88 @@
-.theme_switcher{
-    position: fixed;
-    backdrop-filter: blur(30px);
-    width: 100%;
-    height: 40%;
-    top: 45%;
-    transform: translateY(-45%);
-    padding: 54px 0;
-    display: flex;
-    justify-content: space-evenly;
-}
+$overlayWidth: 70%;
+$color: var(--color);
 
+.theme_switcher {
+  position: fixed;
+  backdrop-filter: blur(30px);
+  width: 100%;
+  height: 40%;
+  top: 45%;
+  transform: translateY(-45%);
+  padding: 74px 0;
+  display: flex;
+  z-index: 2;
+  justify-content: space-evenly;
+}
+.theme:not(.active):hover{
+  opacity: .85;
+}
+// .theme {
+//   height: 100%;
+//   width: calc((100% / 3.4));
+//   border-radius: 50px;
+//   position: relative;
+//     cursor: pointer;
+//     display: flex;
+//     align-items: center;
+//     justify-content: right;
+//     padding-right: 35px;
+//     transition: opacity 0.3s ease;
+//     span{
+//       z-index: 1;
+//     }
+//   &::after, &::before {
+//     content: "";
+//     position: absolute;
+//     right: 0;
+//     height: 100%;
+//     width: $overlayWidth;
+//     border-radius: 50px;
+//     clip-path: polygon(66% 0, 100% 0, 100% 100%, 44% 100%);
+//   }
+
+//   &::after {
+//     background-color: rgba($color, .9); // Adjust the opacity value as needed
+//   }
+
+//   &::before {
+//     width: calc(#{$overlayWidth} + 10%);
+//     background-color: rgba($color, 0.5); // Adjust the opacity value as needed
+//   }
+// }
+$transition: 200ms;
 .theme{
-    height: 100%;
-    width: calc((100% / 3.4));
-    border-radius: 50px;
-    position: relative;
-}
- $overlayWidth: 65%;
- .theme::after,.theme::before{
-    content: "";
-    position: absolute;
-    right: 0;
-    height: 100%;
-    width: $overlayWidth;
-    border-radius: 50px;
-    background-color: #59a2b1c2;
-    backdrop-filter: blur(10px);
-    z-index: 9;
-    clip-path: polygon(66% 0, 100% 0, 100% 100%, 44% 100%);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: calc((100% / 3.4));
+  padding: 5px;
+  $borderRadius: 35px;
+  border-radius: $borderRadius;
+  cursor: pointer;
+  transition: background-color $transition linear;
+  .theme_img{
+    grid-column: span 2/span 2;
+    border-radius: calc($borderRadius - 5px);
+  }
+  span{
+    text-align: center;
+    vertical-align: middle;
+    line-height: 300px;
+  }
 }
 
-.theme::before{
-    width: calc($overlayWidth + 10%);
-    background-color: #59a2b14d;
+.theme.active, .theme:hover{
+  background-color: rgb(var(--accent-color));
+}
+.theme.active{
+  transition: background-color var(--theme-transition-ms) linear;
+}
+
+
+@keyframes show {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
 }

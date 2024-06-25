@@ -17,7 +17,7 @@ function Actions(){
     const themeButtons: {icon: string, action: Themes, useSvg?: boolean}[] = [
         {icon: sunsetIcon, action: 'light', useSvg: true},
         {icon: moonIcon, action: 'dark'},
-        {icon: cappuccinoIcon, action: 'coffe'}
+        {icon: cappuccinoIcon, action: 'cozy'}
     ];
     const languageButtons = [
         {icon: brasilFlag, action: 'pt-BR', label: "PT-BR"},
@@ -33,7 +33,7 @@ function Actions(){
     // TODO is it good to have global change inside a component?
     moment.locale(i18n.resolvedLanguage);
     const handleChangeTheme = (theme: string) => {
-        // setTheme();
+        setTheme(theme as Themes);
     }
 
     const handleChangeLanguage = (lang: string) => {
@@ -43,7 +43,7 @@ function Actions(){
     return(
         <Button styles={buttonStyles}>
             <div className={styles.actions}>
-                <ButtonGroup selectedValue={theme.value} buttons={themeButtons} handleClick={handleChangeTheme} stylesProp={{width: "26px", height: "26px"}}></ButtonGroup>
+                <ButtonGroup selectedValue={theme} buttons={themeButtons} handleClick={handleChangeTheme} stylesProp={{width: "26px", height: "26px"}}></ButtonGroup>
                 <hr style={{width: "25px"}} className="dashed_separator"></hr>
                 <ButtonGroup selectedValue={i18n.resolvedLanguage} handleClick={handleChangeLanguage} stylesProp={{padding: "3px 6px"}} buttons={languageButtons}></ButtonGroup>
             </div>

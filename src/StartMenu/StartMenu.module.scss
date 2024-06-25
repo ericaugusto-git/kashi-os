@@ -181,7 +181,7 @@ $col2IconSize: 21px;
     inset: 0;
     border-radius: $borderRadius; 
     padding: 2px; 
-    background:linear-gradient(45deg,#9651F0,#F291E8); 
+    background:linear-gradient(45deg,rgb(var(--accent-color)),rgb(var(--theme-color))); 
     -webkit-mask: 
        linear-gradient(#fff 0 0) content-box, 
        linear-gradient(#fff 0 0);
@@ -190,13 +190,13 @@ $col2IconSize: 21px;
     z-index: 0;
 }
 
-.start_menu.dark:before{
-    background:linear-gradient(45deg,#c7c7c7,#000000); 
-}
+// .start_menu.dark:before{
+//     background:linear-gradient(45deg,#c7c7c7,#000000); 
+// }
 
-.start_menu.coffe:before{
-    background:linear-gradient(45deg,rgb(171, 201, 213),rgb(75, 65, 66)); 
-}
+// .start_menu.coffe:before{
+//     background:linear-gradient(45deg,rgb(171, 201, 213),rgb(75, 65, 66)); 
+// }
 .playlistContainer{
     /* gap: 25px; */
     width: 100%;

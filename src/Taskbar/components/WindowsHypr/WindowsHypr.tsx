@@ -1,11 +1,11 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useWindowContext } from "../../../contexts/WindowContext";
 import styles from './WindowsHypr.module.scss';
 import { WindowType } from "../../../constants/window";
+import { Dispatch, SetStateAction } from "react";
 
-export default function WindowsHypr(){
-    const [windows, setWindows] = useWindowContext();
+export default function WindowsHypr({windows, setWindows}: {windows: WindowType[], setWindows: Dispatch<SetStateAction<WindowType[]>>}){
     const [theme] = useTheme();
     const item = {
         hidden: { x: 20, opacity: 0 },
@@ -38,13 +38,15 @@ export default function WindowsHypr(){
         })
       };
       
-    return <>
-            {windows?.length > 0 && <ul className={`${styles.windows} ${styles[theme.value]}`}>
+    return( 
+           <motion.ul className={`${styles.windows} ${styles[theme]}`}>
+            <AnimatePresence>
         {windows.map((window: WindowType) => (
-            <li  key={window.app} className={window.active ? styles.active : ''} onClick={() => handleDesktopIconCLick(window)}>
-                <button className="backgroundImage" style={{[window.svgMask?.desktop ?  'maskImage' : 'backgroundImage']: `url("${window.icon}")`}}></button>
-            </li>
+            <motion.li initial={{ padding: '2px 0'}} transition={{duration: 0.2}} animate={{ padding: window.active ? '2px 18px' : '2px 0' }} exit={{ padding: 0, width: 0, opacity: 0, margin: 0 }}  key={window.app} className={window.active ? styles.active : ''} onClick={() => handleDesktopIconCLick(window)}>
+                {/* <button className="backgroundImage svgMask" style={{[window.svgMask?.desktop ?  'maskImage' : 'backgroundImage']: `url("${window.icon}")`}}></button> */}
+                <img className={styles.icon} src={window.icon}></img>
+            </motion.li>
         ))}
-        </ul>}
-    </>
+    </AnimatePresence>
+        </motion.ul>)
 }

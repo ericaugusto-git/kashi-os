@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Rnd } from 'react-rnd';
 import lock from '../assets/window/lock.svg';
@@ -6,6 +6,9 @@ import { WindowType } from '../constants/window';
 import { useWindowContext } from '../contexts/WindowContext';
 import useCloseWindow from '../hooks/useCloseWindow';
 import styles from './Window.module.scss';
+import { useDesktopPosition } from '../contexts/DesktopPositonContext';
+import { AnimatePresence, motion } from 'framer-motion';
+
 
 const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const [windows, setWindows] = useWindowContext();
@@ -14,8 +17,15 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const windowRef = useRef<HTMLDivElement>(null)
   const closeRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const minimizedRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const [position] = useDesktopPosition();
+  const taskbarHeight = 37;
   const { t } = useTranslation();
-
+  const variants = {
+    initial: position == 'top' ? { scale: 0 } : {opacity: 1},
+    animate: position == 'top' ? { scale: 1 } : {opacity: 1},
+    exit: position == 'top' ? { scale: 0, opacity: 0 } : {opacity: 0, }
+  };
+  
 
   const handleWindowClick = (app: string, index: number, event: React.TouchEvent | React.MouseEvent) => {
     if (index !== -1 && (closeRefs.current[index] && closeRefs.current[index]?.contains(event.target as Node)) || (minimizedRefs.current[index] && minimizedRefs.current[index]?.contains(event.target as Node))) {
@@ -53,7 +63,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     if(windowRef){
       const {width, height} =  windowRef.resizable.state;
       const windowHeight = lastHeight ?? innerHeight;
-      return width == "100%" && height == (windowHeight - 51) + 'px' 
+      return width == "100%" && height == (windowHeight - taskbarHeight) + 'px' 
     }
     return false;
   }
@@ -62,12 +72,24 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     const windowRef = windowRefs.current[index];
     if(windowRef){
       const isMax = isMaximized(index);
-      const size = isMax ? {width: "40%", height: window.height ?? '400px'} : {width: "100%", height: (innerHeight - 51) + 'px'};
+      const size = isMax ? {width: "40%", height: window.height ?? '400px'} : {width: "100%", height: (innerHeight - taskbarHeight) + 'px'};
       windowRef?.updateSize(size);
-      windowRef?.updatePosition(!isMax ? {x: 0, y: 0} : {x: window.x ?? Math.round(0.08 * innerWidth) , y: window.y ?? Math.round(0.02 * innerHeight)});
+      windowRef?.updatePosition(!isMax ? {x: 0, y: position == 'top' ? taskbarHeight : 0} : {x: window.x ?? Math.round(0.08 * innerWidth) , y: window.y ?? Math.round(0.02 * innerHeight)});
     }
     // window.active = true;
   }
+
+  useEffect(() => {
+    const updatedWindows = windows.map((w,i) => {
+      if(isMaximized(i)){
+        const windowRef = windowRefs.current[i];
+        windowRef?.updatePosition({x: 0, y: position == 'top' ? taskbarHeight : 0});
+      }
+      return w;
+    }
+  );
+  setWindows(updatedWindows);
+  }, [position])
 
   const handleDragStop = (posSize: {x: number, y:number, width?: string, height?: string}, window: WindowType) => {
     seNoTransition(false);
@@ -90,7 +112,6 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   // useEffect(() => {
   //   const handleResize = () => {
   //       windows.forEach((window,i) => {
-  //         console.log(isMaximized(i, windowSize.height))
   //         if(isMaximized(i, windowSize.height)){
   //           maximizeWindow(window, i);
   //         }
@@ -112,8 +133,9 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
 
   
   return <div ref={windowRef}>
+    <AnimatePresence>
   {windows.map((window, index) => (
-  <div key={window.app} onTouchStart={(event) => handleWindowClick(window.app, index, event)} onMouseDown={(event) => handleWindowClick(window.app, index, event)}
+  <motion.div variants={variants} initial="initial"  animate="animate" exit="exit" transition={{ duration: 0.2 }}  key={window.app} onTouchStart={(event) => handleWindowClick(window.app, index, event)} onMouseDown={(event) => handleWindowClick(window.app, index, event)}
 >
   <Rnd
     // default={{
@@ -124,7 +146,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     // }}
     ref={ref => windowRefs.current[index] = ref}
     dragHandleClassName={styles.header}
-  default={{ x: window.x ?? 150, y:  window.y ?? 50, width: window.width ?? "40%",height: window.height ?  (window.height == '100%' ? ((innerHeight - 51) + 'px') : window.height ) : "400px"  }}
+  default={{ x: window.x ?? 150, y:  window.y ?? 50, width: window.width ?? "40%",height: window.height ?  (window.height == '100%' ? ((innerHeight - taskbarHeight) + 'px') : window.height ) : "400px"  }}
   enableResizing={window.enableResizing ?? true}
     minWidth={window.maxWidth ?? 350}
     minHeight={window.maxHeight ?? 350}
@@ -165,8 +187,9 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
         </div>
     </div>
   </Rnd>
-          </div>
+          </motion.div>
 ))}
+</AnimatePresence>
   </div>
   
 };

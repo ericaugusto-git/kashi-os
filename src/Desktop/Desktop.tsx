@@ -1,33 +1,39 @@
-import { useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
+import { isMobile } from 'react-device-detect';
 import { StartSetterContext } from "../App";
 import DesktopIcons from "../DesktopIcons/DesktopIcons";
 import StartMenu from "../StartMenu/StartMenu";
-import Taskbar from "../Taskbar/Taskbar";
+import Search from "../StartMenu/components/Search/Search";
+import TaskbarHypr from "../Taskbar/TaskbarHypr";
+import Actions from "../Taskbar/components/Actions/Actions";
+import { PcStatusMenu } from "../Taskbar/components/PcStatusMenu/PcStatusMenu";
+import Skills from "../Taskbar/components/Skills/Skills";
 import Window from "../Window/Window";
-import { Wallpapers, wallpapers } from "../constants/wallpapers";
+import { themes, transitionMs } from "../constants/themes";
+import { wallpapers } from "../constants/wallpapers";
+import { useDesktopPosition } from "../contexts/DesktopPositonContext";
 import { usePcStatus } from "../contexts/PcStatusContext";
-import { useTheme } from "../contexts/ThemeContext";
+import { Themes, useTheme } from "../contexts/ThemeContext";
+import { useWallpaper } from "../contexts/WallpaperContext";
 import WindowContextProvider from "../contexts/WindowContext";
 import useComponentVisible from "../hooks/useComponentVisible";
+import { getWppIndex } from "../utils/utils";
 import styles from "./Desktop.module.scss";
 import ContextMenu from "./components/ContextMenu/ContextMenu";
 import Lockscreen from "./components/Lockscreen/Lockscreen";
+import Lofi from "./components/Lofi/Lofi";
 const initialContextMenu = {
   x: 0,
   y: 0,
 };
-import {isMobile} from 'react-device-detect';
-import Search from "../StartMenu/components/Search/Search";
-import Actions from "../Taskbar/components/Actions/Actions";
-import Skills from "../Taskbar/components/Skills/Skills";
-import Lofi from "./components/Lofi/Lofi";
-import TaskbarHypr from "../Taskbar/TaskbarHypr";
 
 function Desktop() {
 
   const [pcStatus, setPcStatus] = usePcStatus();
   const startButtonRef = useRef<HTMLButtonElement | null>(null);
+  const pcStatusButtonRef = useRef<HTMLButtonElement | null>(null);
   const [startMenuRef, isStartMenuOpen, setisStartMenuOpen] = useComponentVisible(false, startButtonRef);
+  const [pcStatusMenuRef, pcStatusMenuOpen, setPcStatusMenuOpen] = useComponentVisible(false, pcStatusButtonRef);
   const [contextMenuRef, isContextMenu, setContextVisible] = useComponentVisible(false);
   const [searchRef, searchVisible, setSearchVisible] = useComponentVisible(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -36,22 +42,20 @@ function Desktop() {
   const [isLiveWallpaper, setisLiveWallpaper] = useState(liveValue ? liveValue == 'true' : !isMobile);
   const isInitialMount = useRef(true);
   const [contextMenu, setContextMenu] = useState(initialContextMenu);
-  const [wallpaperKey, setWallpaperKey] = useState('light');
-  const [wallpaperIndex, setWallpaperIndex] = useState(0);
-  const [fallbackKey, setFallbackKey] = useState<string | null>(null);
+  const [wallpaper, setWallpaper] = useState<{theme: Themes, wppIndex: number} | null | undefined>({theme: theme, wppIndex: getWppIndex(theme)});
+  const [newWallpaper, setNewWallpaper] = useState<string | undefined>();
+  const [wallpaperIndex] = useWallpaper();
+  const [position] = useDesktopPosition();
+
   function timeout(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
   const changeWallpaper = async () => {
-    setFallbackKey(theme.value);
+    const newWppIndex = getWppIndex(theme);
+    setNewWallpaper(wallpapers[theme][newWppIndex]);
     await timeout(1200);
-    setFallbackKey((prevFall) => {
-      if(prevFall == theme.value){
-        setWallpaperKey(theme.value);
-        return null;
-      }
-      return prevFall;
-    })
+    setNewWallpaper(undefined)
+    setWallpaper({theme: theme, wppIndex: getWppIndex(theme)});
     // handleSetWallpaper();
   };
 
@@ -60,30 +64,18 @@ function Desktop() {
   }, [isLiveWallpaper]);
 
   useEffect(() => {
-    // setWallpaper(theme.value === 'light' ? topography : code);
-    const preloadVideo = (src: string) => {
-      const video = document.createElement("video");
-      video.preload = "auto"; // Optimize for preloading
-      const source = document.createElement("source");
-      source.src = src;
-      source.type = "video/mp4";
-      video.appendChild(source);
-      video.load();
-    };
+    // setWallpaper(theme === 'light' ? topography : code);
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      Object.values(wallpapers).forEach((wallpaper) => {
-          if(!isMobile){
-            preloadVideo(wallpaper.video)
-          }
-          new Image().src = wallpaper.imgs[0];
-      });
-      setWallpaperKey(theme.value)
+      // Object.values(wallpapers).forEach((wallpaper) => {
+      //     new Image().src = wallpaper.imgs[0];
+      // });
+      setWallpaper({theme: theme, wppIndex: wallpaperIndex})
     } else {
-      localStorage.setItem("theme.value", theme.value);
+      localStorage.setItem("theme", theme);
       changeWallpaper();
     }
-  }, [theme.value]);
+  }, [theme, wallpaperIndex]);
 
 
 
@@ -91,9 +83,7 @@ function Desktop() {
   useEffect(() => {
     // joke of the year
     const shutup = (event: MouseEvent) => {
-      console.log(pcStatus)
-      console.log( pcStatus != 'lofi')
-      if (!startMenuRef?.current?.contains(event.target as Node) && pcStatus != 'lofi') {
+      if (!startMenuRef?.current?.contains(event.target as Node) && !pcStatusMenuRef?.current?.contains(event.target as Node) && pcStatus != "lofi") {
         setPcStatus("on");
       }
     };
@@ -147,30 +137,37 @@ function Desktop() {
       className={
         (pcStatus == "on" ? styles.desktop : styles[pcStatus]) +
         " " +
-        styles[theme.value]
+        styles[theme]
       }
+      style={{'--theme-color': themes[theme].color, '--accent-color': themes[theme].accent, '--theme-transition-ms': transitionMs} as CSSProperties}
     >
       
       {/* The context menu */}
       {isContextMenu && <div ref={contextMenuRef} ><ContextMenu  isLiveWallpaper={isLiveWallpaper} hideContextMenu={hideContextMenu} setIsLiveWallpaper={setisLiveWallpaper} x={contextMenu.x} y={contextMenu.y}/></div>}
       {/* The wallpaper */}
       <div onContextMenu={handleContextMenu} className={styles.wallpaper_wrapper}>
-      {Object.keys(wallpapers).map((key) => {
-        return (key == wallpaperKey || key == fallbackKey)   && 
-        (isLiveWallpaper ? <video key={key} ref={(ref) => {if(pcStatus === 'sleeping' || key == wallpaperKey) {videoRef.current = ref}}}  preload='auto' autoPlay muted loop className={`${styles.background_video} ${fallbackKey == key && styles.circle}`}  disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
-            <source src={ pcStatus === 'sleeping' ? wallpapers.lockscreen.video : wallpapers[key as keyof Wallpapers].video} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video> : <div key={key} className={`backgroundImage ${fallbackKey == key && styles.circle} ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${pcStatus === 'sleeping' ? wallpapers.lockscreen.imgs[0] : wallpapers[theme.value as keyof Wallpapers].imgs[0]}")`}}></div>)
+      {wallpapers[wallpaper?.theme as Themes].map((wpp, index) => {
+        return index == wallpaper?.wppIndex && 
+        (<div key={wpp} className={`backgroundImage ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${pcStatus === 'sleeping' ? wallpapers.lockscreen[0] : wpp}")`}}></div>)
       })}
+      {newWallpaper && (<div className={`backgroundImage ${styles.wallpaperImg} ${styles.circle}`}  style={{backgroundImage: `url("${newWallpaper}")`}}></div>)}
+      {/* {Object.keys(wallpapers).map((key) => {
+        return (key == wallpaperKey?.theme || key == fallbackKey?.theme)   && 
+        (<div key={key} className={`backgroundImage ${fallbackKey?.theme == key && styles.circle} ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${pcStatus === 'sleeping' ? wallpapers.lockscreen[0] : wallpapers[key as keyof Wallpapers][key == fallbackKey?.theme ? fallbackKey.wppIndex : wallpaperKey?.wppIndex as number]}")`}}></div>)
+      })} */}
       </div>
 
       {/* wrapper for the actual high elements of the desktop, Windows array, Taskbar, Desktopicons */}
       <div style={{ display: pcStatus === "sleeping" || pcStatus == "lofi" ? "none" : "" }}>
         <WindowContextProvider>
           <div ref={searchRef}><Search searchVisible={searchVisible} setSearchVisible={setSearchVisible} /></div>
+          <div ref={pcStatusMenuRef}><PcStatusMenu pcStatusMenuOpen={pcStatusMenuOpen} setPcStatusMenuOpen={setPcStatusMenuOpen} /></div>
+
           <Window wrapperClass={styles.desktopIconsWrapper}>
           </Window>
-          <div  className={styles.desktopIconsWrapper}>
+          <div style={{[position == 'top' ? 'bottom' : 'top']: 0}}  className={styles.desktopIconsWrapper}>
+          <DesktopIcons/>
+
             {/* <DesktopIcons /> */}
           </div>
           <StartSetterContext.Provider
@@ -178,16 +175,16 @@ function Desktop() {
           >
             <div ref={startMenuRef}>{<StartMenu setSearchVisible={setSearchVisible} />}</div>
             {/* <Taskbar /> */}
-            <TaskbarHypr/>
+            <TaskbarHypr setPcStatusMenuOpen={setPcStatusMenuOpen} pcStatusButtonRef={pcStatusButtonRef}/>
           </StartSetterContext.Provider>
         </WindowContextProvider>
-      {windowSize.width <= 1200 && 
+      {/* {windowSize.width <= 1200 && 
         <div className={styles.skills_actions}>
                     <Actions />
                     <div className={styles.skills2}>
                       <Skills />
                     </div>
-        </div>}
+        </div>} */}
       </div>
       {pcStatus === "sleeping" && <Lockscreen />}
       {pcStatus === 'lofi' && <div onContextMenu={handleContextMenu}><Lofi/></div>}

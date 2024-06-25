@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 
-type PcStatusContextType = [string, React.Dispatch<React.SetStateAction<string>>]
+type PcStatus = "shutdown" | "on" | "sleeping" | "lofi";
+type PcStatusContextType = [string, React.Dispatch<React.SetStateAction<PcStatus>>]
 
 export const PcStatusContext = createContext<PcStatusContextType>(["on", () => false]);
 
@@ -10,7 +11,7 @@ type PcStatusContextProviderProps = {
 
   function PcStatusContextProvider({children}: PcStatusContextProviderProps){
 
-    const [pcStatus, setPcStatus] = useState<string>("on");
+    const [pcStatus, setPcStatus] = useState<PcStatus>("on");
     return <PcStatusContext.Provider value={[pcStatus, setPcStatus ]}>
         {children}
     </PcStatusContext.Provider>

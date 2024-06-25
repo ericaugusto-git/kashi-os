@@ -62,7 +62,7 @@ function Cmd() {
 
   useEffect(() => {
     if(localEcho && terminal){
-      console.log(rdd)
+      
     const getUserInfo = () => {
       const today = new Date();
       const [day, month, year] = [today.getDate(), today.getMonth() + 1, today.getFullYear()];
@@ -85,7 +85,7 @@ function Cmd() {
     );
           return deviceInfo;
   }
-  console.log(apps)
+  
   const echo = async () => {
       localEcho
         .read("~$ ")
@@ -95,7 +95,7 @@ function Cmd() {
               localEcho.clear();
               break;
             case "help":
-              console.log(apps);
+              
               ["neofetch", "weather",...apps.map(a=> a.executable), "exit"].forEach((cmd) => {
                 localEcho.println(cmd)
               })
@@ -103,7 +103,9 @@ function Cmd() {
             case "exit":
               closeWindow("command_line");
               break;
-            case 'weather': {
+            case 'weather': 
+            case 'wttr':
+            {
               const weatherResponse = await fetch(`https://wttr.in/?1nAF&lang=${i18n.resolvedLanguage?.toLowerCase()}`);
               const weatherText = await weatherResponse.text();
               localEcho.println(weatherText);
@@ -111,7 +113,7 @@ function Cmd() {
             }
             case "neofetch": {
               const fetchInfo = getUserInfo();
-              console.log
+              
               asciiArt.forEach((line, lineIndex) => {
                 const { label, conteudo } = fetchInfo?.[lineIndex] ?? '';
                 localEcho.println(`${accentColorAnsi}${line}\x1b[0m ${conteudo ? label + conteudo : ''}`);
