@@ -29,22 +29,42 @@ const Credits = () => {
         { name: "@mui/x-date-pickers", version: "^7.1.1", url: "https://mui.com/x/react-date-pickers/getting-started/" },
       ];
       const art = [ 
-        {name: "Johan Mouchet's cat animation", url: "https://codepen.io/johanmouchet/pen/OXxvqM"},
-        {name: "Lofi Girl Reading Book", url: "https://moewalls.com/pixel-art/lofi-girl-reading-book-while-its-raining-outside-pixel-live-wallpaper/"},
-        {name: "Coding Deck Live Wallpaper", url: "https://moewalls.com/sci-fi/coding-deck-live-wallpaper/"},
         {name: "Flying Studio Ghibli GIF By Luigi Salas - GIPHY API", url: "https://giphy.com/gifs/pixel-art-arial-cardinal-bird-N5B19awm2YvwMwf8JE"},
         {name: "Cup Of Coffee Love GIF By Luigi Salas - GIPHY API", url: "https://giphy.com/gifs/art-pixel-8bit-k8kITi9SAwe9JWbUaH"},
         {name: "Studio Ghibli Pixel Art GIF - GIPHY API", url: "https://giphy.com/gifs/pixel-art-studio-ghibli-OMFfLpauGoT4c"},
         {name: "Anime room", url: "https://x.com/ArsXC"},
-        // {name: "ぺい@ティア148 J-01b", url: "https://x.com/kuroneko_no_pei/status/1655339224306941955"},
-        // {name: "Comet", url: "https://whvn.cc/p95y2j"},
-        // {name: "Chillhop Music", url: "https://x.com/Chillhopdotcom/status/1573449135637909511"}
-      ]
-      const ai = [
-        {name: 'sakura cityscape by freepik', url: 'https://www.freepik.com/free-ai-image/beautiful-anime-sakura-cityscape-cartoon-scene_94944970.htm#fromView=search&page=4&position=2&uuid=3113be0f-ccae-4d04-b266-25f28091581'},
-        {name: 'cozy home by freepik', url: 'https://www.freepik.com/free-ai-image/anime-style-cozy-home-interior-with-furnishings_133783495.htm#fromView=search&page=1&position=9&uuid=99c72bd1-0cd1-437a-a19b-d4a24b3c56b'},
-        {name: 'city landscape by freepik', url: 'https://www.freepik.com/free-ai-image/digital-art-with-city-landscape-architecture_94154622.htm#fromView=search&page=15&position=42&uuid=170e98ab-6829-44bd-bf26-381dfe22412a'},
-      ]
+        {name: "Eugene Chystiakov", url: "https://unsplash.com/photos/a-night-view-of-a-city-and-a-bridge-fgXBH9f477A"},
+        {name: "Marek Piwnicki", url: "https://unsplash.com/photos/the-night-sky-over-a-snowy-mountain-range-Urtf4a8e_6Y"},
+        {name: "Photo by Carlos Oliva", url: "https://www.pexels.com/photo/city-skyline-across-body-of-water-during-night-time-3586966/"},
+        {name: "Photo by Cátia Matos", url: "https://www.pexels.com/photo/green-leaves-1072179/"},
+        {name: "Photo by Rafael Cerqueira", url: "https://www.pexels.com/photo/blue-and-white-sky-with-stars-4737484/"},
+        {name: "Photo by Riccardo Bertolo", url: "https://www.pexels.com/photo/blue-sea-under-blue-sky-4245826/"},
+        {name: "Photo by Janez Podnar", url: "https://www.pexels.com/photo/photo-of-brown-house-near-mountain-1424246/"},
+        {name: "Photo by Satoshi Hirayama", url: "https://www.pexels.com/photo/white-and-green-osaka-castle-4058530/"},
+        {name: "Photo by Roberto Nickson", url: "https://www.pexels.com/photo/lake-atitlan-2661176/"},
+        {name: "Photo by SpaceX", url: "https://www.pexels.com/photo/cloud-of-smoke-after-rocket-launch-in-spaceport-586117/"},
+        {name: "Photo by eberhard grossgasteiger", url: "https://www.pexels.com/photo/lake-and-mountain-under-white-sky-443446/"},
+        {name: "Photo by Ray Bilcliff", url: "https://www.pexels.com/photo/landscape-photo-of-forest-2055389/"},
+        {name: "Photo by Krivec Ales", url: "https://www.pexels.com/photo/red-and-brown-house-and-body-of-water-547125/"},
+        {name: "Photo by Krisztian Kormos", url: "https://www.pexels.com/photo/lake-bled-in-slovenia-3525983/"},
+        {name: "Photo by Andreas Schnabl", url: "https://www.pexels.com/photo/lake-bled-and-mountains-in-slovenia-19541951/"},
+        {name: "Photo by KOUSTABH BISWAS", url: "https://www.pexels.com/photo/photo-of-snow-capped-mountain-3737179/"},
+        {name: "Photo by Andre Benz on Unsplash", url: "https://unsplash.com/photos/empty-road-qi2hmCwlhcE?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
+        {name: "Photo by Andre Benz on Unsplash", url: "https://unsplash.com/photos/aerial-photography-of-city-skyline-during-night-time-cXU6tNxhub0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
+        {name: "Photo by Ihor Malytskyi on Unsplash", url: "https://unsplash.com/photos/white-ceramic-cup-on-saucer-with-spoon-G9Hzg0IfBvg?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
+        {name: "Photo by Loreta Pavoliene on Unsplash", url: "https://unsplash.com/photos/glass-panel-with-frame-inside-restaurant-Qw3bDTSjVZc?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
+        {name: "Photo by Sebastian Schuppik on Unsplash", url: "https://unsplash.com/photos/tables-and-chairs-inside-building-H7xTpvBjJS4?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
+        {name: "Photo by Vidar Nordli-Mathisen on Unsplash", url: "https://unsplash.com/photos/white-concrete-house-beside-shore-niOka5V8DWY?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
+        {name: "Photo by Elwin de Witte on Unsplash", url: "https://unsplash.com/photos/a-snowy-road-with-a-house-and-a-car-in-the-background-KHBVjJ8Ctws?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
+        {name: "Photo by Ales Krivec on Unsplash", url: "https://unsplash.com/photos/brown-hut-surrounded-by-flowers-okzxVsJNxXc?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
+        {name: "Photo by Luca Bravo on Unsplash", url: "https://unsplash.com/photos/brown-house-near-body-of-water-zAjdgNXsMeg?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
+        {name: "Photo by Joel & Jasmin Førestbird on Unsplash", url: "https://unsplash.com/photos/landscape-photography-of-snowy-mountain-and-body-of-water-efuwb5eBDrI?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
+        {name: "Photo by Marek Piwnicki on Unsplash", url: "https://unsplash.com/photos/snow-covered-mountain-under-blue-sky-k7cjQNzjkNg?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
+        {name: "Photo by Zoltan Tasi on Unsplash", url: "https://unsplash.com/photos/brown-and-white-concrete-houses-during-daytime-_snNw0rqRVs?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
+        {name: "Photo by Ling Tang on Unsplash", url: "https://unsplash.com/photos/cars-on-road-at-night-time--rffNTF8CYA?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
+        {name: "Photo by Jezael Melgoza on Unsplash", url: "https://unsplash.com/photos/people-walking-on-road-near-well-lit-buildings-layMbSJ3YOE?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"}
+    ];
+    
   return (
     <div className={styles.credits}>
       <span className={styles.title}>Credits</span>
@@ -61,16 +81,6 @@ const Credits = () => {
       <span>Art</span>
       <ul className="">
         {art.map((lib, index) => (
-          <li key={index} className="mb-2">
-            <a href={lib.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-              [{lib.name}] {lib.url}
-            </a>
-          </li>
-        ))}
-      </ul>
-      <span>A.I Generated thing</span>
-      <ul className="">
-        {ai.map((lib, index) => (
           <li key={index} className="mb-2">
             <a href={lib.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
               [{lib.name}] {lib.url}
