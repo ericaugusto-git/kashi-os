@@ -27,9 +27,6 @@ export default function WallpaperSwitcher({wallpaperSwitcherOpen}: WallpaperSwit
     <div className={`backgroundImage ${style.wallpaper_img}`} style={{backgroundImage: `url("${wallpaper}"`}}>
 
     </div>
-    <span>
-    {wallpaper.slice(0, 10)}
-    </span>
 </a>
 )}
     </motion.div>}
