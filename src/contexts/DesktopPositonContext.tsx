@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useState } from "react";
 
 export type DesktopPosition = 'top' | 'bottom';
+const defaultPostion = 'bottom';
 
 type DesktopPositionContextType = [DesktopPosition, React.Dispatch<React.SetStateAction<DesktopPosition>>]
-
-export const DesktopPositionContext = createContext<DesktopPositionContextType>(["top", () => false]);
+export const DesktopPositionContext = createContext<DesktopPositionContextType>([defaultPostion, () => false]);
 
 type DesktopPositionContextProviderProps = {
     children: React.ReactNode;
@@ -12,7 +12,7 @@ type DesktopPositionContextProviderProps = {
 
   function DesktopPositionContextProvider({children}: DesktopPositionContextProviderProps){
 
-    const localPosition = localStorage.getItem('position') as DesktopPosition ?? 'top';
+    const localPosition = localStorage.getItem('position') as DesktopPosition ?? defaultPostion;
     const [position, setPosition] = useState<DesktopPosition>(localPosition);
       return <DesktopPositionContext.Provider value={[position, setPosition]}>
         {children}
