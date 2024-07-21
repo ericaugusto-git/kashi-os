@@ -51,7 +51,8 @@ i18n
           drag: "Click here or drag and drop a game",
           game_list: "Your game list",
           systems: "Systems available thanks to the amazing work of the EmulatorJS Devs:",
-          save_notice: "well disappear including save if you clear cache"
+          save_notice: "well disappear including save if you clear cache",
+          under_dev: "app under development"
         }
     },
     ["pt-BR"]: {
@@ -85,7 +86,8 @@ i18n
             drag: "Clique aqui ou arreste e solte o jogo",
             game_list: "Seus jogos",
             systems: "Sistemas diponíveis graças aos DEVS fora da curva do EmulatorJS:",
-            save_notice: "irão desaparecer incluindo save quando cache for apagado"
+            save_notice: "irão desaparecer incluindo save quando cache for apagado",
+            under_dev: "Aplicativo em construção :)"
         }
       }
     }

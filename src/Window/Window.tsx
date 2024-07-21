@@ -8,6 +8,7 @@ import useCloseWindow from '../hooks/useCloseWindow';
 import styles from './Window.module.scss';
 import { useDesktopPosition } from '../contexts/DesktopPositonContext';
 import { AnimatePresence, motion } from 'framer-motion';
+import WindowContent from './components/WindowContent/WindowContent';
 
 
 const Window = ({wrapperClass}: {wrapperClass: string}) => {
@@ -162,7 +163,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   >
     <div className={styles.window} style={{cursor: isMaximized(index) ? 'normal' : 'move',...window.windowStyles,  opacity: window.minimized ? '0' : '1', transitionProperty: 'opacity',  transitionDuration: '0.5s',
     transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'}}>
-      {/* <div className={styles.glass_effect}></div> */}
+      <div className={styles.glass_effect}></div>
         <div className={styles.header} style={window.headerStyles}>
           <div className={styles.app}>
           {/* {window.icon?.includes(".svg") ? (
@@ -181,8 +182,9 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
         <div className={styles.body} style={window.bodyStyles}>
           {/* <div style={{backgroundColor: "white",width: "100%", height: "100%", boxSizing: "border-box"}}></div> */}
           {/* <iframe src="http://wikipedia.com" ></iframe> */}
-          {window.link ? <iframe src={window.link} width="100%" height="100%"></iframe> : window.conteudo && <window.conteudo closeBtnRefs={closeRefs.current} closeRefIndex={index} />}
-          
+          {/* {window.link ? <iframe src={window.link} width="100%" height="100%"></iframe> : window.conteudo && <window.conteudo closeBtnRefs={closeRefs.current} closeRefIndex={index} />} */}
+          <WindowContent window={window} index={index} closeRefCurrent={closeRefs.current}/>
+  
           {/* <div style={{width: "100%", height: "100%", backgroundImage: `url(${jdm})`, backgroundRepeat: "no-repeat", backgroundSize: "cover"}}></div> */}
         </div>
     </div>
