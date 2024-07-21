@@ -4,12 +4,12 @@ export type Wallpapers = {
 };
 export const wallpapers: Wallpapers = {
   light: [
+    "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake_cc0%2Fpexels-koustabh-biswas-2110517-3737179-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake_cc0%2Fmarek-piwnicki-Urtf4a8e_6Y-unsplash-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake_cc0%2Fales-krivec-okzxVsJNxXc-unsplash-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake_cc0%2Fluca-bravo-zAjdgNXsMeg-unsplash-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake_cc0%2Fpexels-dreamypixel-547125-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake_cc0%2Fpexels-eberhardgross-443446-min.jpg",
-    "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake_cc0%2Fpexels-koustabh-biswas-2110517-3737179-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake_cc0%2Fpexels-roaming-ant-3525983-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake_cc0%2Fpexels-rpnickson-2661176-min.jpg"
   ],

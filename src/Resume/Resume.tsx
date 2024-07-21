@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Document, Page } from "react-pdf";
 import styles from "./Resume.module.scss";
+import { ResumeType, resumes } from "../constants/resume";
 export default function Resume() {
   const { i18n } = useTranslation();
 //   const triggerSave = () => {
@@ -10,10 +11,7 @@ export default function Resume() {
 //     link.target = '_blank';
 //     link.click();
 //   }
-  const file =
-    i18n.resolvedLanguage == "pt-BR"
-      ? "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/curriculo%2FEric%20Augusto%20curr%C3%ADculo.pdf"
-      : "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/curriculo%2FEric%20Augusto%20resume.pdf";
+  const file: string = resumes[i18n.resolvedLanguage as keyof ResumeType]
   return (
     <>
       <Document className={styles.resume} file={file}>
