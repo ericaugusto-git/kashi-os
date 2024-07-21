@@ -11,13 +11,13 @@ Welcome to my portfolio, the O.S version! Featuring a desktop-inspired UI, this 
 - [x] Calendar component
 - [x] CMD
 - [x] Paint
-- [ ] Credits
+- [x] Credits
 - [x] Put to sleep: load lockscreen
 - [x] Shutdown
 - [x] Close startmenu and calendar with click outside
 - [ ] Refactor StartSetterContext
 - [ ] Paint redesign
-- [x] Improve experience in mobile (oh boy...)
+- [ ] Improve experience in mobile (oh boy...)
 - [x] Only ask for location if it's on pc
 - [x] Move all heavy assets to CDN
 - [ ] Re-do folders structure
@@ -31,7 +31,7 @@ Welcome to my portfolio, the O.S version! Featuring a desktop-inspired UI, this 
 - [x] Window onClick functions not working on mobile
 - [x] Resizing window should stop at taskbar
 - [x] Iframe reloads when changing window focus
-- [ ] Autosave with nitendo 64 games corrupt the save
+- [ ] Autosave with nitendo 64 games corrupts the save
 
 ### Cool open source projects to add in the future
 
