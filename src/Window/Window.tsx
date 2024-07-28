@@ -28,14 +28,19 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   };
   
   const isHeaderItem = (index: number,event: React.TouchEvent | React.MouseEvent) => {
-    if (index !== -1 && (closeRefs.current[index] && closeRefs.current[index]?.contains(event.target as Node)) || (minimizedRefs.current[index] && minimizedRefs.current[index]?.contains(event.target as Node))) {
+    // @ts-expect-error tagName actually exists on event.target
+    if(event.target.tagName.toLocaleLowerCase() == 'button'){
+      return true;
+    }
+    if (index !== -1 && (closeRefs.current[index] && closeRefs.current[index]?.contains(event.target as Node))  || (minimizedRefs.current[index] && minimizedRefs.current[index]?.contains(event.target as Node))) {
       return true;
     }
   }
 
   const handleWindowClick = (app: string, index: number, event: React.TouchEvent | React.MouseEvent) => {
-    if(isHeaderItem(index, event))
+    if(isHeaderItem(index, event)){
       return;
+    }
     windows.map((a) => a.active = a.app === app);
     
     const updatedWindows = windows.map(w => ({
@@ -97,20 +102,20 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   }, [position])
 
   const handleDragStop = (event: React.TouchEvent | React.MouseEvent, index: number, posSize: {x: number, y:number, width?: string, height?: string}, window: WindowType) => {
-    // got change this logic soon, creating components maybe so i dont have an array of refs
-    if(isHeaderItem(index, event))
-      return;
-    seNoTransition(false);
-    console.log(event)
-    const updatedWindows = windows.map((w,i) => {
-        if(w.app == window.app && !isMaximized(i)){
-          w.x = posSize.x;
-          w.y = posSize.y;
-        }
-        return w;
+      // gotta change this logic soon, creating components maybe so i dont have an array of refs
+      if(isHeaderItem(index, event)){
+        return;
       }
-    );
-    setWindows(updatedWindows);
+      seNoTransition(false);
+      const updatedWindows = windows.map((w,i) => {
+          if(w.app == window.app && !isMaximized(i)){
+            w.x = posSize.x;
+            w.y = posSize.y;
+          }
+          return w;
+        }
+      );
+      setWindows(updatedWindows);
   }
 
   // const [windowSize, setWindowSize] = useState({
