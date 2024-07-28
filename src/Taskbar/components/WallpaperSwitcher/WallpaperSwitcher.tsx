@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { CSSProperties } from 'react';
+import { CSSProperties, Dispatch, SetStateAction } from 'react';
 import { wallpapers } from '../../../constants/wallpapers';
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useWallpaper } from '../../../contexts/WallpaperContext';
@@ -8,15 +8,17 @@ import style from './WallpaperSwitcher.module.scss';
 
 
 type WallpaperSwitcherProps = {
-    wallpaperSwitcherOpen: boolean
+    wallpaperSwitcherOpen: boolean,
+    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export default function WallpaperSwitcher({wallpaperSwitcherOpen}: WallpaperSwitcherProps){
+export default function WallpaperSwitcher({wallpaperSwitcherOpen, setwWallpaperSwitcherOpen}: WallpaperSwitcherProps){
     const [theme] = useTheme();
     const [wallpaperIndex, setWallpaperIndex] = useWallpaper();
     const handleChangeTheme = (index: number) => {
         localStorage.setItem(theme + "Wallpaper", index.toString())
         setWallpaperIndex(() => index);
+        setwWallpaperSwitcherOpen(false)
     }
 
     return     <AnimatePresence>

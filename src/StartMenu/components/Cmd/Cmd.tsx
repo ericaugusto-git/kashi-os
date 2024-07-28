@@ -96,7 +96,7 @@ function Cmd() {
               break;
             case "help":
               
-              ["neofetch", "weather",...apps.map(a=> a.executable), "exit"].forEach((cmd) => {
+              ["neofetch", "weather || wttr",...apps.map(a=> a.executable), "exit"].forEach((cmd) => {
                 localEcho.println(cmd)
               })
               break;
@@ -142,8 +142,6 @@ function Cmd() {
 
   return (
     <div className={style.cmd_container} ref={containerRef}>
-      {/* ASCII art container */}
-      {/* Xterm container */}
       <div ref={terminalRef} className={style.terminal} />
     </div>
   );

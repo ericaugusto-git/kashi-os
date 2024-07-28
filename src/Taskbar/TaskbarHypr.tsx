@@ -32,7 +32,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
 
     const  [ calendarRef, isCalendarOpen, setIsCalendarOpen ] = useComponentVisible(false, clockButtonRef);
     const  [ themeSwitcherRef, themeSwitcherOpen, setThemeSwitcherOpen ] = useComponentVisible(false,themeButtonRef);
-    const  [ wallpaperSwitcherRef, wallpaperSwitcherOpen, setwWllpaperSwitcherOpen ] = useComponentVisible(false,wallpaperButtonRef);
+    const  [ wallpaperSwitcherRef, wallpaperSwitcherOpen, setwWallpaperSwitcherOpen ] = useComponentVisible(false,wallpaperButtonRef);
     const [windows, setWindows] = useWindowContext();
     const [windowsDivTotalLength, setWindowsDivTotalLength] = useState(0);
 
@@ -76,13 +76,18 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
     }
     return <>
         <div  ref={calendarRef} >
-             { isCalendarOpen && <Calendar/>}
+            <AnimatePresence>
+             { isCalendarOpen && <motion.div           initial={{ opacity: 0 }}
+          animate={{opacity: 1 }}
+          exit={{ overflow: "hidden", opacity: 0 }}
+          transition={{ duration: 0.2 }}><Calendar/></motion.div>}
+            </AnimatePresence>
         </div>
         <div ref={themeSwitcherRef}>
-            <ThemeSwitcher themeSwitcherOpen={themeSwitcherOpen}/>
+            <ThemeSwitcher setThemeSwitcherOpen={setThemeSwitcherOpen} themeSwitcherOpen={themeSwitcherOpen}/>
         </div>
         <div ref={wallpaperSwitcherRef}>
-            <WallpaperSwitcher wallpaperSwitcherOpen={wallpaperSwitcherOpen}/>
+            <WallpaperSwitcher setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen} wallpaperSwitcherOpen={wallpaperSwitcherOpen}/>
         </div>
     <div className={style.taskbar} style={{[position]: 0}}>
         <div className={style.start} style={{marginRight: windows.length == 0 ? 'auto' : ''}}>
@@ -96,7 +101,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
             <span className={style.welcome}>welcome to my portfolio :D</span>
         </div>
         <AnimatePresence>
-            { windows?.length > 0 && <motion.div ref={windowsRef} initial={{scale: 0.9, opacity: 0}} animate={{scale: 1, opacity: 1}} transition={{duration: 0.1}} exit={{scale: 0, opacity: 0}} className={`${style.taskbar_section_wrapper} ${style.windows}`}>
+            { windows?.length > 0 && <motion.div ref={windowsRef} initial={{scale: 0.9, opacity: 0}} animate={{scale: 1, opacity: 1}} transition={{duration: 0.1}} className={`${style.taskbar_section_wrapper} ${style.windows}`}>
                 <WindowsHypr windowsDivTotalLength={windowsDivTotalLength} windows={windows} setWindows={setWindows}/>
             </motion.div>}
         </AnimatePresence>
@@ -111,7 +116,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
             <Battery/>
         </div>
         <div className={style.taskbar_section_wrapper}>
-            <button className="svgMask taskbar_icon" ref={wallpaperButtonRef} onClick={() => setwWllpaperSwitcherOpen(previous => !previous)}  style={{maskImage: `url("${wallpaper_change}")`}}></button>
+            <button className="svgMask taskbar_icon" ref={wallpaperButtonRef} onClick={() => setwWallpaperSwitcherOpen(previous => !previous)}  style={{maskImage: `url("${wallpaper_change}")`}}></button>
             <button className="svgMask taskbar_icon" ref={themeButtonRef} onClick={() => setThemeSwitcherOpen(previous => !previous)} style={{maskImage: `url("${theme_change}")`}}></button>
             <button className="svgMask taskbar_icon" onClick={changePosition} style={{maskImage: `url("${taskbar_switcher}")`}}></button>
             <button className="svgMask taskbar_icon" ref={pcStatusButtonRef} onClick={() => setPcStatusMenuOpen((prev) => !prev)} style={{maskImage: `url("${powerOff}")`}}></button>

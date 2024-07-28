@@ -22,8 +22,8 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const taskbarHeight = 37;
   const { t } = useTranslation();
   const variants = {
-    initial: position == 'top' ? { scale: 0 } : {opacity: 1},
-    animate: position == 'top' ? { scale: 1 } : {opacity: 1},
+    initial: position == 'top' ? { scale: 0 } : {},
+    animate: position == 'top' ? { scale: 1 } : {},
     exit: position == 'top' ? { scale: 0, opacity: 0 } : {opacity: 0, }
   };
   
@@ -149,8 +149,8 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   return <div ref={windowRef}>
     <AnimatePresence>
   {windows.map((window, index) => (
-  <motion.div variants={variants} initial="initial"  animate="animate" exit="exit" transition={{ duration: 0.2 }}  key={window.app} onTouchStart={(event) => handleWindowClick(window.app, index, event)} onMouseDown={(event) => handleWindowClick(window.app, index, event)}
->
+    <motion.div variants={variants} initial="initial"  animate="animate" exit="exit" transition={{ duration: 0.2 }}  key={window.app} onTouchStart={(event) => handleWindowClick(window.app, index, event)} onMouseDown={(event) => handleWindowClick(window.app, index, event)}
+    >
   <Rnd
     // default={{
     //   y: window.y ?? 50,
@@ -174,9 +174,9 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     transitionDuration: '0.3s', visibility: window.minimized ? 'hidden' : 'visible', 
     transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'}}
   >
+    <div className={styles.glass_effect}></div>
     <div className={styles.window} style={{cursor: isMaximized(index) ? 'normal' : 'move',...window.windowStyles,  opacity: window.minimized ? '0' : '1', transitionProperty: 'opacity',  transitionDuration: '0.5s',
     transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'}}>
-      <div className={styles.glass_effect}></div>
         <div className={styles.header} style={window.headerStyles}>
           <div className={styles.app}>
           {/* {window.icon?.includes(".svg") ? (

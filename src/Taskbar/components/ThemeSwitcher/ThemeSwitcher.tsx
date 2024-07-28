@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { CSSProperties } from "react";
+import { CSSProperties, Dispatch, SetStateAction } from "react";
 import { Theme, themes } from "../../../constants/themes";
 import { wallpapers } from "../../../constants/wallpapers";
 import { Themes, useTheme } from "../../../contexts/ThemeContext";
@@ -13,10 +13,11 @@ interface Theme2 extends Theme {
 
 type ThemeSwitcherProps = {
   themeSwitcherOpen: boolean;
+  setThemeSwitcherOpen: Dispatch<SetStateAction<boolean>>
 };
 
 export default function ThemeSwitcher({
-  themeSwitcherOpen,
+  themeSwitcherOpen, setThemeSwitcherOpen
 }: ThemeSwitcherProps) {
   const [currentTheme, setTheme] = useTheme();
   const [_, setWallpaperIndex] = useWallpaper();
@@ -37,6 +38,7 @@ export default function ThemeSwitcher({
     
     setWallpaperIndex(getWppIndex(theme as Themes));
     setTheme(theme as Themes);
+    setThemeSwitcherOpen(false)
   };
 
   return (

@@ -24,6 +24,9 @@ $size: 21px; // (Fully responsive)
     align-items: center;
     justify-content: center;
 	border: 1px solid rgb(255 255 242);
+	&:hover{
+		opacity: .8;
+	}
 }
 .ear {
 	position: absolute;

@@ -14,10 +14,10 @@ export const wallpapers: Wallpapers = {
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake_cc0%2Fpexels-rpnickson-2661176-min.jpg"
   ],
   dark: [
+    "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Fnord_cc0%2Fandre-benz-qi2hmCwlhcE-unsplash-min.jpg",
+    "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Fnord_cc0%2Fandre-benz-cXU6tNxhub0-unsplash-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Fnord_cc0%2Fpexels-carlos-oliva-1966452-3586966-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Fnord_cc0%2Fandre-benz-Mn9Fa_wQH-M-unsplash-min.jpg",
-    "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Fnord_cc0%2Fandre-benz-cXU6tNxhub0-unsplash-min.jpg",
-    "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Fnord_cc0%2Fandre-benz-qi2hmCwlhcE-unsplash-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Fnord_cc0%2Feugene-chystiakov-fgXBH9f477A-unsplash-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Fnord_cc0%2Fjezael-melgoza-layMbSJ3YOE-unsplash-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Fnord_cc0%2Fpexels-incrediblerafa-4737484-min.jpg",
