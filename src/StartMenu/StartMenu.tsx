@@ -153,7 +153,9 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
               <div
                 className={styles.cute_gif}
                 style={{ backgroundImage: `url("${gifUrl}")` }}
-              ></div>
+              >
+                <img style={{width: '200px', height: '26px', paddingTop: '2px'}} src="/public/PoweredBy_200px-Black_HorizLogo.png"></img>
+              </div>
               <menu>
                 <ul>
                   <li>

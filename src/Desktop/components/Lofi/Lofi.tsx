@@ -53,9 +53,10 @@ export default function Lofi() {
     <div style={{ '--background-image': `url("${gifUrl}")` } as React.CSSProperties} className={`${styles.lofi_wrapper} ${styles[theme]}`}>
     <Gifs gifsRef={gifsRef} gifsActive={gifsActive} setGifId={setGifId}/>
     <LofiPlayer gifsBtnRef={gifsBtnRef} setGifsActive={setGifsActive}/>
+    <img className={styles.giphy_attribution} src='public/Poweredby_100px-Black_VertLogo.png'></img>
     <div className={styles.actions}>
       <button className={`backgoundImage ${styles.close}`} style={{backgroundImage: `url("${close}")`}} onClick={() => setPcStatus('on')}></button>
-      <button className={`backgoundImage ${styles.pomodoro}`} style={{backgroundImage: `url("${pomodoro}")`}} onClick={() => setPcStatus('on')}></button>
+      {/* <button className={`backgoundImage ${styles.pomodoro}`} style={{backgroundImage: `url("${pomodoro}")`}} onClick={() => setPcStatus('on')}></button> */}
       <button onClick={handle.active ? handle.exit : handle.enter} className={`backgoundImage ${styles.full}`}  style={{backgroundImage: `url("${handle.active ? exit_fullscreen : fullscreen}")`}}></button>
     </div>
     </div>
