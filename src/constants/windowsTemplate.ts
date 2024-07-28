@@ -76,7 +76,7 @@ export const windowsTemplates: WindowType[] = [
         icon: portfolio
     },
     {app: "jdm_store", link: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FjpjNX650FS4XtJrolls9RW%2FJDM%3Fpage-id%3D%26type%3Ddesign%26node-id%3D1-6%26viewport%3D741%252C598%252C0.23%26t%3DfBBVvALWC6PAzlv0-1%26scaling%3Dscale-down-width%26mode%3Ddesign', appType: 'project', icon: jdm, desktopStyles: {img: {backgroundSize: '70%'}}},
-    {app: "dino", link: 'https://chromedino.com/', appType: 'os', icon: 'public/dino.ico'},
+    {app: "dino", link: 'https://chromedino.com/', appType: 'os', hideInStartMenu: true, icon: 'public/dino.ico'},
     {app: "discord_clone", appType: 'project', icon: discord, conteudo: UnderDev},
     {app: "finance", appType: 'project', icon: finance, conteudo: UnderDev},
     {app: "recipe_book", appType: 'project', icon: cookBook, conteudo: UnderDev},
