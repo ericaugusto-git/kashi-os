@@ -85,7 +85,9 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
             <WallpaperSwitcher wallpaperSwitcherOpen={wallpaperSwitcherOpen}/>
         </div>
     <div className={style.taskbar} style={{[position]: 0}}>
-        <Start/>
+        <div className={style.start} style={{marginRight: windows.length == 0 ? 'auto' : ''}}>
+            <Start/>
+        </div>
         <div style={{marginRight: windows.length == 0 ? 'auto' : ''}} className={`${style.taskbar_section_wrapper} ${style.intro}`}>
             <div>
                 <span>eric augusto • </span>
@@ -101,10 +103,10 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
         <a className={`${style.taskbar_section_wrapper} ${style.date_time}`} onClick={openCalendar} ref={clockButtonRef} style={{cursor: 'pointer'}}>
             <ClockHypr/>
         </a>
-        <div className={`${style.taskbar_section_wrapper}`}>
+        <div className={`${style.taskbar_section_wrapper} ${style.performance}`}>
             <Performance/>
         </div>
-        <div className={style.taskbar_section_wrapper}>
+        <div className={`${style.taskbar_section_wrapper} ${style.locale_battery}`}>
             <LocaleSwitcher/>
             <Battery/>
         </div>

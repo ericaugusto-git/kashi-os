@@ -59,6 +59,51 @@ $paddingX: 12px;
 
 .windows{
     min-width: 0;
-    margin: auto;
+    margin: 0 auto;
     flex-shrink: 1;
 }
+
+/* Extra small devices (phones, 0px and up) */
+@media (max-width: 575.98px) { 
+    /* CSS rules for extra small devices */
+  }
+  
+  /* Small devices (portrait tablets and large phones, 576px and up) */
+  @media (max-width: 600px) { 
+    .date_time{
+        display: none;
+    }
+    .locale_battery{
+        display: none;
+    }
+    /* CSS rules for small devices */
+  }
+  
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media (max-width: 768px){
+    .performance{
+        display: none;
+    } 
+    /* CSS rules for medium devices */
+  }
+  
+  /* Large devices (desktops, 992px and up) */
+  @media (max-width: 1199.98px) { 
+    /* CSS rules for large devices */
+    .intro{
+        display: none;
+    }
+    .windows{
+        margin-left: 0;
+        margin-right: auto;
+    }
+  }
+  
+  /* Extra large devices (large desktops, 1200px and up) */
+  @media (min-width: 1200px) { 
+    .taskbar div.start{
+        margin-right: 0 !important;
+    }
+    /* CSS rules for extra large devices */
+  }
+  
