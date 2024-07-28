@@ -1,39 +1,124 @@
-.windows{
+/* WindowsHypr.module.scss */
+.taskbarContainer {
+  --calculated-icon-size: calc(var(--icon-size) * 1px);
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .windows {
+    width: 100%;
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-    // gap: 12px;
     transition: width 0.3s ease-in;
-    li{
-        display: flex;
-        padding: 2px 0;
-        // transition: padding 0.3s ease;
-        // max-width: 21px;
-        cursor: pointer;
-        // flex: 1;
-        &.active{
-            background-color: rgb(var(--accent-color));
-            // padding: 2px 17px;
-            border-radius: 9999px;
+    overflow: auto; 
+    li {
+      display: flex;
+      padding: 2px 0;
+      cursor: pointer;
+      
+  
+      &.active {
+        background-color: rgb(var(--accent-color));
+        border-radius: 9999px;
+      }
+  
+      &:not(:first-child) {
+        margin-left: 12px;
+      }
+  
+      &:not(.active) {
+        padding: 2px 0 !important;
+  
+        &:hover {
+          opacity: .6;
         }
-        &:not(:first-child){
-            margin-left: 12px;
-        }
-        &:not(.active){
-            padding: 2px 0 !important;
-            &:hover{
-                opacity: .6;
-            }
-        }
+      }
     }
-    .icon{
+  
+    .icon {
+      background-color: transparent;
+      height: var(--calculated-icon-size);
+      min-width: var(--calculated-icon-size);
+      width: 100%;
+      border: 0;
+      cursor: pointer;
+    }
+  }
+  
+  .moreButton {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 10px;
+  }
+
+  .more_icons{
+    display: flex;
+    align-items: center;
+    --more-button-size: 4px;
+    background-color: transparent;
+    border: 0;
+    gap: 5px;
+    cursor: pointer;
+    padding: 0;
+    height: var(--calculated-icon-size);
+    &:hover div{
+      opacity: .6;
+    }
+    div{
+      width: var(--more-button-size);
+      height: var(--more-button-size);
+      border-radius: 999px;
+      outline: 1px solid rgb(var(--accent-color));
+    }
+  }
+  
+  .overflowMenu {
+    position: absolute;
+    top: -120%;
+    background-color: rgb(var(--theme-color));
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+    border-radius: 14px;
+    overflow: auto;
+    /* z-index: 10; */
+    display: flex;
+    padding: 3px 10px;
+    // height: 130px;
+    flex-wrap: wrap;
+    // width: 130px;
+    li {
+      display: flex;
+      padding: 2px 0;
+      cursor: pointer;
+  
+      &.active {
+        background-color: rgb(var(--accent-color));
+        border-radius: 9999px;
+      }
+  
+      &:not(:first-child) {
+        margin-left: 12px;
+      }
+  
+      &:not(.active) {
+        padding: 2px 0 !important;
+  
+        &:hover {
+          opacity: .6;
+        }
+      }
+  
+      .icon {
         background-color: transparent;
-        height: 100%;
-        height: 21px;
-        width: 100%;
+        height: var(--calculated-icon-size);
+        width: var(--calculated-icon-size);
         border: 0;
         cursor: pointer;
+      }
     }
-}
+  }
+  
 

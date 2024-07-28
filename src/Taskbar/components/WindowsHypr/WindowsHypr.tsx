@@ -1,45 +1,103 @@
+import { CSSProperties, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
 import { WindowType } from "../../../constants/window";
 import { useTheme } from "../../../contexts/ThemeContext";
 import styles from './WindowsHypr.module.scss';
 
-export default function WindowsHypr({windows, setWindows}: {windows: WindowType[], setWindows: Dispatch<SetStateAction<WindowType[]>>}){
-    const [theme] = useTheme();
+export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength }: { windows: WindowType[], setWindows: Dispatch<SetStateAction<WindowType[]>>, windowsDivTotalLength: number }) {
+  const iconSize = 21;
+
+  const [theme] = useTheme();
+  const taskbarRef = useRef<HTMLUListElement>(null);
+  const [overflowingWindows, setOverflowingWindows] = useState<WindowType[]>([]);
+  const [visibleWindows, setVisibleWindows] = useState<WindowType[]>([]);
+  const [showOverflowMenu, setShowOverflowMenu] = useState(false);
 
 
-      const handleDesktopIconCLick = (app: WindowType) => {
-        // app.conteudo = <div className="backgroundImage" style={{
-        //   width: "100%",
-        //   height: "100%",
-        //   backgroundImage: `url(${jdm})`
-        // }}></div>;
-        setWindows((prevWindows) => {
-            const updatedWindows = prevWindows
-            .map(window => ({ ...window, active: false })); // Deactivate all windows
-            const newApp = updatedWindows.find(a=> a.app == app.app);
-          if(app.active && newApp){
-              newApp.active = false;
-              newApp.minimized = true;
-              return updatedWindows;
-          }else if(newApp){
-              newApp.active = true;
-              newApp.minimized = false;
-              return updatedWindows;
-          }
-          return updatedWindows;
-        })
-      };
-      
-    return( 
-           <motion.ul className={`${styles.windows} ${styles[theme]}`}>
-            <AnimatePresence>
-        {windows.map((window: WindowType) => (
-            <motion.li initial={{ padding: '2px 0'}} transition={{duration: 0.2}} animate={{ padding: window.active ? '2px 18px' : '2px 0' }} exit={{ padding: 0, width: 0, opacity: 0, margin: 0 }}  key={window.app} className={window.active ? styles.active : ''} onClick={() => handleDesktopIconCLick(window)}>
-                {/* <button className="backgroundImage svgMask" style={{[window.svgMask?.desktop ?  'maskImage' : 'backgroundImage']: `url("${window.icon}")`}}></button> */}
-                <img className={styles.icon} src={window.icon}></img>
+  useEffect(() => {
+    const newVisibleWindows: WindowType[] = [];
+    const newOverflowingWindows: WindowType[] = [];
+    
+    windows.forEach((window, index) => {
+      // this 60 is the result of taskbar_section X padding (24px), icons margin-left (12px),padding of an active window (24px) == 60px
+      if((index + 1) * (iconSize + 60) > (windowsDivTotalLength)){
+        newOverflowingWindows.push(window);
+      }else{
+        newVisibleWindows.push(window)
+      }
+    })
+    setVisibleWindows(newVisibleWindows);
+    setOverflowingWindows(newOverflowingWindows);
+  },[windowsDivTotalLength, windows])
+
+
+  const handleDesktopIconClick = (app: WindowType) => {
+    setWindows((prevWindows) => {
+      const updatedWindows = prevWindows.map(window => ({ ...window, active: false }));
+      const newApp = updatedWindows.find(a => a.app === app.app);
+      if (app.active && newApp) {
+        newApp.active = false;
+        newApp.minimized = true;
+      } else if (newApp) {
+        newApp.active = true;
+        newApp.minimized = false;
+      }
+      return updatedWindows;
+    });
+  };
+
+  return (
+    <div className={styles.taskbarContainer} style={{'--icon-size': iconSize} as CSSProperties}>
+      <motion.ul ref={taskbarRef} className={`${styles.windows} ${styles[theme]}`}>
+        <AnimatePresence>
+          {visibleWindows.map((window: WindowType) => (
+            <motion.li
+              initial={{ padding: '2px 0' }}
+              transition={{ duration: 0.2 }}
+              animate={{ padding: window.active ? '2px 18px' : '2px 0' }}
+              exit={{ padding: 0, width: 0, opacity: 0, margin: 0 }}
+              key={window.app}
+              className={window.active ? styles.active : ''}
+              onClick={() => handleDesktopIconClick(window)}
+            >
+              <img className={styles.icon} src={window.icon} alt={window.app} />
             </motion.li>
-        ))}
-    </AnimatePresence>
-        </motion.ul>)
+          ))}
+        </AnimatePresence>
+      </motion.ul>
+      {overflowingWindows.length > 0 && (
+        <div className={styles.moreButton} onClick={() => setShowOverflowMenu(!showOverflowMenu)}>
+          <button className={styles.more_icons}>
+            {Array.from({length: 3}).map((_, i) => 
+              <div  key={i}></div>
+            )
+            }
+          </button>
+          {showOverflowMenu && (
+            <motion.ul
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className={styles.overflowMenu}
+            >
+              {overflowingWindows.map((window: WindowType) => (
+                <motion.li
+                  initial={{ padding: '2px 0' }}
+                  transition={{ duration: 0.2 }}
+                  animate={{ padding: window.active ? '2px 18px' : '2px 0' }}
+                  exit={{ padding: 0, width: 0, opacity: 0, margin: 0 }}
+                  key={window.app}
+                  className={window.active ? styles.active : ''}
+                  onClick={() => handleDesktopIconClick(window)}
+                >
+                  <img className={styles.icon} src={window.icon} alt={window.app} />
+                </motion.li>
+              ))}
+            </motion.ul>
+          )}
+        </div>
+      )}
+    </div>
+  );
 }

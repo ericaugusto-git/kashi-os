@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Dispatch, MutableRefObject, SetStateAction, useRef } from "react";
+import { Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import powerOff from "../assets/startMenu/power_off.svg";
 import taskbar_switcher from '../assets/taskbar/taskbar_switcher.svg';
@@ -25,6 +25,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
     const clockButtonRef = useRef(null);
     const themeButtonRef = useRef(null);
     const wallpaperButtonRef = useRef(null);
+    const windowsRef = useRef<HTMLDivElement>(null);
 
     const {t} = useTranslation();
     const [position, setPosition] = useDesktopPosition()
@@ -33,6 +34,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
     const  [ themeSwitcherRef, themeSwitcherOpen, setThemeSwitcherOpen ] = useComponentVisible(false,themeButtonRef);
     const  [ wallpaperSwitcherRef, wallpaperSwitcherOpen, setwWllpaperSwitcherOpen ] = useComponentVisible(false,wallpaperButtonRef);
     const [windows, setWindows] = useWindowContext();
+    const [windowsDivTotalLength, setWindowsDivTotalLength] = useState(0);
 
     const changePosition = () => {
         setPosition((prev) => {
@@ -41,6 +43,33 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
             return position;
         });
     }
+    useEffect(() => {
+        const handleResize = () => {
+          if (windowsRef.current) {
+            const element = windowsRef.current;
+            
+            // Get the element's width
+            const rect = element.getBoundingClientRect();
+            const width = rect.width;
+            
+            // Get the element's computed style
+            const style = window.getComputedStyle(element);
+            const marginLeft = parseFloat(style.marginLeft);
+            const marginRight = parseFloat(style.marginRight);
+            
+            // Calculate the total width
+            const totalWidth = width + marginLeft + marginRight;
+
+            setWindowsDivTotalLength(totalWidth);
+          }
+        };
+    
+        window.addEventListener('resize', handleResize);
+        // Call handleResize once to set the initial width
+        handleResize();
+    
+        return () => window.removeEventListener('resize', handleResize);
+      }, [windows]);
 
     const openCalendar = () => { 
         setIsCalendarOpen(previous => !previous)
@@ -57,7 +86,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
         </div>
     <div className={style.taskbar} style={{[position]: 0}}>
         <Start/>
-        <div className={`${style.taskbar_section_wrapper} ${style.intro}`}>
+        <div style={{marginRight: windows.length == 0 ? 'auto' : ''}} className={`${style.taskbar_section_wrapper} ${style.intro}`}>
             <div>
                 <span>eric augusto • </span>
                 <span className={style.front}>{t('front')}</span> 
@@ -65,8 +94,8 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
             <span className={style.welcome}>welcome to my portfolio :D</span>
         </div>
         <AnimatePresence>
-            { windows?.length > 0 && <motion.div initial={{scale: 0.9, opacity: 0}} animate={{scale: 1, opacity: 1}} transition={{duration: 0.1}} exit={{scale: 0, opacity: 0}} className={`${style.taskbar_section_wrapper} ${style.windows}`}>
-                <WindowsHypr windows={windows} setWindows={setWindows}/>
+            { windows?.length > 0 && <motion.div ref={windowsRef} initial={{scale: 0.9, opacity: 0}} animate={{scale: 1, opacity: 1}} transition={{duration: 0.1}} exit={{scale: 0, opacity: 0}} className={`${style.taskbar_section_wrapper} ${style.windows}`}>
+                <WindowsHypr windowsDivTotalLength={windowsDivTotalLength} windows={windows} setWindows={setWindows}/>
             </motion.div>}
         </AnimatePresence>
         <a className={`${style.taskbar_section_wrapper} ${style.date_time}`} onClick={openCalendar} ref={clockButtonRef} style={{cursor: 'pointer'}}>
