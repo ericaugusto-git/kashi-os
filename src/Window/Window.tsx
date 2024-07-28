@@ -27,11 +27,15 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     exit: position == 'top' ? { scale: 0, opacity: 0 } : {opacity: 0, }
   };
   
+  const isHeaderItem = (index: number,event: React.TouchEvent | React.MouseEvent) => {
+    if (index !== -1 && (closeRefs.current[index] && closeRefs.current[index]?.contains(event.target as Node)) || (minimizedRefs.current[index] && minimizedRefs.current[index]?.contains(event.target as Node))) {
+      return true;
+    }
+  }
 
   const handleWindowClick = (app: string, index: number, event: React.TouchEvent | React.MouseEvent) => {
-    if (index !== -1 && (closeRefs.current[index] && closeRefs.current[index]?.contains(event.target as Node)) || (minimizedRefs.current[index] && minimizedRefs.current[index]?.contains(event.target as Node))) {
+    if(isHeaderItem(index, event))
       return;
-    }
     windows.map((a) => a.active = a.app === app);
     
     const updatedWindows = windows.map(w => ({
@@ -92,8 +96,12 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   setWindows(updatedWindows);
   }, [position])
 
-  const handleDragStop = (posSize: {x: number, y:number, width?: string, height?: string}, window: WindowType) => {
+  const handleDragStop = (event: React.TouchEvent | React.MouseEvent, index: number, posSize: {x: number, y:number, width?: string, height?: string}, window: WindowType) => {
+    // got change this logic soon, creating components maybe so i dont have an array of refs
+    if(isHeaderItem(index, event))
+      return;
     seNoTransition(false);
+    console.log(event)
     const updatedWindows = windows.map((w,i) => {
         if(w.app == window.app && !isMaximized(i)){
           w.x = posSize.x;
@@ -155,7 +163,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     onResize={() => {seNoTransition(true)}}
     onResizeStop={() => seNoTransition(false)}
     onDrag={() => {seNoTransition(true)}}
-    onDragStop={(_, d) => { handleDragStop(d, window)} }
+    onDragStop={(event, d) => { handleDragStop(event as React.TouchEvent | React.MouseEvent, index, d, window)} }
     
     style={{zIndex: window.active ? 2 : 1,   transitionProperty: noTransition ? 'none' : 'width, height, transform, opacity, visibility',
     transitionDuration: '0.3s', visibility: window.minimized ? 'hidden' : 'visible', 
