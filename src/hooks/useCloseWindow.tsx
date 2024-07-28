@@ -10,7 +10,7 @@ function useCloseWindow(): (app: WindowType | string) => void {
             const updatedWindows = prevWindows
                 .filter(window => window.app !== nome) // Remove existing window if it exists
             console.log(updatedWindows)
-            return []; // Add the new window
+            return [...updatedWindows]; // Add the new window
         });
     }
     return closeWindow;
