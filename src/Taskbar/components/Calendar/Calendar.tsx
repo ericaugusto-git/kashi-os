@@ -21,20 +21,14 @@ ptBR, // x-date-pickers translations
 coreptBR, // core translations
 );
 
-const lightTheme = createTheme({  
-  palette: {
-    mode: "light",
-  }
-},
-  ptBR
-);
+
 
 export default function Calendar() {
   const [theme] = useTheme();
   const [position] = useDesktopPosition();
   return (
     <>
-      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <ThemeProvider theme={darkTheme}>
         <div style={{[position]: '41px'}} className={styles.calendar_container + " " + styles[theme]}>
           <LocalizationProvider
             dateAdapter={AdapterDayjs}

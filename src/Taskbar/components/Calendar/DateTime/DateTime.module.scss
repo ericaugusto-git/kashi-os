@@ -20,14 +20,9 @@ $hourSize: 44px;
 }
 
 
-.date_hour.light{
-    .date{
-        color: #f8efbd;
-    }
-}
 
-.date_hour.dark .date{
-    color: #9b82ab;
+.date_hour .date{
+    color: rgb(var(--accent-color));
 }
 
 // #977e50

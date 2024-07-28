@@ -8,7 +8,7 @@
     }
     .icon{
         width: 30px;
-        background-color: black;
+        background-color: rgb(var(--accent-color));
         // mask-size: unset;
         height: 30px;
     }
@@ -17,11 +17,7 @@
         height: 18px;    
     }
 }
-.details:not(.light){
-    .icon{
-        background-color: white;
-    }
-}
+
 
 .info:nth-child(even){
     justify-content: end;
@@ -45,7 +41,7 @@
     .line{
         border-radius: 2px;
         width: 10%;
-        background-color: #49ABD4;
+        background-color: rgb(var(--accent-color));
         position: relative;
         span{
             position: absolute;

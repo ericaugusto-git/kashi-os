@@ -16,9 +16,7 @@
     li {
       display: flex;
       padding: 2px 0;
-      cursor: pointer;
-      
-  
+      cursor: pointer;  
       &.active {
         background-color: rgb(var(--accent-color));
         border-radius: 9999px;
@@ -29,6 +27,7 @@
       }
   
       &:not(.active) {
+      transition: padding  0.2s linear;    
         padding: 2px 0 !important;
   
         &:hover {

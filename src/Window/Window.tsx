@@ -29,7 +29,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   
   const isHeaderItem = (index: number,event: React.TouchEvent | React.MouseEvent) => {
     // @ts-expect-error tagName actually exists on event.target
-    if(event.target.tagName.toLocaleLowerCase() == 'button'){
+    if(Array.from(event.target.classList).some((className: unknown) => className.includes('close'))){
       return true;
     }
     if (index !== -1 && (closeRefs.current[index] && closeRefs.current[index]?.contains(event.target as Node))  || (minimizedRefs.current[index] && minimizedRefs.current[index]?.contains(event.target as Node))) {
