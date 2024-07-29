@@ -1,16 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from './Lofi.module.scss';
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
+import close from '../../../assets/playlist/close.svg';
+import exit_fullscreen from '../../../assets/playlist/exit_fullscreen.svg';
+import fullscreen from '../../../assets/playlist/fullscreen.svg';
+import { usePcStatus } from '../../../contexts/PcStatusContext';
 import { useTheme } from '../../../contexts/ThemeContext';
-import LofiPlayer from './LofiPlayer';
+import useComponentVisible from '../../../hooks/useComponentVisible';
 import { gifs } from './config';
 import Gifs from './Gifs';
-import useComponentVisible from '../../../hooks/useComponentVisible';
-import fullscreen from '../../../assets/playlist/fullscreen.svg'
-import exit_fullscreen from '../../../assets/playlist/exit_fullscreen.svg'
-import close from '../../../assets/playlist/close.svg'
-import pomodoro from '../../../assets/playlist/pomodoro.svg'
-import { FullScreen, useFullScreenHandle } from 'react-full-screen';
-import { usePcStatus } from '../../../contexts/PcStatusContext';
+import styles from './Lofi.module.scss';
+import LofiPlayer from './LofiPlayer';
 
 
 export default function Lofi() {
