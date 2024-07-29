@@ -19,7 +19,7 @@ export default function Lofi() {
 
 
   const [gifUrl, setGifUrl] = useState("");
-  const [gifId, setGifId] = useState(localStorage.getItem('gifId') ?? gifs[17].id);
+  const [gifId, setGifId] = useState(localStorage.getItem('gifId') ?? gifs[3].id);
   const gifsBtnRef = useRef<HTMLButtonElement>(null);
   const [giphyError, setGiphyError] = useState(false);
   const [gifsRef, gifsActive, setGifsActive] = useComponentVisible(false, gifsBtnRef);
@@ -52,7 +52,7 @@ export default function Lofi() {
     <div style={{ '--background-image': `url("${gifUrl}")` } as React.CSSProperties} className={`${styles.lofi_wrapper} ${styles[theme]}`}>
     <Gifs gifsRef={gifsRef} gifsActive={gifsActive} setGifId={setGifId}/>
     <LofiPlayer gifsBtnRef={gifsBtnRef} setGifsActive={setGifsActive}/>
-    <img className={styles.giphy_attribution} src='public/Poweredby_100px-Black_VertLogo.png'></img>
+    <img className={styles.giphy_attribution} src='Poweredby_100px-Black_VertLogo.png'></img>
     <div className={styles.actions}>
       <button className={`backgoundImage ${styles.close}`} style={{backgroundImage: `url("${close}")`}} onClick={() => setPcStatus('on')}></button>
       {/* <button className={`backgoundImage ${styles.pomodoro}`} style={{backgroundImage: `url("${pomodoro}")`}} onClick={() => setPcStatus('on')}></button> */}

@@ -41,7 +41,7 @@ export function PcStatusMenu({pcStatusMenuOpen, setPcStatusMenuOpen}: {pcStatusM
             <button className={styles.btn} onClick={() => setPcStatus('lofi')}>
                 
                 <div className={`backgroundImage ${styles.lofi}`} style={{ backgroundImage: `url("${lofiUrl}"` }}>
-                <img style={{width: '100px', height: '27px', paddingTop: '2px'}} src="public/Poweredby_100px-Black_VertLogo.png"></img>
+                <img style={{width: '100px', height: '27px', paddingTop: '2px'}} src="Poweredby_100px-Black_VertLogo.png"></img>
                 </div>
                 <span>wait, lofi mode?</span>
             </button>
