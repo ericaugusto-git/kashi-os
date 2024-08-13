@@ -6,7 +6,7 @@ import fullscreen from '../../../assets/playlist/fullscreen.svg';
 import { usePcStatus } from '../../../contexts/PcStatusContext';
 import { useTheme } from '../../../contexts/ThemeContext';
 import useComponentVisible from '../../../hooks/useComponentVisible';
-import { gifs } from './config';
+import { gifsId } from './config';
 import Gifs from './Gifs';
 import styles from './Lofi.module.scss';
 import LofiPlayer from './LofiPlayer';
@@ -19,7 +19,7 @@ export default function Lofi() {
 
 
   const [gifUrl, setGifUrl] = useState("");
-  const [gifId, setGifId] = useState(localStorage.getItem('gifId') ?? gifs[3].id);
+  const [gifId, setGifId] = useState(localStorage.getItem('gifId') ?? gifsId[3]);
   const gifsBtnRef = useRef<HTMLButtonElement>(null);
   const [giphyError, setGiphyError] = useState(false);
   const [gifsRef, gifsActive, setGifsActive] = useComponentVisible(false, gifsBtnRef);

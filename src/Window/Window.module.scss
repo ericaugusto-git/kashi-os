@@ -23,6 +23,14 @@ $padding: 15px;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    // outline: 3px solid;
+    // outline-color: rgb(var(--accent-color)) ;
+    -webkit-transition: border-color var(--theme-transition-ms) linear, opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    -ms-transition: border-color var(--theme-transition-ms) linear, opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: border-color var(--theme-transition-ms) linear, opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    &.minimized{
+      opacity: 0;
+    }
   }
   
   .body{

@@ -21,9 +21,9 @@ $paddingX: 12px;
     flex-shrink: 0;
     border-radius: 99999px;
     background-color: rgb(var(--theme-color));
-    // -webkit-transition: background-color var(--theme-transition-ms) linear;
-    // -ms-transition: background-color var(--theme-transition-ms) linear;
-    // transition: background-color var(--theme-transition-ms) linear;
+    -webkit-transition: background-color var(--theme-transition-ms) linear;
+    -ms-transition: background-color var(--theme-transition-ms) linear;
+    transition: background-color var(--theme-transition-ms) linear;
     // transition: width 6s ease-in-out; /* Adjust the duration and easing as needed */
     // transition: all 0.6s ease-out;
 
@@ -111,3 +111,21 @@ a.taskbar_section_wrapper:hover{
     /* CSS rules for extra large devices */
   }
   
+
+  button[data-tooltip]::after{
+    content: attr(data-tooltip);
+    position: absolute;
+    padding: 5px;
+    font-size: 8px;
+    background-color: rgba(0, 0, 0, 0.178);
+    text-align: center;
+    top: -25px;
+    border-radius: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+  }
+  
+  [data-tooltip]:hover::after {
+    display: block; /* Show tooltip on hover */
+  }

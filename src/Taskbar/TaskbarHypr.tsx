@@ -116,7 +116,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
             <Battery/>
         </div>
         <div className={style.taskbar_section_wrapper}>
-            <button className="svgMask taskbar_icon" ref={wallpaperButtonRef} onClick={() => setwWallpaperSwitcherOpen(previous => !previous)}  style={{maskImage: `url("${wallpaper_change}")`}}></button>
+            <button className="svgMask taskbar_icon" data-tooltip="Change wallpaper" ref={wallpaperButtonRef} onClick={() => setwWallpaperSwitcherOpen(previous => !previous)}  style={{maskImage: `url("${wallpaper_change}")`}}></button>
             <button className="svgMask taskbar_icon" ref={themeButtonRef} onClick={() => setThemeSwitcherOpen(previous => !previous)} style={{maskImage: `url("${theme_change}")`}}></button>
             <button className="svgMask taskbar_icon" onClick={changePosition} style={{maskImage: `url("${taskbar_switcher}")`}}></button>
             <button className="svgMask taskbar_icon" ref={pcStatusButtonRef} onClick={() => setPcStatusMenuOpen((prev) => !prev)} style={{maskImage: `url("${powerOff}")`}}></button>

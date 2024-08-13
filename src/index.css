@@ -155,6 +155,25 @@ input[type="radio"] {
   padding: 0;
 }
 
+[data-tooltip]::after{
+  content: attr(data-tooltip);
+  position: absolute;
+  padding: 5px;
+  font-size: 8px;
+  background-color: rgba(0, 0, 0, 0.178);
+  text-align: center;
+  top: -25px;
+  border-radius: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+}
+
+[data-tooltip]:hover::after {
+  display: block; /* Show tooltip on hover */
+}
+
+
 /* For input[type="file"] */
 input[type="file"] {
   /* Remove default appearance */

@@ -175,8 +175,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'}}
   >
     <div className={styles.glass_effect}></div>
-    <div className={styles.window} style={{cursor: isMaximized(index) ? 'normal' : 'move',...window.windowStyles,  opacity: window.minimized ? '0' : '1', transitionProperty: 'opacity',  transitionDuration: '0.5s',
-    transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'}}>
+    <div className={`${styles.window}`} style={{cursor: isMaximized(index) ? 'normal' : 'move',...window.windowStyles, }}>
         <div className={styles.header} style={window.headerStyles}>
           <div className={styles.app}>
           {/* {window.icon?.includes(".svg") ? (
