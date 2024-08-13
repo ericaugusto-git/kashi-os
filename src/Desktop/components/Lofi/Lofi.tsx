@@ -35,6 +35,7 @@ export default function Lofi() {
           }`
         );
         const data = await response.json();
+        console.log(data)
         setGifUrl(data.data.images.original.url);
       } catch (error) {
         setGiphyError(true)
