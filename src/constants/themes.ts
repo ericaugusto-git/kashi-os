@@ -13,8 +13,8 @@ export type Theme = {
       // rgb(133 155 186)
       // rgb(71 86 115)
       // rgb(102 114 138)
-      // color: '76,93,143',
-      color: '71,86,115',
+      color: '76,93,143',
+      // color: '100,122,161',
 
 
       accent: '203,174,187',
@@ -29,10 +29,14 @@ export type Theme = {
       name: 'Nord'
     },
     cozy: {
-      color: '66,62, 59',
-      accent: '199,178,143',
-      name: 'Cozy'
+      accent: '242,219,74',
+      // color: '135,216,222',
+      // color: '57,118,133',
+      color: '24,24,24',
+      name: 'Aesthetic'
     }
   };
+  // rgb()
+
   
   export const transitionMs = '1200ms'
