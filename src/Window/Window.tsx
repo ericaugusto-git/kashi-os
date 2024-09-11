@@ -171,7 +171,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     onDragStop={(event, d) => { handleDragStop(event as React.TouchEvent | React.MouseEvent, index, d, window)} }
     
     style={{zIndex: window.active ? 2 : 1,   transitionProperty: noTransition ? 'none' : 'width, height, transform, opacity, visibility',
-    transitionDuration: '0.3s', opacity: window.minimized ? '0' : '1', 
+    transitionDuration: '0.3s', visibility: window.minimized ? 'hidden' : 'visible',  opacity: window.minimized ? '0' : '1', 
     transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'}}
   >
     <div className={styles.glass_effect}></div>
