@@ -29,11 +29,13 @@ export type Theme = {
       name: 'Nord'
     },
     cozy: {
-      accent: '242,219,74',
-      // color: '135,216,222',
-      // color: '57,118,133',
-      color: '24,24,24',
-      name: 'Aesthetic'
+      // accent: '242,219,74',
+      // // color: '135,216,222',
+      // // color: '57,118,133',
+      // color: '24,24,24',
+      color: '66,62, 59',
+      accent: '199,178,143',
+      name: 'Cozy'
     }
   };
   // rgb()

@@ -17,7 +17,9 @@ import { fetchGif } from "../utils/utils";
 const gifsId: { [key in Themes]: string } = {
   dark: "OMFfLpauGoT4c",
   light: "N5B19awm2YvwMwf8JE",
-  cozy: "gioLPAqDRZjzYpmuCp",
+  cozy: "k8kITi9SAwe9JWbUaH",
+
+  // cozy: "gioLPAqDRZjzYpmuCp",
 };
 function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateAction<boolean>>}) {
   const [startMenuOpen, setStartMenuOpen] = useContext(StartSetterContext);
