@@ -19,7 +19,7 @@ $size: 21px; // (Fully responsive)
 	height: 29px;
     width: 45px;
 	border-radius: 50px;
-	background-color: rgb(var(--theme-color));
+	background-color: $color-black;
 	display: flex;
     align-items: center;
     justify-content: center;
