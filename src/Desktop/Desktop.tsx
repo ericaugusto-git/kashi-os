@@ -146,7 +146,7 @@ function Desktop() {
       <div onContextMenu={handleContextMenu} className={styles.wallpaper_wrapper}>
       {wallpapers[wallpaper?.theme as Themes].map((wpp, index) => {
         return index == wallpaper?.wppIndex && 
-        (<div key={wpp} className={`backgroundImage ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${pcStatus === 'sleeping' ? wallpapers.lockscreen[0] : wpp}")`}}></div>)
+        (<div key={wpp} className={`backgroundImage ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${wpp}")`}}></div>)
       })}
       {newWallpaper && (<div className={`backgroundImage ${styles.wallpaperImg} ${styles.circle}`}  style={{backgroundImage: `url("${newWallpaper}")`}}></div>)}
       {/* {Object.keys(wallpapers).map((key) => {

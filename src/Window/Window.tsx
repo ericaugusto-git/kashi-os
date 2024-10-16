@@ -13,6 +13,8 @@ import WindowContent from './components/WindowContent/WindowContent';
 
 const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const [windows, setWindows] = useWindowContext();
+  const defaultWindowStyles = {borderRadius: '8px', cursor: 'move'};
+  const [defaultSyles, setDefaultStyles] = useState<React.CSSProperties>(defaultWindowStyles);
   const [noTransition, seNoTransition] = useState(false);
   const windowRefs = useRef<Array<Rnd | null>>([]);
   const windowRef = useRef<HTMLDivElement>(null)
@@ -83,6 +85,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     if(windowRef){
       const isMax = isMaximized(index);
       const size = isMax ? {width: "40%", height: window.height ?? '400px'} : {width: "100%", height: (innerHeight - taskbarHeight) + 'px'};
+      setDefaultStyles(!isMax ? {borderRadius: '1px', cursor: 'auto'} : defaultWindowStyles);
       windowRef?.updateSize(size);
       windowRef?.updatePosition(!isMax ? {x: 0, y: position == 'top' ? taskbarHeight : 0} : {x: window.x ?? Math.round(0.08 * innerWidth) , y: window.y ?? Math.round(0.02 * innerHeight)});
     }
@@ -175,7 +178,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'}}
   >
     <div className={styles.glass_effect}></div>
-    <div className={`${styles.window}`} style={{cursor: isMaximized(index) ? 'normal' : 'move',...window.windowStyles, }}>
+    <div className={`${styles.window}`} style={{...defaultSyles, ...window.windowStyles, }}>
         <div className={styles.header} style={window.headerStyles}>
           <div className={styles.app}>
           {/* {window.icon?.includes(".svg") ? (

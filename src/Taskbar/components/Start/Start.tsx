@@ -14,7 +14,7 @@ function Start() {
   //   borderRadius: '50px'
   // };
 
-  const [_, setStartMenuOpen, toggleButtonRef] =
+  const [isStartMenuOpen, setStartMenuOpen, toggleButtonRef] =
     useContext(StartSetterContext);
   const handleClick = () => {
     setStartMenuOpen((previousValue) => !previousValue);
@@ -48,7 +48,7 @@ function Start() {
     <div  onMouseMove={handleMouseMove} className={styles.startBtnWrapper}>
     <button
       ref={toggleButtonRef}
-      className={styles.start_btn}
+      className={`${styles.start_btn} ${isStartMenuOpen && styles.paused}`}
       onClick={handleClick}
     >
       {/* <div style={{height: "21px", width: "21px"}}>

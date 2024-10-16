@@ -209,7 +209,13 @@ $size: 21px; // (Fully responsive)
 		.eye, .eye-pupil{
 			animation: look-around 4s infinite paused; /* Start the animation in a paused state */
 			animation: blink paused;
-	
 		}
 	}
 }
+
+// .paused{
+// 	.eye, .eye-pupil{
+// 		animation: look-around 4s infinite paused; /* Start the animation in a paused state */
+// 		animation: blink paused;
+// 	}
+// }

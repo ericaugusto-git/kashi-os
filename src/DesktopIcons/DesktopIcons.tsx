@@ -6,18 +6,22 @@ import { useDesktopPosition } from "../contexts/DesktopPositonContext";
 import useOpenWindow from "../hooks/useOpenWindow";
 import styles from "./DestopIcons.module.scss";
 import DesktopIcon from "./components/DesktopIcon/DesktopIcon";
+import Draggable from "react-draggable";
 
 function DesktopIcons() {
   const [position] = useDesktopPosition();
   const apps = windowsTemplates.filter(a=> a.appType == 'project' || a.desktop);
   const openWindow = useOpenWindow();
   const handleDesktopIconCLick = (app: WindowType) => {
+    if(isDragging){
+      return;
+    }
     openWindow(app);
   };
 
   
   const [isAnimating, setIsAnimating] = useState(true);
-
+  const [isDragging, setIsDragging] = useState(false);
   const container = {
     hidden: { opacity: 1, scale: 0 },
     visible: {
@@ -101,14 +105,17 @@ function DesktopIcons() {
 
   return <>
   
-           {isAnimating && <motion.menu id="desktop_icons" initial="hidden" animate={"visible"}  variants={container}   className={`${styles.desktop} ${styles[position]}`}>
-                {apps.map((app) => <motion.li  id={app.app} whileHover={{ scale: position == 'top' ? 1.2 : 1.05 }} whileTap={{ scale: 0.9 }}  variants={item} key={app.app} onClick={() => handleDesktopIconCLick(app)}>
-                            <DesktopIcon app={app} svgStyles={app.desktopStyles?.svg} svgMask={app.svgMask?.desktop} buttonStyles={app.desktopStyles?.button} imgWrapperStyles={app.desktopStyles?.img} />
+            <motion.menu id="desktop_icons" initial="hidden" animate={"visible"}  variants={container}   className={`${styles.desktop} ${styles[position]}`}>
+                {apps.map((app) => <motion.li  id={app.app} 
+        variants={item}
+        key={app.app}
+        onClick={() => handleDesktopIconCLick(app)}>
+                              <DesktopIcon setIsDragging={setIsDragging} app={app} svgStyles={app.desktopStyles?.svg} svgMask={app.svgMask?.desktop} buttonStyles={app.desktopStyles?.button} imgWrapperStyles={app.desktopStyles?.img} />
                 </motion.li>)}
                 {/* <li onClick={openResume}>
                   <DesktopIcon  app={{app: 'resume', icon: resume, appType: 'os', hideInStartMenu: true,}} buttonStyles={{textTransform: 'none'}} svgMask={true}></DesktopIcon>
                 </li> */}
-            </motion.menu>}
+            </motion.menu>
 
         </>;
 }

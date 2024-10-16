@@ -98,6 +98,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
     setPcStatus("shutdown");
   };
   const handleSleep = () => {
+    setStartMenuOpen(false);
     setPcStatus("sleeping");
   };
   const appsSections = [
@@ -153,10 +154,10 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
           <div className={styles.start_menu + " " + styles[theme]}>
             <div className={styles.col_1}>
               <div
+              onClick={() => {window.open(gifUrl, "_blank")}}
                 className={styles.cute_gif}
                 style={{ backgroundImage: `url("${gifUrl}")` }}
               >
-                <img style={{width: '100px', height: '27px', paddingTop: '8px'}} src="Poweredby_100px-Black_VertLogo.png"></img>
               </div>
               <menu>
                 <ul>
