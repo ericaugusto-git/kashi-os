@@ -25,7 +25,7 @@ $color: var(--color);
   width: calc((100% / var(--wallpapers-length)));
   $borderRadius: 20px;
   border-radius: $borderRadius;
-  cursor: pointer;
+  cursor: url('pointer.svg'), pointer;
   transition: opacity 0.6s ease;
   padding: 4px;
   &.active, &:hover{

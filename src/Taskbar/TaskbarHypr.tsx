@@ -105,7 +105,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
                 <WindowsHypr windowsDivTotalLength={windowsDivTotalLength} windows={windows} setWindows={setWindows}/>
             </motion.div>}
         </AnimatePresence>
-        <a className={`${style.taskbar_section_wrapper} ${style.date_time}`} onClick={openCalendar} ref={clockButtonRef} style={{cursor: 'pointer'}}>
+        <a className={`${style.taskbar_section_wrapper} ${style.date_time}`} onClick={openCalendar} ref={clockButtonRef}>
             <ClockHypr/>
         </a>
         <div className={`${style.taskbar_section_wrapper} ${style.performance}`}>

@@ -38,7 +38,7 @@ $padding: 7px;
   }
 
   button.default_outline_button{
-    cursor: pointer;
+    cursor: url('pointer.svg'), pointer;
   }
   // button.default_outline_button:hover{
   //   background: #3d3d3d;

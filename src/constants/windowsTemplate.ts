@@ -1,24 +1,20 @@
-import Cmd from "../StartMenu/components/Cmd/Cmd";
-import Paint from "../StartMenu/components/Paint/Paint";
-import Playlist from "../StartMenu/components/Playlist/Playlist";
+import firefox from "../assets/desktop/firefox.svg";
+import jdm from "../assets/desktop/jdm.svg";
+import resume from "../assets/desktop/resume.svg";
+import portfolio from "../assets/portfolio.png";
 import brush from '../assets/startMenu/brush.png';
 import cmd from '../assets/startMenu/cmd2.png';
 import handshake from '../assets/startMenu/handshake.svg';
 import playlistIcon from '../assets/startMenu/playlist.svg';
-import { WindowType } from "./window";
-import resume from "../assets/desktop/resume.svg";
-import discord from "../assets/desktop/disc.svg";
-import finance from "../assets/desktop/finance.png";
-import cookBook from "../assets/desktop/food.svg";
-import firefox from "../assets/desktop/firefox.svg";
-import portfolio from "../assets/portfolio.png";
-import jdm from "../assets/desktop/jdm.svg";
+import EmulatorJS from '../EmulatorJS/EmulatorJS';
 import Resume from "../Resume/Resume";
+import Cmd from "../StartMenu/components/Cmd/Cmd";
 import Credits from "../StartMenu/components/Credits/Credits";
-import fav from '/favicon.ico';
+import Paint from "../StartMenu/components/Paint/Paint";
+import Playlist from "../StartMenu/components/Playlist/Playlist";
+import { WindowType } from "./window";
 import emulatorJs from '/EmulatorJS.png';
-import EmulatorJS from '../EmulatorJS/EmulatorJS'
-import UnderDev from "../UnderDev/UnderDev";
+import fav from '/favicon.ico';
 export const windowsTemplates: WindowType[] = [
     {
         app: "playlist",

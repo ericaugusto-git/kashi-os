@@ -4,7 +4,7 @@
     margin-left: -7px;
     border-radius: 7px;
     backdrop-filter: blur(10px);
-    cursor: pointer;
+    cursor: url('pointer.svg'), pointer;
     background: hsla(0, 0%, 0%, 13%);
     background: hsla(0, 0%, 0%, 0.226);
 }

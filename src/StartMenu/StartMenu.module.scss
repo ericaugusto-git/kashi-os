@@ -91,7 +91,7 @@ $col2IconSize: 21px;
             text-transform:uppercase;
             font-size: 14px;
             font-weight: 100;
-            cursor: pointer;
+            cursor: url('pointer.svg'), pointer;
             -webkit-text-stroke: 0.1px;
         }
         .sleep{
@@ -130,7 +130,7 @@ $col2IconSize: 21px;
             // rgb(225 225 225 / 54%)
             font-size: 12px;
             align-items: center;
-            cursor: pointer;
+            cursor: url('pointer.svg'), pointer;
             height: 28.3px;
         } 
         button:hover{

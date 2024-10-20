@@ -14,7 +14,7 @@ $paddingX: 30px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     // width: 200px;
     li{
-        cursor: pointer;
+        cursor: url('pointer.svg'), pointer;
         padding: 1px;
         // padding-left: $paddingX;
         padding-right: $paddingX;

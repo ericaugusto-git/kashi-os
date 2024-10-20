@@ -28,7 +28,7 @@ const LocaleSwitcher = () => {
   
 
   return (
-    <div onClick={handleToggle} style={{ cursor: 'pointer' }}>
+    <a onClick={handleToggle}>
       <AnimatePresence>
         {isVisible && (
           <motion.div
@@ -41,7 +41,7 @@ const LocaleSwitcher = () => {
             </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </a>
   );
 };
 

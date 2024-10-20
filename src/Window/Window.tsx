@@ -13,8 +13,8 @@ import WindowContent from './components/WindowContent/WindowContent';
 
 const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const [windows, setWindows] = useWindowContext();
-  const defaultWindowStyles = {borderRadius: '8px', cursor: 'move'};
-  const [defaultSyles, setDefaultStyles] = useState<React.CSSProperties>(defaultWindowStyles);
+  const defaultWindowStyles = {borderRadius: '8px'};
+  const [defaultSyles, setDefaultStyles] = useState<React.CSSProperties>( defaultWindowStyles);
   const [noTransition, seNoTransition] = useState(false);
   const windowRefs = useRef<Array<Rnd | null>>([]);
   const windowRef = useRef<HTMLDivElement>(null)

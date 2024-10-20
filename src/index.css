@@ -23,6 +23,7 @@
   overflow: hidden;
 }
 
+
 /* .MuiDateCalendar-root.css-1rtg91x-MuiDateCalendar-root{
   border-bottom: 1px solid;
   border-top: 1px solid;
@@ -32,7 +33,10 @@
   display: none;
 }
 
+
 body{
+--default-cursor: url('cursor.svg') 6 0, auto;
+  cursor: var(--default-cursor);
   margin: 0;
   height: 100%;
   width: 100%;
@@ -44,6 +48,10 @@ body{
 
 
 
+a, button {
+  /* cursor: pointer; */
+  cursor: url('pointer.svg') 6 0, pointer !important;
+}
 
 
 a {
@@ -237,5 +245,13 @@ input[type="week"] {
   height: var(--size);
   border: 0;
   padding: 0;
-  cursor: pointer;
 }
+button.taskbar_icon {
+  cursor: url('pointer.svg'), pointer;
+}
+.react-grid-layout{
+  
+  height: calc(100dvh - 40px) !important;
+  /* max-height: calc(100dvh - 45px) !important; */
+}
+
