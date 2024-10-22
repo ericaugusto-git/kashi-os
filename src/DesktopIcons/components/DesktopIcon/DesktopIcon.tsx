@@ -5,6 +5,7 @@ import { WindowType } from '../../../constants/window';
 import { useDesktopPosition } from '../../../contexts/DesktopPositonContext';
 import { useTheme } from '../../../contexts/ThemeContext';
 import styles from './DesktopIcon.module.scss';
+import { useContextMenuHandler } from '../../../contexts/ContextMenuContext';
 
 type DesktopIconProp = {
     app: WindowType,
@@ -18,6 +19,7 @@ type DesktopIconProp = {
 function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, fromTaskbar, isDragging}: DesktopIconProp){
     const [theme] = useTheme();
     const [position] = useDesktopPosition();
+    const handleContextMenu = useContextMenuHandler("app");
     const { t } = useTranslation();
     const icon = svgMask ? { } :  {backgroundImage: `url("${app.icon}")`}
     const stylesDefault: CSSProperties = {...imgWrapperStyles, ...icon}
@@ -25,7 +27,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
 
     
     return (
-            <a  className={`${styles.desktop_icon} ${styles[position]} ${styles[theme]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive} ${isDragging && styles.dragging}`} style={buttonStyles}>
+            <a onContextMenu={handleContextMenu}  className={`${styles.desktop_icon} ${styles[position]} ${styles[theme]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive} ${isDragging && styles.dragging}`} style={buttonStyles}>
                 {app.active}
                 <div style={stylesDefault} className={styles.img_wrapper + " " +  (!svgMask ? 'backgroundImage' : '')}>
                     {svgMask && <div style={svgDefault} className={"svgMask " + styles.icon}></div>}

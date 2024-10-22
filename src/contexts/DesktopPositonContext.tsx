@@ -4,7 +4,7 @@ export type DesktopPosition = 'top' | 'bottom';
 const defaultPostion = 'bottom';
 
 type DesktopPositionContextType = [DesktopPosition, React.Dispatch<React.SetStateAction<DesktopPosition>>]
-export const DesktopPositionContext = createContext<DesktopPositionContextType>([defaultPostion, () => false]);
+const DesktopPositionContext = createContext<DesktopPositionContextType>([defaultPostion, () => false]);
 
 type DesktopPositionContextProviderProps = {
     children: React.ReactNode;
@@ -28,4 +28,16 @@ type DesktopPositionContextProviderProps = {
     return context
   }
 
-  export {DesktopPositionContextProvider, useDesktopPosition}
+  function useDesktopPositionHandler(){
+    const [_, setPosition] = useDesktopPosition();
+    const changePosition = () => {
+      setPosition((prev) => {
+         const position = prev == 'top' ? 'bottom' : 'top';
+         localStorage.setItem('position', position)
+          return position;
+      });
+    }
+    return changePosition;
+  }
+
+  export {DesktopPositionContextProvider, useDesktopPosition, useDesktopPositionHandler}

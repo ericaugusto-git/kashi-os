@@ -85,7 +85,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     if(windowRef){
       const isMax = isMaximized(index);
       const size = isMax ? {width: "40%", height: window.height ?? '400px'} : {width: "100%", height: (innerHeight - taskbarHeight) + 'px'};
-      setDefaultStyles(!isMax ? {borderRadius: '1px', cursor: 'auto'} : defaultWindowStyles);
+      setDefaultStyles(!isMax ? {borderRadius: '1px'} : defaultWindowStyles);
       windowRef?.updateSize(size);
       windowRef?.updatePosition(!isMax ? {x: 0, y: position == 'top' ? taskbarHeight : 0} : {x: window.x ?? Math.round(0.08 * innerWidth) , y: window.y ?? Math.round(0.02 * innerHeight)});
     }
@@ -196,7 +196,6 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
         </div>
         <div className={styles.body} style={window.bodyStyles}>
           {/* <div style={{backgroundColor: "white",width: "100%", height: "100%", boxSizing: "border-box"}}></div> */}
-          {/* <iframe src="http://wikipedia.com" ></iframe> */}
           {/* {window.link ? <iframe src={window.link} width="100%" height="100%"></iframe> : window.conteudo && <window.conteudo closeBtnRefs={closeRefs.current} closeRefIndex={index} />} */}
           <WindowContent window={window} index={index} closeRefCurrent={closeRefs.current}/>
   

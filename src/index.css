@@ -35,7 +35,7 @@
 
 
 body{
---default-cursor: url('cursor.svg') 6 0, auto;
+--default-cursor: url("cursor.svg") 6 0, auto;
   cursor: var(--default-cursor);
   margin: 0;
   height: 100%;
@@ -50,7 +50,7 @@ body{
 
 a, button {
   /* cursor: pointer; */
-  cursor: url('pointer.svg') 6 0, pointer !important;
+  cursor: url("pointer.svg") 6 0, pointer !important;
 }
 
 

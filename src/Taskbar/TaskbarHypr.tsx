@@ -5,7 +5,7 @@ import powerOff from "../assets/startMenu/power_off.svg";
 import taskbar_switcher from '../assets/taskbar/taskbar_switcher.svg';
 import theme_change from '../assets/taskbar/theme_change.svg';
 import wallpaper_change from '../assets/taskbar/wallpaper_change.svg';
-import { useDesktopPosition } from "../contexts/DesktopPositonContext";
+import { useDesktopPosition, useDesktopPositionHandler } from "../contexts/DesktopPositonContext";
 import { useWindowContext } from "../contexts/WindowContext";
 import useComponentVisible from "../hooks/useComponentVisible";
 import LocaleSwitcher from "./LocaleSwitcher/LocaleSwitcher";
@@ -15,34 +15,30 @@ import Calendar from "./components/Calendar/Calendar";
 import ClockHypr from "./components/ClockHypr/ClockHypr";
 import Performance from "./components/Performance/Performance";
 import Start from "./components/Start/Start";
-import ThemeSwitcher from "./components/ThemeSwitcher/ThemeSwitcher";
-import WallpaperSwitcher from "./components/WallpaperSwitcher/WallpaperSwitcher";
 import WindowsHypr from "./components/WindowsHypr/WindowsHypr";
 
+type TaskbarProps = {
+    setPcStatusMenuOpen: Dispatch<SetStateAction<boolean>>, 
+    pcStatusButtonRef: MutableRefObject<HTMLButtonElement | null>
+    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean>>, 
+    setThemeSwitcherOpen: Dispatch<SetStateAction<boolean>>, 
+    wallpaperButtonRef: MutableRefObject<HTMLButtonElement | null>
+    themeButtonRef: MutableRefObject<HTMLButtonElement | null>
+}
 
-export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {setPcStatusMenuOpen: Dispatch<SetStateAction<boolean>>, pcStatusButtonRef: MutableRefObject<HTMLButtonElement | null>}){
+export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, setwWallpaperSwitcherOpen, wallpaperButtonRef, setThemeSwitcherOpen, themeButtonRef}: TaskbarProps){
 
     const clockButtonRef = useRef(null);
-    const themeButtonRef = useRef(null);
-    const wallpaperButtonRef = useRef(null);
     const windowsRef = useRef<HTMLDivElement>(null);
 
     const {t} = useTranslation();
-    const [position, setPosition] = useDesktopPosition()
-
+    const [position] = useDesktopPosition();
+    const changePosition = useDesktopPositionHandler();
     const  [ calendarRef, isCalendarOpen, setIsCalendarOpen ] = useComponentVisible(false, clockButtonRef);
-    const  [ themeSwitcherRef, themeSwitcherOpen, setThemeSwitcherOpen ] = useComponentVisible(false,themeButtonRef);
-    const  [ wallpaperSwitcherRef, wallpaperSwitcherOpen, setwWallpaperSwitcherOpen ] = useComponentVisible(false,wallpaperButtonRef);
     const [windows, setWindows] = useWindowContext();
     const [windowsDivTotalLength, setWindowsDivTotalLength] = useState(0);
 
-    const changePosition = () => {
-        setPosition((prev) => {
-           const position = prev == 'top' ? 'bottom' : 'top';
-           localStorage.setItem('position', position)
-            return position;
-        });
-    }
+
     useEffect(() => {
         const handleResize = () => {
           if (windowsRef.current) {
@@ -82,12 +78,6 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef}: {s
           exit={{ overflow: "hidden", opacity: 0 }}
           transition={{ duration: 0.2 }}><Calendar/></motion.div>}
             </AnimatePresence>
-        </div>
-        <div ref={themeSwitcherRef}>
-            <ThemeSwitcher setThemeSwitcherOpen={setThemeSwitcherOpen} themeSwitcherOpen={themeSwitcherOpen}/>
-        </div>
-        <div ref={wallpaperSwitcherRef}>
-            <WallpaperSwitcher setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen} wallpaperSwitcherOpen={wallpaperSwitcherOpen}/>
         </div>
     <div className={style.taskbar} style={{[position]: 0}}>
         <div className={style.start} style={{marginRight: windows.length == 0 ? 'auto' : ''}}>

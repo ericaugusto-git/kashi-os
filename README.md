@@ -16,6 +16,7 @@ Welcome to my portfolio, the O.S version! Featuring a desktop-inspired UI, this 
 - [x] Shutdown
 - [x] Close startmenu and calendar with click outside
 - [ ] Refactor StartSetterContext
+- [ ] Refactor providers
 - [ ] Paint redesign
 - [ ] Improve experience in mobile (oh boy...)
 - [x] Only ask for location if it's on pc

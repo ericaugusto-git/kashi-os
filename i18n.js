@@ -52,7 +52,16 @@ i18n
           game_list: "Your game list",
           systems: "Systems available thanks to the amazing work of the EmulatorJS Devs:",
           save_notice: "well disappear including save if you clear cache",
-          under_dev: "app under development"
+          under_dev: "app under development",
+
+          change_theme: "Change Theme",
+          change_wpp: "Change Wallpaper",
+          change_position: "Change Desktop Position",
+          reset_desktop: "Reset Desktop",
+          fullscreen: "Fullscreen",
+          exit_fullscreen: "Exit Fullscreen",
+          new_file: "New file",
+          hide_desktop: "Hide Desktop icons"
         }
     },
     ["pt-BR"]: {
@@ -87,7 +96,16 @@ i18n
             game_list: "Seus jogos",
             systems: "Sistemas diponíveis graças aos DEVS fora da curva do EmulatorJS:",
             save_notice: "irão desaparecer incluindo save quando cache for apagado",
-            under_dev: "Aplicativo em construção :)"
+            under_dev: "Aplicativo em construção :)",
+            change_theme: "Mudar tema",
+            change_wpp: "Alterar wallpaper",
+            change_position: "Alterar posição da Desktop",
+            reset_desktop: "Resetar Desktop",
+            fullscreen: "Tela inteira",
+            exit_fullscreen: "Sair da Tela inteira",
+            new_file: "Novo arquivo",
+            hide_desktop: "Esconder ícones da Desktop",
+
         }
       }
     }
