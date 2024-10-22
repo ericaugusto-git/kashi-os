@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FullScreen, FullScreenHandle, useFullScreenHandle } from 'react-full-screen';
+import { FullScreenHandle } from 'react-full-screen';
 import close from '../../../assets/playlist/close.svg';
 import exit_fullscreen from '../../../assets/playlist/exit_fullscreen.svg';
 import fullscreen from '../../../assets/playlist/fullscreen.svg';

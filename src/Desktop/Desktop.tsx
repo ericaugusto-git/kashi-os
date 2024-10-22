@@ -1,4 +1,6 @@
 import { CSSProperties, useEffect, useRef, useState } from "react";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import { Layouts } from "react-grid-layout";
 import { StartSetterContext } from "../App";
 import DesktopIcons from "../DesktopIcons/DesktopIcons";
 import StartMenu from "../StartMenu/StartMenu";
@@ -22,10 +24,6 @@ import styles from "./Desktop.module.scss";
 import ContextMenu from "./components/ContextMenu/ContextMenu";
 import Lockscreen from "./components/Lockscreen/Lockscreen";
 import Lofi from "./components/Lofi/Lofi";
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import { Layouts } from "react-grid-layout";
-import { WindowType } from "@/constants/window";
-import { windowsTemplates } from '../constants/windowsTemplate';
 
 
 function Desktop() {

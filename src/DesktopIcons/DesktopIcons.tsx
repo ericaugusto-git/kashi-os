@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 // import 'react-grid-layout/css/styles.css';
-import { WindowType } from '../constants/window';
+import { motion } from "framer-motion";
 import { windowsTemplates } from '../constants/windowsTemplate';
+import { useDesktopPosition } from '../contexts/DesktopPositonContext';
 import useOpenWindow from '../hooks/useOpenWindow';
 import DesktopIcon from './components/DesktopIcon/DesktopIcon';
-import { useDesktopPosition } from '../contexts/DesktopPositonContext';
-import { motion } from "framer-motion";
 import styles from "./DestopIcons.module.scss";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);

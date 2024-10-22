@@ -1,7 +1,6 @@
-import { WindowType } from "@/constants/window";
 import { Layouts } from "react-grid-layout";
-import { Themes } from "../contexts/ThemeContext";
 import { windowsTemplates } from "../constants/windowsTemplate";
+import { Themes } from "../contexts/ThemeContext";
 
 export function getWppIndex(theme: Themes){
     const localWallper = localStorage.getItem(theme + "Wallpaper");

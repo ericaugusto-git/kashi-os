@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { FullScreenHandle } from "react-full-screen";
+import { Layouts } from "react-grid-layout";
 import { useTranslation } from "react-i18next";
 import layer from '../../../assets/contextMenu/layer.svg';
 import lofi from '../../../assets/contextMenu/lofi.svg';
-import mail from '../../../assets/contextMenu/mail.svg';
 import maximize from '../../../assets/contextMenu/maximize.svg';
 import minimmize from '../../../assets/contextMenu/minimize.svg';
 import new_file from '../../../assets/contextMenu/new_file.svg';
@@ -11,6 +11,7 @@ import phone from '../../../assets/contextMenu/phone.svg';
 import reset from '../../../assets/contextMenu/reset.svg';
 import powerOff from "../../../assets/startMenu/power_off.svg";
 import sleep from "../../../assets/startMenu/sleep.svg";
+import mail from '../../../assets/taskbar/contact/mail.svg';
 import taskbar_switcher from '../../../assets/taskbar/taskbar_switcher.svg';
 import theme_change from '../../../assets/taskbar/theme_change.svg';
 import wallpaper_change from '../../../assets/taskbar/wallpaper_change.svg';
@@ -18,10 +19,8 @@ import { useContextMenu } from "../../../contexts/ContextMenuContext";
 import { useDesktopPositionHandler } from "../../../contexts/DesktopPositonContext";
 import { usePcStatus } from "../../../contexts/PcStatusContext";
 import { useWindowContext } from "../../../contexts/WindowContext";
-import styles from './ContextMenu.module.scss';
-import { Layouts } from "react-grid-layout";
 import { generateLayouts } from "../../../utils/utils";
-import mail2 from '../../../assets/taskbar/contact/mail.svg'
+import styles from './ContextMenu.module.scss';
 
 type MenuProps = {    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean>>, 
   setThemeSwitcherOpen: Dispatch<SetStateAction<boolean>>,
@@ -126,7 +125,7 @@ function DesktopOptions ({setwWallpaperSwitcherOpen, setThemeSwitcherOpen,screen
         </li>
         <div className={styles.separator}></div>
         <li onClick={() => handleContact('mailto:eric72001@hotmail.com')}>
-          <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${mail2}")`}}></div>
+          <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${mail}")`}}></div>
             eric72001@hotmail.com
         </li>
         <li onClick={() => handleContact('tel:+55 (71) 98188-6126')}>
