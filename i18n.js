@@ -61,7 +61,8 @@ i18n
           fullscreen: "Fullscreen",
           exit_fullscreen: "Exit Fullscreen",
           new_file: "New file",
-          hide_desktop: "Hide Desktop icons"
+          desktop_off: "Hide Desktop icons",
+          desktop_on: "Show Desktop icons"
         }
     },
     ["pt-BR"]: {
@@ -104,7 +105,8 @@ i18n
             fullscreen: "Tela inteira",
             exit_fullscreen: "Sair da Tela inteira",
             new_file: "Novo arquivo",
-            hide_desktop: "Esconder ícones da Desktop",
+            desktop_off: "Esconder ícones da Desktop",
+            desktop_on: "Exibir ícones da Desktop",
 
         }
       }

@@ -46,6 +46,7 @@ function Desktop() {
   const  [ themeSwitcherRef, themeSwitcherOpen, setThemeSwitcherOpen ] = useComponentVisible(false,themeButtonRef);
   const  [ wallpaperSwitcherRef, wallpaperSwitcherOpen, setwWallpaperSwitcherOpen ] = useComponentVisible(false,wallpaperButtonRef);
   const handleContextMenu = useContextMenuHandler("desktop");
+  const [isDesktopHidden, setDesktopHidden] = useState(localStorage.getItem("desktop_icon_visibility") === "true");
 
 
   const [layouts, setLayouts] = useState<Layouts | null>(generateLayouts());
@@ -146,7 +147,7 @@ function Desktop() {
           </div>
         
         {/* The context menu */}
-        <ContextMenu screenHandle={screenHandle} setLayouts={setLayouts} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/>
+        <ContextMenu isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} screenHandle={screenHandle} setLayouts={setLayouts} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/>
         {/* The wallpaper */}
         <div className={styles.wallpaper_wrapper}>
         {wallpapers[wallpaper?.theme as Themes].map((wpp, index) => {
@@ -170,7 +171,7 @@ function Desktop() {
             </Window>
             {/* <DesktopIcons /> */}
             <div style={{[position == 'top' ? 'bottom' : 'top']: 0}} onContextMenu={handleContextMenu} className={styles.desktopIconsWrapper}>
-            <DesktopIcons layouts={layouts} setLayouts={setLayouts}/>
+            {!isDesktopHidden && <DesktopIcons layouts={layouts} setLayouts={setLayouts}/>}
 
             </div>
             <StartSetterContext.Provider

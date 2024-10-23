@@ -2,7 +2,8 @@ import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { FullScreenHandle } from "react-full-screen";
 import { Layouts } from "react-grid-layout";
 import { useTranslation } from "react-i18next";
-import layer from '../../../assets/contextMenu/layer.svg';
+import desktop_off from '../../../assets/contextMenu/desktop_off.svg';
+import desktop_on from '../../../assets/contextMenu/desktop_on.svg';
 import lofi from '../../../assets/contextMenu/lofi.svg';
 import maximize from '../../../assets/contextMenu/maximize.svg';
 import minimmize from '../../../assets/contextMenu/minimize.svg';
@@ -25,10 +26,12 @@ import styles from './ContextMenu.module.scss';
 type MenuProps = {    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean>>, 
   setThemeSwitcherOpen: Dispatch<SetStateAction<boolean>>,
   screenHandle: FullScreenHandle,
-  setLayouts: Dispatch<SetStateAction<Layouts | null>>
+  setLayouts: Dispatch<SetStateAction<Layouts | null>>,
+  isDesktopHidden: boolean,
+  setDesktopHidden:  Dispatch<SetStateAction<boolean>>
 }
 
-export default function ContextMenu({setwWallpaperSwitcherOpen, setThemeSwitcherOpen, screenHandle, setLayouts}: MenuProps){
+export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallpaperSwitcherOpen, setThemeSwitcherOpen, screenHandle, setLayouts}: MenuProps){
     const contextRef = useRef<HTMLUListElement>(null);
     const [menuProps, setMenuProps] = useContextMenu();
 
@@ -53,7 +56,7 @@ export default function ContextMenu({setwWallpaperSwitcherOpen, setThemeSwitcher
     
     return <>
     {menuProps?.x &&  <ul ref={contextRef} className={styles.contextMenu} style={{top: `${menuProps?.y}px`, left: `${menuProps?.x}px`}} onClick={handleClick}>
-      {menuProps.source == 'desktop' ? <DesktopOptions setLayouts={setLayouts} screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : <AppOptions />}
+      {menuProps.source == 'desktop' ? <DesktopOptions isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} setLayouts={setLayouts} screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : <AppOptions />}
       </ul>}
     </>
 }
@@ -72,7 +75,7 @@ function AppOptions () {
   </>
 }
 
-function DesktopOptions ({setwWallpaperSwitcherOpen, setThemeSwitcherOpen,screenHandle, setLayouts}: MenuProps){
+function DesktopOptions ({isDesktopHidden, setDesktopHidden,setwWallpaperSwitcherOpen, setThemeSwitcherOpen,screenHandle, setLayouts}: MenuProps){
   const {t} = useTranslation();
   const [pcStatus, setPcStatus] = usePcStatus();
   const changePosition = useDesktopPositionHandler();
@@ -89,6 +92,13 @@ function DesktopOptions ({setwWallpaperSwitcherOpen, setThemeSwitcherOpen,screen
     window.open(link)
   }
 
+  const handleDesktop = () => {
+    setDesktopHidden((prev: boolean) => {
+      const newValue = !prev;
+      localStorage.setItem('desktop_icon_visibility', newValue.toString());
+      return newValue;
+    });
+  }
   const resetDesktop = () => {
     localStorage.removeItem('app-layouts');
     setLayouts(generateLayouts());
@@ -119,9 +129,9 @@ function DesktopOptions ({setwWallpaperSwitcherOpen, setThemeSwitcherOpen,screen
         <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${reset}")`}}></div>
           {t('reset_desktop')}
         </li>
-        <li onClick={() => setPcStatus('lofi')}>
-        <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${layer}")`}}></div>
-          {t('hide_desktop')}
+        <li onClick={handleDesktop}>
+        <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${isDesktopHidden ? desktop_on : desktop_off}")`}}></div>
+          {t(isDesktopHidden ? 'desktop_on' : 'desktop_off')}
         </li>
         <div className={styles.separator}></div>
         <li onClick={() => handleContact('mailto:eric72001@hotmail.com')}>
