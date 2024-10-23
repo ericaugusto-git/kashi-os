@@ -21,7 +21,7 @@ $color: var(--color);
 //   width: calc((100% / 3.4));
 //   border-radius: 50px;
 //   position: relative;
-//     cursor: url('pointer.svg'), pointer;
+//     cursor: url("/pointer.svg") 6 0, pointer;
 //     display: flex;
 //     align-items: center;
 //     justify-content: right;
@@ -57,7 +57,7 @@ $transition: 200ms;
   padding: 5px;
   $borderRadius: 35px;
   border-radius: $borderRadius;
-  cursor: url('pointer.svg'), pointer;
+  cursor: url("/pointer.svg") 6 0, pointer;
   transition: background-color $transition linear;
   .theme_img{
     grid-column: span 2/span 2;

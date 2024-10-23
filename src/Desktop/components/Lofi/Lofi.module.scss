@@ -41,7 +41,7 @@
   button{
     width: 21px;
     height: 21px;
-    cursor: url('pointer.svg'), pointer;
+    cursor: url("/pointer.svg") 6 0, pointer;
     border: none;
     background: transparent;
     transition: background-color 0.2s linear;

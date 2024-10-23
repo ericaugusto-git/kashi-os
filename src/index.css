@@ -247,7 +247,7 @@ input[type="week"] {
   padding: 0;
 }
 button.taskbar_icon {
-  cursor: url('pointer.svg'), pointer;
+  cursor: url("/pointer.svg") 6 0, pointer;
 }
 .react-grid-layout{
   

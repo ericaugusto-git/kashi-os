@@ -16,7 +16,7 @@
     li {
       display: flex;
       padding: 2px 0;
-      cursor: url('pointer.svg'), pointer;  
+      cursor: url("/pointer.svg") 6 0, pointer;  
       &.active {
         background-color: rgb(var(--accent-color));
         border-radius: 9999px;
@@ -42,14 +42,14 @@
       min-width: var(--calculated-icon-size);
       width: 100%;
       border: 0;
-      cursor: url('pointer.svg'), pointer;
+      cursor: url("/pointer.svg") 6 0, pointer;
     }
   }
   
   .moreButton {
     display: flex;
     align-items: center;
-    cursor: url('pointer.svg'), pointer;
+    cursor: url("/pointer.svg") 6 0, pointer;
     padding: 0 10px;
   }
 
@@ -60,7 +60,7 @@
     background-color: transparent;
     border: 0;
     gap: 5px;
-    cursor: url('pointer.svg'), pointer;
+    cursor: url("/pointer.svg") 6 0, pointer;
     padding: 0;
     height: var(--calculated-icon-size);
     &:hover div{
@@ -91,7 +91,7 @@
     li {
       display: flex;
       padding: 2px 0;
-      cursor: url('pointer.svg'), pointer;
+      cursor: url("/pointer.svg") 6 0, pointer;
   
       &.active {
         background-color: rgb(var(--accent-color));
@@ -115,7 +115,7 @@
         height: var(--calculated-icon-size);
         width: var(--calculated-icon-size);
         border: 0;
-        cursor: url('pointer.svg'), pointer;
+        cursor: url("/pointer.svg") 6 0, pointer;
       }
     }
   }

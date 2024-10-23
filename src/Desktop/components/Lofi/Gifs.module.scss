@@ -13,7 +13,7 @@
     .gif {
         flex: 1;
         transition: flex-grow 0.3s ease;
-        cursor: url('pointer.svg'), pointer;
+        cursor: url("/pointer.svg") 6 0, pointer;
     }
     
     .gif:hover {

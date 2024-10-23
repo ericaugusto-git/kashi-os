@@ -22,7 +22,7 @@
         backdrop-filter: blur(10px);
         position: relative;
         border: 0;
-        cursor: url('pointer.svg'), pointer;
+        cursor: url("/pointer.svg") 6 0, pointer;
         span{
             color: white;
             position: absolute;

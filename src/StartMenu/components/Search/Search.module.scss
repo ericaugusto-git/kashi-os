@@ -84,7 +84,7 @@
                 align-items: center;
                 gap: 10px;
                 text-transform: lowercase;
-                cursor: url('pointer.svg'), pointer;
+                cursor: url("/pointer.svg") 6 0, pointer;
             }
             .app:hover, .focused{
                 background-color: #424a5c;

@@ -39,7 +39,7 @@
     /* border-radius: 7px 0px 0px 7px; */
     button{
       border: 0;
-      cursor: url('pointer.svg'), pointer;
+      cursor: url("/pointer.svg") 6 0, pointer;
     }
     .actions{
       display: flex;
@@ -74,7 +74,7 @@
   }
   
   .music{
-    cursor: url('pointer.svg'), pointer;
+    cursor: url("/pointer.svg") 6 0, pointer;
     .noWrap{
       // text-overflow: ellipsis;
       // white-space: nowrap;
@@ -111,7 +111,7 @@
       background-color: #657388;
       height: 2px;
       width: 100%;
-      cursor: url('pointer.svg'), pointer;
+      cursor: url("/pointer.svg") 6 0, pointer;
       position: relative;
     }
     .progress_bar::before {

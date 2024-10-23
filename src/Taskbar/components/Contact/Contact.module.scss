@@ -20,7 +20,7 @@ $hoverColor: #56a7d6;
         display: flex;
         align-items: center;
         gap: 6px;
-        cursor: url('pointer.svg'), pointer;
+        cursor: url("/pointer.svg") 6 0, pointer;
         background-color: #323232;
         border-radius: 7px;
         padding: 2px 5px;
