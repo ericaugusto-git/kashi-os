@@ -66,7 +66,7 @@ function useWeather() {
       const isOld =  moment.unix(parsedLocalWeather?.forecast?.list?.[0]?.dt).isBefore(moment());
       
       
-      // TODO this a really ugly if else, this is terrible
+      // TODO this is a really ugly if else, this is terrible
       if(!weather && lat && long){
         if(!parsedLocalWeather || isOld || locationChange){
           fetchWeather();

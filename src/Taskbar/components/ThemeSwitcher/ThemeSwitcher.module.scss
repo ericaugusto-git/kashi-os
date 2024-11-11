@@ -10,7 +10,7 @@ $color: var(--color);
   transform: translateY(-45%);
   padding: 74px 0;
   display: flex;
-  z-index: 2;
+  z-index: 10;
   justify-content: space-evenly;
 }
 .theme:not(.active):hover{

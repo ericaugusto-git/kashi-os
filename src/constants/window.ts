@@ -1,5 +1,11 @@
 import { CSSProperties } from "react"
 
+type BaseProps = {closeBtnRefs?: Array<HTMLButtonElement | null>, closeRefIndex?: number};
+// re renders where not working very well with the useFileSystem inside the dynamic component, so i pass the getFileUrl as a prop.
+export type FileProps = {filePath?: string, getFileUrl?: (filePath: string, type: string) => Promise<string>, updateFile?: (filePath: string, newContent: string) => Promise<void>}
+type WindowProps = BaseProps & FileProps;
+export type WindowConteudo = (props: WindowProps) => JSX.Element;
+
 export type WindowType = {
     x?: number,
     y?: number,
@@ -13,12 +19,14 @@ export type WindowType = {
     mask?: string,
     active?: boolean,
     minimized?: boolean,
+    folderPath?: string,
     app: string,
-    appType: "project" | "os",
+    appType: "project" | "os" | "file",
     desktop?: boolean,
     hideInStartMenu?: boolean,
     svgMask?: {startMenu?: boolean, desktop?: boolean, search?: boolean}
-    conteudo?: ({closeBtnRefs, closeRefIndex}: {closeBtnRefs?: Array<HTMLButtonElement | null>, closeRefIndex?: number}) => JSX.Element,
+    conteudo?: WindowConteudo;
+    props?: WindowProps;
     customClose?: boolean,
     windowStyles?: CSSProperties,
     headerStyles?: CSSProperties,

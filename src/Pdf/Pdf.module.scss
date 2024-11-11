@@ -1,0 +1,12 @@
+.pdf{
+    display: flex;
+    justify-content: center;
+    background: grey;
+}
+
+
+@container (inline-size < 600px) {
+    .pdf{
+        display: block;
+    }
+}

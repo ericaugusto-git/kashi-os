@@ -255,3 +255,11 @@ button.taskbar_icon {
   /* max-height: calc(100dvh - 45px) !important; */
 }
 
+
+.folder_1{
+  fill: var(rgb(--theme-color));
+}
+
+.folder_2{
+  fill: var(rgb(--accent-color));
+}

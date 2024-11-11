@@ -16,12 +16,13 @@ import mail from '../../../assets/taskbar/contact/mail.svg';
 import taskbar_switcher from '../../../assets/taskbar/taskbar_switcher.svg';
 import theme_change from '../../../assets/taskbar/theme_change.svg';
 import wallpaper_change from '../../../assets/taskbar/wallpaper_change.svg';
-import { useContextMenu } from "../../../contexts/ContextMenuContext";
+import { ContextMenuProps, useContextMenu } from "../../../contexts/ContextMenuContext";
 import { useDesktopPositionHandler } from "../../../contexts/DesktopPositonContext";
 import { usePcStatus } from "../../../contexts/PcStatusContext";
 import { useWindowContext } from "../../../contexts/WindowContext";
 import { generateLayouts } from "../../../utils/utils";
 import styles from './ContextMenu.module.scss';
+import { useFileSystem } from "@/contexts/FileSystemContext";
 
 type MenuProps = {    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean>>, 
   setThemeSwitcherOpen: Dispatch<SetStateAction<boolean>>,
@@ -31,14 +32,21 @@ type MenuProps = {    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean
   setDesktopHidden:  Dispatch<SetStateAction<boolean>>
 }
 
+let eventHandler: (event: string) => void;
+
 export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallpaperSwitcherOpen, setThemeSwitcherOpen, screenHandle, setLayouts}: MenuProps){
     const contextRef = useRef<HTMLUListElement>(null);
     const [menuProps, setMenuProps] = useContextMenu();
-
+    const { x, y, source, handleCustomMenuEvent } = menuProps || {};
     const handleClick = (e: React.MouseEvent) => {
       e.stopPropagation();
       setMenuProps(null);
     }
+    useEffect(() => {
+      if(handleCustomMenuEvent)
+      eventHandler = handleCustomMenuEvent;
+    }, [handleCustomMenuEvent])
+
 
 
     useEffect(() => {
@@ -55,23 +63,39 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
     },[])
     
     return <>
-    {menuProps?.x &&  <ul ref={contextRef} className={styles.contextMenu} style={{top: `${menuProps?.y}px`, left: `${menuProps?.x}px`}} onClick={handleClick}>
-      {menuProps.source == 'desktop' ? <DesktopOptions isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} setLayouts={setLayouts} screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : <AppOptions />}
+    {x &&  <ul ref={contextRef} className={styles.contextMenu} style={{top: `${y}px`, left: `${x}px`}} onClick={handleClick}>
+      {source == 'desktop' ? <DesktopOptions isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} setLayouts={setLayouts} screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : <DesktopItemOptions source={source!}/>}
       </ul>}
     </>
 }
 
-function AppOptions () {
+
+function DesktopItemOptions({ source }: { source: NonNullable<ContextMenuProps>['source'] }) {
+  const {t} = useTranslation();
   return <>
-    <li>
-      Open App
+      <li onClick={() => eventHandler('open')}>
+        {t(`open_${source}`)}
+      </li>
+{source == 'file' && 
+    <>
+    <li onClick={() => eventHandler('delete')}>
+    {t(`delete_${source}`)}
     </li>
-    <li>
-      Open in files
-    </li>
-    <li>
-      About this project
-    </li>
+    <li onClick={() => eventHandler('rename')}>
+        {t(`rename_${source}`)}
+      </li>
+    </>
+}
+{ source == 'app' && 
+    <>
+        <li>
+          Open in files
+        </li>
+        <li>
+          About this project
+        </li>
+    </>
+   }
   </>
 }
 
@@ -79,7 +103,10 @@ function DesktopOptions ({isDesktopHidden, setDesktopHidden,setwWallpaperSwitche
   const {t} = useTranslation();
   const [pcStatus, setPcStatus] = usePcStatus();
   const changePosition = useDesktopPositionHandler();
+  const [, , fileInputRef] = useContextMenu();
   const [, setWindows] = useWindowContext();
+  const {fileList, format, createFolder, createFile} = useFileSystem();
+
   const handlePowerOff = () => {
     setWindows([]);
     setPcStatus("shutdown");
@@ -101,14 +128,63 @@ function DesktopOptions ({isDesktopHidden, setDesktopHidden,setwWallpaperSwitche
   }
   const resetDesktop = () => {
     localStorage.removeItem('app-layouts');
-    setLayouts(generateLayouts());
+    setLayouts(generateLayouts(fileList).layout);
   }
+
+
+
+  const createNewFolder = () => {
+    const getCount = (app: string) => parseInt(app.replace(newDir, '').replace('(', '').replace(')', ''));
+    const list = fileList || [];
+    const newDir = t('new_dir');  
+    const newFolders = list.filter((a) => {
+      const regex = new RegExp(`^${newDir}(\\s\\((\\d+)\\))?$`);
+      return regex.test(a.app);
+    }).sort((a, b) => getCount(a.app) - getCount(b.app));
+    console.log(newFolders);
+    let lastFolderIndex = 0;
+    // good enough for my sleep deprived brain, probably buggy, uhh nobody well ever stress it enough right?
+    for(const [index, folder] of newFolders.entries()){
+      const folderCount = getCount(folder?.app);
+      console.log(index, folderCount);
+      if(!folderCount){ lastFolderIndex = 1; continue;}
+      lastFolderIndex = index != folderCount ? index : index + 1;
+    }
+    
+    createFolder('/', `${newDir} ${lastFolderIndex == 0 ? '' : `(${lastFolderIndex})`}`.trim());
+  }
+
+  useEffect(() => {
+    const handleFileChange = (event: Event) => {
+      const fileInput = event.target as HTMLInputElement;
+      const file = fileInput.files?.[0];
+      if (file) {
+        createFile('/', file);
+        fileInput.value = ''; // Reset input after file is processed
+      }
+    };
+
+    const inputElement = fileInputRef.current;
+    
+    if (inputElement && !inputElement.onchange) {
+      inputElement.onchange = handleFileChange;
+    }
+  }, [fileInputRef, createFile]);
+
+  const handleFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
   return <>        
-      <li onClick={() => setPcStatus('lofi')}>
+
+      <li onClick={createNewFolder}>
+        <div className={`svgMask ${styles.folder}`}   style={{maskImage: `url("folder_plus.svg")`}}></div>
+          {t('new_dir', {suffix: ''})}
+      </li>
+      <li onClick={handleFileInput}>
         <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${new_file}")`}}></div>
           {t('new_file')}
-        </li>
-
+      </li>
         <li onClick={() => setwWallpaperSwitcherOpen(previous => !previous)} >
         <div className={`svgMask ${styles.ghost}`}   style={{maskImage: `url("${wallpaper_change}")`}}></div>
           {t('change_wpp')}
@@ -128,6 +204,10 @@ function DesktopOptions ({isDesktopHidden, setDesktopHidden,setwWallpaperSwitche
         <li onClick={resetDesktop}>
         <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${reset}")`}}></div>
           {t('reset_desktop')}
+        </li>
+        <li onClick={format}>
+        <div className={`svgMask ${styles.db}`}   style={{maskImage: `url("delete_db.svg")`}}></div>
+          {t('delete_everything')}
         </li>
         <li onClick={handleDesktop}>
         <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${isDesktopHidden ? desktop_on : desktop_off}")`}}></div>

@@ -1,7 +1,6 @@
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import { ptBR } from '@mui/x-date-pickers/locales';
+import { initReactI18next } from 'react-i18next';
 
 i18n
   // detect user language
@@ -57,12 +56,22 @@ i18n
           change_theme: "Change Theme",
           change_wpp: "Change Wallpaper",
           change_position: "Change Desktop Position",
-          reset_desktop: "Reset Desktop",
+          reset_desktop: "Reset Desktop Icons",
           fullscreen: "Fullscreen",
           exit_fullscreen: "Exit Fullscreen",
           new_file: "New file",
+          new_dir: "New folder",
+          new_dir_with_suffix: "New folder ({{suffix}})",
+          open_folder: "Open folder",
+          rename_folder: "Rename folder",
+          delete_folder: "Delete folder",
           desktop_off: "Hide Desktop icons",
-          desktop_on: "Show Desktop icons"
+          desktop_on: "Show Desktop icons",
+          delete_everything: "Delete everything",
+          open_file: "Open file",
+          open_app: "Open app",
+          delete_file: "Delete file",
+          rename_file: "Rename file"
         }
     },
     ["pt-BR"]: {
@@ -101,13 +110,22 @@ i18n
             change_theme: "Mudar tema",
             change_wpp: "Alterar wallpaper",
             change_position: "Alterar posição da Desktop",
-            reset_desktop: "Resetar Desktop",
+            reset_desktop: "Resetar ícones da Desktop",
             fullscreen: "Tela inteira",
             exit_fullscreen: "Sair da Tela inteira",
             new_file: "Novo arquivo",
+            new_dir: "Nova pasta",
+            new_dir_with_suffix: "Nova pasta ({{suffix}})",
+            open_folder: "Abrir pasta",
+            open_file: "Abrir arquivo",
+            open_app: "Abrir aplicativo",
+            rename_folder: "Renomear pasta",
+            delete_folder: "Apagar pasta",
             desktop_off: "Esconder ícones da Desktop",
             desktop_on: "Exibir ícones da Desktop",
-
+            delete_everything: "Apagar tudo",
+            delete_file: "Apagar arquivo",
+            rename_file: "Renomear arquivo"
         }
       }
     }

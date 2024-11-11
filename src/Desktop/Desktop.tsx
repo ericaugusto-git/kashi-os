@@ -1,3 +1,5 @@
+import { WindowType } from "@/constants/window";
+import { useFileSystem } from "@/contexts/FileSystemContext";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { Layouts } from "react-grid-layout";
@@ -34,22 +36,55 @@ function Desktop() {
   const [startMenuRef, isStartMenuOpen, setisStartMenuOpen] = useComponentVisible(false, startButtonRef);
   const [pcStatusMenuRef, pcStatusMenuOpen, setPcStatusMenuOpen] = useComponentVisible(false, pcStatusButtonRef);
   const [searchRef, searchVisible, setSearchVisible] = useComponentVisible(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [theme] = useTheme();
   const isInitialMount = useRef(true);
   const [wallpaper, setWallpaper] = useState<{theme: Themes, wppIndex: number} | null | undefined>({theme: theme, wppIndex: getWppIndex(theme)});
   const [newWallpaper, setNewWallpaper] = useState<string | undefined>();
   const [wallpaperIndex] = useWallpaper();
+
   const [position] = useDesktopPosition();
+
   const themeButtonRef = useRef(null);
   const wallpaperButtonRef = useRef(null);
-  const  [ themeSwitcherRef, themeSwitcherOpen, setThemeSwitcherOpen ] = useComponentVisible(false,themeButtonRef);
-  const  [ wallpaperSwitcherRef, wallpaperSwitcherOpen, setwWallpaperSwitcherOpen ] = useComponentVisible(false,wallpaperButtonRef);
-  const handleContextMenu = useContextMenuHandler("desktop");
+  const  [themeSwitcherRef, themeSwitcherOpen, setThemeSwitcherOpen ] = useComponentVisible(false,themeButtonRef);
+  const  [wallpaperSwitcherRef, wallpaperSwitcherOpen, setwWallpaperSwitcherOpen ] = useComponentVisible(false,wallpaperButtonRef);
+
+  function handleCustomMenuEvent(event: string){
+    console.log(event);
+  }
+  const handleContextMenu = useContextMenuHandler("desktop", handleCustomMenuEvent);
   const [isDesktopHidden, setDesktopHidden] = useState(localStorage.getItem("desktop_icon_visibility") === "true");
+  const [layouts, setLayouts] = useState<Layouts | null>(null);
+  const [apps, setApps] = useState<WindowType[] | null>(null);
+  const {fileList, handleDrop} = useFileSystem();
+  
+  useEffect(() => {
+    
+    const setLayout = async () => {
+      console.log(fileList)
+      if(fileList){
+        const { layout, apps } = generateLayouts(fileList, layouts || undefined);
+        
+        
+        setApps(apps);
+        setLayouts({...layout});
+      }
+    }
+    setLayout()
+  }, [fileList])
 
-
-  const [layouts, setLayouts] = useState<Layouts | null>(generateLayouts());
+  // useEffect(() => {
+  //   const setLayout = async () => {
+  //     const files = await listFiles('/');
+  //     
+  //     if(files){
+  //       const { layout, apps } = generateLayouts(files);
+  //       setLayouts(layout);
+  //       setApps(apps);
+  //     }
+  //   }
+  //   setLayout();
+  // }, [listFiles])
 
 
   function timeout(ms: number) {
@@ -94,43 +129,24 @@ function Desktop() {
     return () => window.removeEventListener("click", shutup);
   }, [pcStatus, setPcStatus, startMenuRef]);
 
-
-  
-  useEffect(() => {
-    // const sourceElement = videoRef?.current?.childNodes[0] as HTMLElement;
-    // const sourceSrc = sourceElement?.getAttribute('src');
-    if(pcStatus != "shutdown"){
-      videoRef.current?.load();
-    }
-  }, [pcStatus]);
-
-
-
-    const [_, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
   const screenHandle = useFullScreenHandle();
+
+  const handleDropWrapper = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    handleDrop('/', event)
+    console.log(event)
+  }
+
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
 
   return (
     <FullScreen handle={screenHandle}>
       <div
+      onDragOver={handleDragOver}
+      onDrop={handleDropWrapper}
         className={
           (pcStatus == "on" ? styles.desktop : styles[pcStatus]) +
           " " +
@@ -171,7 +187,7 @@ function Desktop() {
             </Window>
             {/* <DesktopIcons /> */}
             <div style={{[position == 'top' ? 'bottom' : 'top']: 0}} onContextMenu={handleContextMenu} className={styles.desktopIconsWrapper}>
-            {!isDesktopHidden && <DesktopIcons layouts={layouts} setLayouts={setLayouts}/>}
+            {!isDesktopHidden && <DesktopIcons apps={apps} layouts={layouts} setLayouts={setLayouts}/>}
 
             </div>
             <StartSetterContext.Provider

@@ -19,13 +19,22 @@ $size: 21px; // (Fully responsive)
     width: 45px;
 	border-radius: 50px;
 	background-color: $color-black;
+	-webkit-transition: background-color var(--theme-transition-ms) linear;
+    -ms-transition: background-color var(--theme-transition-ms) linear;
+    transition: background-color var(--theme-transition-ms) linear;
 	display: flex;
     align-items: center;
     justify-content: center;
-	border: 1px solid rgb(255 255 242);
+	border: 2px solid rgb(255 255 242);
 	&:hover{
 		opacity: .8;
 	}
+}
+
+.face, .strart_btn{
+	-webkit-transition: background-color var(--theme-transition-ms) linear;
+    -ms-transition: background-color var(--theme-transition-ms) linear;
+    transition: background-color var(--theme-transition-ms) linear;
 }
 .ear {
 	position: absolute;
@@ -33,6 +42,7 @@ $size: 21px; // (Fully responsive)
 	height: 60%;
 	width: 25%;
 	background: $color-white;
+	
 	
 	// Ear hair
 	&::before,

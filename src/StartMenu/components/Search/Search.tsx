@@ -80,12 +80,13 @@ const handleInputChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
             handleOpenApp(apps[focusedIndex]);
         }
     };
-
-    // Add event listener
-    window.addEventListener('keydown', handleKeyPress);
-    return () => {
-        window.removeEventListener('keydown', handleKeyPress);
-    };
+    if(searchVisible){
+        // Add event listener
+        window.addEventListener('keydown', handleKeyPress);
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        };
+    }
 }, [searchVisible, focusedIndex, apps]); // Listen to changes in searchVisible, focusedIndex, and apps
 
 useEffect(() => {

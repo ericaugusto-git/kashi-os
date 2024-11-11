@@ -28,11 +28,11 @@ export default function Gifs({ gifsActive, setGifId, gifsRef }: { gifsActive: bo
             fetch(url)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                
                 //@ts-expect-error dont wanna create type for giphy response
                 const gifs = data.data.map((a) => {return {id: a.id , url: a.images.original.url}});
                 setGiphys(gifs);
-                console.log(gifs)
+                
             })
             .catch(error => console.error('Error fetching GIFs:', error));
         }
