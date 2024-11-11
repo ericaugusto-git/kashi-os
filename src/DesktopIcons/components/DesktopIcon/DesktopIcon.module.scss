@@ -26,6 +26,16 @@ user-select: none;
         -webkit-box-orient: vertical;
      
         &.edit{
+            border: 0;
+            padding: 0 2px;
+            outline: none;
+            min-width: 20px;
+            -webkit-line-clamp: unset;
+            line-clamp: unset;
+            
+            // Ensure the editing area is visible
+            z-index: 1000;
+            position: relative;
         }
         // text-shadow:#ffffff 0px 1px 8px;
 

@@ -112,15 +112,31 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
     const startRename = () => {
         setRenameMode(true);
         setTimeout(() => {
-
             if(editableRef.current){
                 editableRef.current.focus();
-                // Select the text inside the editable span
+                
+                // Select text differently based on whether it's a file or not
                 const range = document.createRange();
-                range.selectNodeContents(editableRef.current);
+                if (app.appType === 'file') {
+                    const text = editableRef.current.textContent || '';
+                    const lastDotIndex = text.lastIndexOf('.');
+                    
+                    if (lastDotIndex !== -1) {
+                        // If there's an extension, select only up to it
+                        range.setStart(editableRef.current.firstChild!, 0);
+                        range.setEnd(editableRef.current.firstChild!, lastDotIndex);
+                    } else {
+                        // If no extension, select all content
+                        range.selectNodeContents(editableRef.current);
+                    }
+                } else {
+                    // For non-files, select all content
+                    range.selectNodeContents(editableRef.current);
+                }
+                
                 const selection = window.getSelection();
-                selection?.removeAllRanges(); // Clear any existing selections
-                selection?.addRange(range); // Add the new range
+                selection?.removeAllRanges();
+                selection?.addRange(range);
             }
         })
     }
@@ -128,9 +144,9 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
 
 
 
-    const icon = svgMask ? { } :  {backgroundImage: `url("${app.icon}")`}
+    const icon = svgMask ? { } :  {backgroundImage: `url("${app.thumbnail ?? app.icon}")`}
     const stylesDefault: CSSProperties = {...imgWrapperStyles, ...icon}
-    const svgDefault = {...svgStyles, maskImage: `url("${app.icon}")` }
+    const svgDefault = {...svgStyles, maskImage: `url("${ app.thumbnail ?? app.icon}")` }
 
     
     return (

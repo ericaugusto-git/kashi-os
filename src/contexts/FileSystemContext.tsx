@@ -210,7 +210,8 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
               return { 
                 ...baseFile,
                 conteudo: Photo,
-                icon: thumbnailUrl 
+                thumbnail: thumbnailUrl,
+                icon: 'photo_icon.svg' 
               };
             }
           }
@@ -225,7 +226,8 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
                 return { 
                   ...baseFile,
                   conteudo: Video,
-                  icon: thumbnailUrl 
+                  thumbnail: thumbnailUrl,
+                  icon: 'video_icon.svg' 
                 };
               } catch (error) {
                 return {
@@ -251,7 +253,8 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
             return {
               ...baseFile,
               conteudo: Monaco,
-              icon: fileIcons[extension]
+              thumbnail: fileIcons[extension],
+              icon: 'code_icon.svg'
             };
           }
 

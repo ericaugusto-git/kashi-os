@@ -29,6 +29,7 @@
     margin: 0 auto;
     height: fit-content;
     background-color: rgba(var(--theme-color), .5);
+    max-width: 90%;
     // border: 4px solid rgba(var(--accent-color), .2);
     transition: background-color var(--theme-transition-ms) linear, 
                     border var(--theme-transition-ms) linear;
