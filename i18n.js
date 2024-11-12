@@ -71,7 +71,8 @@ i18n
           open_file: "Open file",
           open_app: "Open app",
           delete_file: "Delete file",
-          rename_file: "Rename file"
+          rename_file: "Rename file",
+          all_musics: "All musics"
         }
     },
     ["pt-BR"]: {
@@ -125,7 +126,8 @@ i18n
             desktop_on: "Exibir ícones da Desktop",
             delete_everything: "Apagar tudo",
             delete_file: "Apagar arquivo",
-            rename_file: "Renomear arquivo"
+            rename_file: "Renomear arquivo",
+            all_musics: "Todas as músicas"
         }
       }
     }

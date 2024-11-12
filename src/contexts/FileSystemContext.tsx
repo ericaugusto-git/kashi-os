@@ -1,5 +1,5 @@
 import { fileIcons } from '@/constants/fileIcons';
-import { imageMimeTypes, videoMimeTypes } from '@/constants/mimeTypes';
+import { audioMimeTypes, imageMimeTypes, videoMimeTypes } from '@/constants/mimeTypes';
 import { WindowType } from '@/constants/window';
 import { Monaco } from '@/Monaco/Monaco';
 import { Pdf } from '@/Pdf/Pdf';
@@ -10,6 +10,8 @@ import * as BrowserFS from 'browserfs';
 import { FSModule } from 'browserfs/dist/node/core/FS';
 import { Buffer } from 'buffer';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import Audio from '@/Audio/Audio';
+import * as musicMetadata from 'music-metadata-browser';
 
 interface FileSystemContextType {
   fileList: WindowType[] | null,
@@ -255,6 +257,56 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
               conteudo: Monaco,
               thumbnail: fileIcons[extension],
               icon: 'code_icon.svg'
+            };
+          }
+
+          // Audio files
+          if (extension && extension in audioMimeTypes) {
+            const buffer = await readFile(fullPath);
+            if (buffer) {
+              try {
+                // Convert buffer to Uint8Array for music-metadata-browser
+                const uint8Array = new Uint8Array(buffer);
+                
+                // Parse audio metadata using Uint8Array
+                const metadata = await musicMetadata.parseBuffer(
+                  uint8Array, 
+                  { mimeType: audioMimeTypes[extension] }
+                );
+
+                let thumbnailUrl = 'audio_icon.svg'; // default icon
+
+                // Check if there's album art
+                if (metadata.common.picture && metadata.common.picture.length > 0) {
+                  const picture = metadata.common.picture[0];
+                  const blob = new Blob([picture.data], { type: picture.format });
+                  thumbnailUrl = URL.createObjectURL(blob);
+                }
+
+                console.log('Audio metadata:', metadata); // Log the metadata
+
+                return {
+                  ...baseFile,
+                  conteudo: Audio,
+                  thumbnail: thumbnailUrl,
+                  icon: 'audio_icon.svg',
+                  metadata: {
+                    title: metadata.common.title,
+                    artist: metadata.common.artist,
+                    album: metadata.common.album,
+                    duration: metadata.format.duration
+                  }
+                };
+              } catch (error) {
+                console.error('Error parsing audio metadata:', error);
+              }
+            }
+            
+            // Fallback if metadata parsing fails
+            return {
+              ...baseFile,
+              conteudo: Audio,
+              icon: 'audio_icon.svg'
             };
           }
 

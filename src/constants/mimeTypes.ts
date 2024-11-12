@@ -37,3 +37,23 @@ export const imageMimeTypes: { [key: string]: string } = {
     'ts': 'video/mp2t',
     'ogv': 'video/ogg'
   };
+
+  export const audioMimeTypes: { [key: string]: string } = {
+    'mp3': 'audio/mpeg',
+    'wav': 'audio/wav',
+    'ogg': 'audio/ogg',
+    'aac': 'audio/aac',
+    'flac': 'audio/flac',
+    'm4a': 'audio/mp4',
+    'wma': 'audio/x-ms-wma',
+    'alac': 'audio/alac',
+    'aiff': 'audio/aiff',
+    'pcm': 'audio/pcm',
+    'dts': 'audio/vnd.dts',
+    'opus': 'audio/opus',
+    'amr': 'audio/amr',
+    'ape': 'audio/ape',
+    'wv': 'audio/wavpack'
+  };
+
+  

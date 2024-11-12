@@ -6,7 +6,7 @@ import { useFileSystem } from "@/contexts/FileSystemContext";
 
 export default function WindowContent({window, closeRefCurrent, index}: {window: WindowType, closeRefCurrent: (HTMLButtonElement | null)[], index: number}){
     const [loading, setLoading] = useState(!!window.link);
-    const {getFileUrl, updateFile} = useFileSystem();
+    const {getFileUrl, updateFile, fileList} = useFileSystem();
     const Component = window.conteudo;
     const props = window.props || {}
     return <>
@@ -15,7 +15,7 @@ export default function WindowContent({window, closeRefCurrent, index}: {window:
         </div>}
         {window.link ? <iframe src={window.link} onLoad={() => setLoading(false)} width="100%" height="100%"></iframe> : 
         Component && <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <Component closeBtnRefs={closeRefCurrent} {...props} getFileUrl={getFileUrl} updateFile={updateFile} closeRefIndex={index} />
+            <Component closeBtnRefs={closeRefCurrent} {...props} getFileUrl={getFileUrl} updateFile={updateFile} closeRefIndex={index} fileList={fileList!} />
         </ErrorBoundary>}
     </> 
 }
@@ -23,5 +23,5 @@ export default function WindowContent({window, closeRefCurrent, index}: {window:
 
 function ErrorFallback({ error }: {error: Error}) {
     console.error(error);
-    return <div>Something went wrong.</div>;
+    return <div>Something went wrong while loading the content. sorry :(</div>;
   }

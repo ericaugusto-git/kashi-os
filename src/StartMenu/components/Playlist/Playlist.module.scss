@@ -9,7 +9,7 @@
   .cables{
     width: 100%;
     height: 100%;
-    background-image: url(../../../assets/cables.gif);
+    background-image: url(cables.gif);
     margin-top: -64px;
     padding-bottom: 74px;
   }
@@ -51,10 +51,10 @@
         height: 12px;
       }
       .next{
-        mask-image: url(../../../assets/playlist/next.svg);
+        mask-image: url("playlist/next.svg");
       }
       .previous{
-        mask-image: url(../../../assets/playlist/previous.svg);
+        mask-image: url("playlist/previous.svg");
       }
     }
     .pause_play, .mute_speaker{
