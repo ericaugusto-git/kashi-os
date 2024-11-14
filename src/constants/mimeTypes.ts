@@ -40,6 +40,7 @@ export const imageMimeTypes: { [key: string]: string } = {
 
   export const audioMimeTypes: { [key: string]: string } = {
     'mp3': 'audio/mpeg',
+    'm3u': 'audio/vnd',
     'wav': 'audio/wav',
     'ogg': 'audio/ogg',
     'aac': 'audio/aac',

@@ -63,8 +63,9 @@ function Desktop() {
     const setLayout = async () => {
       console.log(fileList)
       if(fileList){
-        const { layout, apps } = generateLayouts(fileList, layouts || undefined);
-        
+        const { layout, apps } = generateLayouts(fileList['/'], layouts || undefined);
+        console.log(layout);
+        console.log(apps)
         
         setApps(apps);
         setLayouts({...layout});
@@ -171,10 +172,6 @@ function Desktop() {
           (<div key={wpp} className={`backgroundImage ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${wpp}")`}}></div>)
         })}
         {newWallpaper && (<div className={`backgroundImage ${styles.wallpaperImg} ${styles.circle}`}  style={{backgroundImage: `url("${newWallpaper}")`}}></div>)}
-        {/* {Object.keys(wallpapers).map((key) => {
-          return (key == wallpaperKey?.theme || key == fallbackKey?.theme)   && 
-          (<div key={key} className={`backgroundImage ${fallbackKey?.theme == key && styles.circle} ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${pcStatus === 'sleeping' ? wallpapers.lockscreen[0] : wallpapers[key as keyof Wallpapers][key == fallbackKey?.theme ? fallbackKey.wppIndex : wallpaperKey?.wppIndex as number]}")`}}></div>)
-        })} */}
         </div>
 
         {/* wrapper for the actual high elements of the desktop, Windows array, Taskbar, Desktopicons */}

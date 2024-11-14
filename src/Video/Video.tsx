@@ -11,7 +11,7 @@ export function Video({filePath, getFileUrl}: FileProps)  {
     useEffect(() => {
         const getVideoUrl = async () => {
             if(getFileUrl && filePath){
-                const videoUrl = await getFileUrl(filePath, 'video/mp4');
+                const videoUrl = await getFileUrl(filePath);
                 setVideoUrl(videoUrl);
             }
         }

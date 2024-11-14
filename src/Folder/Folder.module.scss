@@ -1,0 +1,67 @@
+.folder {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: var(--window-background);
+  color: var(--text-color);
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.navButton {
+  padding: 4px 8px;
+  background: var(--button-background);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-color);
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--button-hover-background);
+  }
+}
+
+.pathDisplay {
+  flex: 1;
+  padding: 4px 8px;
+  background: var(--input-background);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.fileItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+
+  &:hover {
+    background: var(--hover-background);
+  }
+} 

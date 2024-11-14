@@ -72,7 +72,8 @@ i18n
           open_app: "Open app",
           delete_file: "Delete file",
           rename_file: "Rename file",
-          all_musics: "All musics"
+          all_musics: "All musics",
+          audio_player: "Audio player"
         }
     },
     ["pt-BR"]: {
@@ -127,7 +128,8 @@ i18n
             delete_everything: "Apagar tudo",
             delete_file: "Apagar arquivo",
             rename_file: "Renomear arquivo",
-            all_musics: "Todas as músicas"
+            all_musics: "Todas as músicas",
+            audio_player: "Reprodutor de áudio"
         }
       }
     }

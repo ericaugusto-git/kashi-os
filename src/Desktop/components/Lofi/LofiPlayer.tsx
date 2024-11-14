@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import gifs from '/public/playlist/gif.svg';
-import next from '/public/playlist/next.svg';
-import pause from '/public/playlist/pause.svg';
-import play from '/public/playlist/play.svg';
-import previous from '/public/playlist/previous.svg';
+import gifs from '@/assets/playlist//gif.svg';
+import next from '@/assets/playlist//next.svg';
+import pause from '@/assets/playlist//pause.svg';
+import play from '@/assets/playlist//play.svg';
+import previous from '@/assets/playlist//previous.svg';
 import styles from './LofiPlayer.module.scss';
 import { playlist } from "./config";
 type Player = YT.Player & {

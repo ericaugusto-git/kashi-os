@@ -19,9 +19,10 @@ type DesktopIconProp = {
     svgMask?: boolean,
     fromTaskbar?: boolean,
     isDragging?: boolean,
-    setLayouts?: React.Dispatch<React.SetStateAction<Layouts | null>>
+    setLayouts?: React.Dispatch<React.SetStateAction<Layouts | null>>,
+    folderPath?: string
 }
-function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, fromTaskbar, isDragging, setLayouts}: DesktopIconProp){
+function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, fromTaskbar, isDragging, setLayouts, folderPath}: DesktopIconProp){
     const [theme] = useTheme();
     const [position] = useDesktopPosition();
     const [renameMode, setRenameMode] = useState<boolean>();
@@ -62,10 +63,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
                 console.warn("Rename path is equal to original.")
                 return;
             }
-            console.log("1")
-            console.log(setLayouts)
             if (editableRef.current && app.folderPath && setLayouts) {
-                console.log("2")
                 if(newValue){
                         renamePath(app.folderPath, app.app, newValue!).then(() => {
                             // update the layout so the desktop item keeps its position

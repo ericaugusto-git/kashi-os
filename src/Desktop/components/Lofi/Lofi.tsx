@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FullScreenHandle } from 'react-full-screen';
-import close from '/public/playlist/close.svg';
-import exit_fullscreen from '/public/playlist/exit_fullscreen.svg';
-import fullscreen from '/public/playlist/fullscreen.svg';
+import close from '@/assets/playlist//close.svg';
+import exit_fullscreen from '@/assets/playlist//exit_fullscreen.svg';
+import fullscreen from '@/assets/playlist//fullscreen.svg';
 import { usePcStatus } from '../../../contexts/PcStatusContext';
 import { useTheme } from '../../../contexts/ThemeContext';
 import useComponentVisible from '../../../hooks/useComponentVisible';

@@ -35,6 +35,6 @@ export function Pdf({filePath, getFileUrl}: FileProps){
                     }
                 `}</style>
             </div>}
-           {pdfUrl && <embed src={pdfUrl} width={'100%'} height={'100%'}></embed>}
+           {pdfUrl && <embed src={pdfUrl} type="application/pdf" width={'100%'} height={'100%'}></embed>}
     </div>
 }

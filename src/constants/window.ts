@@ -4,9 +4,11 @@ type BaseProps = {closeBtnRefs?: Array<HTMLButtonElement | null>, closeRefIndex?
 // re renders where not working very well with the useFileSystem inside the dynamic component, so i pass the getFileUrl as a prop.
 export type FileProps = {
     filePath?: string, 
-    getFileUrl?: (filePath: string) => Promise<string>, 
+    getFileUrl?: (filePath: string, mimeType?: string) => Promise<string>, 
     updateFile?: (filePath: string, newContent: string) => Promise<void>,
-    fileList?: WindowType[]
+    listFiles?: (folderPath: string) => Promise<WindowType[] | null>,
+    folderPath?: string,
+    fileList?: {[folderPath: string]: WindowType[]}
 }
 type WindowProps = BaseProps & FileProps;
 export type WindowConteudo = (props: WindowProps) => JSX.Element;

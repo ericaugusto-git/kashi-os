@@ -68,9 +68,9 @@ function Cmd() {
       const [day, month, year] = [today.getDate(), today.getMonth() + 1, today.getFullYear()];
       const device = `${rdd.osName} ${rdd.osVersion} • ${rdd.browserName}`;
       const deviceInfo = [
-      {conteudo: `${accentColorAnsi}eric\x1b[0m@${accentColorAnsi}augusto.dev\x1b[0m`},
+      {conteudo: `${accentColorAnsi}user\x1b[0m@${accentColorAnsi}kashi.os\x1b[0m`},
       {conteudo: '---------------------'},
-      {label: 'os1', conteudo: 'ericaugusto-os v1.0.0'},
+      {label: 'os1', conteudo: 'kashi-os v2.0.0'},
       {label: 'host', conteudo: device},
       {label: 'Kernel', conteudo: `${rdd.engineName} ${rdd.engineVersion}`},
       {label: 'resolution', conteudo: `${window.screen.width}x${window.screen.height}`},

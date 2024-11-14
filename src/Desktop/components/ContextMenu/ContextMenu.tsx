@@ -29,7 +29,9 @@ type MenuProps = {    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean
   screenHandle: FullScreenHandle,
   setLayouts: Dispatch<SetStateAction<Layouts | null>>,
   isDesktopHidden: boolean,
-  setDesktopHidden:  Dispatch<SetStateAction<boolean>>
+  setDesktopHidden:  Dispatch<SetStateAction<boolean>>,
+  folderPath?: string,
+  source?: NonNullable<ContextMenuProps>['source']
 }
 
 let eventHandler: (event: string) => void;
@@ -37,7 +39,7 @@ let eventHandler: (event: string) => void;
 export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallpaperSwitcherOpen, setThemeSwitcherOpen, screenHandle, setLayouts}: MenuProps){
     const contextRef = useRef<HTMLUListElement>(null);
     const [menuProps, setMenuProps] = useContextMenu();
-    const { x, y, source, handleCustomMenuEvent } = menuProps || {};
+    const { x, y, source, handleCustomMenuEvent, folderPath } = menuProps || {};
     const handleClick = (e: React.MouseEvent) => {
       e.stopPropagation();
       setMenuProps(null);
@@ -64,7 +66,7 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
     
     return <>
     {x &&  <ul ref={contextRef} className={styles.contextMenu} style={{top: `${y}px`, left: `${x}px`}} onClick={handleClick}>
-      {source == 'desktop' ? <DesktopOptions isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} setLayouts={setLayouts} screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : <DesktopItemOptions source={source!}/>}
+      {source == 'desktop' || source == 'folder' ? <DesktopOptions source={source} folderPath={folderPath} isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} setLayouts={setLayouts} screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : <DesktopItemOptions source={source!}/>}
       </ul>}
     </>
 }
@@ -99,13 +101,13 @@ function DesktopItemOptions({ source }: { source: NonNullable<ContextMenuProps>[
   </>
 }
 
-function DesktopOptions ({isDesktopHidden, setDesktopHidden,setwWallpaperSwitcherOpen, setThemeSwitcherOpen,screenHandle, setLayouts}: MenuProps){
+function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,setwWallpaperSwitcherOpen, setThemeSwitcherOpen,screenHandle, setLayouts, source}: MenuProps){
   const {t} = useTranslation();
   const [pcStatus, setPcStatus] = usePcStatus();
   const changePosition = useDesktopPositionHandler();
   const [, , fileInputRef] = useContextMenu();
   const [, setWindows] = useWindowContext();
-  const {fileList, format, createFolder, createFile} = useFileSystem();
+  const {fileList, format, listFiles, createFolder, createFile} = useFileSystem();
 
   const handlePowerOff = () => {
     setWindows([]);
@@ -128,14 +130,14 @@ function DesktopOptions ({isDesktopHidden, setDesktopHidden,setwWallpaperSwitche
   }
   const resetDesktop = () => {
     localStorage.removeItem('app-layouts');
-    setLayouts(generateLayouts(fileList).layout);
+    setLayouts(generateLayouts(fileList?.[folderPath]).layout);
   }
 
 
 
-  const createNewFolder = () => {
+  const createNewFolder = async () => {
     const getCount = (app: string) => parseInt(app.replace(newDir, '').replace('(', '').replace(')', ''));
-    const list = fileList || [];
+    const list = await listFiles(folderPath) || [];
     const newDir = t('new_dir');  
     const newFolders = list.filter((a) => {
       const regex = new RegExp(`^${newDir}(\\s\\((\\d+)\\))?$`);
@@ -151,21 +153,24 @@ function DesktopOptions ({isDesktopHidden, setDesktopHidden,setwWallpaperSwitche
       lastFolderIndex = index != folderCount ? index : index + 1;
     }
     
-    createFolder('/', `${newDir} ${lastFolderIndex == 0 ? '' : `(${lastFolderIndex})`}`.trim());
+    createFolder(folderPath, `${newDir} ${lastFolderIndex == 0 ? '' : `(${lastFolderIndex})`}`.trim());
   }
 
   useEffect(() => {
     const handleFileChange = (event: Event) => {
+      console.log("file change ", folderPath)
       const fileInput = event.target as HTMLInputElement;
       const file = fileInput.files?.[0];
-      if (file) {
-        createFile('/', file);
+      if (file  && inputElement) {
+        console.log(folderPath)
+        createFile(folderPath, file);
         fileInput.value = ''; // Reset input after file is processed
+        inputElement.onchange = null;
       }
     };
 
     const inputElement = fileInputRef.current;
-    
+    console.log(folderPath)
     if (inputElement && !inputElement.onchange) {
       inputElement.onchange = handleFileChange;
     }
@@ -185,7 +190,9 @@ function DesktopOptions ({isDesktopHidden, setDesktopHidden,setwWallpaperSwitche
         <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${new_file}")`}}></div>
           {t('new_file')}
       </li>
-        <li onClick={() => setwWallpaperSwitcherOpen(previous => !previous)} >
+     {source == 'desktop' &&  
+     <>
+      <li onClick={() => setwWallpaperSwitcherOpen(previous => !previous)} >
         <div className={`svgMask ${styles.ghost}`}   style={{maskImage: `url("${wallpaper_change}")`}}></div>
           {t('change_wpp')}
         </li>
@@ -235,5 +242,7 @@ function DesktopOptions ({isDesktopHidden, setDesktopHidden,setwWallpaperSwitche
           <img src={powerOff}></img>
           <span>{t('shut')}</span>
         </li>
+        </>
+        }
   </>
 }

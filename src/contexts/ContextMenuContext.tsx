@@ -4,8 +4,9 @@ import { createContext, ReactNode, useContext, useRef, useState } from "react";
 export type ContextMenuProps = {
   x: number, 
   y: number, 
-  source: 'desktop' | 'app' | 'file', 
+  source: 'desktop' | 'app' | 'file' | 'folder', 
   handleCustomMenuEvent: (event: string) => void,
+  folderPath?: string,
   fileInputRef?: React.RefObject<HTMLInputElement>
 } | null | undefined;
 
@@ -39,14 +40,14 @@ function useContextMenu(){
     return context  
 }
 
-function useContextMenuHandler(source:  NonNullable<ContextMenuProps>['source'], handleCustomMenuEvent:  NonNullable<ContextMenuProps>['handleCustomMenuEvent']) {
+function useContextMenuHandler(source:  NonNullable<ContextMenuProps>['source'], handleCustomMenuEvent:  NonNullable<ContextMenuProps>['handleCustomMenuEvent'], folderPath?: NonNullable<ContextMenuProps>['folderPath']) {
     const [, setMenuProps] = useContextMenu();
 
     const handleContextMenu = (e: React.MouseEvent) => {
       e.stopPropagation();
       e.preventDefault();
       const { pageX, pageY } = e;
-      setMenuProps({ x: pageX, y: pageY, source, handleCustomMenuEvent });
+      setMenuProps({ x: pageX, y: pageY, source, handleCustomMenuEvent, folderPath });
     };
   
     return handleContextMenu;

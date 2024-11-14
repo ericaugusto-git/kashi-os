@@ -14,6 +14,8 @@
 
   
   .sleeping .wallpaper_wrapper{
+    transition: filter 1s ease-in-out;
+    filter: brightness(30%);
     cursor: url("/pointer.svg") 6 0, pointer;
   }
 

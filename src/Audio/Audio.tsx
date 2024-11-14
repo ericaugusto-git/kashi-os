@@ -1,10 +1,10 @@
 import { FileProps, WindowType } from '@/constants/window';
 import { useEffect, useRef, useState } from 'react';
 import styles from './Audio.module.scss';
-import mute from '/public/playlist/mute.svg';
-import pause from '/public/playlist/pause.svg';
-import play from '/public/playlist/play.svg';
-import speaker from '/public/playlist/speaker.svg';
+import mute from '@/assets/playlist//mute.svg';
+import pause from '@/assets/playlist//pause.svg';
+import play from '@/assets/playlist//play.svg';
+import speaker from '@/assets/playlist//speaker.svg';
 import { useTranslation } from 'react-i18next';
 
 const formatDuration = (seconds: number | undefined): string => {
@@ -14,7 +14,7 @@ const formatDuration = (seconds: number | undefined): string => {
   return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
 
-function Audio({filePath,getFileUrl, fileList}: FileProps){ 
+function Audio({filePath,getFileUrl, fileList, folderPath}: FileProps){ 
     const audioRef = useRef<HTMLAudioElement>(null); // Type assertion
     const [isPlaying, setIsPlaying] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
@@ -26,9 +26,9 @@ function Audio({filePath,getFileUrl, fileList}: FileProps){
     const {t} = useTranslation();
     useEffect(() => {
       console.log(fileList);
+      
         if (fileList) {
-            const audioFiles = fileList
-                .filter(file => file.metadata?.duration);
+            const audioFiles = fileList[folderPath!]?.filter(file => file.metadata?.duration) || [];
             setSystemMusics(audioFiles);
         }
     }, [fileList]);
@@ -85,7 +85,7 @@ function Audio({filePath,getFileUrl, fileList}: FileProps){
     }, []);
 
     const togglePlay = () => {
-        if (audioRef.current) {
+        if (audioRef.current && selected) {
             if (isPlaying) {
               audioRef?.current.pause();
             } else {

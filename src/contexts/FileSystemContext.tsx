@@ -12,14 +12,15 @@ import { Buffer } from 'buffer';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import Audio from '@/Audio/Audio';
 import * as musicMetadata from 'music-metadata-browser';
+import Folder from '@/Folder/Folder';
 
 interface FileSystemContextType {
-  fileList: WindowType[] | null,
+  fileList: {[folderPath: string]: WindowType[]} | null,
   handleDrop: (folderPath: string, event: React.DragEvent<HTMLDivElement>) => Promise<void>;
   refreshFileList: (folderPath: string) => Promise<void>;
   createFile: (folderPath: string, file: File) => Promise<void>;
   readFile: (filePath: string) => Promise<Buffer | null>;
-  getFileUrl: (filePath: string, type?: string) => Promise<string>;
+  getFileUrl: (filePath: string, mimeType?: string) => Promise<string>;
   updateFile: (filePath:string, newContent: string) => Promise<void>;
   deletePath: (folderPath: string, fileName: string) => Promise<void>;
   createFolder: (folderPath: string, folderName: string) => Promise<void>;
@@ -32,8 +33,8 @@ const FileSystemContext = createContext<FileSystemContextType | undefined>(undef
 
 export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
   const [fs, setFs] = useState<FSModule | null>(null);
-  const [fileList, setFileList] = useState<WindowType[] | null>(null);
-  const fileListRef = useRef<WindowType[] | null>(null);
+  const [fileList, setFileList] = useState<{[folderPath: string]: WindowType[]} | null>(null);
+  const fileListRef = useRef<{[folderPath: string]: WindowType[]} | null>(null);
 
 
 
@@ -142,9 +143,10 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     });
   }, [fs]);
 
-  const getFileUrl = useCallback(async (filePath: string): Promise<string> => {
+  const getFileUrl = useCallback(async (filePath: string, mimeType?: string): Promise<string> => {
     const buffer = await readFile(filePath!);
-    const blob = new Blob([buffer!], { type: imageMimeTypes[filePath.split('.').pop()!] });
+    const extension = filePath.split('.').pop()?.toLowerCase() || '';
+    const blob = new Blob([buffer!], { type: mimeType ?? (extension in fileIcons ? fileIcons[extension!] : extension in audioMimeTypes ? audioMimeTypes[extension!] : extension in videoMimeTypes ? videoMimeTypes[extension!] : extension in imageMimeTypes ? imageMimeTypes[extension!] : undefined)});
     const url = URL.createObjectURL(blob);
     return url;
   }, [readFile])
@@ -161,7 +163,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
         }
 
         // Use the ref to get the latest fileList
-        const existingFiles = fileListRef.current || [];
+        const existingFiles = fileListRef.current?.[folderPath] || [];
 
         const fileItems = files?.map(async (name) => {
           const fullPath = `${folderPath !== '/' ? folderPath : ''}/${name}`;
@@ -195,6 +197,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           if (stats.isDirectory()) {
             return {
               ...baseFile,
+              conteudo: Folder,
               appType: "file" as const,
               icon: 'folder.svg',
             };
@@ -348,7 +351,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
   const refreshFileList = useCallback(async (folderPath: string = '/') => {
     if (!fs) return;
     const files = await listFiles(folderPath);
-    setFileList(() => files || []);
+    setFileList((prev) => ({...prev, [folderPath]: files || []}));
   }, [fs, listFiles]);
 
   const initializeBrowserFS = useCallback(() => {

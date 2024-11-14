@@ -6,7 +6,7 @@ export default function Photo ({filePath, getFileUrl}: FileProps) {
     const [imgUrl, setImgUrl] = useState<string | null>(null);
     useEffect(() => {
         if(filePath && getFileUrl){
-            getFileUrl(filePath, 'image/jpeg').then(setImgUrl);
+            getFileUrl(filePath).then(setImgUrl);
         }
     }, [filePath, getFileUrl])
 

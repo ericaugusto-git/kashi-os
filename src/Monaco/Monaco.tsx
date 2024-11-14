@@ -93,7 +93,7 @@ export function Monaco({ filePath, getFileUrl, updateFile }: FileProps) {
     const loadFileContent = async () => {
       if (filePath && getFileUrl) {
         try {
-          const url = await getFileUrl(filePath, 'text/plain');
+          const url = await getFileUrl(filePath);
           const response = await fetch(url);
           const text = await response.text();
           setContent(text);
