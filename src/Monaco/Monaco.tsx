@@ -81,7 +81,7 @@ const getLanguageFromPath = (filePath: string): string => {
   return languageMap[extension || ''] || 'plaintext';
 };
 
-export function Monaco({ filePath, getFileUrl, updateFile }: FileProps) {
+export default function Monaco({ filePath, getFileUrl, updateFile }: FileProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorRef = useRef<any>(null);
   const [content, setContent] = useState<string>('');
@@ -113,7 +113,6 @@ export function Monaco({ filePath, getFileUrl, updateFile }: FileProps) {
     if (editorRef.current && updateFile) {
       const newContent = editorRef.current.getValue();
       updateFile(filePath!, newContent);
-      console.log('Saved');
       setHasChanges(false);
     }
   }, [filePath, updateFile]);

@@ -1,13 +1,12 @@
 import { FileProps } from "@/constants/window";
 import { useEffect, useState } from "react";
 
-export function Pdf({filePath, getFileUrl}: FileProps){
+export default function Pdf({filePath, getFileUrl}: FileProps){
     const [pdfUrl, setPdfUrl] = useState<string>();
     useEffect(() => {
         const getPdfUrl = async () => {
         if(filePath && getFileUrl){
             const url = await getFileUrl(filePath, 'application/pdf');
-            console.log(url);
             setPdfUrl(url);
         }
     }

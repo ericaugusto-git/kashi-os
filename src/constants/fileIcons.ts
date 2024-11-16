@@ -58,6 +58,16 @@ export const fileIcons: { [key: string]: string } = {
   'ml': 'code_icon.svg',
 };
 
+export const folderIcons: { [key: string]: string } = {
+  '/home': 'folder/home_folder.svg',
+  '/home/desktop': 'folder/desktop_folder.svg',
+  '/home/pictures': 'folder/photo_folder.svg',
+  '/home/downloads': 'folder/downloads_folder.svg',
+  '/home/music': 'folder/music_folder.svg',
+  '/home/videos': 'folder/video_folder.svg',
+  '/home/documents': 'folder/file_folder.svg',
+};
+
 /* Original mapping:
 export const fileIcons: { [key: string]: string } = {
   // Web Development

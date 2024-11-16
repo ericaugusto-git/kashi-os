@@ -3,24 +3,50 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background: var(--window-background);
-  color: var(--text-color);
+  background-color: rgba(var(--theme-color));
+  transition: background-color var(--theme-transition-ms) linear;
+}
+
+.body {
+  display: flex;
+  // 48px is the height of the navigation bar
+  height: calc(100% - 48px);
+  menu{
+    margin: 0;
+    padding: 0 7px;
+    display: flex;
+    flex-direction: column;
+    font-family: 'IBM Plex Mono', monospace;
+    gap: 4px;
+    li {
+      list-style: none;
+      a{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        .icon{
+          width: 16px;
+          height: 16px;
+      }
+      }
+    }
+  }
 }
 
 .navigation {
   display: flex;
   align-items: center;
-  padding: 8px;
+  padding-bottom: 8px;
   gap: 8px;
   border-bottom: 1px solid var(--border-color);
 }
 
 .navButton {
   padding: 4px 8px;
-  background: var(--button-background);
-  border: 1px solid var(--border-color);
+  background: none;
+  border: none;
   border-radius: 4px;
-  color: var(--text-color);
+  color: white;
   cursor: pointer;
 
   &:disabled {
@@ -29,15 +55,12 @@
   }
 
   &:hover:not(:disabled) {
-    background: var(--button-hover-background);
+    color: rgb(var(--accent-color));
   }
 }
 
 .pathDisplay {
   flex: 1;
-  padding: 4px 8px;
-  background: var(--input-background);
-  border: 1px solid var(--border-color);
   border-radius: 4px;
   white-space: nowrap;
   overflow: hidden;
@@ -48,20 +71,26 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 16px;
-  padding: 16px;
   overflow-y: auto;
   flex: 1;
+  padding: 0 15px;
+}
+
+.folderEmpty{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  gap: 8px;
+  flex-direction: column;
+  .folderEmptyIcon{
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .fileItem {
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 4px;
-
-  &:hover {
-    background: var(--hover-background);
-  }
 } 

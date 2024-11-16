@@ -66,25 +66,27 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
     
     return <>
     {x &&  <ul ref={contextRef} className={styles.contextMenu} style={{top: `${y}px`, left: `${x}px`}} onClick={handleClick}>
-      {source == 'desktop' || source == 'folder' ? <DesktopOptions source={source} folderPath={folderPath} isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} setLayouts={setLayouts} screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : <DesktopItemOptions source={source!}/>}
+      {source == 'desktop' || source == 'folder' ? 
+      <DesktopOptions source={source} folderPath={folderPath} isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} setLayouts={setLayouts} screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : 
+      <DesktopItemOptions source={source!} folderPath={folderPath}/>}
       </ul>}
     </>
 }
 
 
-function DesktopItemOptions({ source }: { source: NonNullable<ContextMenuProps>['source'] }) {
+function DesktopItemOptions({ source, folderPath }: { source: NonNullable<ContextMenuProps>['source'], folderPath?: string }) {
   const {t} = useTranslation();
   return <>
       <li onClick={() => eventHandler('open')}>
-        {t(`open_${source}`)}
+        {t(`open`)}
       </li>
-{source == 'file' && 
+{source == 'file'  &&  
     <>
     <li onClick={() => eventHandler('delete')}>
-    {t(`delete_${source}`)}
+    {t(`delete`)}
     </li>
     <li onClick={() => eventHandler('rename')}>
-        {t(`rename_${source}`)}
+        {t(`rename`)}
       </li>
     </>
 }
@@ -143,12 +145,10 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
       const regex = new RegExp(`^${newDir}(\\s\\((\\d+)\\))?$`);
       return regex.test(a.app);
     }).sort((a, b) => getCount(a.app) - getCount(b.app));
-    console.log(newFolders);
     let lastFolderIndex = 0;
     // good enough for my sleep deprived brain, probably buggy, uhh nobody well ever stress it enough right?
     for(const [index, folder] of newFolders.entries()){
       const folderCount = getCount(folder?.app);
-      console.log(index, folderCount);
       if(!folderCount){ lastFolderIndex = 1; continue;}
       lastFolderIndex = index != folderCount ? index : index + 1;
     }
@@ -158,11 +158,9 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
 
   useEffect(() => {
     const handleFileChange = (event: Event) => {
-      console.log("file change ", folderPath)
       const fileInput = event.target as HTMLInputElement;
       const file = fileInput.files?.[0];
       if (file  && inputElement) {
-        console.log(folderPath)
         createFile(folderPath, file);
         fileInput.value = ''; // Reset input after file is processed
         inputElement.onchange = null;
@@ -170,7 +168,6 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
     };
 
     const inputElement = fileInputRef.current;
-    console.log(folderPath)
     if (inputElement && !inputElement.onchange) {
       inputElement.onchange = handleFileChange;
     }

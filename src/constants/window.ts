@@ -39,8 +39,8 @@ export type WindowType = {
     desktop?: boolean,
     hideInStartMenu?: boolean,
     svgMask?: {startMenu?: boolean, desktop?: boolean, search?: boolean}
-    conteudo?: WindowConteudo;
     props?: WindowProps;
+    componentPath?: string,
     customClose?: boolean,
     windowStyles?: CSSProperties,
     headerStyles?: CSSProperties,

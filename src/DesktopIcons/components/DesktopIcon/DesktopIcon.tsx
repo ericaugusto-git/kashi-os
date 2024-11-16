@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CSSProperties, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { WindowType } from '../../../constants/window';
-import { useDesktopPosition } from '../../../contexts/DesktopPositonContext';
-import { useTheme } from '../../../contexts/ThemeContext';
-import styles from './DesktopIcon.module.scss';
-import { useContextMenuHandler } from '../../../contexts/ContextMenuContext';
 import { useFileSystem } from '@/contexts/FileSystemContext';
-import { Layouts } from 'react-grid-layout';
-import { generateLayouts } from '@/utils/utils';
 import useOpenWindow from '@/hooks/useOpenWindow';
+import { generateLayouts } from '@/utils/utils';
+import { CSSProperties, useEffect, useRef, useState } from 'react';
+import { Layouts } from 'react-grid-layout';
+import { useTranslation } from 'react-i18next';
+import { WindowType } from '@/constants/window';
+import { useContextMenuHandler } from '@/contexts/ContextMenuContext';
+import { useDesktopPosition } from '@/contexts/DesktopPositonContext';
+import { useTheme } from '@/contexts/ThemeContext';
+import styles from './DesktopIcon.module.scss';
+import { defaultFolders } from '@/constants/defaultFolders';
 
 type DesktopIconProp = {
     app: WindowType,
@@ -31,8 +32,8 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
     const openWindow = useOpenWindow();
     const { t } = useTranslation();
 
+
     const handleCustomMenuEvent = (event: string) => {
-        console.log(event)
         switch(event){
             case 'rename':
                 startRename();
@@ -41,12 +42,11 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
                 openWindow(app);
                 break;
             case 'delete':
-                console.log(app.folderPath)
                 if(app.folderPath) deletePath(app.folderPath, app.app!);
                 break;
         }
     }
-    const handleContextMenu = useContextMenuHandler(app.appType == 'file' ? 'file' : 'app', handleCustomMenuEvent);
+    const handleContextMenu = useContextMenuHandler(app.appType == 'file' ? 'file' : 'app', handleCustomMenuEvent, folderPath);
 
     // this was a logic to translate the folder name, but it was removed because it's dumb and troublesome
     // let folderName = app.app;
@@ -63,24 +63,25 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
                 console.warn("Rename path is equal to original.")
                 return;
             }
-            if (editableRef.current && app.folderPath && setLayouts) {
+            if (editableRef.current && app.folderPath) {
                 if(newValue){
                         renamePath(app.folderPath, app.app, newValue!).then(() => {
                             // update the layout so the desktop item keeps its position
-                            setLayouts((prev) => {
-                                if(prev){
+                            if(app.folderPath == '/home/desktop' && setLayouts){
+                                setLayouts((prev) => {
+                                    if(prev){
                                     for(const key of Object.keys(prev)){
                                         prev[key] = prev[key].map((a) => a.i == app.app ? {...a, i: newValue} : a);
                                     }
-                                    return {...prev};
-                                }
-                                return generateLayouts().layout as Layouts;
-                            })
-                            refreshFileList('/');
-                        }).catch((e) => {
+                                        return {...prev};
+                                    }
+                                    return generateLayouts().layout as Layouts;
+                                })
+                            }
+                            refreshFileList(app.folderPath!);
+                        }).catch(() => {
                             if (editableRef.current)
                             editableRef.current.textContent = app.app;
-                            console.log(e);
                         });
                 }else{
                     
@@ -145,20 +146,21 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
     const icon = svgMask ? { } :  {backgroundImage: `url("${app.thumbnail ?? app.icon}")`}
     const stylesDefault: CSSProperties = {...imgWrapperStyles, ...icon}
     const svgDefault = {...svgStyles, maskImage: `url("${ app.thumbnail ?? app.icon}")` }
-
+    const handleContextMenuWrapper = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.stopPropagation();
+        console.log(folderPath + '/' + app.app)
+        if(!defaultFolders.includes(folderPath + '/' + app.app)) handleContextMenu(e);
+        else e.preventDefault();
+    }
     
     return (
-            <a onContextMenu={handleContextMenu}  className={`${styles.desktop_icon} ${styles[position]} ${styles[theme]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive} ${isDragging && styles.dragging}`} style={buttonStyles}>
+            <a onContextMenu={handleContextMenuWrapper}  className={`${styles.desktop_icon} ${styles[position]} ${styles[theme]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive} ${isDragging && styles.dragging}`} style={buttonStyles}>
                 {app.active}
                 <div style={stylesDefault} className={styles.img_wrapper + " " +  (!svgMask ? 'backgroundImage' : '')}>
                     {svgMask && <div style={svgDefault} className={"svgMask " + styles.icon}></div>}
-                {/* {app.icon?.includes(".svg") ? (
-                <div style={{ maskImage: `url(${app.icon})` }} className={"svgMask " + styles.icon}></div>
-            ) : <img src={app.icon}></img>} */}
-            {/* <img src={app.icon}></img> */}
                 </div>
             {!fromTaskbar && position == 'bottom' && <span ref={editableRef} onMouseDown={(e) => e.stopPropagation()} suppressContentEditableWarning={true} contentEditable={renameMode} className={`${styles.label} ${renameMode && styles.edit}`}>
-                    {app.appType == 'file' ? app.app : t(app.app)}
+                    {app.appType == 'file' && folderPath != '/home' ? app.app : t(app.app)}
                 </span>}
             </a>
     )

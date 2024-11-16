@@ -1,32 +1,22 @@
+import avatar from '@/assets/desktop/avatar.png';
+import playlistIcon from '@/assets/startMenu/playlist.svg';
 import firefox from "../assets/desktop/firefox.svg";
-import jdm from "../assets/desktop/jdm.svg";
 import resume from "../assets/desktop/resume.svg";
-import portfolio from "../assets/portfolio.png";
 import brush from '../assets/startMenu/brush.png';
 import cmd from '../assets/startMenu/cmd2.png';
 import handshake from '../assets/startMenu/handshake.svg';
-import playlistIcon from '@/assets/startMenu/playlist.svg';
-import EmulatorJS from '../EmulatorJS/EmulatorJS';
-import Resume from "../Resume/Resume";
-import Cmd from "../StartMenu/components/Cmd/Cmd";
-import Credits from "../StartMenu/components/Credits/Credits";
-import Paint from "../StartMenu/components/Paint/Paint";
-import Playlist from "../StartMenu/components/Playlist/Playlist";
 import { WindowType } from "./window";
 import emulatorJs from '/EmulatorJS.png';
 import fav from '/favicon.ico';
-import Audio from "@/Audio/Audio";
-import avatar from '@/assets/desktop/avatar.png';
+import jdm from '@/assets/desktop/jdm.png';
 export const windowsTemplates: WindowType[] = [
-    {app: "about_me",appType: 'os',         link: 'https://ericaugusto.pages.dev',
+    {app: "about_me",appType: 'os', hideInStartMenu: true,      link: 'https://ericaugusto.pages.dev',
         desktop: true, icon: avatar,  desktopStyles: {img: {backgroundSize: '100%'}}},
-    {app: "readme",appType: 'os', desktop: true, icon: 'text_icon.svg'},
-
     {
         app: "playlist",
         icon: playlistIcon,
         mask: '#eb4034',
-        conteudo: Playlist, // Specify Playlist as a component type
+        componentPath: "@/StartMenu/components/Playlist/Playlist",
         bodyStyles: { paddingRight: 0 },
         headerStyles: { paddingLeft: "25px" },
         appType: 'os',
@@ -35,18 +25,18 @@ export const windowsTemplates: WindowType[] = [
     },
     {
         app: "command_line",
-        conteudo: Cmd,
+        componentPath: "@/StartMenu/components/Cmd/Cmd",
         appType: 'os',
         icon: cmd,
         windowStyles: { backgroundColor: 'rgb(0 0 0 / 80%)'},
         bodyStyles: { padding: 0 },
     },
-    {app: "EmulatorJS", appType: 'os', conteudo: EmulatorJS, icon: emulatorJs, customClose: true},
+    {app: "EmulatorJS", appType: 'os', componentPath: "@/EmulatorJS/EmulatorJS", icon: emulatorJs, customClose: true},
     {
         app: "paint",
         appType: 'os',
         enableResizing: false,
-        conteudo: Paint,
+        componentPath: "@/StartMenu/components/Paint/Paint",
         hideInStartMenu: true,
         cantMax: true,
         icon: brush,
@@ -58,7 +48,7 @@ export const windowsTemplates: WindowType[] = [
     {
         icon: handshake, 
         appType: 'os',
-        conteudo: Credits,
+        componentPath: "@/StartMenu/components/Credits/Credits",
         app: "credits",
         svgMask: {search: true}
     },
@@ -70,12 +60,15 @@ export const windowsTemplates: WindowType[] = [
         hideInStartMenu: true,
         icon: fav
     },
-    // {app: "jdm_store", link: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FjpjNX650FS4XtJrolls9RW%2FJDM%3Fpage-id%3D%26type%3Ddesign%26node-id%3D1-6%26viewport%3D741%252C598%252C0.23%26t%3DfBBVvALWC6PAzlv0-1%26scaling%3Dscale-down-width%26mode%3Ddesign', appType: 'project', icon: jdm, desktopStyles: {img: {backgroundSize: '70%'}}},
     {app: "dino", hideInStartMenu: true, link: 'https://chromedino.com/', appType: 'os',  icon: 'dino.ico'},
     {app: "browser", link: 'https://www.google.com/webhp?igu=1', appType: 'os', icon: firefox},
-    {app: "audio_player", conteudo: Audio, appType: 'os', icon: 'audio_icon.svg'},
-    // {app: "discord_clone", appType: 'project', icon: discord, link: 'https://www.google.com/webhp?igu=1'},
+    {app: "audio_player", componentPath: "@/Audio/Audio", appType: 'os', icon: 'audio_icon.svg'},
     // {app: "finance", appType: 'project', icon: finance, conteudo: UnderDev},
-    // {app: "recipe_book", appType: 'project', icon: cookBook, conteudo: UnderDev},
-    {app: 'resume', icon: resume, appType: 'os', hideInStartMenu: true, desktop: false,  svgMask: {desktop: true, search: true}, conteudo: Resume, desktopStyles: {button: {textTransform: 'none'}, svg: {maskSize: '73%'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, },
+    {app: 'file_explorer', appType: 'os', icon: 'folder.svg', headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},  componentPath: "@/Folder/Folder"},
+    {app: 'resume', icon: resume, appType: 'os', hideInStartMenu: true, desktop: false, svgMask: {desktop: true, search: true}, componentPath: "@/Resume/Resume", desktopStyles: {button: {textTransform: 'none'}, svg: {maskSize: '73%'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, },
+    
+    {app: "discord_clone", appType: 'project', icon: 'projects/discourse.svg', desktopStyles: {img: {backgroundSize: '100%'}}, link: 'https://www.google.com/webhp?igu=1'},
+    {app: "jdm_store",  link: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FjpjNX650FS4XtJrolls9RW%2FJDM%3Fpage-id%3D%26type%3Ddesign%26node-id%3D1-6%26viewport%3D741%252C598%252C0.23%26t%3DfBBVvALWC6PAzlv0-1%26scaling%3Dscale-down-width%26mode%3Ddesign', appType: 'project', icon: jdm, desktopStyles: {img: {backgroundSize: '70%'}}},
+    {app: "recipe_book", appType: 'project', icon: 'projects/cookbook.svg', componentPath: "@/UnderDev/UnderDev"},
 ];
+

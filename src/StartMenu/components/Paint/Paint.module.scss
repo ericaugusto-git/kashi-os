@@ -11,8 +11,8 @@
         grid-template-columns: repeat(2, 1fr);
         padding: 20px;
         grid-auto-rows: max-content;
-        color: black;
-        background-color: #ebebeba6;
+        color: white;
+        background-color: rgba(var(--theme-color));
         border-radius: 10px;
         gap: 10px;
         justify-content: space-between;

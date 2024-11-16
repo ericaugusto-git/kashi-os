@@ -16,7 +16,7 @@ $borderRadius: 8px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     height: 100%;
     width: 100%;
-    border: 1px solid rgba(var(--accent-color), 0.30);
+    outline: 1px solid rgba(var(--accent-color), 0.30);
     color: white;
     position: relative;
     overflow: hidden;

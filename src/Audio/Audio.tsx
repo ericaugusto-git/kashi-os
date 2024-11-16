@@ -14,7 +14,7 @@ const formatDuration = (seconds: number | undefined): string => {
   return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
 
-function Audio({filePath,getFileUrl, fileList, folderPath}: FileProps){ 
+function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/music'}: FileProps){ 
     const audioRef = useRef<HTMLAudioElement>(null); // Type assertion
     const [isPlaying, setIsPlaying] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
@@ -25,18 +25,25 @@ function Audio({filePath,getFileUrl, fileList, folderPath}: FileProps){
     const [playlistMode, setPlaylistMode] = useState(!filePath);
     const {t} = useTranslation();
     useEffect(() => {
-      console.log(fileList);
-      
-        if (fileList) {
-            const audioFiles = fileList[folderPath!]?.filter(file => file.metadata?.duration) || [];
-            setSystemMusics(audioFiles);
-        }
-    }, [fileList]);
+      const getAudioFiles = async () => {
+        if (!listFiles) return;
+        const files = await listFiles(folderPath!);
+        setSystemMusics(files?.filter(file => file.metadata?.duration) || []);
+      }
+      getAudioFiles();
+      console.log(fileList)
+    }, [folderPath, fileList, listFiles]);
+
+        
+    const selectMusic = (music: WindowType) => {
+      setSelected(music)
+  }
+
 
     
     useEffect(() => {
       const setCurrentMusic = async (music: WindowType) => {
-        if (filePath && audioRef.current && getFileUrl && music) {
+        if (audioRef.current && getFileUrl && music) {
           const fileUrl = await getFileUrl(music.folderPath + '/' + music.app);
           if (audioRef.current) {
             audioRef.current.src = fileUrl;
@@ -47,19 +54,16 @@ function Audio({filePath,getFileUrl, fileList, folderPath}: FileProps){
         }
       };
       setCurrentMusic(selected!);
-    }, [filePath, getFileUrl, selected]);
+    }, [getFileUrl, selected]);
 
     useEffect(() => {
-      const setInitiaMusic = () => {  
+      const setInitialMusic = () => {  
             const currentMusic = systemMusics.find(music => music.props?.filePath === filePath);
-            console.log(currentMusic);
-            console.log(systemMusics);
             if (currentMusic) {
-              console.log(currentMusic);
                 setSelected(currentMusic);
             }
         }
-      setInitiaMusic();
+        setInitialMusic();
     }, [filePath, getFileUrl, systemMusics]);
 
     useEffect(() => {
@@ -110,7 +114,6 @@ function Audio({filePath,getFileUrl, fileList, folderPath}: FileProps){
     };
       
     const previousMusic = () => {
-      console.log(audioRef.current?.currentTime);
       if (audioRef.current?.currentTime && audioRef.current?.currentTime < 2.5 && audioRef.current?.currentTime > 1) {
         audioRef.current.currentTime = 0;
         return;
@@ -135,13 +138,11 @@ function Audio({filePath,getFileUrl, fileList, folderPath}: FileProps){
           audioRef.current.currentTime = seekTime;
         }
       };
-    
-    const selectMusic = (music: WindowType) => {
-        setSelected(music)
-    }
 
     const togglePlaylistMode = () => {
-      setPlaylistMode(!playlistMode);
+      if(selected){
+        setPlaylistMode(!playlistMode);
+      }
   };
 
     return <div className={styles.playlist}>
@@ -169,7 +170,7 @@ function Audio({filePath,getFileUrl, fileList, folderPath}: FileProps){
                     />
                     <div className={styles.songInfo}>
                         <h2>{selected?.app}</h2>
-                        <p>{selected?.metadata?.artist || 'Unknown'}</p>
+                        <p>{selected?.metadata?.artist}</p>
                     </div>
                 </div>
             </div>
@@ -190,11 +191,11 @@ function Audio({filePath,getFileUrl, fileList, folderPath}: FileProps){
               <div className={`backgroundImage ${styles.music_cover}`} style={{backgroundImage: `url(${selected?.thumbnail || 'music_icon.svg'})`}}></div>
                 <div className={styles.desc}>
                     <span className={styles.titulo_desc}>{selected?.app}</span>
-                    <span className={styles.subtitulo_desc}>{selected?.metadata?.artist || 'Unknown'}</span>
+                    <span className={styles.subtitulo_desc}>{selected?.metadata?.artist}</span>
                 </div>
             </a> : <a className={styles.playlist_mode_toggle} onClick={togglePlaylistMode}>
               <div className={styles.playlist_icon}></div>
-              {t('all_musics')}
+              {t('in_this_folder')}
               </a>}
             <div className={styles.actions}>
                 <button className={`svgMask ${styles.previous}`} onClick={previousMusic}></button>

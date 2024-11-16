@@ -6,7 +6,7 @@ import '@vidstack/react/player/styles/default/theme.css';
 import { useEffect, useState } from 'react';
 import 'video-react/dist/video-react.css';
 
-export function Video({filePath, getFileUrl}: FileProps)  {
+export default function Video({filePath, getFileUrl}: FileProps)  {
     const [videoUrl, setVideoUrl] = useState<string>();
     useEffect(() => {
         const getVideoUrl = async () => {

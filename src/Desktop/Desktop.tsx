@@ -50,9 +50,8 @@ function Desktop() {
   const  [wallpaperSwitcherRef, wallpaperSwitcherOpen, setwWallpaperSwitcherOpen ] = useComponentVisible(false,wallpaperButtonRef);
 
   function handleCustomMenuEvent(event: string){
-    console.log(event);
   }
-  const handleContextMenu = useContextMenuHandler("desktop", handleCustomMenuEvent);
+  const handleContextMenu = useContextMenuHandler("desktop", handleCustomMenuEvent, '/home/desktop');
   const [isDesktopHidden, setDesktopHidden] = useState(localStorage.getItem("desktop_icon_visibility") === "true");
   const [layouts, setLayouts] = useState<Layouts | null>(null);
   const [apps, setApps] = useState<WindowType[] | null>(null);
@@ -61,12 +60,8 @@ function Desktop() {
   useEffect(() => {
     
     const setLayout = async () => {
-      console.log(fileList)
       if(fileList){
-        const { layout, apps } = generateLayouts(fileList['/'], layouts || undefined);
-        console.log(layout);
-        console.log(apps)
-        
+        const { layout, apps } = generateLayouts(fileList['/home/desktop'], layouts || undefined);
         setApps(apps);
         setLayouts({...layout});
       }
@@ -91,6 +86,7 @@ function Desktop() {
   function timeout(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
+  
   const changeWallpaper = async () => {
     const newWppIndex = getWppIndex(theme);
     setNewWallpaper(wallpapers[theme][newWppIndex]);
@@ -134,8 +130,7 @@ function Desktop() {
 
   const handleDropWrapper = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    handleDrop('/', event)
-    console.log(event)
+    handleDrop('/home/desktop', event);
   }
 
 

@@ -1,18 +1,15 @@
-import { fileIcons } from '@/constants/fileIcons';
+import { defaultFolders } from '@/constants/defaultFolders';
+import { fileIcons, folderIcons } from '@/constants/fileIcons';
 import { audioMimeTypes, imageMimeTypes, videoMimeTypes } from '@/constants/mimeTypes';
 import { WindowType } from '@/constants/window';
-import { Monaco } from '@/Monaco/Monaco';
-import { Pdf } from '@/Pdf/Pdf';
-import Photo from '@/Photo/Photo';
 import { generateVideoThumbnail } from '@/utils/thumbnailGenerator';
-import { Video } from '@/Video/Video';
 import * as BrowserFS from 'browserfs';
 import { FSModule } from 'browserfs/dist/node/core/FS';
 import { Buffer } from 'buffer';
-import React, { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import Audio from '@/Audio/Audio';
 import * as musicMetadata from 'music-metadata-browser';
-import Folder from '@/Folder/Folder';
+import React, { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
+
+
 
 interface FileSystemContextType {
   fileList: {[folderPath: string]: WindowType[]} | null,
@@ -35,6 +32,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
   const [fs, setFs] = useState<FSModule | null>(null);
   const [fileList, setFileList] = useState<{[folderPath: string]: WindowType[]} | null>(null);
   const fileListRef = useRef<{[folderPath: string]: WindowType[]} | null>(null);
+
 
 
 
@@ -146,7 +144,8 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
   const getFileUrl = useCallback(async (filePath: string, mimeType?: string): Promise<string> => {
     const buffer = await readFile(filePath!);
     const extension = filePath.split('.').pop()?.toLowerCase() || '';
-    const blob = new Blob([buffer!], { type: mimeType ?? (extension in fileIcons ? fileIcons[extension!] : extension in audioMimeTypes ? audioMimeTypes[extension!] : extension in videoMimeTypes ? videoMimeTypes[extension!] : extension in imageMimeTypes ? imageMimeTypes[extension!] : undefined)});
+    
+    const blob = new Blob([buffer!], { type: mimeType ?? (extension in audioMimeTypes ? audioMimeTypes[extension!] : extension in videoMimeTypes ? videoMimeTypes[extension!] : extension in imageMimeTypes ? imageMimeTypes[extension!] : undefined)});
     const url = URL.createObjectURL(blob);
     return url;
   }, [readFile])
@@ -184,7 +183,6 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
               else resolve(stats);
             });
           });
-
           const baseFile: WindowType = { 
             app: name, 
             props: {filePath: fullPath}, 
@@ -192,14 +190,14 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
             appType: "file", 
             icon: 'non_executable.svg'
           };
-
           // If it's a directory, use folder icon
           if (stats.isDirectory()) {
             return {
               ...baseFile,
-              conteudo: Folder,
+              headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},
+              componentPath: '@/Folder/Folder',
               appType: "file" as const,
-              icon: 'folder.svg',
+              icon: folderIcons[fullPath] || 'folder.svg',
             };
           }
 
@@ -214,11 +212,21 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
               const thumbnailUrl = await getFileUrl(fullPath);
               return { 
                 ...baseFile,
-                conteudo: Photo,
+                componentPath: '@/Photo/Photo',
                 thumbnail: thumbnailUrl,
                 icon: 'photo_icon.svg' 
               };
             }
+          }
+
+          // Code and text files
+          if (extension && extension in fileIcons) {
+            return {
+              ...baseFile,
+              componentPath: '@/Monaco/Monaco',
+              thumbnail: fileIcons[extension],
+              icon: 'code_icon.svg'
+            };
           }
 
           // Videos
@@ -230,14 +238,14 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
                 const thumbnailUrl = extension === 'mkv' ? 'video_icon.svg' : await generateVideoThumbnail(videoUrl);
                 return { 
                   ...baseFile,
-                  conteudo: Video,
+                  componentPath: '@/Video/Video',
                   thumbnail: thumbnailUrl,
                   icon: 'video_icon.svg' 
                 };
               } catch (error) {
                 return {
                   ...baseFile,
-                  conteudo: Video,
+                  componentPath: '@/Video/Video',
                   icon: 'video_icon.svg'
                 };
               }
@@ -248,20 +256,12 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           if (extension === 'pdf') {
             return {
               ...baseFile,
-              conteudo: Pdf,
+              componentPath: '@/Pdf/Pdf',
               icon: 'pdf_icon.svg'
             };
           }
 
-          // Code and text files
-          if (extension && extension in fileIcons) {
-            return {
-              ...baseFile,
-              conteudo: Monaco,
-              thumbnail: fileIcons[extension],
-              icon: 'code_icon.svg'
-            };
-          }
+
 
           // Audio files
           if (extension && extension in audioMimeTypes) {
@@ -286,11 +286,9 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
                   thumbnailUrl = URL.createObjectURL(blob);
                 }
 
-                console.log('Audio metadata:', metadata); // Log the metadata
-
                 return {
                   ...baseFile,
-                  conteudo: Audio,
+                  componentPath: '@/Audio/Audio',
                   thumbnail: thumbnailUrl,
                   icon: 'audio_icon.svg',
                   metadata: {
@@ -308,7 +306,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
             // Fallback if metadata parsing fails
             return {
               ...baseFile,
-              conteudo: Audio,
+              componentPath: '@/Audio/Audio',
               icon: 'audio_icon.svg'
             };
           }
@@ -348,7 +346,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     });
   }, [fs]);
 
-  const refreshFileList = useCallback(async (folderPath: string = '/') => {
+  const refreshFileList = useCallback(async (folderPath: string = '/home/desktop') => {
     if (!fs) return;
     const files = await listFiles(folderPath);
     setFileList((prev) => ({...prev, [folderPath]: files || []}));
@@ -361,16 +359,37 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
         fs: "IndexedDB",
         options: {},
       },
-      (err) => {
+      async (err) => {
         if (err) {
           console.error("Failed to reinitialize BrowserFS:", err);
           return;
         }
-        setFs(BrowserFS.BFSRequire("fs"));
-        refreshFileList(); // Refresh the file list after reinitialization
+        const fileSystem = BrowserFS.BFSRequire("fs");
+
+
+        for (const folder of defaultFolders) {
+          try {
+            await new Promise<void>((resolve, reject) => {
+              fileSystem.exists(folder, (exists) => {
+                if (!exists) {
+                  fileSystem.mkdir(folder, '0777', (err) => {
+                    if (err) reject(err);
+                    else resolve();
+                  });
+                } else {
+                  resolve();
+                }
+              });
+            });
+          } catch (error) {
+            console.error(`Error creating folder ${folder}:`, error);
+          }
+        }
+        setFs(fileSystem);
+
       }
     );    
-  }, [fs, setFs, refreshFileList]);
+  }, [fs, setFs]);
 
   useEffect(() => {
     initializeBrowserFS();
@@ -409,9 +428,12 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           else resolve(files || []);
         });
       });
-
+      console.log(files)
       for (const file of files) {
-        const fullPath = `${path}/${file}`;
+        console.log(file)
+        const fullPath = `${path}${path === '/' ? '' : "/"}${file}`;
+
+   
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const stats: any = await new Promise((resolve, reject) => {
           fs.stat(fullPath, (err, stats) => {
@@ -421,7 +443,13 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
         });
 
         if (stats.isDirectory()) {
+          console.log('deleting directory')
           await deleteRecursive(fullPath);
+        // Skip default folders from deletion
+        if (defaultFolders.includes(fullPath)) {
+          console.log('skipping')
+            continue;
+          }   
           await new Promise<void>((resolve, reject) => {
             fs.rmdir(fullPath, (err) => {
               if (err) reject(err);
@@ -441,7 +469,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
 
     try {
       await deleteRecursive('/');
-      await refreshFileList('/');
+      await refreshFileList();
     } catch (error) {
       console.error('Error formatting file system:', error);
     }

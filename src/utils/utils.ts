@@ -56,7 +56,7 @@ export const fetchGif = async (gifId: string) => {
   // };
 
   export const generateLayouts = (files?: WindowType[] | null, layout?: Layouts): { layout: Layouts, apps: WindowType[] } => {
-    const windows = windowsTemplates.filter((a) => a.appType === 'project' || a.desktop);
+    const windows = windowsTemplates.filter((a) => a.desktop);
     const apps = files ? [...windows, ...files] : windows;
     let savedLayouts: Layouts | string | null = localStorage.getItem('app-layouts');
   
@@ -74,9 +74,6 @@ export const fetchGif = async (gifId: string) => {
     breakpoints.forEach((breakpoint) => {
       const existingLayout = layout[breakpoint] || [];
       const occupiedPositions = new Set(existingLayout.map(item => `${item.x}-${item.y}`));
-      if(breakpoint == 'lg'){
-        console.log(occupiedPositions);
-      }
       const newLayout = apps.map((app) => {
         // Check if the app already exists in the layout to retain its position
         const existingItem = existingLayout.find(item => item.i === app.app);
