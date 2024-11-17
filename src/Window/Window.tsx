@@ -147,6 +147,8 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   //     window.removeEventListener('resize', handleResize);
   //   };
   // }, [windows]);
+  console.log(defaultSyles)
+  console.log(windows)
   return <div ref={windowRef}>
     <AnimatePresence>
   {windows.map((window, index) => (
@@ -174,7 +176,6 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     onResizeStop={() => seNoTransition(false)}
     onDrag={() => {seNoTransition(true)}}
     onDragStop={(event, d) => { handleDragStop(event as React.TouchEvent | React.MouseEvent, index, d, window)} }
-    
     style={{
       zIndex: window.active ? 2 : 1,   
       transitionProperty: noTransition ? 'none' : 'width, height, transform, opacity, visibility',
@@ -184,8 +185,10 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
       transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'
     }}
   >
-    <div className={styles.glass_effect}>glassy hihi</div>
+    <div className={styles.glass_effect}></div>
+    outside
     <div className={`${styles.window}`} style={{...defaultSyles, ...window.windowStyles, }}>
+      window
         <div className={styles.header} style={window.headerStyles}>
           <div className={styles.app}>
           {/* {window.icon?.includes(".svg") ? (
