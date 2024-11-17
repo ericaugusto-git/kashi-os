@@ -27,6 +27,19 @@ export default defineConfig({
   build: {
     commonjsOptions: {
       include: [/buffer/, /node_modules/]
+    },
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          // Create a chunk for each dynamically imported component
+          if (id.includes('/src/')) {
+            const match = id.match(/\/src\/(.+?)\//);
+            if (match) {
+              return match[1];
+            }
+          }
+        }
+      }
     }
   },
 })
