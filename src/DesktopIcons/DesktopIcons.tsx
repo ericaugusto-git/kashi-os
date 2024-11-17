@@ -114,7 +114,7 @@ const DesktopIcons = ({layouts, setLayouts, apps}: {layouts: Layouts | null, set
       >
         {apps.map((app) => (
           <div id={app.app} key={app.app}>
-                   <DesktopIcon app={app} setLayouts={setLayouts} svgStyles={app.desktopStyles?.svg} svgMask={app.svgMask?.desktop} buttonStyles={app.desktopStyles?.button} imgWrapperStyles={app.desktopStyles?.img} />
+                   <DesktopIcon app={app} folderPath='/home/desktop' setLayouts={setLayouts} svgStyles={app.desktopStyles?.svg} svgMask={app.svgMask?.desktop} buttonStyles={app.desktopStyles?.button} imgWrapperStyles={app.desktopStyles?.img} />
             </div>
         ))}
       </ResponsiveGridLayout>
@@ -123,7 +123,7 @@ const DesktopIcons = ({layouts, setLayouts, apps}: {layouts: Layouts | null, set
   
   {isAnimating && <motion.menu id="desktop_icons" initial="hidden" animate={"visible"}  variants={container}   className={`${styles.desktop} ${styles[position]}`}>
        {apps.map((app) => <motion.li  id={app.app} whileHover={{ scale:  1.05 }} whileTap={{ scale: 0.9 }}  variants={item} key={app.app} onClick={() => openWindow(app)}>
-                   <DesktopIcon app={app} setLayouts={setLayouts} svgStyles={app.desktopStyles?.svg} svgMask={app.svgMask?.desktop} buttonStyles={app.desktopStyles?.button} imgWrapperStyles={app.desktopStyles?.img} />
+                   <DesktopIcon app={app} setLayouts={setLayouts} folderPath='/home/desktop' svgStyles={app.desktopStyles?.svg} svgMask={app.svgMask?.desktop} buttonStyles={app.desktopStyles?.button} imgWrapperStyles={app.desktopStyles?.img} />
        </motion.li>)}
        {/* <li onClick={openResume}>
          <DesktopIcon  app={{app: 'resume', icon: resume, appType: 'os', hideInStartMenu: true,}} buttonStyles={{textTransform: 'none'}} svgMask={true}></DesktopIcon>

@@ -35,6 +35,7 @@ export type WindowType = {
     minimized?: boolean,
     folderPath?: string,
     app: string,
+    uniqueName?: string,
     appType: "project" | "os" | "file",
     desktop?: boolean,
     hideInStartMenu?: boolean,

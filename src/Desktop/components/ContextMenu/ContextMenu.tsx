@@ -68,13 +68,13 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
     {x &&  <ul ref={contextRef} className={styles.contextMenu} style={{top: `${y}px`, left: `${x}px`}} onClick={handleClick}>
       {source == 'desktop' || source == 'folder' ? 
       <DesktopOptions source={source} folderPath={folderPath} isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} setLayouts={setLayouts} screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : 
-      <DesktopItemOptions source={source!} folderPath={folderPath}/>}
+      <DesktopItemOptions source={source!}/>}
       </ul>}
     </>
 }
 
 
-function DesktopItemOptions({ source, folderPath }: { source: NonNullable<ContextMenuProps>['source'], folderPath?: string }) {
+function DesktopItemOptions({ source }: { source: NonNullable<ContextMenuProps>['source'] }) {
   const {t} = useTranslation();
   return <>
       <li onClick={() => eventHandler('open')}>
@@ -166,7 +166,7 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
         inputElement.onchange = null;
       }
     };
-
+    console.log(folderPath )
     const inputElement = fileInputRef.current;
     if (inputElement && !inputElement.onchange) {
       inputElement.onchange = handleFileChange;

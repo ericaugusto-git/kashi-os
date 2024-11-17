@@ -197,6 +197,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
               headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},
               componentPath: '@/Folder/Folder',
               appType: "file" as const,
+              uniqueName: "file_explorer",
               icon: folderIcons[fullPath] || 'folder.svg',
             };
           }
@@ -291,6 +292,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
                   componentPath: '@/Audio/Audio',
                   thumbnail: thumbnailUrl,
                   icon: 'audio_icon.svg',
+                  uniqueName: "audio_player",
                   metadata: {
                     title: metadata.common.title,
                     artist: metadata.common.artist,

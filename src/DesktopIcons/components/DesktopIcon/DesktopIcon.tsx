@@ -152,6 +152,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
         if(!defaultFolders.includes(folderPath + '/' + app.app)) handleContextMenu(e);
         else e.preventDefault();
     }
+
     
     return (
             <a onContextMenu={handleContextMenuWrapper}  className={`${styles.desktop_icon} ${styles[position]} ${styles[theme]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive} ${isDragging && styles.dragging}`} style={buttonStyles}>
@@ -160,7 +161,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
                     {svgMask && <div style={svgDefault} className={"svgMask " + styles.icon}></div>}
                 </div>
             {!fromTaskbar && position == 'bottom' && <span ref={editableRef} onMouseDown={(e) => e.stopPropagation()} suppressContentEditableWarning={true} contentEditable={renameMode} className={`${styles.label} ${renameMode && styles.edit}`}>
-                    {app.appType == 'file' && folderPath != '/home' ? app.app : t(app.app)}
+                    {(folderPath == '/home/desktop' && app.app == 'projects') || folderPath == '/home' || app.appType != 'file' ? t(app.app) : app.app}
                 </span>}
             </a>
     )

@@ -267,7 +267,7 @@ button.taskbar_icon {
 
 *::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  border-right: 2px solid rgb(var(--accent-color));
+  /* border-right: 2px solid rgb(var(--accent-color)); */
   /* background-clip: padding-box; */
   background: rgb(var(--accent-color));
 }

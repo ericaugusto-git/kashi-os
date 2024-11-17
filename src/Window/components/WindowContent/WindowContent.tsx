@@ -1,10 +1,9 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
-import { WindowConteudo, WindowType } from "../../../constants/window";
-import styles from './WindowContent.module.scss';
-import { ErrorBoundary } from "react-error-boundary";
 import { useFileSystem } from "@/contexts/FileSystemContext";
-import Folder from "../../../Folder/Folder";
 import { loadComponent } from "@/utils/componentLoader";
+import { Suspense, useEffect, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { WindowType } from "../../../constants/window";
+import styles from './WindowContent.module.scss';
 
 export default function WindowContent({window, closeRefCurrent, index}: {window: WindowType, closeRefCurrent: (HTMLButtonElement | null)[], index: number}){
     const [loading, setLoading] = useState(!!window.link);
