@@ -7,6 +7,7 @@ import DesktopIcon from '@/DesktopIcons/components/DesktopIcon/DesktopIcon';
 import useOpenWindow from '@/hooks/useOpenWindow';
 import { useFileSystem } from '@/contexts/FileSystemContext';
 import { windowsTemplates } from '@/constants/windowsTemplate';
+import resumeIcon from '@/assets/desktop/resume.svg';
 
 function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
   const [currentPath, setCurrentPath] = useState(filePath);
@@ -26,9 +27,13 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
       if(listFiles){
         let filesList = await listFiles(currentPath) || [];
         console.log(currentPath);
-        if(currentPath === '/home/desktop/projects'){
+        if(currentPath === '/home/desktop/projects_default_folder'){
           const projects = windowsTemplates.filter(window => window.appType === 'project');
           filesList = [...filesList, ...projects];
+        }
+        if(currentPath === '/home/documents'){
+          const resume: WindowType = {app: 'resume', icon: resumeIcon, appType: 'os', hideInStartMenu: true, desktop: false, svgMask: {desktop: true, search: true}, componentPath: "@/Resume/Resume", desktopStyles: {button: {textTransform: 'none'}, svg: {maskSize: '73%'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, };
+          filesList = [...filesList, resume];
         }
         setFiles(filesList);
       }
@@ -167,7 +172,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
             onClick={() => handleFileClick(file)}
             className={styles.fileItem}
           >
-            <DesktopIcon app={file} folderPath={currentPath} svgStyles={file.desktopStyles?.svg} svgMask={file.svgMask?.desktop} buttonStyles={file.desktopStyles?.button} imgWrapperStyles={file.desktopStyles?.img} />
+            <DesktopIcon app={file} fromFolder={true} folderPath={currentPath} svgStyles={file.desktopStyles?.svg} svgMask={file.svgMask?.desktop} buttonStyles={file.desktopStyles?.button} imgWrapperStyles={file.desktopStyles?.img} />
           </div>
         ))}
       </div>}

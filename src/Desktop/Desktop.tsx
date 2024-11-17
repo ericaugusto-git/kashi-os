@@ -21,7 +21,7 @@ import { Themes, useTheme } from "../contexts/ThemeContext";
 import { useWallpaper } from "../contexts/WallpaperContext";
 import WindowContextProvider from "../contexts/WindowContext";
 import useComponentVisible from "../hooks/useComponentVisible";
-import { generateLayouts, getWppIndex } from "../utils/utils";
+import { fetchReadme, generateLayouts, getWppIndex } from "../utils/utils";
 import styles from "./Desktop.module.scss";
 import ContextMenu from "./components/ContextMenu/ContextMenu";
 import Lockscreen from "./components/Lockscreen/Lockscreen";

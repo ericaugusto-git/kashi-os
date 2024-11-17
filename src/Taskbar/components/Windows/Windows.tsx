@@ -49,7 +49,7 @@ export default function Windows(){
         {windows.map((window) => (
             
             <motion.li initial="hidden" animate="visible"  variants={item} key={window.app} onClick={() => handleDesktopIconCLick(window)}>
-                 <DesktopIcon fromTaskbar={true} app={window} svgStyles={window.desktopStyles?.svg} svgMask={window.svgMask?.desktop} buttonStyles={buttonStyles} imgWrapperStyles={{...window.desktopStyles?.img, ...imgWrapperStyles}} />
+                 <DesktopIcon hideLabel={true} fromTaskbar={true} app={window} svgStyles={window.desktopStyles?.svg} svgMask={window.svgMask?.desktop} buttonStyles={buttonStyles} imgWrapperStyles={{...window.desktopStyles?.img, ...imgWrapperStyles}} />
             </motion.li>
         ))}
         </ul>}

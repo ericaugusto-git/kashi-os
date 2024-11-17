@@ -1,16 +1,16 @@
 import { createContext, useContext, useState } from "react"
 import { wallpapers } from "../constants/wallpapers";
 
-const ThemeContext = createContext<ThemeContextType>(["light", () => {}]);
+const ThemeContext = createContext<ThemeContextType>(["dark", () => {}]);
 type ThemeProviderType = {children: React.ReactNode}
 type ThemeContextType = [Themes, React.Dispatch<React.SetStateAction<Themes>>]
 export type Themes = 'light' | 'dark' | 'cozy' 
 
 
 function ThemeProvider({children}: ThemeProviderType) {
-  let initialTheme: Themes = (localStorage.getItem("theme") as Themes) ?? "light";
+  let initialTheme: Themes = (localStorage.getItem("theme") as Themes) ?? "dark";
   if(!wallpapers[initialTheme]){
-    initialTheme = 'light'
+    initialTheme = 'dark'
   }
   const [theme, setTheme] = useState<Themes>(initialTheme)
   return (

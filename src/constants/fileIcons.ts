@@ -25,7 +25,7 @@ export const fileIcons: { [key: string]: string } = {
   'yml': 'code_icon.svg',
   'yaml': 'code_icon.svg',
   'xml': 'code_icon.svg',
-  'svg': 'code_icon.svg',
+  // 'svg': 'code_icon.svg',
   'ini': 'code_icon.svg',
   'env': 'code_icon.svg',
 
@@ -36,7 +36,7 @@ export const fileIcons: { [key: string]: string } = {
   'txt': 'text_icon.svg',
   'log': 'code_icon.svg',
   'csv': 'code_icon.svg',
-  'pdf': 'code_icon.svg',
+  // 'pdf': 'code_icon.svg',
 
   // Less common extensions
   'kt': 'code_icon.svg',

@@ -8,6 +8,7 @@ import { FSModule } from 'browserfs/dist/node/core/FS';
 import { Buffer } from 'buffer';
 import * as musicMetadata from 'music-metadata-browser';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { fetchReadme } from '@/utils/utils';
 
 
 
@@ -54,16 +55,17 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     refreshFileList(folderPath);
   };
 
-  const createFile = useCallback(async (folderPath: string = '/', file: File) => {
-    if (!fs) return;
+  const createFile = useCallback(async (folderPath: string = '/', file: File, fileSystem?: FSModule | null) => {
+    fileSystem = fileSystem || fs;
+    if (!fileSystem) return;
 
     const filePath = `${folderPath}/${file.name}`;
-
+    console.log(filePath)
     try {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer); // Convert ArrayBuffer to Buffer
 
-        fs.writeFile(filePath, buffer, (err) => {
+        fileSystem.writeFile(filePath, buffer, (err) => {
             if (err) {
                 console.error('Error creating file:', err);
             } else {
@@ -367,10 +369,11 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           return;
         }
         const fileSystem = BrowserFS.BFSRequire("fs");
-
+        const hasInitializedFileSystemFirstTime = localStorage.getItem('hasInitializedFileSystemFirstTime');
 
         for (const folder of defaultFolders) {
           try {
+            if(folder == '/home/desktop/projects_default_folder' && hasInitializedFileSystemFirstTime === 'true') continue;
             await new Promise<void>((resolve, reject) => {
               fileSystem.exists(folder, (exists) => {
                 if (!exists) {
@@ -386,6 +389,32 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           } catch (error) {
             console.error(`Error creating folder ${folder}:`, error);
           }
+        }
+        const initializeReadme = async () => {
+          try {
+            // Check if README already exists
+            await new Promise<void>((resolve, reject) => {
+              fileSystem.exists('/home/desktop/README.md', async (exists) => {
+                if (!exists) {
+                  const readme = await fetchReadme(); // Using the utility function
+                  console.log(readme)
+                  if (readme) {
+                    const file = new File([readme], 'README.md');
+                    await createFile('/home/desktop', file, fileSystem);
+                    console.log("file created")
+                  }
+                }
+                await new Promise(resolve => setTimeout(resolve, 50));
+                resolve();
+              });
+            });
+          } catch (error) {
+            console.error('Error creating README file:', error);
+          }
+        }
+        if(hasInitializedFileSystemFirstTime !== 'true') {
+          await initializeReadme();
+          localStorage.setItem('hasInitializedFileSystemFirstTime', 'true');
         }
         setFs(fileSystem);
 

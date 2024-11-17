@@ -23,37 +23,40 @@ export const fetchGif = async (gifId: string) => {
     }
   };
 
-  // export const generateLayouts = (files?: WindowType[] | null): { layout: Layouts, apps: WindowType[] } => {
-  //   const windows = windowsTemplates.filter((a) => a.appType === 'project' || a.desktop);
-  //   const apps = files ? [...windows,...files] : windows;
-  //   let savedLayouts: Layouts | string | null = localStorage.getItem('app-layouts');
+  export const fetchReadme = async () => {
+    const owner = 'ericaugusto-git';
+    const repo = 'portfolio-os';
+    const path = 'README.md';
+    const token = import.meta.env.VITE_REACT_GITHUB_TOKEN;
+
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/vnd.github.v3+json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Decode base64 and properly handle UTF-8 encoding
+        const decoded = atob(data.content);
+        const decoder = new TextDecoder('utf-8');
+        const bytes = new Uint8Array(decoded.split('').map(char => char.charCodeAt(0)));
+        return decoder.decode(bytes);
+      } else {
+        console.error('Error fetching README:', response.status, response.statusText);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching README:', error);
+      return null;
+    }
+  };
   
-  //   if (savedLayouts) {
-  //     savedLayouts = JSON.parse(savedLayouts);
-  //     return { layout: savedLayouts as Layouts, apps };
-  //   }
   
-  //   const layout: Layouts = {};
-  //   const breakpoints: Array<keyof Layouts> = ['lg', 'md', 'sm', 'xs', 'xxs'];
-  //   const rowHeight = 130; // Row height as defined
-  //   const screenHeight = window.innerHeight - 40// -40 because of taskbar;
-  //   const maxRows = Math.floor(screenHeight / rowHeight); // Max rows per column
-  
-  //   breakpoints.forEach((breakpoint) => {
-  //     layout[breakpoint] = apps.map((app, index) => {
-  //       return ({
-  //       i: app.app,
-  //       x: Math.floor(index / maxRows), // Increase x (column) every maxRows items
-  //       y: index % maxRows, // Reset y (row) once maxRows is reached
-  //       w: 1,
-  //       h: 1, // Each item is 1 row high
-  //       minW: 1,
-  //       minH: 1,
-  //     })});
-  //   });
-  
-  //   return { layout, apps };
-  // };
 
   export const generateLayouts = (files?: WindowType[] | null, layout?: Layouts): { layout: Layouts, apps: WindowType[] } => {
     const windows = windowsTemplates.filter((a) => a.desktop);

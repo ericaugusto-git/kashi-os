@@ -92,12 +92,12 @@ function DesktopItemOptions({ source }: { source: NonNullable<ContextMenuProps>[
 }
 { source == 'app' && 
     <>
-        <li>
+        {/* <li>
           Open in files
-        </li>
-        <li>
+        </li> */}
+        {/* <li>
           About this project
-        </li>
+        </li> */}
     </>
    }
   </>
@@ -157,6 +157,7 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
   }
 
   useEffect(() => {
+
     const handleFileChange = (event: Event) => {
       const fileInput = event.target as HTMLInputElement;
       const file = fileInput.files?.[0];
@@ -168,7 +169,7 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
     };
     console.log(folderPath )
     const inputElement = fileInputRef.current;
-    if (inputElement && !inputElement.onchange) {
+    if (inputElement) {
       inputElement.onchange = handleFileChange;
     }
   }, [fileInputRef, createFile]);

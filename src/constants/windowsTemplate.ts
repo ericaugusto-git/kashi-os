@@ -69,7 +69,7 @@ export const windowsTemplates: WindowType[] = [
     // {app: "finance", appType: 'project', icon: finance, conteudo: UnderDev},
     {app: 'resume', icon: resume, appType: 'os', hideInStartMenu: true, desktop: false, svgMask: {desktop: true, search: true}, componentPath: "@/Resume/Resume", desktopStyles: {button: {textTransform: 'none'}, svg: {maskSize: '73%'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, },
     
-    {app: "discord_clone", appType: 'project', icon: 'projects/discourse.svg', desktopStyles: {img: {backgroundSize: '100%'}}, link: 'https://www.google.com/webhp?igu=1'},
+    {app: "discord_clone", appType: 'project', icon: 'projects/discourse.svg', desktopStyles: {img: {backgroundSize: '100%'}}, componentPath: "@/UnderDev/UnderDev"},
     {app: "jdm_store",  link: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FjpjNX650FS4XtJrolls9RW%2FJDM%3Fpage-id%3D%26type%3Ddesign%26node-id%3D1-6%26viewport%3D741%252C598%252C0.23%26t%3DfBBVvALWC6PAzlv0-1%26scaling%3Dscale-down-width%26mode%3Ddesign', appType: 'project', icon: jdm, desktopStyles: {img: {backgroundSize: '70%'}}},
     {app: "recipe_book", appType: 'project', hideInStartMenu: true, icon: 'projects/cookbook.svg', componentPath: "@/UnderDev/UnderDev"},
 ];

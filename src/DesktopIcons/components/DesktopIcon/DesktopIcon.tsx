@@ -19,15 +19,18 @@ type DesktopIconProp = {
     svgStyles?: CSSProperties,
     svgMask?: boolean,
     fromTaskbar?: boolean,
+    fromFolder?: boolean,   
     isDragging?: boolean,
     setLayouts?: React.Dispatch<React.SetStateAction<Layouts | null>>,
-    folderPath?: string
+    folderPath?: string,
+    hideLabel?: boolean
 }
-function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, fromTaskbar, isDragging, setLayouts, folderPath}: DesktopIconProp){
+function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, fromTaskbar, isDragging, setLayouts, folderPath, fromFolder, hideLabel}: DesktopIconProp){
     const [theme] = useTheme();
     const [position] = useDesktopPosition();
     const [renameMode, setRenameMode] = useState<boolean>();
     const editableRef = useRef<HTMLSpanElement>(null);
+    const buttonRef = useRef<HTMLAnchorElement>(null);
     const {refreshFileList ,renamePath, deletePath} = useFileSystem();
     const openWindow = useOpenWindow();
     const { t } = useTranslation();
@@ -148,20 +151,20 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
     const svgDefault = {...svgStyles, maskImage: `url("${ app.thumbnail ?? app.icon}")` }
     const handleContextMenuWrapper = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.stopPropagation();
-        console.log(folderPath + '/' + app.app)
-        if(!defaultFolders.includes(folderPath + '/' + app.app)) handleContextMenu(e);
+        const fullPath = folderPath + '/' + app.app;
+        if(!defaultFolders.includes(fullPath) || fullPath == '/home/desktop/projects_default_folder') handleContextMenu(e);
         else e.preventDefault();
     }
 
     
     return (
-            <a onContextMenu={handleContextMenuWrapper}  className={`${styles.desktop_icon} ${styles[position]} ${styles[theme]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive} ${isDragging && styles.dragging}`} style={buttonStyles}>
+            <a onContextMenu={handleContextMenuWrapper} ref={buttonRef} className={`${styles.desktop_icon} ${styles[fromFolder ? 'bottom' : position]} ${styles[theme]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive} ${isDragging && styles.dragging}`} style={buttonStyles}>
                 {app.active}
                 <div style={stylesDefault} className={styles.img_wrapper + " " +  (!svgMask ? 'backgroundImage' : '')}>
                     {svgMask && <div style={svgDefault} className={"svgMask " + styles.icon}></div>}
                 </div>
-            {!fromTaskbar && position == 'bottom' && <span ref={editableRef} onMouseDown={(e) => e.stopPropagation()} suppressContentEditableWarning={true} contentEditable={renameMode} className={`${styles.label} ${renameMode && styles.edit}`}>
-                    {(folderPath == '/home/desktop' && app.app == 'projects') || folderPath == '/home' || app.appType != 'file' ? t(app.app) : app.app}
+            {!hideLabel && <span ref={editableRef} suppressContentEditableWarning={true} contentEditable={renameMode} className={`${styles.label} ${renameMode && styles.edit}`}>
+                    {(folderPath == '/home/desktop' && app.app == 'projects_default_folder') || folderPath == '/home' || app.appType != 'file' ? t(app.app) : app.app}
                 </span>}
             </a>
     )

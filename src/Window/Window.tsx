@@ -147,12 +147,14 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   //     window.removeEventListener('resize', handleResize);
   //   };
   // }, [windows]);
-
-  
   return <div ref={windowRef}>
     <AnimatePresence>
   {windows.map((window, index) => (
-    <motion.div variants={variants} initial="initial"  animate="animate" exit="exit" transition={{ duration: 0.2 }}  key={window.app} onTouchStart={(event) => handleWindowClick(window.app, index, event)} onMouseDown={(event) => handleWindowClick(window.app, index, event)}
+    <motion.div variants={variants} initial="initial" 
+     animate="animate" exit="exit" 
+     transition={{ duration: 0.2 }}  key={window.app} 
+     onTouchStart={(event) => handleWindowClick(window.app, index, event)}
+     onMouseDown={(event) => handleWindowClick(window.app, index, event)}
     >
   <Rnd
     // default={{
@@ -173,11 +175,16 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     onDrag={() => {seNoTransition(true)}}
     onDragStop={(event, d) => { handleDragStop(event as React.TouchEvent | React.MouseEvent, index, d, window)} }
     
-    style={{zIndex: window.active ? 2 : 1,   transitionProperty: noTransition ? 'none' : 'width, height, transform, opacity, visibility',
-    transitionDuration: '0.3s', visibility: window.minimized ? 'hidden' : 'visible',  opacity: window.minimized ? '0' : '1', 
-    transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'}}
+    style={{
+      zIndex: window.active ? 2 : 1,   
+      transitionProperty: noTransition ? 'none' : 'width, height, transform, opacity, visibility',
+      transitionDuration: '0.3s', 
+      visibility: window.minimized ? 'hidden' : 'visible', 
+      opacity: window.minimized ? '0' : '1', 
+      transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'
+    }}
   >
-    <div className={styles.glass_effect}></div>
+    <div className={styles.glass_effect}>glassy hihi</div>
     <div className={`${styles.window}`} style={{...defaultSyles, ...window.windowStyles, }}>
         <div className={styles.header} style={window.headerStyles}>
           <div className={styles.app}>

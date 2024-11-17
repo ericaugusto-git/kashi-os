@@ -10,7 +10,7 @@ $color: var(--color);
   transform: translateY(-45%);
   padding: 30px 0;
   display: flex;
-  z-index: 2;
+  z-index: 3;
   justify-content: space-evenly;
 }
 .wallpaper:not(.active):hover{
