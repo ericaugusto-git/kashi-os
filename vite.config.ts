@@ -9,14 +9,15 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
-      buffer: 'buffer',
+      buffer: 'buffer/',
     },
   },
   define: {
-    'global': {},
+    'global': 'globalThis',
     'process.env': {},
   },
   optimizeDeps: {
+    include: ['buffer'],
     esbuildOptions: {
       define: {
         global: 'globalThis',
@@ -24,8 +25,8 @@ export default defineConfig({
     },
   },
   build: {
-    rollupOptions: {
-      external: ['buffer'],
-    },
+    commonjsOptions: {
+      include: [/buffer/, /node_modules/]
+    }
   },
 })
