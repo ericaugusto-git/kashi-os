@@ -255,27 +255,26 @@ button.taskbar_icon {
   /* max-height: calc(100dvh - 45px) !important; */
 }
 
-
-*::-webkit-scrollbar {
+.custom_scrollbar::-webkit-scrollbar {
   height: 6px;
   width: 6px;
+  will-change: width, height;
 }
-*::-webkit-scrollbar-track {
+.custom_scrollbar::-webkit-scrollbar-track {
   border-radius: 5px;
   background-color: rgb(var(--theme-color));
 }
 
-*::-webkit-scrollbar-thumb {
+.custom_scrollbar::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  /* border-right: 2px solid rgb(var(--accent-color)); */
   /* background-clip: padding-box; */
   background: rgb(var(--accent-color));
 }
 
-*::-webkit-scrollbar-thumb:hover {
+.custom_scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: rgb(var(--accent-color));
 }
 
-*::-webkit-scrollbar-thumb:active {
+.custom_scrollbar::-webkit-scrollbar-thumb:active {
   background-color: rgb(var(--accent-color));
 }

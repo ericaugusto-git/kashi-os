@@ -165,7 +165,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
           </a>
         </li>
       </menu>
-      {files.length > 0 && <div className={styles.fileGrid}>
+      {files.length > 0 && <div className={`${styles.fileGrid} custom_scrollbar`}>
         {files.map((file) => (
           <div 
             key={file.app} 

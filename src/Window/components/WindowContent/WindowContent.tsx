@@ -1,6 +1,6 @@
 import { useFileSystem } from "@/contexts/FileSystemContext";
 import { loadComponent } from "@/utils/componentLoader";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { WindowType } from "../../../constants/window";
 import styles from './WindowContent.module.scss';
@@ -8,17 +8,17 @@ import styles from './WindowContent.module.scss';
 export default function WindowContent({window, closeRefCurrent, index}: {window: WindowType, closeRefCurrent: (HTMLButtonElement | null)[], index: number}){
     const [loading, setLoading] = useState(!!window.link);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [Component, setComponent] = useState<any>(null);
-    useEffect(() => {
-        if (window.componentPath) {
-            try {
-                const LoadedComponent = loadComponent(window.componentPath);
-                setComponent(() => LoadedComponent);
-            } catch (error) {
-                console.error('Error loading component:', error);
-            }
-        }
-    }, [window.componentPath]);
+    // const [Component, setComponent] = useState<any>(null);
+    const LoadedComponent = useMemo(() => window.componentPath ? loadComponent(window.componentPath!) : null, [window.componentPath]);
+    // useEffect(() => {
+    //     if (window.componentPath) {
+    //         try {
+    //             setComponent(() => LoadedComponent);
+    //         } catch (error) {
+    //             console.error('Error loading component:', error);
+    //         }
+    //     }
+    // }, [window.componentPath]);
     const {getFileUrl, updateFile, fileList, listFiles} = useFileSystem();
     const props = window.props || {}
 
@@ -27,9 +27,9 @@ export default function WindowContent({window, closeRefCurrent, index}: {window:
             <div className={styles.loader}></div>
         </div>}
         {window.link ? <iframe src={window.link} onLoad={() => setLoading(false)} width="100%" height="100%"></iframe> : 
-        Component && <ErrorBoundary FallbackComponent={ErrorFallback}>
+        LoadedComponent && <ErrorBoundary FallbackComponent={ErrorFallback}>
                 <Suspense fallback={<div>Loading...</div>}>
-                <Component closeBtnRefs={closeRefCurrent} folderPath={window.folderPath} getFileUrl={getFileUrl} updateFile={updateFile} closeRefIndex={index} fileList={fileList} listFiles={listFiles} {...props} />
+                <LoadedComponent closeBtnRefs={closeRefCurrent} folderPath={window.folderPath} getFileUrl={getFileUrl} updateFile={updateFile} closeRefIndex={index} fileList={fileList} listFiles={listFiles} {...props} />
                 </Suspense>
         </ErrorBoundary>}
     </> 

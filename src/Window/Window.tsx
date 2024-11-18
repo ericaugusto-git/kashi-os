@@ -186,9 +186,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     }}
   >
     <div className={styles.glass_effect}></div>
-    outside
     <div className={`${styles.window}`} style={{...defaultSyles, ...window.windowStyles, }}>
-      window
         <div className={styles.header} style={window.headerStyles}>
           <div className={styles.app}>
           {/* {window.icon?.includes(".svg") ? (
