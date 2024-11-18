@@ -3,12 +3,12 @@ import { fileIcons, folderIcons } from '@/constants/fileIcons';
 import { audioMimeTypes, imageMimeTypes, videoMimeTypes } from '@/constants/mimeTypes';
 import { WindowType } from '@/constants/window';
 import { generateVideoThumbnail } from '@/utils/thumbnailGenerator';
+import { fetchReadme } from '@/utils/utils';
 import * as BrowserFS from 'browserfs';
 import { FSModule } from 'browserfs/dist/node/core/FS';
 import { Buffer } from 'buffer';
 import * as musicMetadata from 'music-metadata-browser';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { fetchReadme } from '@/utils/utils';
 
 
 
@@ -393,15 +393,13 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
         const initializeReadme = async () => {
           try {
             // Check if README already exists
-            await new Promise<void>((resolve, reject) => {
+            await new Promise<void>((resolve) => {
               fileSystem.exists('/home/desktop/README.md', async (exists) => {
                 if (!exists) {
                   const readme = await fetchReadme(); // Using the utility function
-                  console.log(readme)
                   if (readme) {
                     const file = new File([readme], 'README.md');
                     await createFile('/home/desktop', file, fileSystem);
-                    console.log("file created")
                   }
                 }
                 await new Promise(resolve => setTimeout(resolve, 50));

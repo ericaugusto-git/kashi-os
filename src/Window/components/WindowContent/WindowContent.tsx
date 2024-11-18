@@ -1,6 +1,6 @@
 import { useFileSystem } from "@/contexts/FileSystemContext";
 import { loadComponent } from "@/utils/componentLoader";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { WindowType } from "../../../constants/window";
 import styles from './WindowContent.module.scss';
