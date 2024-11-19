@@ -167,7 +167,6 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
         inputElement.onchange = null;
       }
     };
-    console.log(folderPath )
     const inputElement = fileInputRef.current;
     if (inputElement) {
       inputElement.onchange = handleFileChange;

@@ -26,7 +26,6 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
     const loadFiles = async () => {
       if(listFiles){
         let filesList = await listFiles(currentPath) || [];
-        console.log(currentPath);
         if(currentPath === '/home/desktop/projects_default_folder'){
           const projects = windowsTemplates.filter(window => window.appType === 'project');
           filesList = [...filesList, ...projects];

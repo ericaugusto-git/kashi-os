@@ -147,8 +147,6 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   //     window.removeEventListener('resize', handleResize);
   //   };
   // }, [windows]);
-  console.log(defaultSyles)
-  console.log(windows)
   return <div ref={windowRef}>
     <AnimatePresence>
   {windows.map((window, index) => (

@@ -11,7 +11,6 @@ interface DateTime {
 function useDateTime(  date_format?: string, hour_format?: string): [DateTime, React.Dispatch<React.SetStateAction<DateTime>>] {
     // Set local timezone
     moment.locale(navigator.language);
-    console.log(navigator.language);
     date_format = date_format ?? 'LL';
     hour_format = hour_format ?? 'LT';
     const [dateTime, setDateTime] = useState<DateTime>({

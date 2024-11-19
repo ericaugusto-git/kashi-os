@@ -31,7 +31,6 @@ function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/mu
         setSystemMusics(files?.filter(file => file.metadata?.duration) || []);
       }
       getAudioFiles();
-      console.log(fileList)
     }, [folderPath, fileList, listFiles]);
 
         

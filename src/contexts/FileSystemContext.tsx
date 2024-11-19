@@ -25,6 +25,7 @@ interface FileSystemContextType {
   listFiles: (folderPath: string) => Promise<WindowType[] | null>;
   renamePath: (folderPath: string, oldName: string, newName: string) => Promise<void>;
   format: () => void;
+  pathExists: (path: string) => Promise<boolean>;
 }
 
 const FileSystemContext = createContext<FileSystemContextType | undefined>(undefined);
@@ -60,7 +61,6 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     if (!fileSystem) return;
 
     const filePath = `${folderPath}/${file.name}`;
-    console.log(filePath)
     try {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer); // Convert ArrayBuffer to Buffer
@@ -457,9 +457,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           else resolve(files || []);
         });
       });
-      console.log(files)
       for (const file of files) {
-        console.log(file)
         const fullPath = `${path}${path === '/' ? '' : "/"}${file}`;
 
    
@@ -472,11 +470,9 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
         });
 
         if (stats.isDirectory()) {
-          console.log('deleting directory')
           await deleteRecursive(fullPath);
         // Skip default folders from deletion
         if (defaultFolders.includes(fullPath)) {
-          console.log('skipping')
             continue;
           }   
           await new Promise<void>((resolve, reject) => {
@@ -504,6 +500,14 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [fs, refreshFileList]);
 
+  const pathExists = useCallback((path: string): Promise<boolean> => {
+    return new Promise((resolve) => {
+      if (!fs) return resolve(false);
+      fs.exists(path, (exists) => {
+        resolve(exists);
+      });
+    });
+  }, [fs]);
 
   
   
@@ -521,6 +525,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
       deletePath, 
       createFolder, 
       listFiles, 
+      pathExists,
       renamePath,
       format
     }}>
