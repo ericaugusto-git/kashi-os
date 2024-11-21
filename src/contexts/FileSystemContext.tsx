@@ -25,6 +25,7 @@ interface FileSystemContextType {
   listFiles: (folderPath: string) => Promise<WindowType[] | null>;
   renamePath: (folderPath: string, oldName: string, newName: string) => Promise<void>;
   format: () => void;
+  deleteRecursive: (folderPath: string) => Promise<void>;
   pathExists: (path: string) => Promise<boolean>;
 }
 
@@ -447,58 +448,68 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     [createFile, refreshFileList]
   );
 
-  const format = useCallback(async () => {
-    if (!fs) return;
+  const deleteRecursive = useCallback(async (folderPath: string) => {
+    if(!fs) return;
+    const files = await new Promise<string[]>((resolve, reject) => {
+      fs.readdir(folderPath, (err, files) => {
+        if (err) reject(err);
+        else resolve(files || []);
+      });
+    });
+    for (const file of files) {
+      const fullPath = `${folderPath}${folderPath === '/' ? '' : "/"}${file}`;
 
-    const deleteRecursive = async (path: string) => {
-      const files = await new Promise<string[]>((resolve, reject) => {
-        fs.readdir(path, (err, files) => {
+ 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const stats: any = await new Promise((resolve, reject) => {
+        fs.stat(fullPath, (err, stats) => {
           if (err) reject(err);
-          else resolve(files || []);
+          else resolve(stats);
         });
       });
-      for (const file of files) {
-        const fullPath = `${path}${path === '/' ? '' : "/"}${file}`;
 
-   
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const stats: any = await new Promise((resolve, reject) => {
-          fs.stat(fullPath, (err, stats) => {
+      if (stats.isDirectory()) {
+        await deleteRecursive(fullPath);
+      // Skip default folders from deletion
+      if (defaultFolders.includes(fullPath)) {
+          continue;
+        }   
+        await new Promise<void>((resolve, reject) => {
+          fs.rmdir(fullPath, (err) => {
             if (err) reject(err);
-            else resolve(stats);
+            else resolve();
           });
         });
-
-        if (stats.isDirectory()) {
-          await deleteRecursive(fullPath);
-        // Skip default folders from deletion
-        if (defaultFolders.includes(fullPath)) {
-            continue;
-          }   
-          await new Promise<void>((resolve, reject) => {
-            fs.rmdir(fullPath, (err) => {
-              if (err) reject(err);
-              else resolve();
-            });
+      } else {
+        await new Promise<void>((resolve, reject) => {
+          fs.unlink(fullPath, (err) => {
+            if (err) reject(err);
+            else resolve();
           });
-        } else {
-          await new Promise<void>((resolve, reject) => {
-            fs.unlink(fullPath, (err) => {
-              if (err) reject(err);
-              else resolve();
-            });
-          });
-        }
+        });
       }
-    };
+    }
 
+    if (!defaultFolders.includes(folderPath)) {
+      await new Promise<void>((resolve, reject) => {
+        fs.rmdir(folderPath, (err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+    }
+  }, [fs]);
+
+
+  const format = useCallback(async () => {
+    if (!fs) return;
     try {
       await deleteRecursive('/');
       await refreshFileList();
     } catch (error) {
       console.error('Error formatting file system:', error);
     }
-  }, [fs, refreshFileList]);
+  }, [fs, deleteRecursive, refreshFileList]);
 
   const pathExists = useCallback((path: string): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -523,6 +534,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
       readFile, 
       updateFile, 
       deletePath, 
+      deleteRecursive,
       createFolder, 
       listFiles, 
       pathExists,

@@ -17,6 +17,7 @@ import { WallpaperProvider } from "./contexts/WallpaperContext.js";
 import { WeatherProvider } from "./contexts/WheaterContext";
 import { ContextMenuProvider } from "./contexts/ContextMenuContext.js";
 import { FileSystemProvider } from "./contexts/FileSystemContext.js";
+import WindowContextProvider from "./contexts/WindowContext.js";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 
@@ -41,7 +42,9 @@ function App() {
             <DesktopPositionContextProvider>
               <FileSystemProvider>
                 <ContextMenuProvider>
-                  <Desktop/>
+                  <WindowContextProvider>
+                    <Desktop/>
+                  </WindowContextProvider>
                 </ContextMenuProvider>
               </FileSystemProvider>
             </DesktopPositionContextProvider>

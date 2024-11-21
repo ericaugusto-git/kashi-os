@@ -43,6 +43,7 @@ export type WindowType = {
     props?: WindowProps;
     componentPath?: string,
     customClose?: boolean,
+    notUnique?: boolean,
     windowStyles?: CSSProperties,
     headerStyles?: CSSProperties,
     bodyStyles?: CSSProperties,

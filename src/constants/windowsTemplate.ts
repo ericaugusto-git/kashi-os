@@ -9,18 +9,22 @@ import { WindowType } from "./window";
 import emulatorJs from '/EmulatorJS.png';
 import fav from '/favicon.ico';
 import jdm from '@/assets/desktop/jdm.png';
+
+export const cmdWindow: WindowType = {
+    app: "command_line",
+    notUnique: true,
+    componentPath: "@/StartMenu/components/Cmd/Cmd",
+    appType: 'os',
+    icon: cmd,
+    windowStyles: { backgroundColor: 'rgb(0 0 0 / 80%)'},
+    bodyStyles: { padding: 0 },
+}
+
 export const windowsTemplates: WindowType[] = [
     {app: 'file_explorer', appType: 'os', icon: 'folder.svg', headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},  componentPath: "@/Folder/Folder"},
-    {
-        app: "command_line",
-        componentPath: "@/StartMenu/components/Cmd/Cmd",
-        appType: 'os',
-        icon: cmd,
-        windowStyles: { backgroundColor: 'rgb(0 0 0 / 80%)'},
-        bodyStyles: { padding: 0 },
-    },
     {app: "about_me",appType: 'os', hideInStartMenu: true,      link: 'https://ericaugusto.pages.dev',
         desktop: true, icon: avatar,  desktopStyles: {img: {backgroundSize: '100%'}}},
+    cmdWindow,
     {
         app: "playlist",
         icon: playlistIcon,

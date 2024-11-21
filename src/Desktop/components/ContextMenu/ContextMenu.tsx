@@ -1,28 +1,31 @@
+import desktop_off from '@/assets/contextMenu/desktop_off.svg';
+import desktop_on from '@/assets/contextMenu/desktop_on.svg';
+import lofi from '@/assets/contextMenu/lofi.svg';
+import maximize from '@/assets/contextMenu/maximize.svg';
+import minimmize from '@/assets/contextMenu/minimize.svg';
+import new_file from '@/assets/contextMenu/new_file.svg';
+import phone from '@/assets/contextMenu/phone.svg';
+import reset from '@/assets/contextMenu/reset.svg';
+import powerOff from "@/assets/startMenu/power_off.svg";
+import sleep from "@/assets/startMenu/sleep.svg";
+import mail from '@/assets/taskbar/contact/mail.svg';
+import cmd from '@/assets/startMenu/cmd2.png';
+import taskbar_switcher from '@/assets/taskbar/taskbar_switcher.svg';
+import theme_change from '@/assets/taskbar/theme_change.svg';
+import wallpaper_change from '@/assets/taskbar/wallpaper_change.svg';
+import { ContextMenuProps, useContextMenu } from "@/contexts/ContextMenuContext";
+import { useDesktopPositionHandler } from "@/contexts/DesktopPositonContext";
+import { useFileSystem } from "@/contexts/FileSystemContext";
+import { usePcStatus } from "@/contexts/PcStatusContext";
+import { useWindowContext } from "@/contexts/WindowContext";
+import useOpenWindow from "@/hooks/useOpenWindow";
+import { generateLayouts } from "@/utils/utils";
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { FullScreenHandle } from "react-full-screen";
 import { Layouts } from "react-grid-layout";
 import { useTranslation } from "react-i18next";
-import desktop_off from '../../../assets/contextMenu/desktop_off.svg';
-import desktop_on from '../../../assets/contextMenu/desktop_on.svg';
-import lofi from '../../../assets/contextMenu/lofi.svg';
-import maximize from '../../../assets/contextMenu/maximize.svg';
-import minimmize from '../../../assets/contextMenu/minimize.svg';
-import new_file from '../../../assets/contextMenu/new_file.svg';
-import phone from '../../../assets/contextMenu/phone.svg';
-import reset from '../../../assets/contextMenu/reset.svg';
-import powerOff from "../../../assets/startMenu/power_off.svg";
-import sleep from "../../../assets/startMenu/sleep.svg";
-import mail from '../../../assets/taskbar/contact/mail.svg';
-import taskbar_switcher from '../../../assets/taskbar/taskbar_switcher.svg';
-import theme_change from '../../../assets/taskbar/theme_change.svg';
-import wallpaper_change from '../../../assets/taskbar/wallpaper_change.svg';
-import { ContextMenuProps, useContextMenu } from "../../../contexts/ContextMenuContext";
-import { useDesktopPositionHandler } from "../../../contexts/DesktopPositonContext";
-import { usePcStatus } from "../../../contexts/PcStatusContext";
-import { useWindowContext } from "../../../contexts/WindowContext";
-import { generateLayouts } from "../../../utils/utils";
 import styles from './ContextMenu.module.scss';
-import { useFileSystem } from "@/contexts/FileSystemContext";
+import { cmdWindow } from '@/constants/windowsTemplate';
 
 type MenuProps = {    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean>>, 
   setThemeSwitcherOpen: Dispatch<SetStateAction<boolean>>,
@@ -176,6 +179,11 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
   const handleFileInput = () => {
     fileInputRef.current?.click();
   };
+  const openWindow = useOpenWindow();
+  const handleOpenCmd = () => {
+    console.log('folderPath', folderPath);
+    openWindow({...cmdWindow, props: {folderPath}})
+  }
 
   return <>        
 
@@ -186,6 +194,10 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
       <li onClick={handleFileInput}>
         <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${new_file}")`}}></div>
           {t('new_file')}
+      </li>
+      <li onClick={handleOpenCmd}>
+        <img src={cmd} className={styles.icon}></img>
+          {t('open_cmd')}
       </li>
      {source == 'desktop' &&  
      <>

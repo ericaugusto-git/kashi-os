@@ -19,7 +19,6 @@ import { useDesktopPosition } from "../contexts/DesktopPositonContext";
 import { usePcStatus } from "../contexts/PcStatusContext";
 import { Themes, useTheme } from "../contexts/ThemeContext";
 import { useWallpaper } from "../contexts/WallpaperContext";
-import WindowContextProvider from "../contexts/WindowContext";
 import useComponentVisible from "../hooks/useComponentVisible";
 import { generateLayouts, getWppIndex } from "../utils/utils";
 import styles from "./Desktop.module.scss";
@@ -172,7 +171,6 @@ function Desktop() {
 
         {/* wrapper for the actual high elements of the desktop, Windows array, Taskbar, Desktopicons */}
         <div style={{ display: pcStatus === "sleeping" || pcStatus == "lofi" ? "none" : "" }}>
-          <WindowContextProvider>
             <div ref={searchRef}><Search searchVisible={searchVisible} setSearchVisible={setSearchVisible} /></div>
             <div ref={pcStatusMenuRef}><PcStatusMenu pcStatusMenuOpen={pcStatusMenuOpen} setPcStatusMenuOpen={setPcStatusMenuOpen} /></div>
             {/* Array of windows */}
@@ -190,7 +188,6 @@ function Desktop() {
               {/* <Taskbar /> */}
               <TaskbarHypr setPcStatusMenuOpen={setPcStatusMenuOpen} pcStatusButtonRef={pcStatusButtonRef} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}  setThemeSwitcherOpen={setThemeSwitcherOpen} wallpaperButtonRef={wallpaperButtonRef} themeButtonRef={themeButtonRef}/>
             </StartSetterContext.Provider>
-          </WindowContextProvider>
         </div>
         {pcStatus === "sleeping" && <Lockscreen />}
         {pcStatus === 'lofi' && <div ><Lofi screenHandle={screenHandle}/></div>}

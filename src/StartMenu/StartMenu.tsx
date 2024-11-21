@@ -48,9 +48,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
 
       if ((isMac && event.metaKey && event.key === 'k') || (!isMac && event.ctrlKey && event.key === 'k')) {
         event.preventDefault();
-        setSearchVisible((prev) => !prev);
-        // Your logic for Ctrl/Cmd + K goes here
-        
+        setSearchVisible((prev) => !prev);        
       }
     };
 
@@ -88,6 +86,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
     //   ...app,
     //   ...windowsTemplates[app.app as keyof WindowsTemplatesType],
     // };
+    console.log('open app', app);
     openWindow(app);
     setStartMenuOpen(false);
   };
