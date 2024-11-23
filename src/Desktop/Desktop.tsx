@@ -25,6 +25,7 @@ import styles from "./Desktop.module.scss";
 import ContextMenu from "./components/ContextMenu/ContextMenu";
 import Lockscreen from "./components/Lockscreen/Lockscreen";
 import Lofi from "./components/Lofi/Lofi";
+import GameOver from "@/GameOver/GameOver";
 
 
 function Desktop() {
@@ -191,6 +192,7 @@ function Desktop() {
         </div>
         {pcStatus === "sleeping" && <Lockscreen />}
         {pcStatus === 'lofi' && <div ><Lofi screenHandle={screenHandle}/></div>}
+        {pcStatus === 'game_over' && <GameOver />}
       </div>
     </FullScreen>
   );

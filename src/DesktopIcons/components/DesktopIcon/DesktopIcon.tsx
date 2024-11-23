@@ -68,7 +68,9 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
             }
             if (editableRef.current && app.folderPath) {
                 if(newValue){
-                        renamePath(app.folderPath, app.app, newValue!).then(() => {
+                    const oldPath = `${app.folderPath}${app.folderPath === '/' ? '' : "/"}${app.app}`;
+                    const newPath = `${app.folderPath}${app.folderPath === '/' ? '' : "/"}${newValue}`;
+                        renamePath(oldPath, newPath).then(() => {
                             // update the layout so the desktop item keeps its position
                             if(app.folderPath == '/home/desktop' && setLayouts){
                                 setLayouts((prev) => {

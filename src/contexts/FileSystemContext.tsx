@@ -23,7 +23,7 @@ interface FileSystemContextType {
   deletePath: (folderPath: string, fileName: string) => Promise<void>;
   createFolder: (folderPath: string, folderName: string) => Promise<void>;
   listFiles: (folderPath: string) => Promise<WindowType[] | null>;
-  renamePath: (folderPath: string, oldName: string, newName: string) => Promise<void>;
+  renamePath: (oldPath: string, newPath: string) => Promise<void>;
   format: () => void;
   deleteRecursive: (folderPath: string) => Promise<void>;
   pathExists: (path: string) => Promise<boolean>;
@@ -111,7 +111,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     return new Promise((resolve, reject) => {
       if (!fs) return reject("File system not initialized");
       const fullPath = `${folderPath}/${name}`;
-
+      console.log("deleting: ", fullPath);
       // First check if it's a directory or file
       fs.stat(fullPath, (err, stats) => {
         if (err) {
@@ -327,18 +327,16 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
 
 
 
-  const renamePath = useCallback(async (folderPath: string = '/', oldName: string, newName: string): Promise<void> => {
+  const renamePath = useCallback(async (oldPath: string, newPath: string): Promise<void> => {
     if (!fs) return;
     await new Promise<void>((resolve, reject) => {
-      fs.exists(`${folderPath}${folderPath === '/' ? '' : "/"}${newName}`, (exists) => {
+      fs.exists(newPath, (exists) => {
         if (exists) {
           reject(new Error('A file or folder with this name already exists'));
         }
         resolve();
       });
     });
-    const oldPath = `${folderPath}${folderPath === '/' ? '' : "/"}${oldName}`;
-    const newPath = `${folderPath}${folderPath === '/' ? '' : "/"}${newName}`;
     if(oldPath === newPath) {
       console.warn("Rename path is equal to original.")
       return
@@ -490,7 +488,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
       }
     }
 
-    if (!defaultFolders.includes(folderPath)) {
+    if (!defaultFolders.includes(folderPath) && folderPath !== '/') {
       await new Promise<void>((resolve, reject) => {
         fs.rmdir(folderPath, (err) => {
           if (err) reject(err);
