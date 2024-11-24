@@ -17,7 +17,7 @@ const GameOver = () => {
         <button onClick={() => setPcStatus("on")}>{t("try_again")}</button>
       </div>
       <div className="game-over-footer">
-        <p>{t("uptime")} {uptimeStr}</p>
+        <p>{t("uptime_game")} {uptimeStr}</p>
       </div>
     </div>
   );
