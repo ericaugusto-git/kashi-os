@@ -21,7 +21,7 @@ export const cmdWindow: WindowType = {
 }
 
 export const windowsTemplates: WindowType[] = [
-    {app: 'file_explorer', appType: 'os', icon: 'folder.svg', headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},  componentPath: "@/Folder/Folder"},
+    {app: 'file_explorer', appType: 'os', hideInStartMenu: true, icon: 'folder.svg', headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},  componentPath: "@/Folder/Folder"},
     {app: 'computer', appType: 'os', desktop: true, uniqueName: 'file_explorer', uniqueIcon: 'folder.svg', icon: 'computer.svg', headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},  componentPath: "@/Folder/Folder"},
     {app: "about_me",appType: 'os', hideInStartMenu: true,      link: 'https://ericaugusto.pages.dev',
         desktop: true, icon: avatar,  desktopStyles: {img: {backgroundSize: '100%'}}},
