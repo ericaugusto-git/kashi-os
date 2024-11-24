@@ -11,7 +11,7 @@ type PcStatusContextProviderProps = {
 
   function PcStatusContextProvider({children}: PcStatusContextProviderProps){
 
-    const [pcStatus, setPcStatus] = useState<PcStatus>("game_over");
+    const [pcStatus, setPcStatus] = useState<PcStatus>("on");
     return <PcStatusContext.Provider value={[pcStatus, setPcStatus ]}>
         {children}
     </PcStatusContext.Provider>

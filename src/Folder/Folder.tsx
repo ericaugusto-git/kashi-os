@@ -18,6 +18,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
   const { handleDrop } = useFileSystem();
   const openWindow = useOpenWindow();
   const handleCustomMenuEvent = (event: string) => {
+    console.log("event: ", event);
   }
   const handleContextMenu = useContextMenuHandler('folder', handleCustomMenuEvent, currentPath);
 

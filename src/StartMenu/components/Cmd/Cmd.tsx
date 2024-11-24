@@ -306,7 +306,7 @@ function Cmd({folderPath}: FileProps) {
                   await fileSystem.deleteRecursive(absolutePath);
                   fileSystem.refreshFileList(folderPath);
                 }else{
-                  const result = await fileSystem.deletePath(folderPath, fileName);
+                  await fileSystem.deletePath(folderPath, fileName);
                   localEcho.println(`Removed ${fileName}`);
                 }
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
