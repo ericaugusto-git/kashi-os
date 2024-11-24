@@ -124,7 +124,6 @@ function Cmd({folderPath}: FileProps) {
           
           const [command, ...args] = parsedArgs;
           const newPath = command === 'rm' && args.find(arg => arg?.startsWith('-')) ? args[1] : args[0];
-          console.log("newPath: ", newPath);
           // If paths starts with /, it's an absolute path
           let absolutePath = newPath?.startsWith("/") 
           ? newPath 
@@ -134,9 +133,9 @@ function Cmd({folderPath}: FileProps) {
           const levels = newPath.split("..").length - 1;
           absolutePath = currentDirectory.split("/").slice(0, -levels).join("/") || "/";
           absolutePath += '/' + (newPath?.split('/').pop() || '');
-          absolutePath = absolutePath.replaceAll('//', '/');
         } 
-
+        absolutePath = absolutePath.replaceAll('//', '/');
+        console.log("absolutePath: ", absolutePath);
         const pathSplit = absolutePath.split('/');
         const fileName = pathSplit.pop() || '';
         const folderPath = pathSplit.join('/');
@@ -152,6 +151,7 @@ function Cmd({folderPath}: FileProps) {
                 "  clear    - Clear the terminal",
                 "  exit     - Exit the terminal",
                 "  weather  - Show weather information",
+                "  df       - Display disk space usage",
                 "",
                 "File Operations:",
                 "  ls       - List directory contents",
@@ -161,6 +161,7 @@ function Cmd({folderPath}: FileProps) {
                 "  cat      - View file contents",
                 "  rm       - Remove files and folders [-rf -r]",
                 "  mv       - Move/rename files",
+                "  stat     - Show file information",
                 ""
               ];
               
@@ -192,11 +193,42 @@ function Cmd({folderPath}: FileProps) {
                 localEcho.println("ls: too many arguments");
                 break;
               }
-              console.log("listing files: ", currentDirectory);
               const files = await fileSystem.listFiles(currentDirectory) || [];
               if (files) {
                 localEcho.println(files.map(f => f.app).join("  "));
               }
+              break;
+            }
+            case "whoami": {
+              localEcho.println("guest");
+              break;
+            }
+            case "stat": {
+              const path = args[0] ? absolutePath : currentDirectory;  
+              const stats = await fileSystem.getStats(path);
+              const size = stats?.isDirectory() ? await fileSystem.getTotalSize(path) : stats?.size;
+              if (!stats) {
+                localEcho.println(`stat: cannot stat '${path}': No such file or directory`);
+                break;
+              }
+              
+              const formatDate = (date: Date) => {
+                return date.toLocaleString(i18n.resolvedLanguage, {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit'
+                });
+              };
+
+              localEcho.println(`Path: ${path}`);
+              localEcho.println(`Size: ${size} bytes`);
+              localEcho.println(`Type: ${stats.isDirectory() ? 'directory' : 'file'}`);
+              localEcho.println(`Access: ${formatDate(stats.atime)}`);
+              localEcho.println(`Modify: ${formatDate(stats.mtime)}`);
+              localEcho.println(`Create: ${formatDate(stats.ctime)}`);
               break;
             }
             case "pwd": {
@@ -253,7 +285,6 @@ function Cmd({folderPath}: FileProps) {
               break;
             }
             case "rm": {
-              console.log(args);
               const option = args.find(arg => arg.startsWith('-'));
 
               if(args.length > 1 && !option){
@@ -272,17 +303,14 @@ function Cmd({folderPath}: FileProps) {
               }
               try {
                 if(option){
-                  console.log("deleting recursively: ", absolutePath);
                   await fileSystem.deleteRecursive(absolutePath);
                   fileSystem.refreshFileList(folderPath);
                 }else{
                   const result = await fileSystem.deletePath(folderPath, fileName);
-                  console.log(result);
                   localEcho.println(`Removed ${fileName}`);
                 }
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               } catch (error: any) {
-                console.log("error: ", error);
                 if(error?.code == "ENOTEMPTY"){
                   localEcho.println(`rm: cannot remove '${absolutePath}': Directory not empty`);
                   localEcho.println(`Tip: use -r or -rf to remove directories that are not empty`);
@@ -303,9 +331,24 @@ function Cmd({folderPath}: FileProps) {
                 localEcho.println(`Renamed ${fileName} to ${args[1]}`);
                 fileSystem.refreshFileList(folderPath);
               } catch (error) {
-                console.log("error: ", error);
                 localEcho.println(`mv: cannot move '${args[0]}': No such file`);
               }
+              break;
+            }
+            case "df": {
+              if (args[0]) {
+                localEcho.println("df: too many arguments");
+                break;
+              }
+              
+              const totalSize = await fileSystem.getTotalSize("/");
+              const totalSpace = 1024 * 1024 * 1024; // 1GB in bytes
+              const usedSpace = totalSize || 0;
+              const freeSpace = totalSpace - usedSpace;
+              const usePercentage = Math.round((usedSpace / totalSpace) * 100);
+
+              localEcho.println("Filesystem      Size  Used  Avail Use% Mounted on");
+              localEcho.println(`kashi-os        1.0G  ${(usedSpace / (1024 * 1024)).toFixed(1)}M  ${(freeSpace / (1024 * 1024)).toFixed(1)}M   ${usePercentage}% /`);
               break;
             }
             default: {

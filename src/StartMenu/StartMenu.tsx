@@ -86,7 +86,6 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
     //   ...app,
     //   ...windowsTemplates[app.app as keyof WindowsTemplatesType],
     // };
-    console.log('open app', app);
     openWindow(app);
     setStartMenuOpen(false);
   };

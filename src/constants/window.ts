@@ -44,6 +44,7 @@ export type WindowType = {
     componentPath?: string,
     customClose?: boolean,
     notUnique?: boolean,
+    uniqueIcon?: string,
     windowStyles?: CSSProperties,
     headerStyles?: CSSProperties,
     bodyStyles?: CSSProperties,

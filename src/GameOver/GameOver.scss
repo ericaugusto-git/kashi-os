@@ -6,7 +6,6 @@
   font-family: "Pixelify Sans", sans-serif;
   position: fixed;
   background-color: rgb(7, 7, 7);
-  padding-top: 15rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +15,15 @@
     margin: 0;
   }	
   .game-over-body {
+    margin-top: 15rem;
     text-align: left;
+  }
+  .game-over-footer {
+    display: flex;
+    height: 100%;
+    justify-content: end;
+    align-items: end;
+    font-size: 0.8rem;
   }
 
   button {

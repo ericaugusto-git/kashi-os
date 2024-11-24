@@ -7,6 +7,7 @@ import { fetchReadme } from '@/utils/utils';
 import * as BrowserFS from 'browserfs';
 import { FSModule } from 'browserfs/dist/node/core/FS';
 import { Buffer } from 'buffer';
+import { Stats } from 'fs';
 import * as musicMetadata from 'music-metadata-browser';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
@@ -27,6 +28,8 @@ interface FileSystemContextType {
   format: () => void;
   deleteRecursive: (folderPath: string) => Promise<void>;
   pathExists: (path: string) => Promise<boolean>;
+  getStats: (path: string) => Promise<Stats | null>;
+  getTotalSize: (path: string) => Promise<number>;
 }
 
 const FileSystemContext = createContext<FileSystemContextType | undefined>(undefined);
@@ -111,7 +114,6 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     return new Promise((resolve, reject) => {
       if (!fs) return reject("File system not initialized");
       const fullPath = `${folderPath}/${name}`;
-      console.log("deleting: ", fullPath);
       // First check if it's a directory or file
       fs.stat(fullPath, (err, stats) => {
         if (err) {
@@ -315,6 +317,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
               icon: 'audio_icon.svg'
             };
           }
+          
 
           // Default for unsupported types
           return baseFile;
@@ -518,6 +521,38 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     });
   }, [fs]);
 
+  const getStats = useCallback((path: string): Promise<Stats | null> => {
+    return new Promise((resolve) => {
+      if (!fs) return resolve(null);
+      fs.stat(path, (err, stats) => {
+        if (err) return resolve(null);
+        // Double type assertion to safely convert between incompatible Stats types
+        resolve(stats as unknown as Stats);
+      });
+    });
+  }, [fs]);
+  
+  const getTotalSize = useCallback(async (path: string): Promise<number> => {
+    const files = await listFiles(path);
+    console.log("files: ", files);
+    if (!files) return 0;
+
+    let totalSize = 0;
+    for (const file of files) {
+      const filePath = `${path}/${file.app}`.replace(/\/\//g, '/');
+      console.log("filePath: ", filePath);
+      const stats = await getStats(filePath);
+      console.log("stats: ", stats);
+      if (!stats) continue;
+      
+      if (stats.isDirectory()) {
+        totalSize += await getTotalSize(filePath);
+      }
+      totalSize += stats.size;
+    }
+    return totalSize;
+  }, [listFiles, getStats]);
+
   
   
 
@@ -537,7 +572,9 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
       listFiles, 
       pathExists,
       renamePath,
-      format
+      format,
+      getStats,
+      getTotalSize
     }}>
       {children}
     </FileSystemContext.Provider>

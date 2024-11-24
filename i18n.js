@@ -82,7 +82,10 @@ i18n
           videos: "Videos",
           pictures: "Pictures",
           documents: "Documents",
-          folder_empty: "This folder is empty"
+          computer: "Computer",
+          open_cmd: "Open CMD Here",
+          folder_empty: "This folder is empty",
+          uptime: "It took you this much time to fuck it up: "
         }
     },
     ["pt-BR"]: {
@@ -101,7 +104,7 @@ i18n
             shut: 'desligar',
             game_over: "Olha o que você fez, quebrou o treco.",
             hope: "Mas quer saber, nunca é tarde para tentar outra vez.",
-            try_again: "Tente outravez",
+            try_again: "Tentar outra vez",
             os: 's.o apps',
             os1: 'SO',
             timezone: 'Fuso horário',
@@ -147,7 +150,10 @@ i18n
             videos: "Videos",
             pictures: "Fotos",
             documents: "Documentos",
-            folder_empty: "Esta pasta está vazia"
+            computer: "Computador",
+            open_cmd: "Abrir Prompt aqui",
+            folder_empty: "Esta pasta está vazia",
+            uptime: "Voce demorou esse tanto de tempo para achar isso: "
         }
       }
     }

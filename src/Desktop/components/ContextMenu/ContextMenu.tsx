@@ -181,7 +181,6 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
   };
   const openWindow = useOpenWindow();
   const handleOpenCmd = () => {
-    console.log('folderPath', folderPath);
     openWindow({...cmdWindow, props: {folderPath}})
   }
 
