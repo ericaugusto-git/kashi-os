@@ -50,7 +50,7 @@ function Desktop() {
   const  [wallpaperSwitcherRef, wallpaperSwitcherOpen, setwWallpaperSwitcherOpen ] = useComponentVisible(false,wallpaperButtonRef);
 
   function handleCustomMenuEvent(event: string){
-    console.log("event: ", event);
+    
   }
   const handleContextMenu = useContextMenuHandler("desktop", handleCustomMenuEvent, '/home/desktop');
   const [isDesktopHidden, setDesktopHidden] = useState(localStorage.getItem("desktop_icon_visibility") === "true");

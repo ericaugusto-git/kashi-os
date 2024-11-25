@@ -99,10 +99,13 @@ function Cmd({folderPath}: FileProps) {
       localEcho
         .read(`${currentDirectory}$ `)
         .then(async (input: string) => {
-        if(input == "rm -rf ./"){
+        if(input == "rm -rf ./" || input == "rm -rf /" || input == "rm -r ./" || input == "rm -r /"){
           fileSystem.format();
           localEcho.println("Deleting everything...");
           setWindows([]);
+          localStorage.removeItem("hasInitializedFileSystemFirstTime");
+          localStorage.removeItem("theme")
+          localStorage.removeItem("app-layouts")
           setPcStatus("game_over");
           return;
         }
@@ -135,7 +138,6 @@ function Cmd({folderPath}: FileProps) {
           absolutePath += '/' + (newPath?.split('/').pop() || '');
         } 
         absolutePath = absolutePath.replaceAll('//', '/');
-        console.log("absolutePath: ", absolutePath);
         const pathSplit = absolutePath.split('/');
         const fileName = pathSplit.pop() || '';
         const folderPath = pathSplit.join('/');
@@ -303,12 +305,12 @@ function Cmd({folderPath}: FileProps) {
               }
               try {
                 if(option){
-                  await fileSystem.deleteRecursive(absolutePath);
+                  await fileSystem.deletePath(folderPath, fileName);
                   fileSystem.refreshFileList(folderPath);
                 }else{
                   await fileSystem.deletePath(folderPath, fileName);
-                  localEcho.println(`Removed ${fileName}`);
                 }
+                localEcho.println(`Removed ${absolutePath}`);
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               } catch (error: any) {
                 if(error?.code == "ENOTEMPTY"){

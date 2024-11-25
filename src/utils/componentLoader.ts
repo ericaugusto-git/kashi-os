@@ -2,6 +2,7 @@
 import { lazy } from 'react';
 
 // Gotta do static imports because of https://stackoverflow.com/questions/72376333/failed-to-fetch-dynamically-imported-module
+// Also this map exists because I set the path of the components both on FileSystemContext and in windowsTemplate so it's easier to manage this way
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const componentMap: Record<string, () => Promise<any>> = {
   "@/StartMenu/components/Playlist/Playlist": () => import("../StartMenu/components/Playlist/Playlist"),

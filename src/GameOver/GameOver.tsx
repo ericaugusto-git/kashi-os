@@ -9,12 +9,18 @@ const GameOver = () => {
   const { t } = useTranslation();
   const uptime = Math.floor((Date.now() - performance.timing.navigationStart) / 1000);
   const uptimeStr = `${Math.floor(uptime/3600)}h ${Math.floor((uptime%3600)/60)}m ${uptime%60}s`;
+  const tryAgain = () => {
+    localStorage.removeItem("hasInitializedFileSystemFirstTime");
+    localStorage.removeItem("theme")
+    localStorage.removeItem("app-layouts")
+    location.reload();
+  }
   return (
     <div className="game-over" onClick={e => e.stopPropagation()}>
       <div className="game-over-body">
         <h1>{t("game_over")}</h1>
         <p>{t("hope")}</p>
-        <button onClick={() => setPcStatus("on")}>{t("try_again")}</button>
+        <button onClick={() => tryAgain()}>{t("try_again")}</button>
       </div>
       <div className="game-over-footer">
         <p>{t("uptime_game")} {uptimeStr}</p>

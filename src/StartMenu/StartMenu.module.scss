@@ -130,7 +130,6 @@ $col2IconSize: 21px;
             // rgb(225 225 225 / 54%)
             font-size: 12px;
             align-items: center;
-            cursor: url("/pointer.svg") 6 0, pointer;
             height: 28.3px;
         } 
         button:hover{
@@ -144,13 +143,15 @@ $col2IconSize: 21px;
         width: 100%;
         border-radius: $borderRadius;
         overflow: hidden;
+        z-index: 2;
+        cursor: pointer;
         background-size: auto 100%; /* Preserve aspect ratio by setting height to 100% */
         background-position: center; /* Center the image */
         background-repeat: no-repeat;
-        img{
-            height: 100%;
-            width: 100%;
-        }
+        // img{
+        //     height: 100%;
+        //     width: 100%;
+        // }
     }
 }
 

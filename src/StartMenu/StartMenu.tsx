@@ -48,6 +48,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
 
       if ((isMac && event.metaKey && event.key === 'k') || (!isMac && event.ctrlKey && event.key === 'k')) {
         event.preventDefault();
+        event.stopPropagation();
         setSearchVisible((prev) => !prev);        
       }
     };
@@ -151,12 +152,13 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
         >
           <div className={styles.start_menu + " " + styles[theme]}>
             <div className={styles.col_1}>
-              <div
+              <a
               onClick={() => {window.open(gifUrl, "_blank")}}
                 className={styles.cute_gif}
                 style={{ backgroundImage: `url("${gifUrl}")` }}
               >
-              </div>
+                <img src="Poweredby_100px-Black_VertLogo.png"></img>
+              </a>
               <menu>
                 <ul>
                   <li>

@@ -278,3 +278,17 @@ button.taskbar_icon {
 .custom_scrollbar::-webkit-scrollbar-thumb:active {
   background-color: rgb(var(--accent-color));
 }
+
+.react-calendar{
+  min-height: 320px;
+}
+.react-calendar__tile, .react-calendar, .react-calendar__navigation button{
+  color: white;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.react-calendar__viewContainer{
+  pointer-events: none !important;
+}
+

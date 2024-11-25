@@ -1,4 +1,4 @@
-import { defaultFolders } from '@/constants/defaultFolders';
+import { defaultFolders, deletableDefaultFolders } from '@/constants/defaultFolders';
 import { fileIcons, folderIcons } from '@/constants/fileIcons';
 import { audioMimeTypes, imageMimeTypes, videoMimeTypes } from '@/constants/mimeTypes';
 import { WindowType } from '@/constants/window';
@@ -8,6 +8,7 @@ import * as BrowserFS from 'browserfs';
 import { FSModule } from 'browserfs/dist/node/core/FS';
 import { Buffer } from 'buffer';
 import { Stats } from 'fs';
+import { reject } from 'lodash';
 import * as musicMetadata from 'music-metadata-browser';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
@@ -66,16 +67,21 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
 
     const filePath = `${folderPath}/${file.name}`;
     try {
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer); // Convert ArrayBuffer to Buffer
+      // file.arrayBuffer broke the dataTransfer.items, making upload of subsequent items not possible so now I'm using file reader
+        // const arrayBuffer = await file.arrayBuffer();
 
-        fileSystem.writeFile(filePath, buffer, (err) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          console.log(reader.result);
+          fileSystem.writeFile(filePath, Buffer.from(reader.result as ArrayBuffer), (err) => {
             if (err) {
                 console.error('Error creating file:', err);
             } else {
                 refreshFileList(folderPath)
             }
-        });
+          })
+        }
+        reader.readAsArrayBuffer(file);
     } catch (error) {
         console.error('Error processing file:', error);
     }
@@ -115,13 +121,14 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
       if (!fs) return reject("File system not initialized");
       const fullPath = `${folderPath}/${name}`;
       // First check if it's a directory or file
-      fs.stat(fullPath, (err, stats) => {
+      fs.stat(fullPath, async (err, stats) => {
         if (err) {
           console.error("Error checking path:", err);
           return reject(err);
         }
 
         if (stats?.isDirectory()) {
+          await deleteRecursive(fullPath);
           // If it's a directory, use rmdir
           fs.rmdir(fullPath, (err) => {
             if (err) {
@@ -158,12 +165,12 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
   
 
   const listFiles = useCallback((folderPath: string = '/'): Promise<WindowType[] | null> => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       if (!fs) return resolve(null);
       fs.readdir(folderPath, (err, files) => {
         if (err) {
           console.error("Error listing files:", err);
-          return resolve([]);
+          return reject(err)
         }
 
         // Use the ref to get the latest fileList
@@ -433,11 +440,14 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
   const handleDrop = useCallback(
     async (folderPath: string, event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
+      console.log(event.dataTransfer.items.length)
       if (event.dataTransfer.items) {
-        for (let i = 0; i < event.dataTransfer.items.length; i++) {
-          const item = event.dataTransfer.items[i];
+        console.log(JSON.parse(JSON.stringify(event.dataTransfer.items)))
+        for await (const item of event.dataTransfer.items) {
+          console.log(item)
           if (item.kind === 'file') {
             const file = item.getAsFile();
+            console.log(file)
             if (file) {
               await createFile(folderPath, file);
             }
@@ -457,9 +467,8 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
         else resolve(files || []);
       });
     });
-    for (const file of files) {
+    for await (const file of files) {
       const fullPath = `${folderPath}${folderPath === '/' ? '' : "/"}${file}`;
-
  
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const stats: any = await new Promise((resolve, reject) => {
@@ -472,32 +481,24 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
       if (stats.isDirectory()) {
         await deleteRecursive(fullPath);
       // Skip default folders from deletion
-      if (defaultFolders.includes(fullPath)) {
+      if (defaultFolders.includes(fullPath) && !deletableDefaultFolders.includes(fullPath)) {
           continue;
         }   
         await new Promise<void>((resolve, reject) => {
           fs.rmdir(fullPath, (err) => {
-            if (err) reject(err);
+            if (err)  reject(err);
             else resolve();
           });
         });
       } else {
         await new Promise<void>((resolve, reject) => {
           fs.unlink(fullPath, (err) => {
+            
             if (err) reject(err);
             else resolve();
           });
         });
       }
-    }
-
-    if (!defaultFolders.includes(folderPath) && folderPath !== '/') {
-      await new Promise<void>((resolve, reject) => {
-        fs.rmdir(folderPath, (err) => {
-          if (err) reject(err);
-          else resolve();
-        });
-      });
     }
   }, [fs]);
 
@@ -534,15 +535,12 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
   
   const getTotalSize = useCallback(async (path: string): Promise<number> => {
     const files = await listFiles(path);
-    console.log("files: ", files);
     if (!files) return 0;
 
     let totalSize = 0;
     for (const file of files) {
       const filePath = `${path}/${file.app}`.replace(/\/\//g, '/');
-      console.log("filePath: ", filePath);
       const stats = await getStats(filePath);
-      console.log("stats: ", stats);
       if (!stats) continue;
       
       if (stats.isDirectory()) {

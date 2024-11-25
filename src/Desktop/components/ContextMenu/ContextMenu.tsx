@@ -235,7 +235,7 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
         </li>
         <li onClick={() => handleContact('tel:+55 (71) 98188-6126')}>
           <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${phone}")`}}></div>
-          (71) 98188-6126
+          +55 (71) 98188-6126
         </li>
         <div className={styles.separator}></div>
         <li onClick={() => setPcStatus('lofi')}>

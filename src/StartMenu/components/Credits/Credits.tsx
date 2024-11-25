@@ -19,14 +19,9 @@ const Credits = () => {
         { name: "local-echo", version: "github:wavesoft/local-echo", url: "https://github.com/wavesoft/local-echo" },
         { name: "wttr", version: "", url: "https://github.com/chubin/wttr.in" },
         { name: "prop-types", version: "^15.8.1", url: "https://github.com/facebook/prop-types" },
-        { name: "dayjs", version: "^1.11.10", url: "https://day.js.org/" },
         { name: "moment", version: "^2.30.1", url: "https://momentjs.com/" },
         { name: "react-device-detect", version: "^2.2.3", url: "https://github.com/duskload/react-device-detect" },
         { name: "react-color", version: "^2.19.3", url: "https://casesandberg.github.io/react-color/" },
-        { name: "@emotion/react", version: "^11.11.4", url: "https://emotion.sh/docs/introduction" },
-        { name: "@emotion/styled", version: "^11.11.5", url: "https://emotion.sh/docs/styled" },
-        { name: "@mui/material", version: "^5.15.15", url: "https://mui.com/" },
-        { name: "@mui/x-date-pickers", version: "^7.1.1", url: "https://mui.com/x/react-date-pickers/getting-started/" },
       ];
       const art = [ 
         {name: "Flying Studio Ghibli GIF By Luigi Salas - GIPHY API", url: "https://giphy.com/gifs/pixel-art-arial-cardinal-bird-N5B19awm2YvwMwf8JE"},

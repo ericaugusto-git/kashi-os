@@ -18,23 +18,32 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
   const { handleDrop } = useFileSystem();
   const openWindow = useOpenWindow();
   const handleCustomMenuEvent = (event: string) => {
-    console.log("event: ", event);
+    
   }
   const handleContextMenu = useContextMenuHandler('folder', handleCustomMenuEvent, currentPath);
 
   useEffect(() => {
     const loadFiles = async () => {
       if(listFiles){
-        let filesList = await listFiles(currentPath) || [];
-        if(currentPath === '/home/desktop/projects_default_folder'){
-          const projects = windowsTemplates.filter(window => window.appType === 'project');
-          filesList = [...filesList, ...projects];
+        try{
+          let filesList = await listFiles(currentPath) || []
+          
+          if(currentPath === '/home/desktop/projects_default_folder'){
+            const projects = windowsTemplates.filter(window => window.appType === 'project');
+            filesList = [...filesList, ...projects];
+          }
+          if(currentPath === '/home/documents'){
+            const resume: WindowType = {app: 'resume', icon: resumeIcon, appType: 'os', hideInStartMenu: true, desktop: false, svgMask: {desktop: true, search: true}, componentPath: "@/Resume/Resume", desktopStyles: {button: {textTransform: 'none'}, svg: {maskSize: '73%'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, };
+            filesList = [...filesList, resume];
+          }
+          setFiles(filesList);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch(e: any){
+          if(e?.code == "ENOENT"){
+            goUp();
+          }
         }
-        if(currentPath === '/home/documents'){
-          const resume: WindowType = {app: 'resume', icon: resumeIcon, appType: 'os', hideInStartMenu: true, desktop: false, svgMask: {desktop: true, search: true}, componentPath: "@/Resume/Resume", desktopStyles: {button: {textTransform: 'none'}, svg: {maskSize: '73%'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, };
-          filesList = [...filesList, resume];
-        }
-        setFiles(filesList);
+
       }
     };
     loadFiles();
@@ -164,16 +173,19 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
           </a>
         </li>
       </menu>
-      {files.length > 0 && <div className={`${styles.fileGrid} custom_scrollbar`}>
-        {files.map((file) => (
-          <div 
-            key={file.app} 
-            onClick={() => handleFileClick(file)}
-            className={styles.fileItem}
-          >
-            <DesktopIcon app={file} fromFolder={true} folderPath={currentPath} svgStyles={file.desktopStyles?.svg} svgMask={file.svgMask?.desktop} buttonStyles={file.desktopStyles?.button} imgWrapperStyles={file.desktopStyles?.img} />
-          </div>
-        ))}
+      {files.length > 0 && 
+        <div className={`${styles.gridWrapper} custom_scrollbar`}>
+       <div className={`${styles.fileGrid} custom_scrollbar`}>
+          {files.map((file) => (
+            <div 
+              key={file.app} 
+              onClick={() => handleFileClick(file)}
+              className={styles.fileItem}
+            >
+              <DesktopIcon app={file} fromFolder={true} folderPath={currentPath} svgStyles={file.desktopStyles?.svg} svgMask={file.svgMask?.desktop} buttonStyles={file.desktopStyles?.button} imgWrapperStyles={file.desktopStyles?.img} />
+            </div>
+          ))}
+        </div>
       </div>}
       {files.length === 0 && <div className={styles.folderEmpty}>
         {t('folder_empty')}

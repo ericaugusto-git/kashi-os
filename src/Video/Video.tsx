@@ -4,7 +4,6 @@ import { defaultLayoutIcons, DefaultVideoLayout } from '@vidstack/react/player/l
 import '@vidstack/react/player/styles/default/layouts/video.css';
 import '@vidstack/react/player/styles/default/theme.css';
 import { useEffect, useState } from 'react';
-import 'video-react/dist/video-react.css';
 
 export default function Video({filePath, getFileUrl}: FileProps)  {
     const [videoUrl, setVideoUrl] = useState<string>();

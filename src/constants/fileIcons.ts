@@ -2,6 +2,7 @@ export const fileIcons: { [key: string]: string } = {
   // Web Development
   'html': 'code_icon.svg',
   'css': 'code_icon.svg',
+  'scss': 'code_icon.svg',
   'js': 'code_icon.svg',
   'jsx': 'code_icon.svg',
   'ts': 'code_icon.svg',

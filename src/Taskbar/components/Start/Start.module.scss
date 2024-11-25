@@ -146,17 +146,17 @@ $size: 21px; // (Fully responsive)
 .eye--left {
 	left: 0;
 	
-	&::before {
-		right: -5%;
-	}
+	// &::before {
+	// 	right: -5%;
+	// }
 }
 
 .eye--right {
 	right: 0;
 	
-	&::before {
-		left: -5%;
-	}
+	// &::before {
+	// 	left: -5%;
+	// }
 }
 
 // Pupils
@@ -221,6 +221,7 @@ $size: 21px; // (Fully responsive)
 		}
 	}
 }
+
 
 // .paused{
 // 	.eye, .eye-pupil{

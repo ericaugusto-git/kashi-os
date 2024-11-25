@@ -66,6 +66,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.gridWrapper{
+  width: 100%;
+  overflow: auto;
+}
 
 .fileGrid {
   display: grid;

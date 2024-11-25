@@ -1,46 +1,27 @@
-import { ThemeProvider, createTheme } from "@mui/material";
-import { DateCalendar } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { ptBR } from "@mui/x-date-pickers/locales";
-import 'dayjs/locale/pt-br';
+import { Calendar as ReactCalendar } from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import { BrowserView } from "react-device-detect";
+import { useTranslation } from "react-i18next";
+import { useDesktopPosition } from "../../../contexts/DesktopPositonContext";
 import { useTheme } from "../../../contexts/ThemeContext";
 import styles from "./Calendar.module.scss";
 import DateTime from "./DateTime/DateTime";
 import Weather from "./Weather/Weather";
-import { ptBR as coreptBR } from '@mui/material/locale';
-import { useDesktopPosition } from "../../../contexts/DesktopPositonContext";
-const darkTheme = createTheme(
-{  
-  palette: {
-    mode: "dark",
-  }
-},
-ptBR, // x-date-pickers translations
-coreptBR, // core translations
-);
-
 
 
 export default function Calendar() {
   const [theme] = useTheme();
   const [position] = useDesktopPosition();
+  const {i18n} = useTranslation();
   return (
     <>
-      <ThemeProvider theme={darkTheme}>
         <div style={{[position]: '41px'}} className={styles.calendar_container + " " + styles[theme]}>
-          <LocalizationProvider
-            dateAdapter={AdapterDayjs}
-          >
             <DateTime />
-            <DateCalendar readOnly/>
+            <ReactCalendar locale={i18n.resolvedLanguage?.toLocaleLowerCase()}/>
             <BrowserView>
               <Weather />
             </BrowserView>
-          </LocalizationProvider>
         </div>
-      </ThemeProvider>
     </>
   );
 }
