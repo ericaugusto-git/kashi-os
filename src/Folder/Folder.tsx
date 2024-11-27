@@ -1,14 +1,13 @@
+import { defaultFiles } from '@/constants/defaultFolders';
 import { FileProps, WindowType } from '@/constants/window';
+import { windowsTemplates } from '@/constants/windowsTemplate';
 import { useContextMenuHandler } from '@/contexts/ContextMenuContext';
-import { useEffect, useState } from 'react';
-import styles from './Folder.module.scss';
-import { useTranslation } from 'react-i18next';
+import { useFileSystem } from '@/contexts/FileSystemContext';
 import DesktopIcon from '@/DesktopIcons/components/DesktopIcon/DesktopIcon';
 import useOpenWindow from '@/hooks/useOpenWindow';
-import { useFileSystem } from '@/contexts/FileSystemContext';
-import { windowsTemplates } from '@/constants/windowsTemplate';
-import resumeIcon from '@/assets/desktop/resume.svg';
-import { defaultFiles } from '@/constants/defaultFolders';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styles from './Folder.module.scss';
 
 function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
   const [currentPath, setCurrentPath] = useState(filePath);
@@ -19,7 +18,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
   const { handleDrop, createFile } = useFileSystem();
   const openWindow = useOpenWindow();
   const handleCustomMenuEvent = (event: string) => {
-    
+    console.log(event)
   }
   const handleContextMenu = useContextMenuHandler('folder', handleCustomMenuEvent, currentPath);
 

@@ -1,11 +1,9 @@
-import { usePcStatus } from '@/contexts/PcStatusContext';
-import './GameOver.scss';
 import { useTranslation } from 'react-i18next';
+import './GameOver.scss';
 
 
 
 const GameOver = () => {
-  const [_, setPcStatus] = usePcStatus(); 
   const { t } = useTranslation();
   const uptime = Math.floor((Date.now() - performance.timing.navigationStart) / 1000);
   const uptimeStr = `${Math.floor(uptime/3600)}h ${Math.floor((uptime%3600)/60)}m ${uptime%60}s`;
