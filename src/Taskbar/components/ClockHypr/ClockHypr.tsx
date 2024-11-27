@@ -1,11 +1,8 @@
-import moment from 'moment';
-import 'moment/dist/locale/pt-br'
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import useDateTime from '@/hooks/useDateTime';
+import 'moment/dist/locale/pt-br';
 import calendar from '../../../assets/taskbar/calendar.svg';
 import clock from '../../../assets/taskbar/clock.svg';
 import style from './ClockHypr.module.scss';
-import useDateTime from '@/hooks/useDateTime';
 
 export default function ClockHypr() {
 
