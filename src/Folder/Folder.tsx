@@ -8,6 +8,7 @@ import useOpenWindow from '@/hooks/useOpenWindow';
 import { useFileSystem } from '@/contexts/FileSystemContext';
 import { windowsTemplates } from '@/constants/windowsTemplate';
 import resumeIcon from '@/assets/desktop/resume.svg';
+import { defaultFiles } from '@/constants/defaultFolders';
 
 function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
   const [currentPath, setCurrentPath] = useState(filePath);
@@ -15,7 +16,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
   const [history, setHistory] = useState<string[]>([filePath]);
   const [historyIndex, setHistoryIndex] = useState(0);
   const { t } = useTranslation();
-  const { handleDrop } = useFileSystem();
+  const { handleDrop, createFile } = useFileSystem();
   const openWindow = useOpenWindow();
   const handleCustomMenuEvent = (event: string) => {
     
@@ -23,18 +24,38 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
   const handleContextMenu = useContextMenuHandler('folder', handleCustomMenuEvent, currentPath);
 
   useEffect(() => {
+    const createDefaultFiles = async () => {
+      const wasCreated = localStorage.getItem(currentPath);
+      console.log(wasCreated);
+      if(defaultFiles[currentPath] && !wasCreated){
+        console.log('added')
+        localStorage.setItem(currentPath, 'true');
+        for await (const fileUrl of defaultFiles[currentPath]){
+          await addDefaultFile(fileUrl);
+          if(listFiles){
+            const filesList = await listFiles(currentPath) || []
+            setFiles(filesList);
+          }
+        }
+        if(listFiles){
+          const filesList = await listFiles(currentPath) || []
+          setFiles(filesList);
+        }
+      }
+    }
+    createDefaultFiles();
+  })
+
+  useEffect(() => {
     const loadFiles = async () => {
       if(listFiles){
         try{
+          console.log('etc e tal')
           let filesList = await listFiles(currentPath) || []
           
           if(currentPath === '/home/desktop/projects_default_folder'){
             const projects = windowsTemplates.filter(window => window.appType === 'project');
             filesList = [...filesList, ...projects];
-          }
-          if(currentPath === '/home/documents'){
-            const resume: WindowType = {app: 'resume', icon: resumeIcon, appType: 'os', hideInStartMenu: true, desktop: false, svgMask: {desktop: true, search: true}, componentPath: "@/Resume/Resume", desktopStyles: {button: {textTransform: 'none'}, svg: {maskSize: '73%'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, };
-            filesList = [...filesList, resume];
           }
           setFiles(filesList);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,6 +69,37 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
     };
     loadFiles();
   }, [currentPath, listFiles, fileList]);
+
+  const  addDefaultFile = async (fileUrl: string) => {
+    try{
+      const response = await fetch(fileUrl);
+      console.log(response);
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+  
+      // Decode the URL in case it contains encoded characters
+      const decodedUrl = decodeURIComponent(fileUrl);
+  
+      // Extract the file name using split
+      const fileName = decodedUrl.split('/').pop();
+  
+      console.log(fileName); // Eric Augusto Front End Dev - Resume.pdf
+  
+          // Convert the response to a Blob
+          const blob = await response.blob();
+  
+          // Create a File object from the Blob
+          const file = new File([blob], fileName!, {
+            type: blob.type,
+          });
+      createFile(currentPath, file, null, true);
+    } catch(e){
+      console.log("troll: ", e)
+    }
+  }
 
   const navigateToFolder = (folderPath: string) => {
     // Remove any forward history when navigating to a new path

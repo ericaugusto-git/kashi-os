@@ -8,7 +8,6 @@ import * as BrowserFS from 'browserfs';
 import { FSModule } from 'browserfs/dist/node/core/FS';
 import { Buffer } from 'buffer';
 import { Stats } from 'fs';
-import { reject } from 'lodash';
 import * as musicMetadata from 'music-metadata-browser';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
@@ -18,7 +17,7 @@ interface FileSystemContextType {
   fileList: {[folderPath: string]: WindowType[]} | null,
   handleDrop: (folderPath: string, event: React.DragEvent<HTMLDivElement>) => Promise<void>;
   refreshFileList: (folderPath: string) => Promise<void>;
-  createFile: (folderPath: string, file: File) => Promise<void>;
+  createFile: (folderPath: string, file: File, fileSystem?: FSModule | null, dontRefresh?: boolean) => Promise<void>;
   readFile: (filePath: string) => Promise<Buffer | null>;
   getFileUrl: (filePath: string, mimeType?: string) => Promise<string>;
   updateFile: (filePath:string, newContent: string) => Promise<void>;
@@ -61,7 +60,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     refreshFileList(folderPath);
   };
 
-  const createFile = useCallback(async (folderPath: string = '/', file: File, fileSystem?: FSModule | null) => {
+  const createFile = useCallback(async (folderPath: string = '/', file: File, fileSystem?: FSModule | null, dontRefresh?: boolean) => {
     fileSystem = fileSystem || fs;
     if (!fileSystem) return;
 
@@ -76,7 +75,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           fileSystem.writeFile(filePath, Buffer.from(reader.result as ArrayBuffer), (err) => {
             if (err) {
                 console.error('Error creating file:', err);
-            } else {
+            } else if(!dontRefresh){
                 refreshFileList(folderPath)
             }
           })

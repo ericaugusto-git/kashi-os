@@ -10,9 +10,6 @@ const GameOver = () => {
   const uptime = Math.floor((Date.now() - performance.timing.navigationStart) / 1000);
   const uptimeStr = `${Math.floor(uptime/3600)}h ${Math.floor((uptime%3600)/60)}m ${uptime%60}s`;
   const tryAgain = () => {
-    localStorage.removeItem("hasInitializedFileSystemFirstTime");
-    localStorage.removeItem("theme")
-    localStorage.removeItem("app-layouts")
     location.reload();
   }
   return (
