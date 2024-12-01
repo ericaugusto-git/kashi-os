@@ -10,6 +10,7 @@ import { gifsId } from './config';
 import Gifs from './Gifs';
 import styles from './Lofi.module.scss';
 import LofiPlayer from './LofiPlayer';
+import { fetchGif } from '@/utils/utils';
 
 
 export default function Lofi({screenHandle}: {screenHandle: FullScreenHandle}) {
@@ -19,29 +20,30 @@ export default function Lofi({screenHandle}: {screenHandle: FullScreenHandle}) {
 
 
   const [gifUrl, setGifUrl] = useState("");
-  const [gifId, setGifId] = useState(localStorage.getItem('gifId') ?? gifsId[3]);
+  const [gifId, setGifId] = useState(localStorage.getItem('lastLofiGifId') ?? gifsId[3]);
   const gifsBtnRef = useRef<HTMLButtonElement>(null);
   const [giphyError, setGiphyError] = useState(false);
   const [gifsRef, gifsActive, setGifsActive] = useComponentVisible(false, gifsBtnRef);
 
   useEffect(() => {
-    localStorage.setItem('gifId', gifId)
-    const fetchGif = async () => {
+    localStorage.setItem('lastLofiGifId', gifId)
+    const fetchGif1 = async () => {
       try {
-        const response = await fetch(
-          `https://api.giphy.com/v1/gifs/${gifId}?api_key=${
-            import.meta.env.VITE_REACT_GIPHY_API_KEY
-          }`
-        );
-        const data = await response.json();
-        setGifUrl(data.data.images.original.url);
+        // const response = await fetch(
+        //   `https://api.giphy.com/v1/gifs/${gifId}?api_key=${
+        //     import.meta.env.VITE_REACT_GIPHY_API_KEY
+        //   }`
+        // );
+        // const data = await response.json();
+        // setGifUrl(data.data.images.original.url);
+        setGifUrl(await fetchGif(gifId));
       } catch (error) {
         setGiphyError(true)
         console.error("Error fetching the GIF:", error);
       }
     };
 
-    fetchGif();
+    fetchGif1();
   }, [gifId]);
 
 

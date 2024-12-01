@@ -112,20 +112,3 @@ a.taskbar_section_wrapper:hover{
   }
   
 
-  button[data-tooltip]::after{
-    content: attr(data-tooltip);
-    position: absolute;
-    padding: 5px;
-    font-size: 8px;
-    background-color: rgba(0, 0, 0, 0.178);
-    text-align: center;
-    top: -25px;
-    border-radius: 3px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: block;
-  }
-  
-  [data-tooltip]:hover::after {
-    display: block; /* Show tooltip on hover */
-  }

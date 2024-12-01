@@ -16,45 +16,44 @@ interface BatteryManager extends EventTarget {
 }
 
 export default function Battery() {
-    const [battery, setBattery] = useState<BatteryManager | null>(null);
-
+    const [batteryLevel, setBatteryLevel] = useState<string | null>(null);
+    const [notSupported, setNotSupported] = useState<boolean>();
     useEffect(() => {
         const navigatorWithBattery = navigator as NavigatorBattery;
-
-        navigatorWithBattery.getBattery().then((battery) => {
-            
-            
-            setBattery(battery);
-
-            // Level change event listener
-            const handleLevelChange = () => {
-                
-                setBattery({ ...battery });
-            };
-
-            // Charging change event listener
-            const handleChargingChange = () => {
-                
-                setBattery({ ...battery });
-            };
-
-            battery.addEventListener('levelchange', handleLevelChange);
-            battery.addEventListener('chargingchange', handleChargingChange);
-
-            // Cleanup function to remove event listeners
-            return () => {
-                battery.removeEventListener('levelchange', handleLevelChange);
-                battery.removeEventListener('chargingchange', handleChargingChange);
-            };
-        });
+        if(typeof navigatorWithBattery.getBattery !== "undefined"){
+            navigatorWithBattery?.getBattery().then((battery) => {
+                setBatteryLevel(Math.ceil(battery.level * 100)  + '%');
+    
+                // Level change event listener
+                const handleLevelChange = () => {
+                    setBatteryLevel(Math.ceil(battery.level * 100)  + '%');
+                };
+    
+                // Charging change event listener
+                const handleChargingChange = () => {
+                    setBatteryLevel(Math.ceil(battery.level * 100)  + '%');
+                };
+    
+                battery.addEventListener('levelchange', handleLevelChange);
+                battery.addEventListener('chargingchange', handleChargingChange);
+    
+                // Cleanup function to remove event listeners
+                return () => {
+                    battery.removeEventListener('levelchange', handleLevelChange);
+                    battery.removeEventListener('chargingchange', handleChargingChange);
+                };
+            });
+        }else{
+            setNotSupported(true)
+        }
     }, []);
-
+    if(notSupported) return <></>
     return (
         <div className={style.battery}>
             <div className={style.battery_icon}>
-                <div style={{ width: battery?.level ? battery.level * 100 + '%' : '0%' }} className={style.battery_fill}></div>
+                <div style={{ width: batteryLevel ?? '100%' }} className={style.battery_fill}></div>
             </div>
-            {battery?.level !== undefined && battery.level * 100 + '%'}
+            {batteryLevel ?? ''}
         </div>
     );
 }

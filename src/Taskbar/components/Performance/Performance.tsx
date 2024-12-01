@@ -7,7 +7,7 @@ export default function Performance() {
         usedJSHeapSize: 0,
         sizeChange: 0
     });
-
+    performance
     useEffect(() => {
         if (performance.memory) {
             const intervalId = setInterval(() => {

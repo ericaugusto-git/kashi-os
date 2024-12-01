@@ -7,33 +7,30 @@ Inspired by linux, [hyprland](https://github.com/hyprwm/Hyprland) and [hyprdots]
 
  **🗃️ File System**
 - Built with [BrowserFS](https://github.com/jvilk/BrowserFS). All the files and folders are stored on the browser [IndexDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API).
-- Files and folders creation through drag and drop and new file/folder button.
+- Files and folders creation through drag and drop and new file/folder input.
 
 🖥️ **Desktop**
-  - Context menu with dynamic options depending on target (file, folder, desktop area, etc).
+  - Right click context menu with dynamic options depending on target (file, folder, desktop area, etc).
   - Start menu with options to turn the "pc" off and or put it to sleep and a list of OS apps.
   - [react-rnd](https://github.com/bokuweb/react-rnd) windows that can be  minimazed, maximazed, closed and dragged arround.
-  - Responsive desktop [grid](https://github.com/react-grid-layout/react-grid-layout) with persistent desktop icon position.
+  - Responsive desktop [grid layuto](https://github.com/react-grid-layout/react-grid-layout) with persistent desktop icon position.
   
 🖼️ **Personalization**
   - An selection of three different themes (Lake slate, Nord and Cozy)
   - List of wallpapers per theme, gathered from [pexels](https://www.pexels.com/pt-br/) and [freepik](https://br.freepik.com/)
 
-### Applications
+### OS Apps
 
-#### 🎮 EmulatorJS
-- Multiple system emulation support
-- ROM management system
-- Save state support
-- Localization support
+#### 🎮 [EmulatorJS](https://github.com/EmulatorJS/EmulatorJS)
+- Multiple system emulation
+- Auto state save to IndexDB
 
-#### 💻 Terminal
-- System information display
-- File system navigation
-- Weather information
-- Custom commands
+#### 💻 [Xterm.js terminal](https://xtermjs.org/)
+- Neofetch
+- File system manipulation commands Ex: rm, mv, mkdir, etc
+- Weather information with [wttr](https://github.com/chubin/wttr.in)
 
-#### 📝 File Editor
+#### 📝 [Monaco editor](https://github.com/microsoft/monaco-editor)
 - Monaco editor integration
 - Syntax highlighting
 - File saving support

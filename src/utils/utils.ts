@@ -11,13 +11,20 @@ export function getWppIndex(theme: Themes){
 
 export const fetchGif = async (gifId: string) => {
     try {
+      const cache = localStorage.getItem(gifId);
+      if(cache){
+        return cache;
+      }
       const response = await fetch(
         `https://api.giphy.com/v1/gifs/${gifId}?api_key=${
           import.meta.env.VITE_REACT_GIPHY_API_KEY
         }`
       );
       const data = await response.json();
-      return data.data.images.original.url;
+      const gifUrl = data.data.images.original.url;
+      console.log(gifId)
+      localStorage.setItem(gifId, gifUrl);
+      return gifUrl;
     } catch (error) {
       console.error("Error fetching the GIF:", error);
     }
