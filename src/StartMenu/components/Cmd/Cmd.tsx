@@ -103,9 +103,7 @@ function Cmd({folderPath}: FileProps) {
           fileSystem.format();
           localEcho.println("Deleting everything...");
           setWindows([]);
-          localStorage.removeItem("hasInitializedFileSystemFirstTime");
-          localStorage.removeItem("theme")
-          localStorage.removeItem("app-layouts")
+          localStorage.clear();
           setPcStatus("game_over");
           return;
         }

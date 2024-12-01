@@ -71,7 +71,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
 
   const  addDefaultFile = async (fileUrl: string) => {
     try{
-      const response = await fetch(fileUrl);
+      const response = await fetch(fileUrl, {cache: "no-store"});
       console.log(response);
   
       if (!response.ok) {

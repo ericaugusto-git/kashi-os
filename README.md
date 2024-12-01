@@ -1,25 +1,23 @@
-# 🖥️ Kashi-OS
+# kashi-os
 
 A web-based operating system built with React and TypeScript. Also an interactive portfolio.
 Inspired by linux, [hyprland](https://github.com/hyprwm/Hyprland) and [hyprdots](https://github.com/prasanthrangan/hyprdots).
 
 ## 🌟 Features
 
-### System
-- **🗃️ File System**
-  - Built with [BrowserFS](https://github.com/jvilk/BrowserFS) that writes to [IndexDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
-  - File upload through drag and drop and new file context menu option
-  - File explorer with foward, back and up a level navigation
-  - Folders CRUD
+ **🗃️ File System**
+- Built with [BrowserFS](https://github.com/jvilk/BrowserFS). All the files and folders are stored on the browser [IndexDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API).
+- Files and folders creation through drag and drop and new file/folder button.
 
-- **Desktop Environment**
-  - Context menu with dynamic options depending on target. (Ex menu for files: delete, rename, open)
+🖥️ **Desktop**
+  - Context menu with dynamic options depending on target (file, folder, desktop area, etc).
+  - Start menu with options to turn the "pc" off and or put it to sleep and a list of OS apps.
+  - [react-rnd](https://github.com/bokuweb/react-rnd) windows that can be  minimazed, maximazed, closed and dragged arround.
+  - Responsive desktop [grid](https://github.com/react-grid-layout/react-grid-layout) with persistent desktop icon position.
+  
+🖼️ **Personalization**
   - An selection of three different themes (Lake slate, Nord and Cozy)
   - List of wallpapers per theme, gathered from [pexels](https://www.pexels.com/pt-br/) and [freepik](https://br.freepik.com/)
-  - Start menu with list of my projects and the OS apps. 
-  - Window system with minimize/maximize support
-  - Desktop icons with grid layout
-  - Multi-language support (i18n)
 
 ### Applications
 

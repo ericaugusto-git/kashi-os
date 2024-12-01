@@ -60,7 +60,7 @@ export const wallpapers: Wallpapers = {
     // "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake%2Fem-rofi.jpeg",
     // "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake%2Fmy-neighbor-totoro-sunflowers-min.png",
     // "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake%2Fwallhaven-2yxp16.jpg",
-    // "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake%2Fwallhaven-7pkkre-min.png",
+  // "https://pub-23b2bdccea9b4dd0aa82eeba1d9cg6805.r2.dev/wallpapers%2Flake%2Fwallhaven-7pkkre-min.png",
     // "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake%2Fwallhaven-exqqy8.jpg",
     // "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake%2Fwallhaven-wekp5x.jpg",
     // "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake%2Fruins_live.gif",
@@ -68,6 +68,7 @@ export const wallpapers: Wallpapers = {
 
   ],
   dark: [
+    "https://pub-ca3a4c62036d4f4e8c8dbeea590f7500.r2.dev/nord/ai_wpprs_dark_anime-moon-landscape-mi.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/nord/wallpapers_nord_cc0_andre-benz-cXU6tNxhub0-unsplash-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/nord/wallpapers_nord_cc0_andre-benz-qi2hmCwlhcE-unsplash-min.jpg",
     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/nord/wallpapers_nord_cc0_pexels-carlos-oliva-1966452-3586966-min.jpg",
