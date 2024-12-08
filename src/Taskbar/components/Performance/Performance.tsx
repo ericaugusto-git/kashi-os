@@ -34,7 +34,7 @@ export default function Performance() {
 
     return (
         <div className={style.performance}>
-            <button className="svgMask taskbar_icon" style={{ maskImage: `url("${performance_icon}")` }}></button>
+            <div className="svgMask taskbar_icon" style={{ maskImage: `url("${performance_icon}")` }}></div>
             <span className={style.heap_total}>{formatBytes(memoryData.usedJSHeapSize)}</span>
             <span className={style.size_change} style={{ color: memoryData.sizeChange >= 0 ? '#B8E3B1' : '#E3B1B1' }}>
                 {memoryData.sizeChange >= 0 ? '▲' : '▼'} {formatBytes(memoryData.sizeChange)}

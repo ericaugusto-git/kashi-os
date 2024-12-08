@@ -17,6 +17,8 @@ $paddingX: 12px;
     margin-left: auto;
 }
 
+
+
 .taskbar_section_wrapper{
     flex-shrink: 0;
     border-radius: 99999px;
@@ -34,6 +36,12 @@ $paddingX: 12px;
     padding: 3px 12px;
     font-size: 11px;
     line-height: 8px;
+    button{
+        width: fit-content;
+        padding: 0;
+        border: 0;
+        background: none;
+    }
 }
 
 .intro{

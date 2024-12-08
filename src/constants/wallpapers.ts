@@ -64,8 +64,6 @@ export const wallpapers: Wallpapers = {
     // "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake%2Fwallhaven-exqqy8.jpg",
     // "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake%2Fwallhaven-wekp5x.jpg",
     // "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flake%2Fruins_live.gif",
-    "https://pub-ca3a4c62036d4f4e8c8dbeea590f7500.r2.dev/nord/wallpapers_nord_cc0_andre-benz-cXU6tNxhub0-unsplash-min.jpg",
-
   ],
   dark: [
     "https://pub-ca3a4c62036d4f4e8c8dbeea590f7500.r2.dev/nord/ai_wpprs_dark_anime-moon-landscape-mi.jpg",

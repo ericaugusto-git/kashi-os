@@ -32,13 +32,15 @@ const LocaleSwitcher = () => {
       <AnimatePresence>
         {isVisible && (
           <motion.div
-          style={{display: 'flex', justifyContent: 'center', alignContent: 'center', gap: '4px' }}
+          style={{display: 'flex',  alignItems: 'center', gap: '4px' }}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.3 }}
           >
-            {i18n.resolvedLanguage}
+            <span>
+            {i18n.resolvedLanguage?.replace('pt-', '').toLocaleUpperCase()}
+            </span>
             <img className='taskbar_icon' src={i18n.resolvedLanguage == 'pt-BR' ? brasilFlag : globeIcon}></img>
             </motion.div>
         )}

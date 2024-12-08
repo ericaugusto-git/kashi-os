@@ -108,13 +108,13 @@ useEffect(() => {
                     style={{ maskImage: `url("${search}")` }}
                     className={"svgMask " + styles.icon}
                 ></div>
-                <input autoFocus ref={inputRef} onChange={handleInputChange} placeholder="search" />
+                <input autoFocus ref={inputRef} onChange={handleInputChange} placeholder={t('search')} />
                 </div>
             </div>
             <div className={styles.apps_container}>
             {inputValue?.length == 0 && <span>All apps</span>}
                 <ul ref={listRef} className={styles.apps}>
-                    {apps.map((app, index) => (
+                    {apps.sort((a, b) => t(a.app).localeCompare(t(b.app))).map((app, index) => (
                         <li key={app.app}
                         
                         >

@@ -213,7 +213,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
                       style={{ maskImage: `url("${search}")` }}
                       className={"svgMask " + styles.icon}
                     ></div>
-                    search
+                    {t("all_apps")}
                   </div>
                   <span>
                     <kbd>ctrl</kbd>

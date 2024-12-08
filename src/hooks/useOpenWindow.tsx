@@ -6,7 +6,8 @@ function useOpenWindow(): (app: WindowType) => void {
 
     const openWindow = (app: WindowType) => {
         if(app.notUnique){
-            app.uniqueName = app.app;
+            app = JSON.parse(JSON.stringify(app));
+            app.uniqueName = app.uniqueName ?? app.app;
             app.app = app.app + Math.random().toString(36).substring(2, 15);
         }
         setWindows(prevWindows => {
@@ -22,7 +23,7 @@ function useOpenWindow(): (app: WindowType) => void {
                     ap.active = true;
                     ap.minimized = false;
                 }
-                return [...updatedWindows]; // Add the new window
+                return [...updatedWindows];
             }
         });
     }

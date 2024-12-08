@@ -21,10 +21,15 @@ $col2IconSize: 21px;
     z-index: 10;
     .search{
         margin-top: 5px;
+        // height: 31px;
         .search_label{
             gap: 5px;
             text-transform: none;
         }
+        // button.app_button{
+        //     color: black;
+        //     height: 100%;
+        // }
         .app_button, .search_label{
             align-items: center;
             display: flex;
@@ -91,7 +96,6 @@ $col2IconSize: 21px;
             text-transform:uppercase;
             font-size: 14px;
             font-weight: 100;
-            cursor: url("/pointer.svg") 6 0, pointer;
             -webkit-text-stroke: 0.1px;
         }
         .sleep{
@@ -148,6 +152,9 @@ $col2IconSize: 21px;
         background-size: auto 100%; /* Preserve aspect ratio by setting height to 100% */
         background-position: center; /* Center the image */
         background-repeat: no-repeat;
+        img{
+            margin: 2px;
+        }
         // img{
         //     height: 100%;
         //     width: 100%;
@@ -165,7 +172,7 @@ $col2IconSize: 21px;
 
     &.dark .app_button{
     }
-    .app_button{
+    button.app_button{
         background-color: rgba(0, 0, 0, 0.692);
         color: white;
         .icon{
@@ -206,14 +213,7 @@ $col2IconSize: 21px;
     grid-template-columns: 1fr 2fr;
   }
   
-  .cables{
-    width: 100%;
-    height: 100%;
-    background-image: url(../assets/cables.gif);
-    margin-top: -64px;
-    padding-bottom: 74px;
-  }
-  
+
   .musicGif{
     height: 100%;
     top: 0;

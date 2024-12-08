@@ -17,7 +17,7 @@ export default function ClockHypr() {
             </div>
             <div>
                 <div className="svgMask taskbar_icon" style={{ maskImage: `url("${clock}")` }}></div>
-                {dateTime.hour}
+                    {dateTime.hour}
             </div>
         </div>
         </>

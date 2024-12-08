@@ -21,10 +21,10 @@ export const cmdWindow: WindowType = {
 }
 
 export const windowsTemplates: WindowType[] = [
-    {app: 'file_explorer', appType: 'os', notUnique:true, icon: 'folder.svg', headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},  componentPath: "@/Folder/Folder"},
-    {app: 'computer', appType: 'os',  hideInStartMenu: true, desktop: true, uniqueName: 'file_explorer', uniqueIcon: 'folder.svg', icon: 'computer.svg', headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},  componentPath: "@/Folder/Folder"},
-    {app: "about_me",appType: 'os', hideInStartMenu: true,      link: 'https://ericaugusto.pages.dev',
-        desktop: true, icon: avatar,  desktopStyles: {img: {backgroundSize: '100%'}}},
+    // {app: 'file_explorer', appType: 'os', notUnique:true, icon: 'folder.svg', headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},  componentPath: "@/Folder/Folder"},
+    {app: 'computer', appType: 'os',  hideInStartMenu: true, desktop: true, notUnique: true, uniqueName: 'file_explorer', uniqueIcon: 'folder.svg', icon: 'computer.svg', headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},  componentPath: "@/Folder/Folder"},
+    {app: "about_me",appType: 'os',     link: 'https://ericaugusto.pages.dev',
+        icon: avatar,  desktopStyles: {img: {backgroundSize: '100%'}}},
     cmdWindow,
     {
         app: "playlist",
@@ -71,9 +71,7 @@ export const windowsTemplates: WindowType[] = [
     },
     {app: "dino", hideInStartMenu: true, link: 'https://chromedino.com/', appType: 'os',  icon: 'dino.ico'},
     {app: "audio_player", hideInStartMenu: true, componentPath: "@/Audio/Audio", appType: 'os', icon: 'audio_icon.svg'},
-    // {app: "finance", appType: 'project', icon: finance, conteudo: UnderDev},
-    {app: 'resume', icon: resume, appType: 'os', hideInStartMenu: true, desktop: false, svgMask: {desktop: true, search: true}, componentPath: "@/Resume/Resume", desktopStyles: {button: {textTransform: 'none'}, svg: {maskSize: '73%'}}, bodyStyles: {overflow: 'auto', height: 'calc(100% - 50px)'}, },
-    
+    // {app: "finance", appType: 'project', icon: finance, conteudo: UnderDev},    
     {app: "discord_clone", appType: 'project', icon: 'projects/discourse.svg', desktopStyles: {img: {backgroundSize: '100%'}}, componentPath: "@/UnderDev/UnderDev"},
     {app: "jdm_store",  link: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FjpjNX650FS4XtJrolls9RW%2FJDM%3Fpage-id%3D%26type%3Ddesign%26node-id%3D1-6%26viewport%3D741%252C598%252C0.23%26t%3DfBBVvALWC6PAzlv0-1%26scaling%3Dscale-down-width%26mode%3Ddesign', appType: 'project', icon: jdm, desktopStyles: {img: {backgroundSize: '70%'}}},
     {app: "recipe_book", appType: 'project', hideInStartMenu: true, icon: 'projects/cookbook.svg', componentPath: "@/UnderDev/UnderDev"},

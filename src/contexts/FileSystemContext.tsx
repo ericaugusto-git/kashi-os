@@ -207,6 +207,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
               ...baseFile,
               headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},
               componentPath: '@/Folder/Folder',
+              notUnique: true,
               appType: "file" as const,
               uniqueName: "file_explorer",
               icon: folderIcons[fullPath] || 'folder.svg',

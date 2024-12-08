@@ -168,21 +168,35 @@ input[type="radio"] {
 }
 
 [data-tooltip]::after{
-  content: "horri jhbbjjhj hjhjhjh hjhbj hjbjhbjh";
+  content: attr(data-tooltip);
   position: absolute;
   padding: 5px;
   font-size: 8px;
-  background-color: red;
+  background-color: rgba(0, 0, 0, 0.178);
   text-align: center;
   top: -25px;
+  white-space: nowrap;
+  color: white;
   border-radius: 3px;
   left: 50%;
   transform: translateX(-50%);
   display: none;
 }
 
+button[data-tooltip]:has(.taskbar_icon)::after {
+  top: -30px;
+}
+.desktop_top button[data-tooltip]:has(.taskbar_icon)::after {
+  bottom: -30px;
+    top: unset;
+}
+
 [data-tooltip]:hover::after {
   display: block; /* Show tooltip on hover */
+}
+
+abbr[title]{
+  text-decoration: none;
 }
 
 
@@ -247,8 +261,6 @@ input[type="week"] {
   --size: 15px;
   width: var(--size);
   height: var(--size);
-  border: 0;
-  padding: 0;
 }
 button.taskbar_icon {
   cursor: url("/pointer.svg") 6 0, pointer;
