@@ -1,14 +1,13 @@
 import avatar from '@/assets/desktop/avatar.png';
+import jdm from '@/assets/desktop/jdm.png';
 import playlistIcon from '@/assets/startMenu/playlist.svg';
 import firefox from "../assets/desktop/firefox.svg";
-import resume from "../assets/desktop/resume.svg";
 import brush from '../assets/startMenu/brush.png';
 import cmd from '../assets/startMenu/cmd2.png';
 import handshake from '../assets/startMenu/handshake.svg';
 import { WindowType } from "./window";
 import emulatorJs from '/EmulatorJS.png';
 import fav from '/favicon.ico';
-import jdm from '@/assets/desktop/jdm.png';
 
 export const cmdWindow: WindowType = {
     app: "command_line",
