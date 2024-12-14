@@ -21,7 +21,7 @@ function Cmd({folderPath}: FileProps) {
   const containerRef = useRef(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [localEcho, setLocalEcho] = useState<any>();
-  const [_, setEchoStarted] = useState<boolean>();
+  // const [_, setEchoStarted] = useState<boolean>();
   const [terminal, setTerminal] = useState<Terminal>();
   const [_, setPcStatus] = usePcStatus();
   const [, setWindows] = useWindowContext();
@@ -368,7 +368,7 @@ function Cmd({folderPath}: FileProps) {
         }).catch((error: string) => {terminal.writeln(`oopsy daisy! Error reading: ${error}`); echo()});
   };
   echo();
-  setEchoStarted(true);
+  // setEchoStarted(true);
 
 }
   }, [terminal, localEcho, theme, apps, currentDirectory])
