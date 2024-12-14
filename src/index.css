@@ -261,6 +261,10 @@ input[type="week"] {
   --size: 15px;
   width: var(--size);
   height: var(--size);
+  background-color: rgb(var(--font-color));  
+}
+img.taskbar_icon{
+  background-color: transparent;
 }
 button.taskbar_icon {
   cursor: url("/pointer.svg") 6 0, pointer;
@@ -271,29 +275,6 @@ button.taskbar_icon {
   /* max-height: calc(100dvh - 45px) !important; */
 }
 
-.custom_scrollbar::-webkit-scrollbar {
-  height: 6px;
-  width: 6px;
-  will-change: width, height;
-}
-.custom_scrollbar::-webkit-scrollbar-track {
-  border-radius: 5px;
-  background-color: rgb(var(--theme-color));
-}
-
-.custom_scrollbar::-webkit-scrollbar-thumb {
-  border-radius: 5px;
-  /* background-clip: padding-box; */
-  background: rgb(var(--accent-color));
-}
-
-.custom_scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(var(--accent-color));
-}
-
-.custom_scrollbar::-webkit-scrollbar-thumb:active {
-  background-color: rgb(var(--accent-color));
-}
 
 .react-calendar{
   min-height: 320px;

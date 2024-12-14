@@ -148,7 +148,7 @@ function Desktop() {
         className={
           `${(pcStatus == "on" ? styles.desktop : styles[pcStatus])} ${"desktop_" + position}`
         }
-        style={{'--theme-color': themes[theme].color, '--accent-color': themes[theme].accent, '--theme-transition-ms': transitionMs} as CSSProperties}
+        style={{'--theme-color': themes[theme].color,'--font-color': themes[theme].font, '--accent-color': themes[theme].accent, '--theme-transition-ms': transitionMs} as CSSProperties}
       >
 
   <div ref={themeSwitcherRef}>

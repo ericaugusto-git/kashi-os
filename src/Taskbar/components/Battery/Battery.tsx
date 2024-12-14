@@ -53,7 +53,9 @@ export default function Battery() {
             <div className={style.battery_icon}>
                 <div style={{ width: batteryLevel ?? '100%' }} className={style.battery_fill}></div>
             </div>
-            {batteryLevel ?? ''}
+            <span>
+             {batteryLevel ?? ''}
+            </span>
         </div>
     );
 }

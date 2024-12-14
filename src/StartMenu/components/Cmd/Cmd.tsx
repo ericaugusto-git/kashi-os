@@ -21,7 +21,7 @@ function Cmd({folderPath}: FileProps) {
   const containerRef = useRef(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [localEcho, setLocalEcho] = useState<any>();
-  const [echoStarted, setEchoStarted] = useState<boolean>();
+  const [_, setEchoStarted] = useState<boolean>();
   const [terminal, setTerminal] = useState<Terminal>();
   const [_, setPcStatus] = usePcStatus();
   const [, setWindows] = useWindowContext();
@@ -132,9 +132,12 @@ function Cmd({folderPath}: FileProps) {
           : `${currentDirectory}/${newPath}`;
         // Deals with paths like ../../home
         if (newPath?.includes("..")) {
+          console.log('oie')
           const levels = newPath.split("..").length - 1;
+          console.log(levels)
           absolutePath = currentDirectory.split("/").slice(0, -levels).join("/") || "/";
-          absolutePath += '/' + (newPath?.split('/').pop() || '');
+          console.log(absolutePath);
+          absolutePath += newPath.includes('/') ? '/' + (newPath?.split('/').pop() || '') : '';
         } 
         absolutePath = absolutePath.replaceAll('//', '/');
         const pathSplit = absolutePath.split('/');
@@ -143,18 +146,11 @@ function Cmd({folderPath}: FileProps) {
           
           switch (command) {
             case "clear":
-              localEcho.clear();
+              terminal.clear();
               break;
             case "help": {
               const commands = [
-                "System Commands:",
-                "  neofetch - Display system information",
-                "  clear    - Clear the terminal",
-                "  exit     - Exit the terminal",
-                "  weather  - Show weather information",
-                "  df       - Display disk space usage",
-                "",
-                "File Operations:",
+                "File System Operations:",
                 "  ls       - List directory contents",
                 "  pwd      - Print working directory",
                 "  cd       - Change directory",
@@ -163,6 +159,14 @@ function Cmd({folderPath}: FileProps) {
                 "  rm       - Remove files and folders [-rf -r]",
                 "  mv       - Move/rename files",
                 "  stat     - Show file information",
+                "  df       - Display disk space usage",
+                "",
+                "Other Commands:",
+                "  neofetch - Display system information",
+                "  weather  - Show current weather information",
+                "  clear    - Clear the terminal",
+                "  exit     - Exit the terminal",
+                
                 ""
               ];
               
@@ -241,6 +245,8 @@ function Cmd({folderPath}: FileProps) {
               break;
             }
             case "cd": {
+              console.log(args)
+              console.log(absolutePath)
               if(args.length > 1){
                 localEcho.println("cd: too many arguments");
                 break;
@@ -361,7 +367,7 @@ function Cmd({folderPath}: FileProps) {
           
         }).catch((error: string) => {terminal.writeln(`oopsy daisy! Error reading: ${error}`); echo()});
   };
-  if(!echoStarted) echo();
+  echo();
   setEchoStarted(true);
 
 }

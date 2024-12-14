@@ -1,29 +1,34 @@
 # kashi-os
 
-A web-based operating system built with React and TypeScript. Also an interactive portfolio.
+A web-based operating system built with React and TypeScript.
 Inspired by linux, [hyprland](https://github.com/hyprwm/Hyprland) and [hyprdots](https://github.com/prasanthrangan/hyprdots).
 
 ## 🌟 Features
 
  **🗃️ File System**
-- Built with [BrowserFS](https://github.com/jvilk/BrowserFS). All the files and folders are stored on the browser [IndexDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API).
-- Files and folders creation through drag and drop and new file/folder input.
+- Built with [BrowserFS](https://github.com/jvilk/BrowserFS). 
+- All the files and folders are stored on the browser [IndexDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API).
+- Files and folders creation through drag and drop and new file/folder context menu option.
 
 🖥️ **Desktop**
+  - [react-rnd](https://github.com/bokuweb/react-rnd) windows that can be minimized, maximazed, closed and dragged arround.
   - Right click context menu with dynamic options depending on target (file, folder, desktop area, etc).
-  - Start menu with options to turn the "pc" off and or put it to sleep and a list of OS apps.
-  - [react-rnd](https://github.com/bokuweb/react-rnd) windows that can be  minimazed, maximazed, closed and dragged arround.
-  - Responsive desktop [grid layuto](https://github.com/react-grid-layout/react-grid-layout) with persistent desktop icon position.
+  - Start menu with options to change the OS status (off/sleep) and a list of apps.
+  - Responsive desktop [grid layout](https://github.com/react-grid-layout/react-grid-layout).
+  - Draggable desktop icons with persistent positioning.
   
 🖼️ **Personalization**
-  - An selection of three different themes (Lake slate, Nord and Cozy)
+  - Three different themes (Lake slate, Nord and Cozy)
   - List of wallpapers per theme, gathered from [pexels](https://www.pexels.com/pt-br/) and [freepik](https://br.freepik.com/)
+  - Two desktop orientation options with taskbar on top or bottom.
+  - Show/hide desktop icons.
 
 ### OS Apps
 
 #### 🎮 [EmulatorJS](https://github.com/EmulatorJS/EmulatorJS)
-- Multiple system emulation
-- Auto state save to IndexDB
+- Multiple game systems emulation thanks to [EmulatorJS](https://github.com/EmulatorJS/EmulatorJS).
+- Auto state save to IndexDB with exit.
+- Persist list of games on [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
 
 #### 💻 [Xterm.js terminal](https://xtermjs.org/)
 - Neofetch

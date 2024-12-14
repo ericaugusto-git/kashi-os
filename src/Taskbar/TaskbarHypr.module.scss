@@ -10,8 +10,10 @@ $paddingX: 12px;
     gap: 12px;
     justify-content: end;
     font-family: 'IBM Plex Mono';
-    color: white;
-}
+    span{
+        color: rgb(var(--font-color));
+    }
+    }
 
 .right{
     margin-left: auto;

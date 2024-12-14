@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import brasilFlag from '../../assets/taskbar/languages_icons/brazil_flag.svg';
 import globeIcon from '../../assets/taskbar/languages_icons/globe.svg';
+import style from './LocalteSwitcher.module.scss';
 const LocaleSwitcher = () => {
   const [isVisible, setIsVisible] = useState(true);
 
@@ -38,7 +39,7 @@ const LocaleSwitcher = () => {
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.3 }}
           >
-            <span>
+            <span className={style.locale}>
             {i18n.resolvedLanguage?.replace('pt-', '').toLocaleUpperCase()}
             </span>
             <img className='taskbar_icon' src={i18n.resolvedLanguage == 'pt-BR' ? brasilFlag : globeIcon}></img>
