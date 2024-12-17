@@ -12,6 +12,7 @@ import styles from './Folder.module.scss';
 function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
   const [currentPath, setCurrentPath] = useState(filePath);
   const [files, setFiles] = useState<WindowType[]>([]);
+  const [loading, setLoading] = useState<boolean>()
   const [history, setHistory] = useState<string[]>([filePath]);
   const [historyIndex, setHistoryIndex] = useState(0);
   const { t } = useTranslation();
@@ -25,10 +26,9 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
   useEffect(() => {
     const createDefaultFiles = async () => {
       const wasCreated = localStorage.getItem(currentPath);
-      console.log(wasCreated);
       if(defaultFiles[currentPath] && !wasCreated){
-        console.log('added')
         localStorage.setItem(currentPath, 'true');
+        setLoading(true);
         for await (const fileUrl of defaultFiles[currentPath]){
           await addDefaultFile(fileUrl);
           if(listFiles){
@@ -40,6 +40,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
           const filesList = await listFiles(currentPath) || []
           setFiles(filesList);
         }
+        setLoading(false);
       }
     }
     createDefaultFiles();
@@ -49,10 +50,9 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
     const loadFiles = async () => {
       if(listFiles){
         try{
-          console.log('etc e tal')
           let filesList = await listFiles(currentPath) || []
           
-          if(currentPath === '/home/desktop/projects_default_folder'){
+          if(currentPath === '/home/desktop/projects'){
             const projects = windowsTemplates.filter(window => window.appType === 'project');
             filesList = [...filesList, ...projects];
           }
@@ -72,7 +72,6 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
   const  addDefaultFile = async (fileUrl: string) => {
     try{
       const response = await fetch(fileUrl, {cache: "no-store"});
-      console.log(response);
   
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -85,8 +84,6 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
       // Extract the file name using split
       const fileName = decodedUrl.split('/').pop();
   
-      console.log(fileName); // Eric Augusto Front End Dev - Resume.pdf
-  
           // Convert the response to a Blob
           const blob = await response.blob();
   
@@ -96,7 +93,6 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
           });
       createFile(currentPath, file, null, true);
     } catch(e){
-      console.log("troll: ", e)
     }
   }
 
@@ -152,7 +148,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
   };
 
   return (
-    <div className={styles.folder} onContextMenu={handleContextMenu} onDrop={handleDropWrapper} onDragOver={handleDragOver}>
+    <div className={`${styles.folder} ${loading && styles.loading}`} onContextMenu={handleContextMenu} onDrop={handleDropWrapper} onDragOver={handleDragOver}>
       <div className={styles.navigation}>
         <button 
           onClick={goBack} 
@@ -236,6 +232,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
               <DesktopIcon app={file} fromFolder={true} folderPath={currentPath} svgStyles={file.desktopStyles?.svg} svgMask={file.svgMask?.desktop} buttonStyles={file.desktopStyles?.button} imgWrapperStyles={file.desktopStyles?.img} />
             </div>
           ))}
+      {loading && <div className={styles["loader_wrapper"]}><div className={styles["loader"]}></div>loading files</div> }
         </div>
       </div>}
       {files.length === 0 && <div className={styles.folderEmpty}>

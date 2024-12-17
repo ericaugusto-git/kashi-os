@@ -85,7 +85,9 @@
     display: flex;
     padding: 3px 10px;
     // height: 130px;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
+    overflow-x: auto;
+    max-width: 320px;
     z-index: 50;
     // width: 130px;
     li {

@@ -1,6 +1,6 @@
 import { wallpapers } from "./wallpapers";
 
-export const deletableDefaultFolders = ['/home/desktop/projects_default_folder']
+export const deletableDefaultFolders = ['/home/desktop/projects']
 
 export const defaultFolders = [
     '/usr',

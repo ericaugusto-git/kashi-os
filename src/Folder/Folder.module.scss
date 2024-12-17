@@ -3,8 +3,12 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background-color: rgba(var(--theme-color));
+  color: rgb(var(--font-color));
+  background: rgb(var(--darker-color));
   transition: background-color var(--theme-transition-ms) linear;
+  &.loading{
+    pointer-events: none;
+  }
 }
 
 .body {
@@ -21,11 +25,13 @@
     li {
       list-style: none;
       a{
+        color: rgb(var(--font-color));
         white-space: nowrap;
         display: flex;
         align-items: center;
         gap: 8px;
         .icon{
+          background-color: rgb(var(--font-color));
           width: 16px;
           height: 16px;
       }
@@ -47,9 +53,8 @@
   background: none;
   border: none;
   border-radius: 4px;
-  color: white;
   cursor: pointer;
-
+  color: rgb(var(--font-color));
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -80,6 +85,7 @@
   flex: 1;
   padding: 0 15px;
   height: fit-content;
+  position: relative;
 }
 
 .folderEmpty{
@@ -101,3 +107,43 @@
   align-items: center;
   height: fit-content;
 } 
+
+.loader_wrapper{
+  position: absolute;
+  top: 50%;  /* position the top  edge of the element at the middle of the parent */
+  left: 50%; /* position the left edge of the element at the middle of the parent */
+  background-color: rgba(255, 255, 255, 0.027);
+  width: 100%;
+  pointer-events: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  transform: translate(-50%, -50%); 
+}
+
+.loader {
+  width: 120px;
+  height: 22px;
+  border-radius: 40px;
+  color: rgb(var(--accent-color));
+  border: 2px solid;
+  position: relative;
+}
+.loader::before {
+  content: "";
+  position: absolute;
+  margin: 2px;
+  width: 25%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: inherit;
+  background: currentColor;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {
+    50% {left:100%;transform: translateX(calc(-100% - 4px))}
+}

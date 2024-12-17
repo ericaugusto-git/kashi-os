@@ -20,7 +20,7 @@ import { usePcStatus } from "@/contexts/PcStatusContext";
 import { useWindowContext } from "@/contexts/WindowContext";
 import useOpenWindow from "@/hooks/useOpenWindow";
 import { generateLayouts } from "@/utils/utils";
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { FullScreenHandle } from "react-full-screen";
 import { Layouts } from "react-grid-layout";
 import { useTranslation } from "react-i18next";
@@ -41,6 +41,7 @@ let eventHandler: (event: string) => void;
 
 export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallpaperSwitcherOpen, setThemeSwitcherOpen, screenHandle, setLayouts}: MenuProps){
     const contextRef = useRef<HTMLUListElement>(null);
+    const [position, setPosition] = useState<{x: number, y: number} | null>(null);
     const [menuProps, setMenuProps] = useContextMenu();
     const { x, y, source, handleCustomMenuEvent, folderPath } = menuProps || {};
     const handleClick = (e: React.MouseEvent) => {
@@ -52,7 +53,33 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
       eventHandler = handleCustomMenuEvent;
     }, [handleCustomMenuEvent])
 
+    useEffect(() => {
+        if (x && y && contextRef.current) {
+            const adjustedPos = getAdjustedPosition(x, y);
+            setPosition(adjustedPos);
+        }
+    }, [x, y]);
 
+    const getAdjustedPosition = (x: number, y: number) => {
+        if (!contextRef.current) return { x, y };
+
+        const menuRect = contextRef.current.getBoundingClientRect();
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        let adjustedX = x;
+        let adjustedY = y;
+
+        if (x + menuRect.width > windowWidth) {
+            adjustedX = windowWidth - menuRect.width;
+        }
+
+        if (y + menuRect.height > windowHeight) {
+            adjustedY = windowHeight - menuRect.height;
+        }
+
+        return { x: adjustedX, y: adjustedY };
+    };
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -68,7 +95,7 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
     },[])
     
     return <>
-    {x &&  <ul ref={contextRef} className={styles.contextMenu} style={{top: `${y}px`, left: `${x}px`}} onClick={handleClick}>
+    {x &&  <ul ref={contextRef} className={styles.contextMenu} style={{position: 'absolute', top: `${position?.y ?? y}px`, left: `${position?.x ?? x}px`, visibility: 'visible'}} onClick={handleClick}>
       {source == 'desktop' || source == 'folder' ? 
       <DesktopOptions source={source} folderPath={folderPath} isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} setLayouts={setLayouts} screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : 
       <DesktopItemOptions source={source!}/>}

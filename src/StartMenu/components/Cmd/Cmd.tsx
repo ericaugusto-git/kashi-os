@@ -132,11 +132,8 @@ function Cmd({folderPath}: FileProps) {
           : `${currentDirectory}/${newPath}`;
         // Deals with paths like ../../home
         if (newPath?.includes("..")) {
-          console.log('oie')
           const levels = newPath.split("..").length - 1;
-          console.log(levels)
           absolutePath = currentDirectory.split("/").slice(0, -levels).join("/") || "/";
-          console.log(absolutePath);
           absolutePath += newPath.includes('/') ? '/' + (newPath?.split('/').pop() || '') : '';
         } 
         absolutePath = absolutePath.replaceAll('//', '/');
@@ -245,8 +242,6 @@ function Cmd({folderPath}: FileProps) {
               break;
             }
             case "cd": {
-              console.log(args)
-              console.log(absolutePath)
               if(args.length > 1){
                 localEcho.println("cd: too many arguments");
                 break;

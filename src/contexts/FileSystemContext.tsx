@@ -71,7 +71,6 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
 
         const reader = new FileReader();
         reader.onload = () => {
-          console.log(reader.result);
           fileSystem.writeFile(filePath, Buffer.from(reader.result as ArrayBuffer), (err) => {
             if (err) {
                 console.error('Error creating file:', err);
@@ -382,7 +381,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
 
         for (const folder of defaultFolders) {
           try {
-            if(folder == '/home/desktop/projects_default_folder' && hasInitializedFileSystemFirstTime === 'true') continue;
+            if(deletableDefaultFolders.includes(folder) && hasInitializedFileSystemFirstTime === 'true') continue;
             await new Promise<void>((resolve, reject) => {
               fileSystem.exists(folder, (exists) => {
                 if (!exists) {
@@ -399,9 +398,9 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
             console.error(`Error creating folder ${folder}:`, error);
           }
         }
+        // Check if README already exists then creates it if not
         const initializeReadme = async () => {
           try {
-            // Check if README already exists
             await new Promise<void>((resolve) => {
               fileSystem.exists('/home/desktop/README.md', async (exists) => {
                 if (!exists) {
@@ -440,14 +439,10 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
   const handleDrop = useCallback(
     async (folderPath: string, event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
-      console.log(event.dataTransfer.items.length)
       if (event.dataTransfer.items) {
-        console.log(JSON.parse(JSON.stringify(event.dataTransfer.items)))
         for await (const item of event.dataTransfer.items) {
-          console.log(item)
           if (item.kind === 'file') {
             const file = item.getAsFile();
-            console.log(file)
             if (file) {
               await createFile(folderPath, file);
             }

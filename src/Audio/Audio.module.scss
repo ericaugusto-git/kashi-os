@@ -8,7 +8,8 @@
   position: relative;
   height: 100%;
   width: 100%;
-  background-color: #181B21;
+  background-color: rgb(var(--darker-color));
+  color: rgb(var(--font-color));
   border-radius: 4px;
 
   span {

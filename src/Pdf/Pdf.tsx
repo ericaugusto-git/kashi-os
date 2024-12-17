@@ -34,6 +34,9 @@ export default function Pdf({filePath, getFileUrl}: FileProps){
                     }
                 `}</style>
             </div>}
-           {pdfUrl && <embed src={pdfUrl} type="application/pdf" width={'100%'} height={'100%'}></embed>}
+           {/* {pdfUrl && <embed src={pdfUrl} type="application/pdf" width={'100%'} height={'100%'}></embed>} */}
+           {pdfUrl &&   <object data={pdfUrl} type="application/pdf" width="100%" height="100%">
+      <p>Failed to load :(</p>
+  </object>}
     </div>
 }

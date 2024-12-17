@@ -50,7 +50,7 @@ function Desktop() {
   const  [wallpaperSwitcherRef, wallpaperSwitcherOpen, setwWallpaperSwitcherOpen ] = useComponentVisible(false,wallpaperButtonRef);
 
   function handleCustomMenuEvent(event: string){
-    console.log(event)
+    console.log(event);
   }
   const handleContextMenu = useContextMenuHandler("desktop", handleCustomMenuEvent, '/home/desktop');
   const [isDesktopHidden, setDesktopHidden] = useState(localStorage.getItem("desktop_icon_visibility") === "true");
@@ -148,7 +148,7 @@ function Desktop() {
         className={
           `${(pcStatus == "on" ? styles.desktop : styles[pcStatus])} ${"desktop_" + position}`
         }
-        style={{'--theme-color': themes[theme].color,'--font-color': themes[theme].font, '--accent-color': themes[theme].accent, '--theme-transition-ms': transitionMs} as CSSProperties}
+        style={{'--theme-color': themes[theme].color,'--font-color': themes[theme].font, '--accent-color': themes[theme].accent, '--darker-color': themes[theme].darker_color,  '--theme-transition-ms': transitionMs} as CSSProperties}
       >
 
   <div ref={themeSwitcherRef}>

@@ -1,18 +1,11 @@
+$size: 21px; // (Fully responsive)
 $color-black: rgb(var(--theme-color));
 $color-white: 	rgb(var(--font-color));
-$size: 21px; // (Fully responsive)
-
-// Cat
-.cat {
-	position: relative;
-	height: $size;
-	width: $size * 1.13;
-}
 
 
-.cat.light{
 
-}
+
+
 // Ears
 .start_btn{
 	height: 29px;
@@ -29,6 +22,13 @@ $size: 21px; // (Fully responsive)
 	&:hover{
 		opacity: .8;
 	}
+}
+// Cat
+.cat {
+	position: relative;
+	height: $size;
+	width: $size * 1.13;
+
 }
 
 .face, .strart_btn{
@@ -221,6 +221,31 @@ $size: 21px; // (Fully responsive)
 		}
 	}
 }
+
+// .startBtnWrapper{
+// 	&.light {
+// 		.face,
+// 		.start_btn {
+// 		  background-color: rgb(var(--font-color)) !important;
+// 		}
+// 		.start_btn{
+// 			border-color: $color-black;
+// 		}
+	
+// 		.ear,
+// 		.eye,
+// 		.muzzle {
+// 		  background: rgb(var(--theme-color));
+// 		}
+	
+// 		.ear::before,
+// 		.ear::after,
+// 		.eye::after,
+// 		.face {
+// 		  background: rgb(var(--font-color));
+// 		}
+// 	  }
+// }
 
 
 // .paused{

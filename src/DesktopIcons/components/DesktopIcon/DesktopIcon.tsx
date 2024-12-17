@@ -10,7 +10,7 @@ import { useContextMenuHandler } from '@/contexts/ContextMenuContext';
 import { useDesktopPosition } from '@/contexts/DesktopPositonContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import styles from './DesktopIcon.module.scss';
-import { defaultFolders } from '@/constants/defaultFolders';
+import { defaultFolders, deletableDefaultFolders } from '@/constants/defaultFolders';
 
 type DesktopIconProp = {
     app: WindowType,
@@ -154,7 +154,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
     const handleContextMenuWrapper = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.stopPropagation();
         const fullPath = folderPath + '/' + app.app;
-        if(!defaultFolders.includes(fullPath) || fullPath == '/home/desktop/projects_default_folder') handleContextMenu(e);
+        if(!defaultFolders.includes(fullPath) || deletableDefaultFolders.includes(fullPath)) handleContextMenu(e);
         else e.preventDefault();
     }
 
@@ -165,8 +165,8 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
                 <div style={stylesDefault} className={styles.img_wrapper + " " +  (!svgMask ? 'backgroundImage' : '')}>
                     {svgMask && <div style={svgDefault} className={"svgMask " + styles.icon}></div>}
                 </div>
-            {!hideLabel && <span ref={editableRef} suppressContentEditableWarning={true} contentEditable={renameMode} className={`${styles.label} ${renameMode && styles.edit}`}>
-                    {(folderPath == '/home/desktop' && app.app == 'projects_default_folder') || folderPath == '/home' || app.appType != 'file' ? t(app.app) : app.app}
+            {(!hideLabel || renameMode) && <span ref={editableRef} suppressContentEditableWarning={true} contentEditable={renameMode} className={`${styles.label} ${renameMode && styles.edit}`}>
+                    {(folderPath == '/home/desktop' && app.app == 'projects') || folderPath == '/home' || app.appType != 'file' ? t(app.app) : app.app}
                 </span>}
             </a>
     )

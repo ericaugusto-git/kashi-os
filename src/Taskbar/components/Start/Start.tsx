@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { StartSetterContext } from "../../../App";
 import styles from "./Start.module.scss";
+import { useTheme } from "@/contexts/ThemeContext";
 interface MousePosition {
     x: number;
     y: number;
@@ -13,7 +14,7 @@ function Start() {
   //   border: "1px solid rgb(255 255 242)",
   //   borderRadius: '50px'
   // };
-
+  const [theme] = useTheme();
   const [isStartMenuOpen, setStartMenuOpen, toggleButtonRef] =
     useContext(StartSetterContext);
   const handleClick = () => {
@@ -43,9 +44,8 @@ function Start() {
     const pupilY = Math.sin(angle) * distance;
     return { x: pupilX, y: pupilY };
   };
-  
   return (
-    <div  onMouseMove={handleMouseMove} className={styles.startBtnWrapper}>
+    <div  onMouseMove={handleMouseMove} className={`${styles.startBtnWrapper} ${styles[theme]}`}>
     <button
       ref={toggleButtonRef}
       className={`${styles.start_btn} ${isStartMenuOpen && styles.paused}`}

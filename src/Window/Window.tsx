@@ -2,7 +2,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Rnd } from 'react-rnd';
-import lock from '../assets/window/lock.svg';
 import { WindowType } from '../constants/window';
 import { useDesktopPosition } from '../contexts/DesktopPositonContext';
 import { useWindowContext } from '../contexts/WindowContext';
@@ -13,7 +12,7 @@ import styles from './Window.module.scss';
 
 const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const [windows, setWindows] = useWindowContext();
-  const defaultWindowStyles = {borderRadius: '8px'};
+  const defaultWindowStyles = {};
   const [defaultSyles, setDefaultStyles] = useState<React.CSSProperties>( defaultWindowStyles);
   const [noTransition, seNoTransition] = useState(false);
   const windowRefs = useRef<Array<Rnd | null>>([]);
@@ -183,22 +182,23 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
       transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'
     }}
   >
-    <div className={styles.glass_effect}></div>
+    <div className={styles.glass_effect} style={{borderRadius: defaultSyles.borderRadius}}></div>
     <div className={`${styles.window}`} style={{...defaultSyles, ...window.windowStyles, }}>
         <div className={styles.header} style={window.headerStyles}>
+        <div className={styles.actions}>
+              <button className={`${styles.action} ${styles.close}`} ref={ref => closeRefs.current[index] = ref}  onTouchStart={() => handleCloseWindow(window)} onClick={() => handleCloseWindow(window)}></button>
+              {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} onTouchStart={() => maximizeWindow(window, index)} onClick={ () => maximizeWindow(window, index)}></button>}
+              <button className={`${styles.action} ${styles.minimize}`} ref={ref => minimizedRefs.current[index] = ref} onTouchStart={() => handleMinimized(window.app)} onClick={() => handleMinimized(window.app)}></button>
+          </div>
           <div className={styles.app}>
           {/* {window.icon?.includes(".svg") ? (
             <div style={{ maskImage: `url(${window.icon})`, width: "21px", height: "19px" }} className="svgMask"></div>
           ) : <img src={window.icon} style={{width: "21px", height: "19px"}}></img>} */}
-          <img src={window.uniqueIcon ?? window.icon} style={{width: "21px", height: "19px"}}></img>
+          <img src={window.uniqueIcon ?? window.icon} ></img>
             <span>{t(window.uniqueName ?? window.app)}</span>
           </div>
-          {window.link && <div className={styles.link}><div style={{maskImage: `url("${lock}")`, minWidth: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '').split('?')[0]}</a></div>}
-          <div style={!window.link ? {marginLeft: 'auto'} : {}} className={styles.actions}>
-              <button className={`${styles.action} ${styles.minimize}`} ref={ref => minimizedRefs.current[index] = ref} onTouchStart={() => handleMinimized(window.app)} onClick={() => handleMinimized(window.app)}></button>
-              {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} onTouchStart={() => maximizeWindow(window, index)} onClick={ () => maximizeWindow(window, index)}></button>}
-              <button className={`${styles.action} ${styles.close}`} ref={ref => closeRefs.current[index] = ref}  onTouchStart={() => handleCloseWindow(window)} onClick={() => handleCloseWindow(window)}></button>
-          </div>
+
+          {/* {window.link && <div className={styles.link}><div style={{maskImage: `url("${lock}")`, minWidth: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '').split('?')[0]}</a></div>} */}
         </div>
         <div className={styles.body} style={window.bodyStyles}>
           {/* <div style={{backgroundColor: "white",width: "100%", height: "100%", boxSizing: "border-box"}}></div> */}

@@ -27,8 +27,10 @@ export default function WallpaperSwitcher({wallpaperSwitcherOpen, setwWallpaperS
 
 <a onClick={() => handleChangeTheme(index)} key={index} className={`${style.wallpaper}  ${index == wallpaperIndex && style.active}`}>
     <div className={`backgroundImage ${style.wallpaper_img}`} style={{backgroundImage: `url("${wallpaper}"`}}>
-
     </div>
+    <span>
+        {wallpaper.split('/').pop()}
+    </span>
 </a>
 )}
     </motion.div>}

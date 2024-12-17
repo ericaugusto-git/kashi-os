@@ -1,37 +1,53 @@
 import { useFileSystem } from "@/contexts/FileSystemContext";
 import { loadComponent } from "@/utils/componentLoader";
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { WindowType } from "../../../constants/window";
 import styles from './WindowContent.module.scss';
 
 export default function WindowContent({window, closeRefCurrent, index}: {window: WindowType, closeRefCurrent: (HTMLButtonElement | null)[], index: number}){
     const [loading, setLoading] = useState(!!window.link);
+    const [componentLoaded, setComponentLoaded] = useState(false);
+    
+    // Use useRef to store the loaded component
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // const [Component, setComponent] = useState<any>(null);
-    const LoadedComponent = useMemo(() => window.componentPath ? loadComponent(window.componentPath!) : null, [window.componentPath]);
-    // useEffect(() => {
-    //     if (window.componentPath) {
-    //         try {
-    //             setComponent(() => LoadedComponent);
-    //         } catch (error) {
-    //             console.error('Error loading component:', error);
-    //         }
-    //     }
-    // }, [window.componentPath]);
+    const componentRef = useRef<any>(null);
+    
+    // Load component only once when componentPath changes or on initial mount
+    useEffect(() => {
+        if (window.componentPath && !componentRef.current) {
+            componentRef.current = loadComponent(window.componentPath);
+            setComponentLoaded(true);
+        }
+    }, [window.componentPath]);
+
+    const LoadedComponent = componentRef.current;
+
     const {getFileUrl, updateFile, fileList, listFiles} = useFileSystem();
-    const props = window.props || {}
+    const props = window.props || {};
 
     return <>
-    {loading && <div className={styles.loader_wrapper}>
+        {loading && <div className={styles.loader_wrapper}>
             <div className={styles.loader}></div>
         </div>}
-        {window.link ? <iframe src={window.link} onLoad={() => setLoading(false)} width="100%" height="100%"></iframe> : 
-        LoadedComponent && <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <Suspense fallback={<div>Loading...</div>}>
-                <LoadedComponent closeBtnRefs={closeRefCurrent} folderPath={window.folderPath} getFileUrl={getFileUrl} updateFile={updateFile} closeRefIndex={index} fileList={fileList} listFiles={listFiles} {...props} />
-                </Suspense>
-        </ErrorBoundary>}
+        {window.link ? 
+            <iframe src={window.link} onLoad={() => setLoading(false)} width="100%" height="100%"></iframe> : 
+            componentLoaded && LoadedComponent && 
+                <ErrorBoundary FallbackComponent={ErrorFallback}>
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <LoadedComponent 
+                            closeBtnRefs={closeRefCurrent} 
+                            folderPath={window.folderPath} 
+                            getFileUrl={getFileUrl} 
+                            updateFile={updateFile} 
+                            closeRefIndex={index} 
+                            fileList={fileList} 
+                            listFiles={listFiles} 
+                            {...props} 
+                        />
+                    </Suspense>
+                </ErrorBoundary>
+        }
     </> 
 }
 

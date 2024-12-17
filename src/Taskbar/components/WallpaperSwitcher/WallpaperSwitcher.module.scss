@@ -27,7 +27,17 @@ $color: var(--color);
   border-radius: $borderRadius;
   cursor: url("/pointer.svg") 6 0, pointer;
   transition: opacity 0.6s ease;
+  text-align: center;
   padding: 4px;
+  span{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 11px;
+    width: 50%;
+    margin: auto;
+    display: block;
+    overflow: hidden;
+  }
   &.active, &:hover{
     background-color: rgb(var(--accent-color));
   }

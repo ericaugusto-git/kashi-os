@@ -79,7 +79,7 @@ export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className={styles.overflowMenu}
+              className={`${styles.overflowMenu} custom_scrollbar`}
             >
               {overflowingWindows.map((window: WindowType) => (
                 <motion.li

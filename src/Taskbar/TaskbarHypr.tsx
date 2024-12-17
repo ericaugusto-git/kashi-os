@@ -85,10 +85,9 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
         </div>
         <div style={{marginRight: windows.length == 0 ? 'auto' : ''}} className={`${style.taskbar_section_wrapper} ${style.intro}`}>
             <div>
-                <span>eric augusto • </span>
-                <span className={style.front}>{t('front')}</span> 
+                <span>カシ・OS</span>
             </div>
-            <span className={style.welcome}>welcome to my portfolio :D</span>
+            <span className={style.welcome}>{t('made')} Eric Augusto・<span className={style.front}>{t('front')}</span> </span>
         </div>
         <AnimatePresence>
             { windows?.length > 0 && <motion.div ref={windowsRef} initial={{scale: 0.9, opacity: 0}} animate={{scale: 1, opacity: 1}} transition={{duration: 0.1}} className={`${style.taskbar_section_wrapper} ${style.windows}`}>

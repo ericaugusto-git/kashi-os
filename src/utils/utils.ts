@@ -22,7 +22,6 @@ export const fetchGif = async (gifId: string) => {
       );
       const data = await response.json();
       const gifUrl = data.data.images.original.url;
-      console.log(gifId)
       localStorage.setItem(gifId, gifUrl);
       return gifUrl;
     } catch (error) {
