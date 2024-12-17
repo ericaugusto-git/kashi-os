@@ -1,4 +1,3 @@
-import Folder from '@/Folder/Folder';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +6,7 @@ import { WindowType } from '../constants/window';
 import { useDesktopPosition } from '../contexts/DesktopPositonContext';
 import { useWindowContext } from '../contexts/WindowContext';
 import useCloseWindow from '../hooks/useCloseWindow';
+import WindowContent from './components/WindowContent/WindowContent';
 import styles from './Window.module.scss';
 
 
@@ -203,7 +203,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
         <div className={styles.body} style={window.bodyStyles}>
           {/* <div style={{backgroundColor: "white",width: "100%", height: "100%", boxSizing: "border-box"}}></div> */}
           {/* {window.link ? <iframe src={window.link} width="100%" height="100%"></iframe> : window.conteudo && <window.conteudo closeBtnRefs={closeRefs.current} closeRefIndex={index} />} */}
-            <Folder/>
+            <WindowContent window={window} index={index} closeRefCurrent={closeRefs.current}/>
           {/* <div style={{width: "100%", height: "100%", backgroundImage: `url(${jdm})`, backgroundRepeat: "no-repeat", backgroundSize: "cover"}}></div> */}
         </div>
     </div>
