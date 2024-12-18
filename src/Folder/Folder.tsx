@@ -93,6 +93,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
           });
       createFile(currentPath, file, null, true);
     } catch(e){
+      console.log(e);
     }
   }
 

@@ -2,6 +2,7 @@ import { FileProps } from "@/constants/window";
 import Editor from "@monaco-editor/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from './Monaco.module.scss';
+import Markdown from "@/Markdown/Markdown";
 
 // Map file extensions to Monaco language IDs
 const getLanguageFromPath = (filePath: string): string => {
@@ -85,6 +86,8 @@ export default function Monaco({ filePath, getFileUrl, updateFile }: FileProps) 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorRef = useRef<any>(null);
   const [content, setContent] = useState<string>('');
+  console.log(filePath);
+  const [editing, setEditing] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState(true);
   const [lineCount, setLineCount] = useState<number>(0);
   const [hasChanges, setHasChanges] = useState<boolean>(false);
@@ -140,32 +143,40 @@ export default function Monaco({ filePath, getFileUrl, updateFile }: FileProps) 
 
   return (
     <div className={styles.container}>
-      <Editor
-        height="calc(100% - 22px)"
-        defaultLanguage={getLanguageFromPath(filePath || '')}
-        defaultValue={content}
-        theme="vs-dark"
-        onMount={(editor) => {
-          setLineCount(editor.getModel()?.getLineCount() || 0);
-          editorRef.current = editor;
-        }}
-        onChange={() => { 
-          setHasChanges(true);
-        }}
-        options={{
-          minimap: { enabled: true },
-          fontSize: 14,
-          wordWrap: 'on',
-          automaticLayout: true,
-          scrollBeyondLastLine: false,
-          readOnly: false,
-        }}
-      />
+      <div style={{ display: editing ? 'block' : 'none', height: 'calc(100% - 22px)' }}>
+        <Editor
+          height="100%"
+          defaultLanguage={getLanguageFromPath(filePath || '')}
+          defaultValue={content}
+          theme="vs-dark"
+          onMount={(editor) => {
+            setLineCount(editor.getModel()?.getLineCount() || 0);
+            editorRef.current = editor;
+          }}
+          onChange={() => { 
+            setHasChanges(true);
+          }}
+          options={{
+            minimap: { enabled: true },
+            fontSize: 14,
+            wordWrap: 'on',
+            automaticLayout: true,
+            scrollBeyondLastLine: false,
+            readOnly: false,
+          }}
+        />
+      </div>
+      <div style={{ display: !editing ? 'block' : 'none', height: 'calc(100% - 28px)' }}>
+        <Markdown filePath={filePath} getFileUrl={getFileUrl}/>
+      </div>
       
       <div className={styles.statusBar}>
-        <div>
+        <div style={{marginRight: 'auto'}}>
           Lines: {lineCount}
         </div>
+        <button className={styles.edit} onClick={() => setEditing((prev) => !prev)}>
+          <div className={`svgMask`} style={{maskImage: `url("${editing ? 'eye.svg' : 'edit.svg'}")`}}></div>
+        </button>
         <button
           onClick={handleSave}
           className={`${styles.saveButton} ${hasChanges ? styles.hasChanges : ''}`}

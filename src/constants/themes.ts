@@ -58,6 +58,7 @@ export type Theme = {
       // // color: '57,118,133',
       // color: '24,24,24',
       // font: '196,165,118',
+      darker_color: '41, 38, 36',
       font: '255,255,255',
       color: '66,62, 59',
       accent: '199,178,143',

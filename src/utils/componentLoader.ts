@@ -17,7 +17,8 @@ const componentMap: Record<string, () => Promise<any>> = {
   "@/Photo/Photo": () => import("../Photo/Photo"),
   "@/Video/Video": () => import("../Video/Video"),
   "@/Pdf/Pdf": () => import("../Pdf/Pdf"),
-  "@/UnderDev/UnderDev": () => import("../UnderDev/UnderDev")
+  "@/UnderDev/UnderDev": () => import("../UnderDev/UnderDev"),
+  "@/Markdown/Markdown": () => import("../Markdown/Markdown")
 };
 
 export const loadComponent = (componentPath: string) => {

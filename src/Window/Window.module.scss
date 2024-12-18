@@ -18,7 +18,7 @@ $borderRadius: 13px;
     // outline: 1px solid black; /* Outer black border */
     // outline-offset: -4px; /* Adjust the outline position */
     
-    outline: 2px solid rgb(var(--darker-color));
+    // outline: 2px solid rgb(var(--darker-color));
     // box-shadow: 0 0 0 1px rgb(var(--accent-color));
     height: 100%;
     width: 100%;
@@ -67,9 +67,10 @@ $borderRadius: 13px;
       min-width: 0;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 8px;
       margin: auto;
       text-wrap: nowrap;
+      max-width: 50%;
       img{
         width: 16px;
         height: 14px;
@@ -78,6 +79,8 @@ $borderRadius: 13px;
       span{
         font-size: 12px;
         overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         line-clamp: 1;
         -webkit-line-clamp: 1;
         font-family: 'IBM Plex Mono';
