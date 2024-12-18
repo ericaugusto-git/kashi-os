@@ -38,7 +38,6 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
     const  [ calendarRef, isCalendarOpen, setIsCalendarOpen ] = useComponentVisible(false, clockButtonRef);
     const [windows, setWindows] = useWindowContext();
     const [windowsDivTotalLength, setWindowsDivTotalLength] = useState(0);
-    const openWindow = useOpenWindow();
 
     useEffect(() => {
         const handleResize = () => {

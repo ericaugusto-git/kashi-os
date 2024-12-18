@@ -11,9 +11,8 @@ function Lockscreen() {
     const [wallpaperIndex] = useWallpaper();
     const [theme] = useTheme();
     const currentWppr = wallpapers[theme][wallpaperIndex];
-    const { weatherContext, error } = useWeatherContext();
+    const { weatherContext } = useWeatherContext();
     const weather = weatherContext?.weather
-    const forecast = weatherContext?.forecast
     return ( 
         <div>
             <div className={styles.date_hour}>
