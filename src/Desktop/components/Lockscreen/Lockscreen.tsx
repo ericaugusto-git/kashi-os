@@ -13,6 +13,7 @@ function Lockscreen() {
     const currentWppr = wallpapers[theme][wallpaperIndex];
     const { weatherContext } = useWeatherContext();
     const weather = weatherContext?.weather
+    console.log(weather)
     return ( 
         <div>
             <div className={styles.date_hour}>
@@ -21,7 +22,7 @@ function Lockscreen() {
             <div className={`backgroundImage ${styles.img}`} style={{backgroundImage: `url("${currentWppr}")`}}>
 
             </div>
-            <WeatherBody weather={weather}/>
+            {weather && <WeatherBody weather={weather}/>}
             </div>
         </div>
     );
