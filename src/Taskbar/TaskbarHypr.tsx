@@ -16,7 +16,6 @@ import ClockHypr from "./components/ClockHypr/ClockHypr";
 import Performance from "./components/Performance/Performance";
 import Start from "./components/Start/Start";
 import WindowsHypr from "./components/WindowsHypr/WindowsHypr";
-import useOpenWindow from "@/hooks/useOpenWindow";
 
 type TaskbarProps = {
     setPcStatusMenuOpen: Dispatch<SetStateAction<boolean>>, 
