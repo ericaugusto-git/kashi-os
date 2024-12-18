@@ -86,8 +86,8 @@ export default function Monaco({ filePath, getFileUrl, updateFile }: FileProps) 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorRef = useRef<any>(null);
   const [content, setContent] = useState<string>('');
-  console.log(filePath);
-  const [editing, setEditing] = useState<boolean>(false);
+  const isMarkdown = filePath?.includes('.md');
+  const [editing, setEditing] = useState<boolean>(!isMarkdown);
   const [isLoading, setIsLoading] = useState(true);
   const [lineCount, setLineCount] = useState<number>(0);
   const [unsavedContent, setUnsavedContent] = useState('');
@@ -177,9 +177,9 @@ export default function Monaco({ filePath, getFileUrl, updateFile }: FileProps) 
         <div style={{marginRight: 'auto'}}>
           Lines: {lineCount}
         </div>
-        <button className={styles.edit} onClick={() => setEditing((prev) => !prev)}>
+        {isMarkdown && <button className={styles.edit} onClick={() => setEditing((prev) => !prev)}>
           <div className={`svgMask`} style={{maskImage: `url("${editing ? 'eye.svg' : 'edit.svg'}")`}}></div>
-        </button>
+        </button>}
         <button
           onClick={handleSave}
           className={`${styles.saveButton} ${hasChanges ? styles.hasChanges : ''}`}
