@@ -87,7 +87,7 @@ export default function Monaco({ filePath, getFileUrl, updateFile }: FileProps) 
   const editorRef = useRef<any>(null);
   const [content, setContent] = useState<string>('');
   console.log(filePath);
-  const [editing, setEditing] = useState<boolean>(true);
+  const [editing, setEditing] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   const [lineCount, setLineCount] = useState<number>(0);
   const [hasChanges, setHasChanges] = useState<boolean>(false);

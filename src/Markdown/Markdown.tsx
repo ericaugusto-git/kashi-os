@@ -31,7 +31,7 @@ export default function Markdown({ filePath, getFileUrl }: FileProps) {
     }
 
     return (
-      <div style={{ padding: '0 1rem', overflow: 'auto', height: '100%', backgroundColor: 'rgb(var(--darker-color))' }}>
+      <div className="custom_scrollbar" style={{ padding: '0 1rem', overflow: 'auto', height: '100%', backgroundColor: 'rgb(var(--darker-color))' }}>
         <ReactMarkdown>{content}</ReactMarkdown>
       </div>
     );
