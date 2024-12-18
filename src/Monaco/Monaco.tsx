@@ -90,6 +90,7 @@ export default function Monaco({ filePath, getFileUrl, updateFile }: FileProps) 
   const [editing, setEditing] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   const [lineCount, setLineCount] = useState<number>(0);
+  const [unsavedContent, setUnsavedContent] = useState('');
   const [hasChanges, setHasChanges] = useState<boolean>(false);
 
   useEffect(() => {
@@ -100,6 +101,7 @@ export default function Monaco({ filePath, getFileUrl, updateFile }: FileProps) 
           const response = await fetch(url);
           const text = await response.text();
           setContent(text);
+          setUnsavedContent(text);
         } catch (error) {
           console.error('Error loading file:', error);
           setContent('Error loading file content');
@@ -153,8 +155,9 @@ export default function Monaco({ filePath, getFileUrl, updateFile }: FileProps) 
             setLineCount(editor.getModel()?.getLineCount() || 0);
             editorRef.current = editor;
           }}
-          onChange={() => { 
+          onChange={(newContent) => { 
             setHasChanges(true);
+            setUnsavedContent(newContent ?? '');
           }}
           options={{
             minimap: { enabled: true },
@@ -167,7 +170,7 @@ export default function Monaco({ filePath, getFileUrl, updateFile }: FileProps) 
         />
       </div>
       <div style={{ display: !editing ? 'block' : 'none', height: 'calc(100% - 28px)' }}>
-        <Markdown filePath={filePath} getFileUrl={getFileUrl}/>
+        <Markdown content={unsavedContent}/>
       </div>
       
       <div className={styles.statusBar}>
