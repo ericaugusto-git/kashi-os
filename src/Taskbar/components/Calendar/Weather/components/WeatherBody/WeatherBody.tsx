@@ -13,6 +13,7 @@ function WeatherBody({weather, forecast}: WeatherType) {
     const [theme] = useTheme();
     const [forecastList, setForecastList] = useState([]);
     useEffect(() => {
+        if(forecast)
         setForecastList(forecast.list.reduce((acc: any[], current: any) => { acc.push({date: moment(current.dt * 1000).format('LT'), temp: Math.round(current.main.temp)}); return acc}, []));
         // Calculate maximum temperature value
     },[])
@@ -36,7 +37,7 @@ function WeatherBody({weather, forecast}: WeatherType) {
                 <span>{weather.wind.speed + " m/s"}</span>
             </div>
         </div>
-            <div className={styles.graph}>
+{ forecast &&            <div className={styles.graph}>
                 <div className={styles.y_axis}>
                     <span>50</span>
                     <span>25</span>
@@ -46,7 +47,7 @@ function WeatherBody({weather, forecast}: WeatherType) {
                 <div key={i} className={styles.line} style={{height: v.temp + 'px'}} data-tooltip={v.temp + '°C'}>
                     <span>{v.date}</span>
                 </div>))}
-            </div>
+            </div>}
         </div>
     );
 }

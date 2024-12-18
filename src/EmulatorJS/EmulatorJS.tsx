@@ -23,6 +23,9 @@ export default function EmulatorJS({
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const {t, i18n} = useTranslation();
   const [locale,setLocale] = useState(i18n.resolvedLanguage == 'en' ? 'en-US' : i18n.resolvedLanguage);
+  const acceptedExtensions = Object.values(emulatorCores)
+    .flatMap(core => core.ext)
+    .join(',');
   useEffect(() => {
     const openDB = async () => {
       const dbRequest = indexedDB.open("ROMsDatabase", 2);
@@ -239,7 +242,7 @@ export default function EmulatorJS({
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={gameUrl ? {padding: 0, height: '100%'} : {padding: '10px', height: 'calc(100% - 15px)'}}>
       <div className={styles.header}>
         {currentCore == 'n64' && <span style={{fontSize: '11px'}}>Save is unstable with Nintendo 64, working on it :)</span>}
         {gameUrl && (
@@ -252,7 +255,7 @@ export default function EmulatorJS({
         )}{" "}
         <div
           className={styles.tooltip}
-          data-tooltip={`${t('systems')} \n \n Atari 2600, Atari 5200, Atari 7800, Atari Jaguar, Atari Lynx, Neo Geo Pocket, Nintendo 64, Nintendo DS, Nintendo Entertainment System, Nintendo Game Boy, Nintendo Game Boy Advance, Nintendo Game Boy Color, PC Engine, Sega 32X, Sega Game Gear, Sega Genesis / Mega Drive, Sega Master System, Super Nintendo Entertainment System, Virtual Boy, WonderSwan`}
+          data-tooltip2={`${t('systems')} \n \n Atari 2600, Atari 5200, Atari 7800, Atari Jaguar, Atari Lynx, Neo Geo Pocket, Nintendo 64, Nintendo DS, Nintendo Entertainment System, Nintendo Game Boy, Nintendo Game Boy Advance, Nintendo Game Boy Color, PC Engine, Sega 32X, Sega Game Gear, Sega Genesis / Mega Drive, Sega Master System, Super Nintendo Entertainment System, Virtual Boy, WonderSwan`}
         >
           <div
             className={`svgMask ${styles.icon}`}
@@ -343,6 +346,7 @@ export default function EmulatorJS({
                 type="file"
                 onChange={handleFileChange}
                 className={styles.file_input}
+                accept={acceptedExtensions}
               />
             </>
           )}

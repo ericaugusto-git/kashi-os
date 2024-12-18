@@ -58,13 +58,7 @@ const Credits = () => {
         {name: "Photo by Ling Tang on Unsplash", url: "https://unsplash.com/photos/cars-on-road-at-night-time--rffNTF8CYA?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"},
         {name: "Photo by Jezael Melgoza on Unsplash", url: "https://unsplash.com/photos/people-walking-on-road-near-well-lit-buildings-layMbSJ3YOE?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"}
     ];
-    const ai = [
-      {name: "Designed by Freepik", url: "https://www.freepik.com/free-ai-image/anime-moon-landscape_234128312.htm#fromView=image_search&page=1&position=29&uuid=2dc60f7f-97c0-4b13-bc1d-21344f9c0573"},
-      {name: "Designed by Freepik", url: "https://www.freepik.com/free-ai-image/anime-style-cozy-home-interior-with-furnishings_133783470.htm#fromView=search&page=3&position=4&uuid=e2aa59af-cf1f-44e3-86f4-a411e8e24779"},
-      {name: "Designed by Freepik", url: "https://www.freepik.com/free-ai-image/coastal-landscape-fantasy-style_204361500.htm#fromView=search&page=5&position=24&uuid=4dfa580a-25d1-4654-92b6-ef5249165226"},
-      {name: "Designed by Freepik", url: "https://www.freepik.com/free-ai-image/digital-art-style-river-nature-landscape_319404196.htm#fromView=search&page=2&position=27&uuid=a6d5dc72-9689-4445-b921-775017cd9d77"},
-      {name: "Designed by Freepik", url: "https://www.freepik.com/free-ai-image/coastal-landscape-fantasy-style_204361434.htm#fromView=search&page=1&position=32&uuid=a6d5dc72-9689-4445-b921-775017cd9d77"},
-    ]
+
     
   return (
     <div className={styles.credits}>
@@ -82,16 +76,6 @@ const Credits = () => {
       <span>Art</span>
       <ul className="">
         {art.map((lib, index) => (
-          <li key={index} className="mb-2">
-            <a href={lib.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-              [{lib.name}] {lib.url}
-            </a>
-          </li>
-        ))}
-      </ul>
-      <span>Ai thingy</span>
-      <ul className="">
-        {ai.map((lib, index) => (
           <li key={index} className="mb-2">
             <a href={lib.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
               [{lib.name}] {lib.url}

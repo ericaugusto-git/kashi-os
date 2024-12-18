@@ -2,7 +2,8 @@
     height: 100%
 }
 .container{
-    height: calc(100% - 30px);
+    // padding: 10px;
+    height: 100%;
     .header{
         // background-color: rgb(15, 15, 15);
         // backdrop-filter: blur(10px);
@@ -10,7 +11,10 @@
         display: flex;
         justify-content: end;
         gap: 5px;
-
+        position: fixed;
+        top: 0px;
+        right: 0;
+        z-index: 2;
         margin-bottom: 5px;
         .icon{
             width: 21px;
@@ -24,13 +28,17 @@
         .tooltip::after{
             white-space: pre;
             text-align: center;
-            content: attr(data-tooltip);
+            content: attr(data-tooltip2);
             position: absolute;
-            top: 80px;
-            width: 40%;
+            top: 20px;
+            width: 400px;
+            max-height: 200px;
+            font-size: 10px;
+            text-transform: uppercase;
+            font-family: 'IBM plex mono';
             text-wrap: wrap;
             padding: 5px;
-            right: 30px;
+            right: 10px;
             backdrop-filter: blur(10px);
             background-color: #000000e5;
             display: none;

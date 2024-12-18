@@ -20,7 +20,7 @@ export const cmdWindow: WindowType = {
 }
 
 export const windowsTemplates: WindowType[] = [
-    // {app: 'file_explorer', appType: 'os', notUnique:true, icon: 'folder.svg', headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},  componentPath: "@/Folder/Folder"},
+    {app: 'file_explorer', appType: 'os', notUnique:true, hideInStartMenu: true, icon: 'folder.svg', headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},  componentPath: "@/Folder/Folder"},
     {app: 'computer', appType: 'os',  hideInStartMenu: true, desktop: true, notUnique: true, uniqueName: 'file_explorer', uniqueIcon: 'folder.svg', icon: 'computer.svg', headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},  componentPath: "@/Folder/Folder"},
     {app: "about_me",appType: 'os',     link: 'https://ericaugusto.pages.dev',
         icon: avatar,  desktopStyles: {img: {backgroundSize: '100%'}}},
@@ -32,7 +32,6 @@ export const windowsTemplates: WindowType[] = [
         mask: '#eb4034',
         componentPath: "@/StartMenu/components/Playlist/Playlist",
         bodyStyles: { paddingRight: 0 },
-        headerStyles: { paddingLeft: "25px" },
         appType: 'os',
         svgMask: {startMenu: true},
         maxHeight: 415

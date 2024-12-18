@@ -16,6 +16,7 @@ import ClockHypr from "./components/ClockHypr/ClockHypr";
 import Performance from "./components/Performance/Performance";
 import Start from "./components/Start/Start";
 import WindowsHypr from "./components/WindowsHypr/WindowsHypr";
+import useOpenWindow from "@/hooks/useOpenWindow";
 
 type TaskbarProps = {
     setPcStatusMenuOpen: Dispatch<SetStateAction<boolean>>, 
@@ -37,7 +38,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
     const  [ calendarRef, isCalendarOpen, setIsCalendarOpen ] = useComponentVisible(false, clockButtonRef);
     const [windows, setWindows] = useWindowContext();
     const [windowsDivTotalLength, setWindowsDivTotalLength] = useState(0);
-
+    const openWindow = useOpenWindow();
 
     useEffect(() => {
         const handleResize = () => {
@@ -83,7 +84,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
         <div className={style.start} style={{marginRight: windows.length == 0 ? 'auto' : ''}}>
             <Start/>
         </div>
-        <div style={{marginRight: windows.length == 0 ? 'auto' : ''}} className={`${style.taskbar_section_wrapper} ${style.intro}`}>
+        <div  style={{marginRight: windows.length == 0 ? 'auto' : ''}} className={`${style.taskbar_section_wrapper} ${style.intro}`}>
             <div>
                 <span>カシ・OS</span>
             </div>

@@ -57,16 +57,20 @@ $transition: 200ms;
   padding: 5px;
   $borderRadius: 35px;
   border-radius: $borderRadius;
+  display: flex;
   cursor: url("/pointer.svg") 6 0, pointer;
   transition: background-color $transition linear;
   .theme_img{
+    width: 65%;
+    height: 100%;
     grid-column: span 2/span 2;
     border-radius: calc($borderRadius - 5px);
   }
   span{
+    margin: auto;
     text-align: center;
     vertical-align: middle;
-    line-height: 300px;
+    padding-bottom: 70px;
   }
 }
 

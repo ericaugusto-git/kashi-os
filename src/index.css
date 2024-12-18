@@ -171,7 +171,10 @@ input[type="radio"] {
   content: attr(data-tooltip);
   position: absolute;
   padding: 5px;
-  font-size: 8px;
+  font-family: 'IBM plex mono';
+  /* font-weight: 100; */
+  font-size: 7px;
+  text-transform: uppercase;
   background-color: rgba(0, 0, 0, 0.178);
   text-align: center;
   top: -25px;
@@ -282,7 +285,7 @@ button.taskbar_icon {
 }
 .custom_scrollbar::-webkit-scrollbar-track {
   border-radius: 5px;
-  background-color: rgb(var(--theme-color));
+  background-color: rgb(var(--darker-color));
 }
 
 .custom_scrollbar::-webkit-scrollbar-thumb {

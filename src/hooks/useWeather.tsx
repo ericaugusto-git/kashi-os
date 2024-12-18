@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import {isMobile} from 'react-device-detect';
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type WeatherType = {forecast: any, weather: any}
+export type WeatherType = {forecast?: any, weather: any}
 
 function useWeather() {
 

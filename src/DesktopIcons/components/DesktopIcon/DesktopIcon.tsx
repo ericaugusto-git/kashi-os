@@ -62,6 +62,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
         const applyChanges = () => {
             const newValue = editableRef?.current?.textContent;
             setRenameMode(false);
+            console.log("balls")
             if(app.app === newValue){
                 console.warn("Rename path is equal to original.")
                 return;
