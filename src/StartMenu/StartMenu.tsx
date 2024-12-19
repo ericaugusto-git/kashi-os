@@ -15,7 +15,7 @@ import styles from "./StartMenu.module.scss";
 import { useDesktopPosition } from "../contexts/DesktopPositonContext";
 import { fetchGif } from "../utils/utils";
 const gifsId: { [key in Themes]: string } = {
-  dark: "OMFfLpauGoT4c",
+  dark: "A39hlmeW1On7LOtHO8",
   light: "N5B19awm2YvwMwf8JE",
   cozy: "k8kITi9SAwe9JWbUaH",
 

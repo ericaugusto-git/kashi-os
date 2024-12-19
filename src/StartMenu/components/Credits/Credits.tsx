@@ -1,6 +1,5 @@
 
-import { t } from 'i18next';
-import styles from './Credits.module.scss'
+import styles from './Credits.module.scss';
 
 
 const Credits = () => {  
@@ -84,7 +83,7 @@ const Credits = () => {
         ))}
       </ul>
       <span>All art remain property of their original owners. Please contact me if you want your art removed from this website <a href='mailto:eric72001@hotmail.com'>eric72001@hotmail.com</a></span>
-      <span className={styles.copyright}><span>&copy;</span> 2024 Eric Augusto. {t('rights')}</span>
+      {/* <span className={styles.copyright}><span>&copy;</span> 2024 Eric Augusto. {t('rights')}</span> */}
     </div>
   );
 };

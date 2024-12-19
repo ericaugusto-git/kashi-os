@@ -70,14 +70,6 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
         setIsCalendarOpen(previous => !previous)
     }
     return <>
-        <div  ref={calendarRef} >
-            <AnimatePresence>
-             { isCalendarOpen && <motion.div           initial={{ opacity: 0 }}
-          animate={{opacity: 1 }}
-          exit={{ overflow: "hidden", opacity: 0 }}
-          transition={{ duration: 0.2 }}><Calendar/></motion.div>}
-            </AnimatePresence>
-        </div>
     <div className={style.taskbar} style={{[position]: 0}}>
         <div className={style.start} style={{marginRight: windows.length == 0 ? 'auto' : ''}}>
             <Start/>
@@ -93,10 +85,21 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
                 <WindowsHypr windowsDivTotalLength={windowsDivTotalLength} windows={windows} setWindows={setWindows}/>
             </motion.div>}
         </AnimatePresence>
-        <a className={`${style.taskbar_section_wrapper} ${style.date_time}`} onClick={openCalendar} ref={clockButtonRef}>
-            <ClockHypr/>
-        </a>
-     {performance?.memory &&   <div className={`${style.taskbar_section_wrapper} ${style.performance}`}>
+        <div className={style.date_time_wrapper}>
+            <div  ref={calendarRef} >
+                <AnimatePresence>
+                { isCalendarOpen && <motion.div           initial={{ opacity: 0 }}
+            animate={{opacity: 1 }}
+            exit={{ overflow: "hidden", opacity: 0 }}
+            transition={{ duration: 0.2 }}><Calendar/></motion.div>}
+                </AnimatePresence>
+            </div>
+
+            <a className={`${style.taskbar_section_wrapper} ${style.date_time}`} onClick={openCalendar} ref={clockButtonRef}>
+                <ClockHypr/>
+            </a>
+        </div>
+     {performance?.memory &&   <div className={`${style.taskbar_section_wrapper} ${style.performance}`} data-tooltip={t('memory')}>
             <Performance/>
         </div>}
         <div className={`${style.taskbar_section_wrapper} ${style.locale_battery}`}>

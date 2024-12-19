@@ -303,12 +303,13 @@ button.taskbar_icon {
 }
 
 .react-calendar{
-  min-height: 320px;
+  min-height: 340px;
 }
 .react-calendar__tile, .react-calendar, .react-calendar__navigation button{
   color: white;
   background: transparent !important;
   border: 0 !important;
+  padding: 10px 6.6667px !important;
 }
 
 .react-calendar__viewContainer{

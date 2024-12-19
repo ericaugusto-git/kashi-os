@@ -57,6 +57,9 @@ $borderRadius: 13px;
 
   .header{
     background-color: rgb(var(--theme-color));
+    -webkit-transition: background-color var(--theme-transition-ms) linear, color var(--theme-transition-ms) linear;
+    -ms-transition: background-color var(--theme-transition-ms) linear, color var(--theme-transition-ms) linear;
+    transition: background-color var(--theme-transition-ms) linear, color var(--theme-transition-ms) linear;
     display: flex;
     align-items: center;
     padding: 4px 6px;
