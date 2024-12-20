@@ -5,8 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import * as rdd from "react-device-detect";
 import { useTranslation } from "react-i18next";
 import { asciiArt } from "../../../constants/asciiArt";
-import { FileProps, WindowType } from "../../../constants/window";
-import { windowsTemplates } from "../../../constants/windowsTemplate";
+import { FileProps, AppType, APPS } from "@/constants/apps";
 import { useFileSystem } from "../../../contexts/FileSystemContext";
 import { useTheme } from "../../../contexts/ThemeContext";
 import useCloseWindow from "../../../hooks/useCloseWindow";
@@ -60,7 +59,7 @@ function Cmd({folderPath}: FileProps) {
   }, []);
 
   useEffect(() => {
-    const initialApps = JSON.parse(JSON.stringify(windowsTemplates)).filter((a: WindowType)=> a.app != 'command_line').reduce((acc: CmdApp[] , current: WindowType) => {acc.push({original: current.app, executable: t(current.app)?.toLocaleLowerCase().replaceAll(' ', '_').split('.')[0].normalize('NFD').replace(/[\u0300-\u036f]/g, "")}); return acc},[])
+    const initialApps = JSON.parse(JSON.stringify(APPS)).filter((a: AppType)=> a.app != 'command_line').reduce((acc: CmdApp[] , current: AppType) => {acc.push({original: current.app, executable: t(current.app)?.toLocaleLowerCase().replaceAll(' ', '_').split('.')[0].normalize('NFD').replace(/[\u0300-\u036f]/g, "")}); return acc},[])
     setApps(initialApps);
   }, [t, i18n]);
 

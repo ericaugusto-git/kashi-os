@@ -1,4 +1,4 @@
-import { FileProps, WindowType } from '@/constants/window';
+import { FileProps, AppType } from '@/constants/apps';
 import { useEffect, useRef, useState } from 'react';
 import styles from './Audio.module.scss';
 import mute from '@/assets/playlist//mute.svg';
@@ -20,8 +20,8 @@ function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/mu
     const [isMuted, setIsMuted] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const [systemMusics, setSystemMusics] = useState<WindowType[]>([]);
-    const [selected, setSelected] = useState<WindowType | undefined>();
+    const [systemMusics, setSystemMusics] = useState<AppType[]>([]);
+    const [selected, setSelected] = useState<AppType | undefined>();
     const [playlistMode, setPlaylistMode] = useState(!filePath);
     const {t} = useTranslation();
     useEffect(() => {
@@ -34,14 +34,14 @@ function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/mu
     }, [folderPath, fileList, listFiles]);
 
         
-    const selectMusic = (music: WindowType) => {
+    const selectMusic = (music: AppType) => {
       setSelected(music)
   }
 
 
     
     useEffect(() => {
-      const setCurrentMusic = async (music: WindowType) => {
+      const setCurrentMusic = async (music: AppType) => {
         if (audioRef.current && getFileUrl && music) {
           const fileUrl = await getFileUrl(music.folderPath + '/' + music.app);
           if (audioRef.current) {

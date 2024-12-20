@@ -1,13 +1,13 @@
-import { WindowType } from '../constants/window';
+import { AppType } from '@/constants/apps';
 import { useWindowContext } from '../contexts/WindowContext';
 
 const INITIAL_OFFSET = 50; // Initial offset from top-left
 const OFFSET_INCREMENT = 30; // Offset increment for each new window
 
-function useOpenWindow(): (app: WindowType) => void {
+function useOpenWindow(): (app: AppType) => void {
     const [_, setWindows] = useWindowContext();
 
-    const calculateWindowPosition = (app: WindowType, existingWindows: WindowType[]) => {
+    const calculateWindowPosition = (app: AppType, existingWindows: AppType[]) => {
         // If the window has specific coordinates, use them
         if (app.x !== undefined && app.y !== undefined) {
             return { x: app.x, y: app.y };
@@ -33,10 +33,10 @@ function useOpenWindow(): (app: WindowType) => void {
         return { x, y };
     };
 
-    const openWindow = (app: WindowType) => {
+    const openWindow = (app: AppType) => {
         if (app.notUnique) {
             app = JSON.parse(JSON.stringify(app));
-            app.uniqueName = app.uniqueName ?? app.app;
+            // app.instanceName = app.instanceName ?? app.app;
             app.app = app.app + Math.random().toString(36).substring(2, 15);
         }
 

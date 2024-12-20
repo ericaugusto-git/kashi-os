@@ -1,7 +1,7 @@
 import { Layouts } from "react-grid-layout";
-import { windowsTemplates } from "../constants/windowsTemplate";
+import { APPS } from "../constants/apps";
 import { Themes } from "../contexts/ThemeContext";
-import { WindowType } from "@/constants/window";
+import { AppType } from "@/constants/apps";
 
 export function getWppIndex(theme: Themes){
     const localWallper = localStorage.getItem(theme + "Wallpaper");
@@ -64,8 +64,8 @@ export const fetchGif = async (gifId: string) => {
   
   
 
-  export const generateLayouts = (files?: WindowType[] | null, layout?: Layouts): { layout: Layouts, apps: WindowType[] } => {
-    const windows = windowsTemplates.filter((a) => a.desktop);
+  export const generateLayouts = (files?: AppType[] | null, layout?: Layouts): { layout: Layouts, apps: AppType[] } => {
+    const windows = APPS.filter((a) => a.desktop);
     const apps = files ? [...windows, ...files] : windows;
     let savedLayouts: Layouts | string | null = localStorage.getItem('app-layouts');
   

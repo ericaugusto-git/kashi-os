@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 // import 'react-grid-layout/css/styles.css';
-import { WindowType } from '@/constants/window';
+import { AppType } from '@/constants/apps';
 import { motion } from "framer-motion";
 import { useDesktopPosition } from '../contexts/DesktopPositonContext';
 import useOpenWindow from '../hooks/useOpenWindow';
@@ -28,7 +28,7 @@ const item = {
     opacity: 1
   }
 };
-const DesktopIcons = ({layouts, setLayouts, apps}: {layouts: Layouts | null, setLayouts: React.Dispatch<React.SetStateAction<Layouts | null>>, apps: WindowType[] | null}) => {
+const DesktopIcons = ({layouts, setLayouts, apps}: {layouts: Layouts | null, setLayouts: React.Dispatch<React.SetStateAction<Layouts | null>>, apps: AppType[] | null}) => {
   const [position] = useDesktopPosition();
 
   const [isDragging, setIsDragging] = useState(false);
@@ -113,7 +113,7 @@ const DesktopIcons = ({layouts, setLayouts, apps}: {layouts: Layouts | null, set
         onLayoutChange={handleLayoutChange}
       >
         {apps.map((app) => (
-          <div id={app.app} key={app.app}>
+          <div id={app.instanceName} key={app.instanceName}>
                    <DesktopIcon app={app} folderPath='/home/desktop' setLayouts={setLayouts} svgStyles={app.desktopStyles?.svg} svgMask={app.svgMask?.desktop} buttonStyles={app.desktopStyles?.button} imgWrapperStyles={app.desktopStyles?.img} />
             </div>
         ))}

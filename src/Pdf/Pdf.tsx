@@ -1,4 +1,4 @@
-import { FileProps } from "@/constants/window";
+import { FileProps } from "@/constants/apps";
 import { useEffect, useState } from "react";
 
 export default function Pdf({filePath, getFileUrl}: FileProps){

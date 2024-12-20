@@ -1,9 +1,9 @@
-import { WindowType } from '../constants/window';
+import { AppType } from '@/constants/apps';
 import { useWindowContext } from '../contexts/WindowContext';
 
-function useCloseWindow(): (app: WindowType | string) => void {
+function useCloseWindow(): (app: AppType | string) => void {
     const [, setWindows] = useWindowContext();
-    const closeWindow = (app: WindowType | string) => {
+    const closeWindow = (app: AppType | string) => {
         const nome = typeof app === 'string' ? app : app.app;
         
         setWindows(prevWindows => {

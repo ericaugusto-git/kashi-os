@@ -5,7 +5,7 @@ import { generateLayouts } from '@/utils/utils';
 import { CSSProperties, useEffect, useRef, useState } from 'react';
 import { Layouts } from 'react-grid-layout';
 import { useTranslation } from 'react-i18next';
-import { WindowType } from '@/constants/window';
+import { AppType } from '@/constants/apps';
 import { useContextMenuHandler } from '@/contexts/ContextMenuContext';
 import { useDesktopPosition } from '@/contexts/DesktopPositonContext';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -13,7 +13,7 @@ import styles from './DesktopIcon.module.scss';
 import { defaultFolders, deletableDefaultFolders } from '@/constants/defaultFolders';
 
 type DesktopIconProp = {
-    app: WindowType,
+    app: AppType,
     imgWrapperStyles?: CSSProperties,
     buttonStyles?: CSSProperties,
     svgStyles?: CSSProperties,
@@ -62,7 +62,6 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
         const applyChanges = () => {
             const newValue = editableRef?.current?.textContent;
             setRenameMode(false);
-            console.log("balls")
             if(app.app === newValue){
                 console.warn("Rename path is equal to original.")
                 return;

@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
-import { WindowType } from "../constants/window";
+import { AppType } from "@/constants/apps";
 
 
-type WindowContextType = [WindowType[], React.Dispatch<React.SetStateAction<WindowType[]>>]
+type WindowContextType = [AppType[], React.Dispatch<React.SetStateAction<AppType[]>>]
 
 export const WindowContext = createContext<WindowContextType>([[], () => {}]);
 
@@ -12,7 +12,7 @@ type WindowContextProviderProps = {
 
 export default function WindowContextProvider({children}: WindowContextProviderProps){
 
-    const [windows, setWindows] = useState<WindowType[]>([]);
+    const [windows, setWindows] = useState<AppType[]>([]);
     return <WindowContext.Provider value={[windows, setWindows ]}>
         {children}
     </WindowContext.Provider>

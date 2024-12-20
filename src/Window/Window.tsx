@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Rnd } from 'react-rnd';
-import { WindowType } from '../constants/window';
+import { AppType } from '@/constants/apps';
 import { useDesktopPosition } from '../contexts/DesktopPositonContext';
 import { useWindowContext } from '../contexts/WindowContext';
 import useCloseWindow from '../hooks/useCloseWindow';
@@ -53,7 +53,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   }
 
   const closeWindow = useCloseWindow();
-  const handleCloseWindow = (window: WindowType) => {
+  const handleCloseWindow = (window: AppType) => {
     if(!window.customClose)  
       closeWindow(window);
   }
@@ -79,7 +79,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     return false;
   }
   
-  const maximizeWindow = (window: WindowType, index: number) => {
+  const maximizeWindow = (window: AppType, index: number) => {
     const windowRef = windowRefs.current[index];
     if(windowRef){
       const isMax = isMaximized(index);
@@ -103,7 +103,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   setWindows(updatedWindows);
   }, [position])
 
-  const handleDragStop = (event: React.TouchEvent | React.MouseEvent, index: number, posSize: {x: number, y:number, width?: string, height?: string}, window: WindowType) => {
+  const handleDragStop = (event: React.TouchEvent | React.MouseEvent, index: number, posSize: {x: number, y:number, width?: string, height?: string}, window: AppType) => {
       // gotta change this logic soon, creating components maybe so i dont have an array of refs
       if(isHeaderItem(index, event)){
         return;
@@ -194,8 +194,8 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
           {/* {window.icon?.includes(".svg") ? (
             <div style={{ maskImage: `url(${window.icon})`, width: "21px", height: "19px" }} className="svgMask"></div>
           ) : <img src={window.icon} style={{width: "21px", height: "19px"}}></img>} */}
-          <img src={window.uniqueIcon ?? window.icon} ></img>
-            <span>{t(window.uniqueName ?? window.app)}</span>
+          <img src={window.icon} ></img>
+            <span>{t(window.app)}</span>
           </div>
 
           {/* {window.link && <div className={styles.link}><div style={{maskImage: `url("${lock}")`, minWidth: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '').split('?')[0]}</a></div>} */}

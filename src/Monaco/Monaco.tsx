@@ -1,4 +1,4 @@
-import { FileProps } from "@/constants/window";
+import { FileProps } from "@/constants/apps";
 import Editor from "@monaco-editor/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from './Monaco.module.scss';

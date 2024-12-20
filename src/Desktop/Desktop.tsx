@@ -1,4 +1,4 @@
-import { WindowType } from "@/constants/window";
+import { AppType } from "@/constants/apps";
 import { useFileSystem } from "@/contexts/FileSystemContext";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
@@ -55,7 +55,7 @@ function Desktop() {
   const handleContextMenu = useContextMenuHandler("desktop", handleCustomMenuEvent, '/home/desktop');
   const [isDesktopHidden, setDesktopHidden] = useState(localStorage.getItem("desktop_icon_visibility") === "true");
   const [layouts, setLayouts] = useState<Layouts | null>(null);
-  const [apps, setApps] = useState<WindowType[] | null>(null);
+  const [apps, setApps] = useState<AppType[] | null>(null);
   const {fileList, handleDrop} = useFileSystem();
   
   useEffect(() => {

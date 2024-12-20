@@ -2,10 +2,10 @@ import { useFileSystem } from "@/contexts/FileSystemContext";
 import { loadComponent } from "@/utils/componentLoader";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { WindowType } from "../../../constants/window";
+import { AppType } from "../../@/constants/apps";
 import styles from './WindowContent.module.scss';
 
-export default function WindowContent({window, closeRefCurrent, index}: {window: WindowType, closeRefCurrent: (HTMLButtonElement | null)[], index: number}){
+export default function WindowContent({window, closeRefCurrent, index}: {window: AppType, closeRefCurrent: (HTMLButtonElement | null)[], index: number}){
     const [loading, setLoading] = useState(!!window.link);
     const [componentLoaded, setComponentLoaded] = useState(false);
     

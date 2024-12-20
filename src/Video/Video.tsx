@@ -1,4 +1,4 @@
-import { FileProps } from '@/constants/window';
+import { FileProps } from '@/constants/apps';
 import { MediaPlayer, MediaProvider } from '@vidstack/react';
 import { defaultLayoutIcons, DefaultVideoLayout } from '@vidstack/react/player/layouts/default';
 import '@vidstack/react/player/styles/default/layouts/video.css';

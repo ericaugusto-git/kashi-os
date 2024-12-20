@@ -3,8 +3,7 @@ import _ from 'lodash';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import search from "../../../assets/startMenu/search.svg";
-import { WindowType } from "../../../constants/window";
-import { windowsTemplates } from "../../../constants/windowsTemplate";
+import { APPS,AppType } from "@/constants/apps";
 import useOpenWindow from "../../../hooks/useOpenWindow";
 import styles from "./Search.module.scss";
 import { wallpapers } from "../../../constants/wallpapers";
@@ -12,8 +11,8 @@ import { useTheme } from "../../../contexts/ThemeContext";
 import { useWallpaper } from "../../../contexts/WallpaperContext";
 
 export default function Search({searchVisible, setSearchVisible}: {searchVisible: boolean, setSearchVisible: Dispatch<SetStateAction<boolean>>}) {
-    const initialApps: WindowType[] = _.cloneDeep(windowsTemplates).sort((a: WindowType, b: WindowType) => a.app.toLowerCase().localeCompare(b.app.toLowerCase()));
-const [apps, setApps] = useState<WindowType[]>(_.cloneDeep(initialApps));
+    const initialApps: AppType[] = _.cloneDeep(APPS).sort((a: AppType, b: AppType) => a.app.toLowerCase().localeCompare(b.app.toLowerCase()));
+const [apps, setApps] = useState<AppType[]>(_.cloneDeep(initialApps));
 const {t} = useTranslation();
 const [inputValue, setInputValue] = useState<string>('');
 const inputRef = useRef<HTMLInputElement>(null);
@@ -35,7 +34,7 @@ const handleInputChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
   };
 
   const openWindow = useOpenWindow();
-  const handleOpenApp = (app: WindowType) => {
+  const handleOpenApp = (app: AppType) => {
     // app = {
     //   ...app,
     //   ...windowsTemplates[app.app as keyof WindowsTemplatesType],

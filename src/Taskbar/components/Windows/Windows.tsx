@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 import DesktopIcon from "../../../DesktopIcons/components/DesktopIcon/DesktopIcon";
-import { WindowType } from "../../../constants/window";
+import { AppType } from "../../@/constants/apps";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useWindowContext } from "../../../contexts/WindowContext";
 import Intro from "../Intro/Intro";
@@ -20,7 +20,7 @@ export default function Windows(){
     const buttonStyles: CSSProperties = {width: '100%', height: '100%'};
     const imgWrapperStyles: CSSProperties = {height: '40px', padding: '0', borderRadius: '5px', backgroundColor: 'unset'}
 
-    const handleDesktopIconCLick = (app: WindowType) => {
+    const handleDesktopIconCLick = (app: AppType) => {
       // app.conteudo = <div className="backgroundImage" style={{
       //   width: "100%",
       //   height: "100%",

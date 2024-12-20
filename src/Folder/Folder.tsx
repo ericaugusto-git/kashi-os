@@ -1,6 +1,6 @@
 import { defaultFiles } from '@/constants/defaultFolders';
-import { FileProps, WindowType } from '@/constants/window';
-import { windowsTemplates } from '@/constants/windowsTemplate';
+import { FileProps, AppType } from '@/constants/apps';
+import { APPS } from '@/constants/apps';
 import { useContextMenuHandler } from '@/contexts/ContextMenuContext';
 import { useFileSystem } from '@/contexts/FileSystemContext';
 import DesktopIcon from '@/DesktopIcons/components/DesktopIcon/DesktopIcon';
@@ -11,7 +11,7 @@ import styles from './Folder.module.scss';
 
 function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
   const [currentPath, setCurrentPath] = useState(filePath);
-  const [files, setFiles] = useState<WindowType[]>([]);
+  const [files, setFiles] = useState<AppType[]>([]);
   const [loading, setLoading] = useState<boolean>()
   const [history, setHistory] = useState<string[]>([filePath]);
   const [historyIndex, setHistoryIndex] = useState(0);
@@ -53,7 +53,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
           let filesList = await listFiles(currentPath) || []
           
           if(currentPath === '/home/desktop/projects'){
-            const projects = windowsTemplates.filter(window => window.appType === 'project');
+            const projects = APPS.filter(app => app.appType === 'project');
             filesList = [...filesList, ...projects];
           }
           setFiles(filesList);
@@ -107,7 +107,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
     setCurrentPath(folderPath);
   };
 
-  const handleFileClick = (file: WindowType) => {
+  const handleFileClick = (file: AppType) => {
     if (file.icon?.includes('folder')) {
       const newPath = `${currentPath === '/' ? '' : currentPath}/${file.app}`;
       navigateToFolder(newPath);

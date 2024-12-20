@@ -5,8 +5,8 @@ import { StartSetterContext } from "../App";
 import powerOff from "../assets/startMenu/power_off.svg";
 import sleep from "../assets/startMenu/sleep.svg";
 import search from "../assets/startMenu/search.svg";
-import { WindowType } from "../constants/window";
-import { windowsTemplates } from "../constants/windowsTemplate";
+import { AppType } from "../constants/apps";
+import { APPS } from "../constants/apps";
 import { usePcStatus } from "../contexts/PcStatusContext";
 import { Themes, useTheme } from "../contexts/ThemeContext";
 import { useWindowContext } from "../contexts/WindowContext";
@@ -23,10 +23,10 @@ const gifsId: { [key in Themes]: string } = {
 };
 function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateAction<boolean>>}) {
   const [startMenuOpen, setStartMenuOpen] = useContext(StartSetterContext);
-  const osApps = windowsTemplates.filter(
+  const osApps = APPS.filter(
     (a) => a.appType == "os" && !a.hideInStartMenu
   );
-  const projects = windowsTemplates.filter(
+  const projects = APPS.filter(
     (a) => a.appType == "project" && !a.hideInStartMenu
   );
   const { t } = useTranslation();
@@ -82,7 +82,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
   //   },
   // };
   const openWindow = useOpenWindow();
-  const handleOpenApp = (app: WindowType) => {
+  const handleOpenApp = (app: AppType) => {
     // app = {
     //   ...app,
     //   ...windowsTemplates[app.app as keyof WindowsTemplatesType],
@@ -104,7 +104,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
     { title: "projects", apps: projects, handleOnClick: handleOpenApp },
     { title: "os", apps: osApps, handleOnClick: handleOpenApp },
   ];
-  // const openApp = (app: WindowType) =>{
+  // const openApp = (app: AppType) =>{
   //     // let updateWindow = windows.filter((a) => a.app != app.app);
   //     //
   //     // windows.map((a) => a.active = false)

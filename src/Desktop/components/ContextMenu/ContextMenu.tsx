@@ -25,7 +25,7 @@ import { FullScreenHandle } from "react-full-screen";
 import { Layouts } from "react-grid-layout";
 import { useTranslation } from "react-i18next";
 import styles from './ContextMenu.module.scss';
-import { cmdWindow } from '@/constants/windowsTemplate';
+import { TERMINAL } from '@/constants/apps';
 
 type MenuProps = {    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean>>, 
   setThemeSwitcherOpen: Dispatch<SetStateAction<boolean>>,
@@ -208,7 +208,7 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
   };
   const openWindow = useOpenWindow();
   const handleOpenCmd = () => {
-    openWindow({...cmdWindow, props: {folderPath}})
+    openWindow({...TERMINAL, props: {folderPath}})
   }
 
   return <>        

@@ -1,23 +1,23 @@
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
-import { WindowType } from "../../../constants/window";
+import { AppType } from "../../@/constants/apps";
 import { useTheme } from "../../../contexts/ThemeContext";
 import styles from './WindowsHypr.module.scss';
 
-export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength }: { windows: WindowType[], setWindows: Dispatch<SetStateAction<WindowType[]>>, windowsDivTotalLength: number }) {
+export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength }: { windows: AppType[], setWindows: Dispatch<SetStateAction<AppType[]>>, windowsDivTotalLength: number }) {
   const iconSize = 21;
 
   const [theme] = useTheme();
   const taskbarRef = useRef<HTMLUListElement>(null);
-  const [overflowingWindows, setOverflowingWindows] = useState<WindowType[]>([]);
-  const [visibleWindows, setVisibleWindows] = useState<WindowType[]>([]);
+  const [overflowingWindows, setOverflowingWindows] = useState<AppType[]>([]);
+  const [visibleWindows, setVisibleWindows] = useState<AppType[]>([]);
   const [showOverflowMenu, setShowOverflowMenu] = useState(false);
 
 
   useEffect(() => {
-    const newVisibleWindows: WindowType[] = [];
-    const newOverflowingWindows: WindowType[] = [];
+    const newVisibleWindows: AppType[] = [];
+    const newOverflowingWindows: AppType[] = [];
     
     windows.forEach((window, index) => {
       // this 60 is the result of taskbar_section X padding (24px), icons margin-left (12px),padding of an active window (24px) == 60px
@@ -32,7 +32,7 @@ export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength
   },[windowsDivTotalLength, windows])
 
 
-  const handleDesktopIconClick = (app: WindowType) => {
+  const handleDesktopIconClick = (app: AppType) => {
     setWindows((prevWindows) => {
       const updatedWindows = prevWindows.map(window => ({ ...window, active: false }));
       const newApp = updatedWindows.find(a => a.app === app.app);
@@ -51,7 +51,7 @@ export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength
     <div className={styles.taskbarContainer} style={{'--icon-size': iconSize} as CSSProperties}>
       <motion.ul ref={taskbarRef} className={`${styles.windows} ${styles[theme]}`}>
         <AnimatePresence>
-          {visibleWindows.map((window: WindowType) => (
+          {visibleWindows.map((window: AppType) => (
             <motion.li
               initial={{ padding: '2px 0' }}
               transition={{ duration: 0.2 }}
@@ -81,7 +81,7 @@ export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength
               exit={{ opacity: 0, scale: 0.9 }}
               className={`${styles.overflowMenu} custom_scrollbar`}
             >
-              {overflowingWindows.map((window: WindowType) => (
+              {overflowingWindows.map((window: AppType) => (
                 <motion.li
                   initial={{ padding: '2px 0' }}
                   transition={{ duration: 0.2 }}

@@ -1,7 +1,7 @@
 import { defaultFolders, deletableDefaultFolders } from '@/constants/defaultFolders';
 import { fileIcons, folderIcons } from '@/constants/fileIcons';
 import { audioMimeTypes, imageMimeTypes, videoMimeTypes } from '@/constants/mimeTypes';
-import { WindowType } from '@/constants/window';
+import { AppType, FILE_EXPLORER } from '@/constants/apps';
 import { generateVideoThumbnail } from '@/utils/thumbnailGenerator';
 import { fetchReadme } from '@/utils/utils';
 import * as BrowserFS from 'browserfs';
@@ -14,7 +14,7 @@ import React, { createContext, ReactNode, useCallback, useContext, useEffect, us
 
 
 interface FileSystemContextType {
-  fileList: {[folderPath: string]: WindowType[]} | null,
+  fileList: {[folderPath: string]: AppType[]} | null,
   handleDrop: (folderPath: string, event: React.DragEvent<HTMLDivElement>) => Promise<void>;
   refreshFileList: (folderPath: string) => Promise<void>;
   createFile: (folderPath: string, file: File, fileSystem?: FSModule | null, dontRefresh?: boolean) => Promise<void>;
@@ -23,7 +23,7 @@ interface FileSystemContextType {
   updateFile: (filePath:string, newContent: string) => Promise<void>;
   deletePath: (folderPath: string, fileName: string) => Promise<void>;
   createFolder: (folderPath: string, folderName: string) => Promise<void>;
-  listFiles: (folderPath: string) => Promise<WindowType[] | null>;
+  listFiles: (folderPath: string) => Promise<AppType[] | null>;
   renamePath: (oldPath: string, newPath: string) => Promise<void>;
   format: () => void;
   deleteRecursive: (folderPath: string) => Promise<void>;
@@ -36,8 +36,8 @@ const FileSystemContext = createContext<FileSystemContextType | undefined>(undef
 
 export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
   const [fs, setFs] = useState<FSModule | null>(null);
-  const [fileList, setFileList] = useState<{[folderPath: string]: WindowType[]} | null>(null);
-  const fileListRef = useRef<{[folderPath: string]: WindowType[]} | null>(null);
+  const [fileList, setFileList] = useState<{[folderPath: string]: AppType[]} | null>(null);
+  const fileListRef = useRef<{[folderPath: string]: AppType[]} | null>(null);
 
 
 
@@ -162,7 +162,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
 
   
 
-  const listFiles = useCallback((folderPath: string = '/'): Promise<WindowType[] | null> => {
+  const listFiles = useCallback((folderPath: string = '/'): Promise<AppType[] | null> => {
     return new Promise((resolve, reject) => {
       if (!fs) return resolve(null);
       fs.readdir(folderPath, (err, files) => {
@@ -193,8 +193,9 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
               else resolve(stats);
             });
           });
-          const baseFile: WindowType = { 
-            app: name, 
+          const baseFile: AppType = { 
+            app: name,
+            instanceName: name,
             props: {filePath: fullPath}, 
             folderPath: folderPath, 
             appType: "file", 
@@ -204,11 +205,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           if (stats.isDirectory()) {
             return {
               ...baseFile,
-              headerStyles: {background: 'rgb(var(--theme-color))', transition: 'background-color var(--theme-transition-ms) linear'},
-              componentPath: '@/Folder/Folder',
-              notUnique: true,
-              appType: "file" as const,
-              uniqueName: "file_explorer",
+              ...FILE_EXPLORER,
               icon: folderIcons[fullPath] || 'folder.svg',
             };
           }
@@ -303,7 +300,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
                   componentPath: '@/Audio/Audio',
                   thumbnail: thumbnailUrl,
                   icon: 'audio_icon.svg',
-                  uniqueName: "audio_player",
+                  instanceName: "audio_player",
                   metadata: {
                     title: metadata.common.title,
                     artist: metadata.common.artist,
