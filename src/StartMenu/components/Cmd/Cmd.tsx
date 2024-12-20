@@ -1,3 +1,6 @@
+import { APPS, AppType, WindowProps } from "@/constants/apps";
+import { usePcStatus } from "@/contexts/PcStatusContext";
+import { useWindowContext } from "@/contexts/WindowContext";
 import { FitAddon } from "@xterm/addon-fit";
 import { Terminal } from "@xterm/xterm";
 import LocalEchoController from "local-echo";
@@ -5,22 +8,19 @@ import { useEffect, useRef, useState } from "react";
 import * as rdd from "react-device-detect";
 import { useTranslation } from "react-i18next";
 import { asciiArt } from "../../../constants/asciiArt";
-import { FileProps, AppType, APPS } from "@/constants/apps";
 import { useFileSystem } from "../../../contexts/FileSystemContext";
 import { useTheme } from "../../../contexts/ThemeContext";
 import useCloseWindow from "../../../hooks/useCloseWindow";
 import style from "./Cmd.module.scss";
 import { accentColorAnsi, terminal_config } from "./terminal_config";
-import { usePcStatus } from "@/contexts/PcStatusContext";
-import { useWindowContext } from "@/contexts/WindowContext";
 type CmdApp = {original: string | null | undefined, executable: string | null | undefined}
 
-function Cmd({folderPath}: FileProps) {
+function Cmd({folderPath, app}: WindowProps) {
   const terminalRef = useRef(null);
   const containerRef = useRef(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [localEcho, setLocalEcho] = useState<any>();
-  // const [_, setEchoStarted] = useState<boolean>();
+  const [echoReading, setEchoReading] = useState<boolean>();
   const [terminal, setTerminal] = useState<Terminal>();
   const [_, setPcStatus] = usePcStatus();
   const [, setWindows] = useWindowContext();
@@ -59,7 +59,7 @@ function Cmd({folderPath}: FileProps) {
   }, []);
 
   useEffect(() => {
-    const initialApps = JSON.parse(JSON.stringify(APPS)).filter((a: AppType)=> a.app != 'command_line').reduce((acc: CmdApp[] , current: AppType) => {acc.push({original: current.app, executable: t(current.app)?.toLocaleLowerCase().replaceAll(' ', '_').split('.')[0].normalize('NFD').replace(/[\u0300-\u036f]/g, "")}); return acc},[])
+    const initialApps = JSON.parse(JSON.stringify(APPS)).filter((a: AppType)=> a.name != 'command_line').reduce((acc: CmdApp[] , current: AppType) => {acc.push({original: current.name, executable: t(current.name)?.toLocaleLowerCase().replaceAll(' ', '_').split('.')[0].normalize('NFD').replace(/[\u0300-\u036f]/g, "")}); return acc},[])
     setApps(initialApps);
   }, [t, i18n]);
 
@@ -96,9 +96,11 @@ function Cmd({folderPath}: FileProps) {
   }
   
   const echo = async () => {
+      setEchoReading(true);
       localEcho
         .read(`${currentDirectory}$ `)
         .then(async (input: string) => {
+          setEchoReading(false);
         if(input == "rm -rf ./" || input == "rm -rf /" || input == "rm -r ./" || input == "rm -r /"){
           fileSystem.format();
           localEcho.println("Deleting everything...");
@@ -170,7 +172,8 @@ function Cmd({folderPath}: FileProps) {
               break;
             }
             case "exit":
-              closeWindow("command_line");
+              if(app)
+              closeWindow(app.name)
               break;
             case 'weather': 
             case 'wttr':
@@ -196,7 +199,7 @@ function Cmd({folderPath}: FileProps) {
               }
               const files = await fileSystem.listFiles(currentDirectory) || [];
               if (files) {
-                localEcho.println(files.map(f => f.app).join("  "));
+                localEcho.println(files.map(f => f.name).join("  "));
               }
               break;
             }
@@ -361,6 +364,7 @@ function Cmd({folderPath}: FileProps) {
           
         }).catch((error: string) => {terminal.writeln(`oopsy daisy! Error reading: ${error}`); echo()});
   };
+  if(!echoReading)
   echo();
   // setEchoStarted(true);
 

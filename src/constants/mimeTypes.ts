@@ -57,4 +57,5 @@ export const imageMimeTypes: { [key: string]: string } = {
     'wv': 'audio/wavpack'
   };
 
+
   

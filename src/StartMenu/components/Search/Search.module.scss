@@ -14,7 +14,7 @@
 // left: 50%;
 // margin-top: -100px; /* Negative half of height. */
 // margin-left: -250px; /* Negative half of width. */
-    background-color: #2E333F;
+    background-color: rgb(var(--darker-color));
     padding: 7px;
     border-radius: 17px;
     color: white;
@@ -78,7 +78,7 @@
               color: white;
               // text-decoration: none;
             }
-            .app{
+            .name{
                 padding-left: 3px;
                 display: flex;
                 align-items: center;
@@ -86,7 +86,7 @@
                 text-transform: lowercase;
                 cursor: url("/pointer.svg") 6 0, pointer;
             }
-            .app:hover, .focused{
+            .name:hover, .focused{
                 background-color: #424a5c;
             }
             .icon{
@@ -103,26 +103,3 @@
   scrollbar-color: #4B5469 #2B303C;
 }*/
 
-/* Chrome, Edge and Safari */
-.apps_container::-webkit-scrollbar {
-    height: 6px;
-    width: 6px;
-  }
-  .apps_container::-webkit-scrollbar-track {
-    border-radius: 5px;
-    background-color: #2E333F;
-  }
-  
-  .apps_container::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: #4B5469;
-  }
-  
-  .apps_container::-webkit-scrollbar-thumb:hover {
-    background-color: #67738F;
-  }
-  
-  .apps_container::-webkit-scrollbar-thumb:active {
-    background-color: #67738F;
-  }
-  

@@ -109,7 +109,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
 
   const handleFileClick = (file: AppType) => {
     if (file.icon?.includes('folder')) {
-      const newPath = `${currentPath === '/' ? '' : currentPath}/${file.app}`;
+      const newPath = `${currentPath === '/' ? '' : currentPath}/${file.name}`;
       navigateToFolder(newPath);
     }else{
       openWindow(file);
@@ -226,7 +226,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
        <div className={`${styles.fileGrid} custom_scrollbar`}>
           {files.map((file) => (
             <div 
-              key={file.app} 
+              key={file.name} 
               onClick={() => handleFileClick(file)}
               className={styles.fileItem}
             >

@@ -84,8 +84,8 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
   const openWindow = useOpenWindow();
   const handleOpenApp = (app: AppType) => {
     // app = {
-    //   ...app,
-    //   ...windowsTemplates[app.app as keyof WindowsTemplatesType],
+    //   ...name,
+    //   ...windowsTemplates[app.name as keyof WindowsTemplatesType],
     // };
     openWindow(app);
     setStartMenuOpen(false);
@@ -105,11 +105,11 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
     { title: "os", apps: osApps, handleOnClick: handleOpenApp },
   ];
   // const openApp = (app: AppType) =>{
-  //     // let updateWindow = windows.filter((a) => a.app != app.app);
+  //     // let updateWindow = windows.filter((a) => a.name != app.name);
   //     //
   //     // windows.map((a) => a.active = false)
   //     // app.active = true;
-  //     // app = {...app, ...windowsTemplates[app.app as keyof WindowsTemplatesType]};
+  //     // app = {...name, ...windowsTemplates[app.name as keyof WindowsTemplatesType]};
   //     // updateWindow = [...updateWindow, app];
   //     //
   //     // setWindows(updateWindow);
@@ -185,7 +185,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
                   <span className={styles.title}>{t(section.title)}</span>
                   <ul>
                     {section.apps.map((app) => (
-                      <li key={app.app}>
+                      <li key={app.name}>
                         <button
                           className={styles.app_button}
                           onClick={() => section.handleOnClick(app)}
@@ -199,7 +199,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
                           ) : (
                             <img src={app.icon}></img>
                           )}
-                          <span>{t(app.app)}</span>
+                          <span>{t(app.name)}</span>
                         </button>
                       </li>
                     ))}

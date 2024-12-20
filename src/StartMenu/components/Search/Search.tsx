@@ -11,7 +11,7 @@ import { useTheme } from "../../../contexts/ThemeContext";
 import { useWallpaper } from "../../../contexts/WallpaperContext";
 
 export default function Search({searchVisible, setSearchVisible}: {searchVisible: boolean, setSearchVisible: Dispatch<SetStateAction<boolean>>}) {
-    const initialApps: AppType[] = _.cloneDeep(APPS).sort((a: AppType, b: AppType) => a.app.toLowerCase().localeCompare(b.app.toLowerCase()));
+    const initialApps: AppType[] = _.cloneDeep(APPS).sort((a: AppType, b: AppType) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
 const [apps, setApps] = useState<AppType[]>(_.cloneDeep(initialApps));
 const {t} = useTranslation();
 const [inputValue, setInputValue] = useState<string>('');
@@ -28,7 +28,7 @@ const handleInputChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
         if(inputValue?.length == 0){
             return initialApps;
         }else{
-            return initialApps.filter((a) => t(a.app).trim().toLowerCase().includes(newInput.trim().toLowerCase()));
+            return initialApps.filter((a) => t(a.name).trim().toLowerCase().includes(newInput.trim().toLowerCase()));
         }
     })
   };
@@ -36,8 +36,8 @@ const handleInputChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
   const openWindow = useOpenWindow();
   const handleOpenApp = (app: AppType) => {
     // app = {
-    //   ...app,
-    //   ...windowsTemplates[app.app as keyof WindowsTemplatesType],
+    //   ...name,
+    //   ...windowsTemplates[app.name as keyof WindowsTemplatesType],
     // };
     openWindow(app);
     setSearchVisible(false);
@@ -110,14 +110,14 @@ useEffect(() => {
                 <input autoFocus ref={inputRef} onChange={handleInputChange} placeholder={t('search')} />
                 </div>
             </div>
-            <div className={styles.apps_container}>
+            <div className={`${styles.apps_container} custom_scrollbar`}>
             {inputValue?.length == 0 && <span>All apps</span>}
                 <ul ref={listRef} className={styles.apps}>
-                    {apps.sort((a, b) => t(a.app).localeCompare(t(b.app))).map((app, index) => (
-                        <li key={app.app}
+                    {apps.sort((a, b) => t(a.name).localeCompare(t(b.name))).map((app, index) => (
+                        <li key={app.name}
                         
                         >
-                            <a onClick={() => handleOpenApp(app)} className={`${styles.app} ${index === focusedIndex ? styles.focused : ''}`}
+                            <a onClick={() => handleOpenApp(app)} className={`${styles.name} ${index === focusedIndex ? styles.focused : ''}`}
 >
                             {app.svgMask?.search ? (
                                     <div
@@ -127,7 +127,7 @@ useEffect(() => {
                                 ) : (
                                     <img className={styles.icon} src={app.icon}></img>
                                 )}
-                                <span>{t(app.app)}</span>
+                                <span>{t(app.name)}</span>
                             </a>
                         </li>
                     ))}

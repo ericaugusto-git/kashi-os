@@ -168,17 +168,17 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
 
 
   const createNewFolder = async () => {
-    const getCount = (app: string) => parseInt(app.replace(newDir, '').replace('(', '').replace(')', ''));
+    const getCount = (name: string) => parseInt(name.replace(newDir, '').replace('(', '').replace(')', ''));
     const list = await listFiles(folderPath) || [];
     const newDir = t('new_dir');  
     const newFolders = list.filter((a) => {
       const regex = new RegExp(`^${newDir}(\\s\\((\\d+)\\))?$`);
-      return regex.test(a.app);
-    }).sort((a, b) => getCount(a.app) - getCount(b.app));
+      return regex.test(a.name);
+    }).sort((a, b) => getCount(a.name) - getCount(b.name));
     let lastFolderIndex = 0;
     // good enough for my sleep deprived brain, probably buggy, uhh nobody well ever stress it enough right?
     for(const [index, folder] of newFolders.entries()){
-      const folderCount = getCount(folder?.app);
+      const folderCount = getCount(folder?.name);
       if(!folderCount){ lastFolderIndex = 1; continue;}
       lastFolderIndex = index != folderCount ? index : index + 1;
     }

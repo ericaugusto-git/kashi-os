@@ -1,7 +1,8 @@
+import { AppType, EMULATOR, FILE_EXPLORER } from '@/constants/apps';
 import { defaultFolders, deletableDefaultFolders } from '@/constants/defaultFolders';
+import { emulatorExtensions } from '@/constants/emulatorCores';
 import { fileIcons, folderIcons } from '@/constants/fileIcons';
 import { audioMimeTypes, imageMimeTypes, videoMimeTypes } from '@/constants/mimeTypes';
-import { AppType, FILE_EXPLORER } from '@/constants/apps';
 import { generateVideoThumbnail } from '@/utils/thumbnailGenerator';
 import { fetchReadme } from '@/utils/utils';
 import * as BrowserFS from 'browserfs';
@@ -13,12 +14,13 @@ import React, { createContext, ReactNode, useCallback, useContext, useEffect, us
 
 
 
-interface FileSystemContextType {
+export interface FileSystemContextType {
   fileList: {[folderPath: string]: AppType[]} | null,
   handleDrop: (folderPath: string, event: React.DragEvent<HTMLDivElement>) => Promise<void>;
   refreshFileList: (folderPath: string) => Promise<void>;
   createFile: (folderPath: string, file: File, fileSystem?: FSModule | null, dontRefresh?: boolean) => Promise<void>;
   readFile: (filePath: string) => Promise<Buffer | null>;
+  readFilesFromDir: (folderPath: string) => Promise<File[] | null>;
   getFileUrl: (filePath: string, mimeType?: string) => Promise<string>;
   updateFile: (filePath:string, newContent: string) => Promise<void>;
   deletePath: (folderPath: string, fileName: string) => Promise<void>;
@@ -66,24 +68,28 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
 
     const filePath = `${folderPath}/${file.name}`;
     try {
-      // file.arrayBuffer broke the dataTransfer.items, making upload of subsequent items not possible so now I'm using file reader
-        // const arrayBuffer = await file.arrayBuffer();
-
-        const reader = new FileReader();
+      const reader = new FileReader();
+      return new Promise<void>((resolve, reject) => {
         reader.onload = () => {
           fileSystem.writeFile(filePath, Buffer.from(reader.result as ArrayBuffer), (err) => {
             if (err) {
                 console.error('Error creating file:', err);
-            } else if(!dontRefresh){
-                refreshFileList(folderPath)
+                return reject(err);
+            } else {
+                if (!dontRefresh) {
+                    refreshFileList(folderPath);
+                }
+                resolve();
             }
-          })
-        }
+          });
+        };
         reader.readAsArrayBuffer(file);
+      });
     } catch (error) {
         console.error('Error processing file:', error);
+        throw error;
     }
-}, [fs]);
+  }, [fs]);
 
 
 
@@ -160,12 +166,34 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     return url;
   }, [readFile])
 
-  
+  const readFilesFromDir = useCallback(async (folderPath: string = '/'): Promise<File[] | null>=> {
+    return new Promise((resolve, reject) => {
+      if (!fs) return resolve(null);
+      fs.readdir(folderPath, async (err, files) => {
+        if (err) {
+          console.error("Error listing files:", err);
+          return reject(err)
+        }
+        console.log(files)
+        files = files ?? [];
+        const realFiles: File[] = [];
+        for(const file of files){
+          const buffer = await readFile(`${folderPath}/${file}`);
+          if (buffer) {
+            const fileObject = new File([buffer], file, { type: 'application/octet-stream' }); // Adjust MIME type as needed
+            realFiles.push(fileObject);
+          }
+        }
+        resolve(realFiles);
+      });
+    });
+  }, [fs]);
 
   const listFiles = useCallback((folderPath: string = '/'): Promise<AppType[] | null> => {
     return new Promise((resolve, reject) => {
       if (!fs) return resolve(null);
       fs.readdir(folderPath, (err, files) => {
+        console.log("files: ", files)
         if (err) {
           console.error("Error listing files:", err);
           return reject(err)
@@ -179,7 +207,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
 
           // Check if file already exists in current fileList
           const existingFile = existingFiles.find(
-            existing => existing.app === name && existing.folderPath === folderPath
+            existing => existing.name === name && existing.folderPath === folderPath
           );
 
           if (existingFile) {
@@ -194,8 +222,8 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
             });
           });
           const baseFile: AppType = { 
-            app: name,
-            instanceName: name,
+            name: name,
+            titleBarName: name,
             props: {filePath: fullPath}, 
             folderPath: folderPath, 
             appType: "file", 
@@ -226,6 +254,16 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
                 icon: 'photo_icon.svg' 
               };
             }
+          }
+          console.log(extension)
+          // EmulatorJS
+          if (extension && emulatorExtensions.includes('.' + extension)) {
+            return { 
+              ...EMULATOR,
+              ...baseFile,
+              titleBarName: EMULATOR.name,
+              icon: EMULATOR.icon
+            };
           }
 
           // Code and text files
@@ -300,7 +338,6 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
                   componentPath: '@/Audio/Audio',
                   thumbnail: thumbnailUrl,
                   icon: 'audio_icon.svg',
-                  instanceName: "audio_player",
                   metadata: {
                     title: metadata.common.title,
                     artist: metadata.common.artist,
@@ -531,7 +568,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
 
     let totalSize = 0;
     for (const file of files) {
-      const filePath = `${path}/${file.app}`.replace(/\/\//g, '/');
+      const filePath = `${path}/${file.name}`.replace(/\/\//g, '/');
       const stats = await getStats(filePath);
       if (!stats) continue;
       
@@ -561,6 +598,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
       createFolder, 
       listFiles, 
       pathExists,
+      readFilesFromDir,
       renamePath,
       format,
       getStats,

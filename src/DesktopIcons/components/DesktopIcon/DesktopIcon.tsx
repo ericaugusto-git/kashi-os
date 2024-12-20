@@ -45,16 +45,16 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
                 openWindow(app);
                 break;
             case 'delete':
-                if(app.folderPath) deletePath(app.folderPath, app.app!);
+                if(app.folderPath) deletePath(app.folderPath, app.name!);
                 break;
         }
     }
     const handleContextMenu = useContextMenuHandler(app.appType == 'file' ? 'file' : 'app', handleCustomMenuEvent, folderPath);
 
     // this was a logic to translate the folder name, but it was removed because it's dumb and troublesome
-    // let folderName = app.app;
-    // if(app.appType == 'folder' && app.app.includes("new_folder_w_count")){
-    //     const count = app.app.replace('new_folder_w_count', '');
+    // let folderName = app.name;
+    // if(app.appType == 'folder' && app.name.includes("new_folder_w_count")){
+    //     const count = app.name.replace('new_folder_w_count', '');
     //     const name = count && count !== '0'  ? t('new_dir_with_suffix', { suffix: count }) : t('new_dir');
     //     folderName = name;
     // }
@@ -62,13 +62,13 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
         const applyChanges = () => {
             const newValue = editableRef?.current?.textContent;
             setRenameMode(false);
-            if(app.app === newValue){
+            if(app.name === newValue){
                 console.warn("Rename path is equal to original.")
                 return;
             }
             if (editableRef.current && app.folderPath) {
                 if(newValue){
-                    const oldPath = `${app.folderPath}${app.folderPath === '/' ? '' : "/"}${app.app}`;
+                    const oldPath = `${app.folderPath}${app.folderPath === '/' ? '' : "/"}${app.name}`;
                     const newPath = `${app.folderPath}${app.folderPath === '/' ? '' : "/"}${newValue}`;
                         renamePath(oldPath, newPath).then(() => {
                             // update the layout so the desktop item keeps its position
@@ -76,7 +76,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
                                 setLayouts((prev) => {
                                     if(prev){
                                     for(const key of Object.keys(prev)){
-                                        prev[key] = prev[key].map((a) => a.i == app.app ? {...a, i: newValue} : a);
+                                        prev[key] = prev[key].map((a) => a.i == app.name ? {...a, i: newValue} : a);
                                     }
                                         return {...prev};
                                     }
@@ -86,11 +86,11 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
                             refreshFileList(app.folderPath!);
                         }).catch(() => {
                             if (editableRef.current)
-                            editableRef.current.textContent = app.app;
+                            editableRef.current.textContent = app.name;
                         });
                 }else{
                     
-                    editableRef.current.textContent = app.app;
+                    editableRef.current.textContent = app.name;
                 }
             }
         };
@@ -153,20 +153,20 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
     const svgDefault = {...svgStyles, maskImage: `url("${ app.thumbnail ?? app.icon}")` }
     const handleContextMenuWrapper = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.stopPropagation();
-        const fullPath = folderPath + '/' + app.app;
+        const fullPath = folderPath + '/' + app.name;
         if(!defaultFolders.includes(fullPath) || deletableDefaultFolders.includes(fullPath)) handleContextMenu(e);
         else e.preventDefault();
     }
-
+    const name = (folderPath == '/home/desktop' && app.name == 'projects') || folderPath == '/home' || app.appType != 'file' ? t(app.name) : app.name;
     
     return (
-            <a onContextMenu={handleContextMenuWrapper} ref={buttonRef} className={`${styles.desktop_icon} ${styles[fromFolder ? 'bottom' : position]} ${styles[theme]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive} ${isDragging && styles.dragging}`} style={buttonStyles}>
+            <a title={name} onContextMenu={handleContextMenuWrapper} ref={buttonRef} className={`${styles.desktop_icon} ${styles[fromFolder ? 'bottom' : position]} ${styles[theme]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive} ${isDragging && styles.dragging}`} style={buttonStyles}>
                 {app.active}
                 <div style={stylesDefault} className={styles.img_wrapper + " " +  (!svgMask ? 'backgroundImage' : '')}>
                     {svgMask && <div style={svgDefault} className={"svgMask " + styles.icon}></div>}
                 </div>
             {(!hideLabel || renameMode) && <span ref={editableRef} suppressContentEditableWarning={true} contentEditable={renameMode} className={`${styles.label} ${renameMode && styles.edit}`}>
-                    {(folderPath == '/home/desktop' && app.app == 'projects') || folderPath == '/home' || app.appType != 'file' ? t(app.app) : app.app}
+                    {name}
                 </span>}
             </a>
     )

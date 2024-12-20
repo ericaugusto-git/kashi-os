@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 import DesktopIcon from "../../../DesktopIcons/components/DesktopIcon/DesktopIcon";
-import { AppType } from "../../@/constants/apps";
+import { AppType } from "@/constants/apps";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useWindowContext } from "../../../contexts/WindowContext";
 import Intro from "../Intro/Intro";
@@ -29,7 +29,7 @@ export default function Windows(){
       setWindows((prevWindows) => {
           const updatedWindows = prevWindows
           .map(window => ({ ...window, active: false })); // Deactivate all windows
-          const newApp = updatedWindows.find(a=> a.app == app.app);
+          const newApp = updatedWindows.find(a=> a.name == app.name);
         if(app.active && newApp){
             newApp.active = false;
             newApp.minimized = true;
@@ -48,7 +48,7 @@ export default function Windows(){
         {windows?.length > 0 && <ul className={`${styles.taskbarWindows} ${styles[theme]}`}>
         {windows.map((window) => (
             
-            <motion.li initial="hidden" animate="visible"  variants={item} key={window.app} onClick={() => handleDesktopIconCLick(window)}>
+            <motion.li initial="hidden" animate="visible"  variants={item} key={window.name} onClick={() => handleDesktopIconCLick(window)}>
                  <DesktopIcon hideLabel={true} fromTaskbar={true} app={window} svgStyles={window.desktopStyles?.svg} svgMask={window.svgMask?.desktop} buttonStyles={buttonStyles} imgWrapperStyles={{...window.desktopStyles?.img, ...imgWrapperStyles}} />
             </motion.li>
         ))}

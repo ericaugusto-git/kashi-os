@@ -2,7 +2,7 @@ import { useFileSystem } from "@/contexts/FileSystemContext";
 import { loadComponent } from "@/utils/componentLoader";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { AppType } from "../../@/constants/apps";
+import { AppType } from "@/constants/apps";
 import styles from './WindowContent.module.scss';
 
 export default function WindowContent({window, closeRefCurrent, index}: {window: AppType, closeRefCurrent: (HTMLButtonElement | null)[], index: number}){
@@ -23,7 +23,7 @@ export default function WindowContent({window, closeRefCurrent, index}: {window:
 
     const LoadedComponent = componentRef.current;
 
-    const {getFileUrl, updateFile, fileList, listFiles} = useFileSystem();
+    const fileSystem = useFileSystem();
     const props = window.props || {};
 
     return <>
@@ -36,13 +36,11 @@ export default function WindowContent({window, closeRefCurrent, index}: {window:
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
                     <Suspense fallback={<div>Loading...</div>}>
                         <LoadedComponent 
+                            app={window}
                             closeBtnRefs={closeRefCurrent} 
                             folderPath={window.folderPath} 
-                            getFileUrl={getFileUrl} 
-                            updateFile={updateFile} 
+                            {...fileSystem}
                             closeRefIndex={index} 
-                            fileList={fileList} 
-                            listFiles={listFiles} 
                             {...props} 
                         />
                     </Suspense>

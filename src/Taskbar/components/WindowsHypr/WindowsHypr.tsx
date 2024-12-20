@@ -1,7 +1,7 @@
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
-import { AppType } from "../../@/constants/apps";
+import { AppType } from "@/constants/apps";
 import { useTheme } from "../../../contexts/ThemeContext";
 import styles from './WindowsHypr.module.scss';
 
@@ -35,7 +35,7 @@ export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength
   const handleDesktopIconClick = (app: AppType) => {
     setWindows((prevWindows) => {
       const updatedWindows = prevWindows.map(window => ({ ...window, active: false }));
-      const newApp = updatedWindows.find(a => a.app === app.app);
+      const newApp = updatedWindows.find(a => a.name === app.name);
       if (app.active && newApp) {
         newApp.active = false;
         newApp.minimized = true;
@@ -57,11 +57,11 @@ export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength
               transition={{ duration: 0.2 }}
               animate={{ padding: window.active ? '2px 18px' : '2px 0' }}
               exit={{ padding: 0, width: 0, opacity: 0, margin: 0 }}
-              key={window.app}
+              key={window.name}
               className={window.active ? styles.active : ''}
               onClick={() => handleDesktopIconClick(window)}
             >
-              <img className={styles.icon} src={window.icon} alt={window.app} />
+              <img className={styles.icon} src={window.icon} alt={window.name} />
             </motion.li>
           ))}
         </AnimatePresence>
@@ -87,11 +87,11 @@ export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength
                   transition={{ duration: 0.2 }}
                   animate={{ padding: window.active ? '2px 18px' : '2px 0' }}
                   exit={{ padding: 0, width: 0, opacity: 0, margin: 0 }}
-                  key={window.app}
+                  key={window.name}
                   className={window.active ? styles.active : ''}
                   onClick={() => handleDesktopIconClick(window)}
                 >
-                  <img className={styles.icon} src={window.icon} alt={window.app} />
+                  <img className={styles.icon} src={window.icon} alt={window.name} />
                 </motion.li>
               ))}
             </motion.ul>

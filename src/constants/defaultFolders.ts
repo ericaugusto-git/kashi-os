@@ -1,8 +1,15 @@
 import { wallpapers } from "./wallpapers";
 
 export const deletableDefaultFolders = ['/home/desktop/projects']
+export const romsPath = '/.local/EmulatorJS/roms';
+export const savesPath = '/.local/EmulatorJS/saves';
+
 
 export const defaultFolders = [
+    '/.local',
+    '/.local/EmulatorJS',
+    romsPath,
+    savesPath,
     '/usr',
     '/usr/bin',
     '/home',

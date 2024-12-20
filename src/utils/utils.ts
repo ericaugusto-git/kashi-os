@@ -85,7 +85,7 @@ export const fetchGif = async (gifId: string) => {
       const occupiedPositions = new Set(existingLayout.map(item => `${item.x}-${item.y}`));
       const newLayout = apps.map((app) => {
         // Check if the app already exists in the layout to retain its position
-        const existingItem = existingLayout.find(item => item.i === app.app);
+        const existingItem = existingLayout.find(item => item.i === app.name);
         if (existingItem) return existingItem;
   
         // Start searching for the next available position
@@ -100,7 +100,7 @@ export const fetchGif = async (gifId: string) => {
         // Mark the found position as occupied
         occupiedPositions.add(`${x}-${y}`);
         return {
-          i: app.app,
+          i: app.name,
           x,
           y,
           w: 1,

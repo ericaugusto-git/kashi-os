@@ -38,15 +38,15 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     }
   }
 
-  const handleWindowClick = (app: string, index: number, event: React.TouchEvent | React.MouseEvent) => {
+  const handleWindowClick = (name: string, index: number, event: React.TouchEvent | React.MouseEvent) => {
     if(isHeaderItem(index, event)){
       return;
     }
-    windows.map((a) => a.active = a.app === app);
+    windows.map((a) => a.active = a.name === name);
     
     const updatedWindows = windows.map(w => ({
       ...w,
-      active: w.app === app
+      active: w.name === name
     }));
     
     setWindows(updatedWindows);
@@ -58,12 +58,12 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
       closeWindow(window);
   }
 
-  const handleMinimized = (app: string)=> {
+  const handleMinimized = (name: string)=> {
     const updatedWindows = windows.map(w => ({
       ...w,
       active: false
     }));
-    const newApp = updatedWindows.find(a => a.app == app);
+    const newApp = updatedWindows.find(a => a.name == name);
     if(newApp)
       newApp.minimized = true;
     setWindows(updatedWindows);
@@ -110,7 +110,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
       }
       seNoTransition(false);
       const updatedWindows = windows.map((w,i) => {
-          if(w.app == window.app && !isMaximized(i)){
+          if(w.name == window.name && !isMaximized(i)){
             w.x = posSize.x;
             w.y = posSize.y;
           }
@@ -151,9 +151,9 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   {windows.map((window, index) => (
     <motion.div variants={variants} initial="initial" 
     animate="animate" exit="exit" 
-    transition={{ duration: 0.2 }}  key={window.app} 
-    onTouchStart={(event) => handleWindowClick(window.app, index, event)}
-    onMouseDown={(event) => handleWindowClick(window.app, index, event)}
+    transition={{ duration: 0.2 }}  key={window.name} 
+    onTouchStart={(event) => handleWindowClick(window.name, index, event)}
+    onMouseDown={(event) => handleWindowClick(window.name, index, event)}
    >
   <Rnd
     // default={{
@@ -188,14 +188,14 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
         <div className={styles.actions}>
               <button className={`${styles.action} ${styles.close}`} ref={ref => closeRefs.current[index] = ref}  onTouchStart={() => handleCloseWindow(window)} onClick={() => handleCloseWindow(window)}></button>
               {!window.cantMax && <button className={`${styles.action} ${styles.maximize}`} onTouchStart={() => maximizeWindow(window, index)} onClick={ () => maximizeWindow(window, index)}></button>}
-              <button className={`${styles.action} ${styles.minimize}`} ref={ref => minimizedRefs.current[index] = ref} onTouchStart={() => handleMinimized(window.app)} onClick={() => handleMinimized(window.app)}></button>
+              <button className={`${styles.action} ${styles.minimize}`} ref={ref => minimizedRefs.current[index] = ref} onTouchStart={() => handleMinimized(window.name)} onClick={() => handleMinimized(window.name)}></button>
           </div>
-          <div className={styles.app}>
+          <div className={styles.name}>
           {/* {window.icon?.includes(".svg") ? (
             <div style={{ maskImage: `url(${window.icon})`, width: "21px", height: "19px" }} className="svgMask"></div>
           ) : <img src={window.icon} style={{width: "21px", height: "19px"}}></img>} */}
           <img src={window.icon} ></img>
-            <span>{t(window.app)}</span>
+            <span>{window.titleBarName ? t(window.titleBarName) : t(window.name)}</span>
           </div>
 
           {/* {window.link && <div className={styles.link}><div style={{maskImage: `url("${lock}")`, minWidth: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '').split('?')[0]}</a></div>} */}

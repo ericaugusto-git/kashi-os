@@ -1,75 +1,47 @@
+import { WindowProps } from "@/constants/apps";
+import { romsPath, savesPath } from "@/constants/defaultFolders";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import controller from "../assets/emulator/controller.svg";
 import info from "../assets/emulator/info.svg";
-import { emulatorCores } from "../constants/emulatorCores";
+import { emulatorCores, emulatorExtensions } from "../constants/emulatorCores";
+import { useFileSystem } from "../contexts/FileSystemContext";
 import useCloseWindow from "../hooks/useCloseWindow";
 import styles from "./EmulatorJS.module.scss";
-import { useTranslation } from "react-i18next";
 
 export default function EmulatorJS({
   closeBtnRefs,
   closeRefIndex,
-}: {
-  closeBtnRefs?: Array<HTMLButtonElement | null>;
-  closeRefIndex?: number;
-}) {
+  filePath,
+  app
+}: WindowProps) {
   const [gameUrl, setGameUrl] = useState<string | null>("");
   const [stateUrl, setStateUrl] = useState<string | null>(null);
   const dropZoneRef = useRef<HTMLDivElement | null>(null);
-  const dbRef = useRef<IDBDatabase | null>(null);
   const [fileList, setFileList] = useState<File[]>([]);
   const [currentGame, setCurrentGame] = useState<File | null>(null);
   const [currentCore, setCurrentCore] = useState<string | null>("");
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const {t, i18n} = useTranslation();
   const [locale,setLocale] = useState(i18n.resolvedLanguage == 'en' ? 'en-US' : i18n.resolvedLanguage);
-  const acceptedExtensions = Object.values(emulatorCores)
-    .flatMap(core => core.ext)
+  const { pathExists,  readFilesFromDir, createFile, readFile, getFileUrl } = useFileSystem();
+  const acceptedExtensions = emulatorExtensions
     .join(',');
+  // if(!pathExists || !listFiles || !createFile || !readFile || !getFileUrl) return;
+
   useEffect(() => {
-    const openDB = async () => {
-      const dbRequest = indexedDB.open("ROMsDatabase", 2);
-
-      dbRequest.onupgradeneeded = function (event) {
-        const db = (event.target as IDBOpenDBRequest).result as IDBDatabase;
-        if (!db.objectStoreNames.contains("roms")) {
-          db.createObjectStore("roms", { keyPath: "id", autoIncrement: true });
-        }
-        if (!db.objectStoreNames.contains("saveStates")) {
-          db.createObjectStore("saveStates", { keyPath: "gameName" });
-        }
-      };
-
-      dbRequest.onsuccess = function (event) {
-        const db = (event.target as IDBOpenDBRequest).result as IDBDatabase;
-        dbRef.current = db;
-
-        // Retrieve ROMs
-        const transaction = db.transaction("roms", "readonly");
-        const romsStore = transaction.objectStore("roms");
-        const request = romsStore.getAll();
-        request.onsuccess = function () {
-          const romList: File[] = request.result.map((rom) => rom.romFile);
-          setFileList(romList);
-        };
-      };
-
-      dbRequest.onerror = function (event) {
-        console.error(
-          "Error opening database:",
-          (event.target as IDBOpenDBRequest).error
-        );
-      };
-    };
-
-    openDB();
-
-    return () => {
-      if (dbRef.current) {
-        dbRef.current.close();
+    const getRoms = async () => {
+      // Load existing ROMs
+      const roms  = await readFilesFromDir(romsPath) ?? [];
+      setFileList(roms);
+      const game  = roms.find((f) => f.name == filePath?.split('/').pop());
+      if(game){
+        openGame(game);
       }
     };
-  }, []);
+
+    getRoms();
+  }, [readFilesFromDir]);
 
   useEffect(() => {
     const closeBtnRef = closeBtnRefs?.[closeRefIndex as number];
@@ -99,7 +71,7 @@ export default function EmulatorJS({
     handleFileChange(null, file);
   };
 
-  const handleFileChange = (
+  const handleFileChange = async(
     event?: React.ChangeEvent<HTMLInputElement> | null,
     drop_file?: File
   ) => {
@@ -112,17 +84,8 @@ export default function EmulatorJS({
       }
       const core = getCoreForFile(file);
       if (core) {
-        const db = dbRef.current;
-        if (db) {
-          const transaction = db.transaction("roms", "readwrite");
-          const romsStore = transaction.objectStore("roms");
-          const rom = { romFile: file };
-          setFileList((prev) => {
-            const newList = [...prev, file];
-            return newList;
-          });
-          romsStore.add(rom);
-        }
+        await createFile(romsPath, file);
+        setFileList(prev => [...prev, file]);
         openGame(file, core);
       }
     }
@@ -156,25 +119,16 @@ export default function EmulatorJS({
   };
 
   const loadSavedState = async (gameName: string) => {
-    if (dbRef.current) {
-      const transaction = dbRef.current.transaction("saveStates", "readonly");
-      const store = transaction.objectStore("saveStates");
-      const request = store.get(gameName);
-      request.onsuccess = function () {
-        const result = request.result;
-        if (result) {
-          const blob = new Blob([result.saveData], {
-            type: "application/octet-stream",
-          });
-          const stateUrl = URL.createObjectURL(blob);
-          setStateUrl(stateUrl);
-        }
-      };
-      request.onerror = function () {
-        console.error("Error retrieving saved state from IndexedDB");
-      };
+    const savePath = `${savesPath}/${gameName}.state`;
+    if (await pathExists(savePath)) {
+      const saveData = await readFile(savePath);
+      if (saveData) {
+        const stateUrl = await getFileUrl(savePath);
+        setStateUrl(stateUrl);
+      }
     }
   };
+
   const saveBeforeLeave = (leaveMode: string) => {
     if (iframeRef.current) {
       iframeRef.current.contentWindow?.postMessage(
@@ -187,9 +141,9 @@ export default function EmulatorJS({
   };
 
   const closeWindow = useCloseWindow();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const closeEmulator = () => {
-    closeWindow("EmulatorJS");
+    if(app)
+    closeWindow(app.name);
   };
 
   useEffect(() => {
@@ -197,31 +151,17 @@ export default function EmulatorJS({
       if (event.data.type === "SAVE_STATE_DATA") {
         const saveData = event.data.state;
         const gameName = currentGame?.name;
-        if (dbRef.current && gameName) {
-          const transaction = dbRef.current.transaction(
-            "saveStates",
-            "readwrite"
-          );
-          const store = transaction.objectStore("saveStates");
-          const request = store.put({ gameName, saveData });
-
-          // Listen for the success and error events
-          request.onsuccess = () => {
+        if (gameName) {
+          await createFile(savesPath, new File([saveData], `${gameName}.state`));        
             const leaveMode = event.data.leaveMode;
-              if (leaveMode == "game_list") {
-                exitGame();
-              } else if (leaveMode == "close") {
-                closeEmulator();
-              } else if(leaveMode == 'locale_change'){
-                exitGame();
-                handleSetLocale()
-              }
-          };
-  
-          request.onerror = (error) => {
-            console.error("Failed to save data:", error);
-            // Handle the error as needed
-          };
+            if (leaveMode == "game_list") {
+              exitGame();
+            } else if (leaveMode == "close") {
+              closeEmulator();
+            } else if (leaveMode == 'locale_change') {
+              exitGame();
+              handleSetLocale();
+            }
         }
       }
     };

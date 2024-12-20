@@ -43,7 +43,7 @@ function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/mu
     useEffect(() => {
       const setCurrentMusic = async (music: AppType) => {
         if (audioRef.current && getFileUrl && music) {
-          const fileUrl = await getFileUrl(music.folderPath + '/' + music.app);
+          const fileUrl = await getFileUrl(music.folderPath + '/' + music.name);
           if (audioRef.current) {
             audioRef.current.src = fileUrl;
             audioRef.current.play();
@@ -106,7 +106,7 @@ function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/mu
 
       const nextMusic = () => {
         if (systemMusics.length && selected) {
-            const currentIndex = systemMusics.findIndex(music => music.app === selected.app);
+            const currentIndex = systemMusics.findIndex(music => music.name === selected.name);
             const nextIndex = (currentIndex + 1) % systemMusics.length;
             setSelected(systemMusics[nextIndex]);
         }
@@ -118,7 +118,7 @@ function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/mu
         return;
       }
         if (systemMusics.length && selected) {
-            const currentIndex = systemMusics.findIndex(music => music.app === selected.app);
+            const currentIndex = systemMusics.findIndex(music => music.name === selected.name);
             const previousIndex = currentIndex === 0 ? systemMusics.length - 1 : currentIndex - 1;
             setSelected(systemMusics[previousIndex]);
         }
@@ -150,8 +150,8 @@ function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/mu
             // Playlist view
             <div className={styles.musics}>
                 {systemMusics.map((music, i) => (               
-                <div key={i} onClick={() => selectMusic(music)} className={`${styles.music} ${selected?.app == music.app && styles.selected}`}>
-                    <span className={styles.noWrap}>{music.app}</span>
+                <div key={i} onClick={() => selectMusic(music)} className={`${styles.music} ${selected?.name == music.name && styles.selected}`}>
+                    <span className={styles.noWrap}>{music.name}</span>
                     <div className={styles.descricao}>
                     <span className={styles.noWrap}>{music.metadata?.artist || 'Unknown'}</span>
                     <span className={styles.duration}>{formatDuration(music.metadata?.duration)}</span>
@@ -168,7 +168,7 @@ function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/mu
                         style={{backgroundImage: `url(${selected?.thumbnail || 'music_icon.svg'})`}}
                     />
                     <div className={styles.songInfo}>
-                        <h2>{selected?.app}</h2>
+                        <h2>{selected?.name}</h2>
                         <p>{selected?.metadata?.artist}</p>
                     </div>
                 </div>
@@ -189,7 +189,7 @@ function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/mu
            { playlistMode ? <a  onClick={togglePlaylistMode} className={styles.current_music}>
               <div className={`backgroundImage ${styles.music_cover}`} style={{backgroundImage: `url(${selected?.thumbnail || 'music_icon.svg'})`}}></div>
                 <div className={styles.desc}>
-                    <span className={styles.titulo_desc}>{selected?.app}</span>
+                    <span className={styles.titulo_desc}>{selected?.name}</span>
                     <span className={styles.subtitulo_desc}>{selected?.metadata?.artist}</span>
                 </div>
             </a> : <a className={styles.playlist_mode_toggle} onClick={togglePlaylistMode}>

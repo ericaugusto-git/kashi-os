@@ -36,15 +36,15 @@ function useOpenWindow(): (app: AppType) => void {
     const openWindow = (app: AppType) => {
         if (app.notUnique) {
             app = JSON.parse(JSON.stringify(app));
-            // app.instanceName = app.instanceName ?? app.app;
-            app.app = app.app + Math.random().toString(36).substring(2, 15);
+            app.titleBarName = app.titleBarName ?? app.name;
+            app.name = app.name + Math.random().toString(36).substring(2, 15);
         }
 
         setWindows(prevWindows => {
             const updatedWindows = prevWindows
                 .map(window => ({ ...window, active: false }));
 
-            if (!prevWindows.find(a => a.app === app.app)) {
+            if (!prevWindows.find(a => a.name === app.name)) {
                 const position = calculateWindowPosition(app, prevWindows);
                 return [...updatedWindows, { 
                     ...app, 
@@ -54,7 +54,7 @@ function useOpenWindow(): (app: AppType) => void {
                     minimized: false 
                 }];
             } else {
-                const existingWindow = updatedWindows.find(a => a.app === app.app);
+                const existingWindow = updatedWindows.find(a => a.name === app.name);
                 if (existingWindow) {
                     existingWindow.active = true;
                     existingWindow.minimized = false;

@@ -78,9 +78,9 @@ const DesktopIcons = ({layouts, setLayouts, apps}: {layouts: Layouts | null, set
     // const wasMoved = oldItem.x !== newItem.x || oldItem.y !== newItem.y;
     if(!isDragging){
       // Click event here
-      const app = apps.find(a => a.app === item.i);
+      const app = apps.find(a => a.name === item.i);
       // if(app?.appType == 'file'){
-      //   handleFileDisplay(app.folderPath!, app.app);
+      //   handleFileDisplay(app.folderPath!, app.name);
       // }else{
       // }
       openWindow(app!)
@@ -113,7 +113,7 @@ const DesktopIcons = ({layouts, setLayouts, apps}: {layouts: Layouts | null, set
         onLayoutChange={handleLayoutChange}
       >
         {apps.map((app) => (
-          <div id={app.instanceName} key={app.instanceName}>
+          <div id={app.name} key={app.name}>
                    <DesktopIcon app={app} folderPath='/home/desktop' setLayouts={setLayouts} svgStyles={app.desktopStyles?.svg} svgMask={app.svgMask?.desktop} buttonStyles={app.desktopStyles?.button} imgWrapperStyles={app.desktopStyles?.img} />
             </div>
         ))}
@@ -122,7 +122,7 @@ const DesktopIcons = ({layouts, setLayouts, apps}: {layouts: Layouts | null, set
     </> : <>
   
   {isAnimating && <motion.menu id="desktop_icons" initial="hidden" animate={"visible"}  variants={container}   className={`${styles.desktop} ${styles[position]}`}>
-       {apps.map((app) => <motion.li  id={app.app} whileHover={{ scale:  1.05 }} whileTap={{ scale: 0.9 }}  variants={item} key={app.app} onClick={() => openWindow(app)}>
+       {apps.map((app) => <motion.li  id={app.name} whileHover={{ scale:  1.05 }} whileTap={{ scale: 0.9 }}  variants={item} key={app.name} onClick={() => openWindow(app)}>
                    <DesktopIcon app={app} hideLabel={true} setLayouts={setLayouts} folderPath='/home/desktop' svgStyles={app.desktopStyles?.svg} svgMask={app.svgMask?.desktop} buttonStyles={app.desktopStyles?.button} imgWrapperStyles={app.desktopStyles?.img} />
        </motion.li>)}
        {/* <li onClick={openResume}>
