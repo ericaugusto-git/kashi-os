@@ -204,8 +204,8 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           // If it's a directory, use folder icon
           if (stats.isDirectory()) {
             return {
-              ...baseFile,
               ...FILE_EXPLORER,
+              ...baseFile,
               icon: folderIcons[fullPath] || 'folder.svg',
             };
           }
