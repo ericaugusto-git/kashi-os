@@ -51,14 +51,16 @@
             border-radius: 0 0 80px 0;
         }
         &, div{
-            transition: transform 200ms ease;
+            transition: transform 200ms ease, border 1000ms linear;
         }
         div{
             height: 100%;
             width: 100%;
         }
         &:hover{
-            transform: scale(1.05);
+            // border-radius: 40px;
+            // border-top-left-radius: 0;
+            // transform: scale(1.05);
             // &:nth-child(1){
             //     border-radius: 80px 10px 0 10px;
             // }
@@ -73,13 +75,19 @@
             //     transform-origin: top right;
             //     border-radius:  0 0 0 80px;
             // }
-            // &:nth-child(4){
-            //     transform-origin: top left;
-            //     border-radius: 0 0 80px 0;
-            // }
+            &:nth-child(4){
+
+            }
         }
     }
     .lofi{
         background-size: cover;
+        img{
+            margin-left: auto;
+margin-right: auto;
+left: 0;
+right: 0;
+        }
+        // background-repeat: no-repeat;
     }
 }

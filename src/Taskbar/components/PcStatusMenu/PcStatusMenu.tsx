@@ -28,27 +28,26 @@ export function PcStatusMenu({pcStatusMenuOpen, setPcStatusMenuOpen}: {pcStatusM
 
     return <AnimatePresence>
         { pcStatusMenuOpen && <motion.div initial={{scale: 0}} animate={{scale: 1}} exit={{scale: 0, opacity: 0}}  onClick={() => setPcStatusMenuOpen(false)} className={styles.status_menu}>
-            <button className={styles.btn} onClick={() => setPcStatus('sleeping')}>
+            <motion.button whileHover={{scale:"1.18", borderRadius: "40px", borderBottomRightRadius: '0',transition: { duration: 0.2 } }}   className={styles.btn} onClick={() => setPcStatus('sleeping')}>
                 <div className={`svgMask ${styles.wallpaper_img}`} style={{ maskImage: `url("${locked}"` }}>
                 </div>
                 <span>{t('lock')}</span>
-            </button>
-            <button className={styles.btn} onClick={() => setPcStatus('sleeping')}>
+            </motion.button>
+            <motion.button whileHover={{scale:"1.18", borderRadius: "40px", borderBottomLeftRadius: '0',transition: { duration: 0.2 } }}  className={styles.btn} onClick={() => setPcStatus('sleeping')}>
 
                 <div className={`svgMask ${styles.wallpaper_img}`} style={{ maskImage: `url("${sleep}"` }} />
                 <span>{t('sleep')}</span>
-            </button>
-            <button className={styles.btn} onClick={() => setPcStatus('lofi')}>
-                
-                <div className={`backgroundImage ${styles.lofi}`} style={{ backgroundImage: `url("${lofiUrl}"` }}>
-                <img style={{width: '100px', height: '27px', paddingTop: '2px'}} onClick={(e) => {e.stopPropagation(); window.open(lofiUrl, '_blank')}} src="Poweredby_100px-Black_VertLogo.png"></img>
-                </div>
+            </motion.button>
+            <motion.button style={{ backgroundImage: `url("${lofiUrl}"` }} whileHover={{scale:"1.18", borderRadius: "40px", borderTopRightRadius: '0',transition: { duration: 0.2 } }}  className={`backgroundImage ${styles.lofi} ${styles.btn}`} onClick={() => setPcStatus('lofi')}>
+                <img style={{width: '100px', height: '27px', paddingTop: '2px',position: "absolute", top: "10px", left: "10px"}} onClick={(e) => {e.stopPropagation(); window.open(lofiUrl, '_blank')}} src="Poweredby_100px-Black_VertLogo.png"></img>
+                {/* <div className={``} >
+                </div> */}
                 <span>wait, lofi mode?</span>
-            </button>
-            <button className={styles.btn} onClick={handlePowerOff}>
+            </motion.button>
+            <motion.button whileHover={{scale:"1.18", borderRadius: "40px", borderTopLeftRadius: '0',transition: { duration: 0.2 } }} className={styles.btn} onClick={handlePowerOff}>
                 <div className={`svgMask ${styles.wallpaper_img}`} style={{ maskImage: `url("${powerOff}"` }} />
                 <span>{t('shut')}</span>
-            </button>
+            </motion.button>
         </motion.div>}
     </AnimatePresence> 
 }

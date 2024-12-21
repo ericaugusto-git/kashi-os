@@ -150,7 +150,7 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
 
   return (
     <div className={`${styles.folder} ${loading && styles.loading}`} onContextMenu={handleContextMenu} onDrop={handleDropWrapper} onDragOver={handleDragOver}>
-      <div className={styles.navigation}>
+       <div className={styles.navigation}>
         <button 
           onClick={goBack} 
           disabled={historyIndex === 0}

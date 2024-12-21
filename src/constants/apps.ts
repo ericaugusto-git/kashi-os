@@ -113,6 +113,7 @@ export type AppType = {
 export const FILE_EXPLORER: AppType = {
     name: 'file_explorer',
     appType: 'os',
+    bodyStyles: {backgroundColor: 'none'},
     notUnique: true,
     hideInStartMenu: true,
     icon: 'folder.svg',

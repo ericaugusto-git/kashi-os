@@ -59,7 +59,11 @@ $paddingX: 12px;
         // text-transform: lowercase;
         color: hsl(0 0% 63% / 1);
     }
+    a:hover{
+        color: rgb(0, 132, 255); 
+    }
     .welcome{
+        text-decoration: none;
         font-size: 9px;
     }
 }

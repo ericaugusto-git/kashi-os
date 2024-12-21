@@ -78,7 +78,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
             <div>
                 <span>カシ・OS</span>
             </div>
-            <span className={style.welcome}>{t('made')} Eric Augusto・<span className={style.front}>{t('front')}</span> </span>
+            <a href="https://www.linkedin.com/in/eric-augusto-775245a9/" target="_blank" className={style.welcome}>{t('made')} Eric Augusto・<span className={style.front}>{t('front')}</span> </a>
         </div>
         <AnimatePresence>
             { windows?.length > 0 && <motion.div ref={windowsRef} initial={{scale: 0.9, opacity: 0}} animate={{scale: 1, opacity: 1}} transition={{duration: 0.1}} className={`${style.taskbar_section_wrapper} ${style.windows}`}>

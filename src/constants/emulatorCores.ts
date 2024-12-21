@@ -111,7 +111,7 @@ export const emulatorCores: Record<string, Core> = {
     ".32x",
     ".gg",
     ".gen",
-    ".md",
+    // ".md",
     ".smd",
     ".sms",
     ".sfc",
