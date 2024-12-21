@@ -28,7 +28,7 @@ export function PcStatusMenu({pcStatusMenuOpen, setPcStatusMenuOpen}: {pcStatusM
 
     return <AnimatePresence>
         { pcStatusMenuOpen && <motion.div initial={{scale: 0}} animate={{scale: 1}} exit={{scale: 0, opacity: 0}}  onClick={() => setPcStatusMenuOpen(false)} className={styles.status_menu}>
-            <motion.button whileHover={{scale:"1.18", borderRadius: "40px", borderBottomRightRadius: '0',transition: { duration: 0.2 } }}   className={styles.btn} onClick={() => setPcStatus('sleeping')}>
+            <motion.button whileHover={{scale:"1.18", borderRadius: "40px", borderBottomRightRadius: '0',transition: { duration: 0.2 } }}   className={styles.btn} onClick={() => setPcStatus('lock')}>
                 <div className={`svgMask ${styles.wallpaper_img}`} style={{ maskImage: `url("${locked}"` }}>
                 </div>
                 <span>{t('lock')}</span>

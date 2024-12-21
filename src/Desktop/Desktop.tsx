@@ -23,9 +23,10 @@ import useComponentVisible from "../hooks/useComponentVisible";
 import { generateLayouts, getWppIndex } from "../utils/utils";
 import styles from "./Desktop.module.scss";
 import ContextMenu from "./components/ContextMenu/ContextMenu";
-import Lockscreen from "./components/Lockscreen/Lockscreen";
+import Sleep from "./components/Sleep/Sleep";
 import Lofi from "./components/Lofi/Lofi";
 import GameOver from "@/GameOver/GameOver";
+import Lockscreen from "./components/Lockscreen/Lockscreen";
 
 
 function Desktop() {
@@ -119,7 +120,7 @@ function Desktop() {
   useEffect(() => {
     // joke of the year
     const shutup = (event: MouseEvent) => {
-      if (!startMenuRef?.current?.contains(event.target as Node) && !pcStatusMenuRef?.current?.contains(event.target as Node) && pcStatus != "lofi") {
+      if (!startMenuRef?.current?.contains(event.target as Node) && !pcStatusMenuRef?.current?.contains(event.target as Node) && (pcStatus == "sleeping" || pcStatus == 'shutdown')) {
         setPcStatus("on");
       }
     };
@@ -170,7 +171,7 @@ function Desktop() {
         </div>
 
         {/* wrapper for the actual high elements of the desktop, Windows array, Taskbar, Desktopicons */}
-        <div style={{ display: pcStatus === "sleeping" || pcStatus == "lofi" ? "none" : "" }}>
+        <div style={{ display: pcStatus === "sleeping" || pcStatus === "lock" || pcStatus == "lofi" ? "none" : "" }}>
             <div ref={searchRef}><Search searchVisible={searchVisible} setSearchVisible={setSearchVisible} /></div>
             <div ref={pcStatusMenuRef}><PcStatusMenu pcStatusMenuOpen={pcStatusMenuOpen} setPcStatusMenuOpen={setPcStatusMenuOpen} /></div>
             {/* Array of windows */}
@@ -189,7 +190,8 @@ function Desktop() {
               <TaskbarHypr setPcStatusMenuOpen={setPcStatusMenuOpen} pcStatusButtonRef={pcStatusButtonRef} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}  setThemeSwitcherOpen={setThemeSwitcherOpen} wallpaperButtonRef={wallpaperButtonRef} themeButtonRef={themeButtonRef}/>
             </StartSetterContext.Provider>
         </div>
-        {pcStatus === "sleeping" && <Lockscreen />}
+        {pcStatus === "sleeping" && <Sleep />}
+        {pcStatus === "lock" && <Lockscreen/>}
         {pcStatus === 'lofi' && <div ><Lofi screenHandle={screenHandle}/></div>}
         {pcStatus === 'game_over' && <GameOver />}
       </div>

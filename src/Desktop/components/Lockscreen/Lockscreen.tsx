@@ -1,31 +1,26 @@
 import { useWallpaper } from '@/contexts/WallpaperContext';
-import useDateTime from '../../../hooks/useDateTime';
 import styles from './Lockscreen.module.scss';
 import { wallpapers } from '@/constants/wallpapers';
 import { useTheme } from '@/contexts/ThemeContext';
-import { useWeatherContext } from '@/contexts/WheaterContext';
-import WeatherBody from '@/Taskbar/components/Calendar/Weather/components/WeatherBody/WeatherBody';
+import { usePcStatus } from '@/contexts/PcStatusContext';
+import { useTranslation } from 'react-i18next';
 
-function Lockscreen() {
-    const [dateTime] = useDateTime();
+export default function Lockscreen(){
     const [wallpaperIndex] = useWallpaper();
     const [theme] = useTheme();
     const currentWppr = wallpapers[theme][wallpaperIndex];
-    const { weatherContext } = useWeatherContext();
-    const weather = weatherContext?.weather
-    console.log(weather)
-    return ( 
-        <div>
-            <div className={styles.date_hour}>
-                <span className={styles.date}>{dateTime.date}</span>
-                <span className={styles.hour}>{dateTime.hour}</span>
-            <div className={`backgroundImage ${styles.img}`} style={{backgroundImage: `url("${currentWppr}")`}}>
+    const [_, setPcStatus] = usePcStatus();
+    const {t} = useTranslation();
+    return <div className={styles.lock}>
+        <div className={`backgroundImage ${styles.user}`} style={{backgroundImage: `url("${currentWppr}")`}}>
 
-            </div>
-            {weather && <WeatherBody weather={weather}/>}
-            </div>
         </div>
-    );
+        {t('guest')}
+        <div className={styles.form}>
+            <input type="password" placeholder={t('enter_password')}/>
+            <button data-tooltip={t("confirm")} onClick={() => setPcStatus("on")}>
+                <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("arrow_right.svg")`}}></div>
+            </button>
+        </div>
+    </div>
 }
-
-export default Lockscreen;

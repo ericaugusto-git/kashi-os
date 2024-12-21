@@ -89,7 +89,10 @@ i18n
           computer: "Computer",
           open_cmd: "Open CMD Here",
           folder_empty: "This folder is empty",
-          uptime_game: "It took you this much time to find this: "
+          uptime_game: "It took you this much time to find this: ",
+          confirm: "Confirm",
+          enter_password: "Enter Password",
+          guest: "Guest"
         }
     },
     ["pt-BR"]: {
@@ -162,7 +165,10 @@ i18n
             computer: "Computador",
             open_cmd: "Abrir Prompt aqui",
             folder_empty: "Esta pasta está vazia",
-            uptime_game: "Voce demorou esse tanto de tempo para achar isso: "
+            uptime_game: "Voce demorou esse tanto de tempo para achar isso: ",
+            confirm: "Confirmar",
+            enter_password: "Digite a Senha",
+            guest: "Convidado"
         }
       }
     }

@@ -5,16 +5,17 @@ import { useContextMenuHandler } from '@/contexts/ContextMenuContext';
 import { useFileSystem } from '@/contexts/FileSystemContext';
 import DesktopIcon from '@/DesktopIcons/components/DesktopIcon/DesktopIcon';
 import useOpenWindow from '@/hooks/useOpenWindow';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './Folder.module.scss';
 
-function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
+function Folder({ filePath = '/home', fileList, listFiles, pathExists }: FileProps) {
   const [currentPath, setCurrentPath] = useState(filePath);
   const [files, setFiles] = useState<AppType[]>([]);
   const [loading, setLoading] = useState<boolean>()
   const [history, setHistory] = useState<string[]>([filePath]);
   const [historyIndex, setHistoryIndex] = useState(0);
+  const editableRef = useRef<HTMLSpanElement>(null);
   const { t } = useTranslation();
   const { handleDrop, createFile } = useFileSystem();
   const openWindow = useOpenWindow();
@@ -68,6 +69,35 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
     };
     loadFiles();
   }, [currentPath, listFiles, fileList]);
+
+  useEffect(() => {
+    const applyChanges = async () => {
+        const newValue = editableRef?.current?.textContent;
+        if(newValue && await pathExists!(newValue)){
+          navigateToFolder(newValue);
+        }else if(editableRef.current){
+          editableRef.current.textContent = currentPath;
+        }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent newline character from being added
+            editableRef?.current?.blur(); // Unfocus the element and as consequence calls applyChanges
+        }
+    };
+
+
+    const currentEditable = editableRef.current;
+    if(currentEditable){
+        currentEditable.addEventListener('keydown', handleKeyDown);
+        currentEditable.addEventListener('blur', applyChanges);
+
+        return () => {
+            currentEditable.removeEventListener('keydown', handleKeyDown);
+            currentEditable.removeEventListener('blur', applyChanges);
+        };
+    }
+  },[currentPath]);
 
   const  addDefaultFile = async (fileUrl: string) => {
     try{
@@ -172,9 +202,9 @@ function Folder({ filePath = '/home', fileList, listFiles }: FileProps) {
         >
           ↑
         </button>
-        <div className={styles.pathDisplay}>
+        <span ref={editableRef} spellCheck="false" suppressContentEditableWarning={true} contentEditable className={styles.pathDisplay}>
           {currentPath}
-        </div>
+        </span>
       </div>
       <div className={styles.body}>
       <menu onContextMenu={(e) => {e.stopPropagation(); e.preventDefault()}}>

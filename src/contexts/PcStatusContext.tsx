@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 
-type PcStatus = "shutdown" | "on" | "sleeping" | "lofi" | "game_over";
+type PcStatus = "shutdown" | "on" | "sleeping" | "lofi" | "game_over" | "lock";
 type PcStatusContextType = [string, React.Dispatch<React.SetStateAction<PcStatus>>]
 
 export const PcStatusContext = createContext<PcStatusContextType>(["on", () => false]);
