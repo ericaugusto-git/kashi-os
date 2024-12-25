@@ -15,7 +15,7 @@ type WallpaperSwitcherProps = {
 
 export default function WallpaperSwitcher({wallpaperSwitcherOpen, setwWallpaperSwitcherOpen}: WallpaperSwitcherProps){
     const [theme] = useTheme();
-    const {readFilesFromDir, listFiles, fileList} = useFileSystem();
+    const {readFilesFromDir, fileList} = useFileSystem();
     const [wpprs, setWpprs] = useState<FileAsUrl[]>([]);
     useEffect(() => {
         const getWpprsUrl = async () => {
@@ -25,8 +25,8 @@ export default function WallpaperSwitcher({wallpaperSwitcherOpen, setwWallpaperS
         getWpprsUrl();
     },[readFilesFromDir, fileList, theme])
     const [wallpaper, setWallpaper] = useWallpaper();
+    console.log(wallpaper)
     const handleWpprChange = (name: string) => {
-        localStorage.setItem(theme + "Wallpaper", name)
         setWallpaper(() => name);
         setwWallpaperSwitcherOpen(false)
     }

@@ -84,49 +84,30 @@ function Desktop() {
     // this is a mess but I gotta move on, well refactor in optimization phase.
     const loadWallpapers = async () => {
       if(!fs) return;
-      const map = localStorage.getItem('wpprMap');
-      const wpprMap = map ? JSON.parse(map) : {};
-      // const firstWallpapers = Object.values(wallpapers).map(themeWallpapers => themeWallpapers[0]);
-      const firstWallpapers: string[] = [];
-      const firstWallpapersMap: Record<string, Themes> = {};
-      let wpprs: string[] = [];
-      Object.entries(wallpapers).forEach(([key, themeWallpapers]) => {
-        firstWallpapersMap[themeWallpapers[0]] = key as Themes;
-        if(key !== theme)
-        firstWallpapers.push(themeWallpapers[0]);
-        if(theme === key){
-          wpprs = themeWallpapers;   // The rest of the wallpapers
+      
+      // Cache map in localStorage
+      const map = localStorage.getItem('wpprMap') || '{}';
+      const wpprMap = JSON.parse(map);
+      
+      // Load first wallpaper immediately for initial display
+      const firstWallpaper = wallpapers[theme][0];
+      if (!wpprMap[firstWallpaper]) {
+        const fileName = await createFileFromUrl(wpprPaths[theme], firstWallpaper, true);
+        changeWallpaper(!isInitialMount.current, fileName, firstWallpaper.split('/').pop()?.split('%2F').pop());
+        wpprMap[firstWallpaper] = 'created';
+        localStorage.setItem('wpprMap', JSON.stringify(wpprMap));
+      }
+    
+      // Load rest of wallpapers in parallel
+      const otherWallpapers = wallpapers[theme].slice(1);
+      await Promise.all(otherWallpapers.map(async wppr => {
+        if (!wpprMap[wppr]) {
+          await createFileFromUrl(wpprPaths[theme], wppr);
+          wpprMap[wppr] = 'created';
         }
-      });
-      for await(const [i, wppr] of [...wpprs, ...firstWallpapers].entries()){
-        
-        if(wpprMap[wppr] != 'created'){
-          const fileName = await createFileFromUrl(wpprPaths[firstWallpapersMap[wppr] ?? theme], wppr, i === 0);
-          if(fileName){
-            wpprMap[wppr] = 'created';
-            localStorage.setItem('wpprMap', JSON.stringify(wpprMap));
-            // sets the default wallpaper as soon as it's created
-            if((!wallpaperName || wallpaperName == 'null' || wallpaperName === 'undefined') && i === 0){
-              console.log("url: ", fileName)
-              console.log(theme)
-              console.log(isInitialMount.current)
-              // if(isInitialMount.current){
-              //   setWallpaperUrl(fileName);
-              //   isInitialMount.current = false;
-              // }else{
-                console.log("opa")
-              // }
-              changeWallpaper(!isInitialMount.current, fileName, wppr.split('/').pop()?.split('%2F').pop() as string);
-            }
-          }
-        } else if(i == 0 && !localStorage.getItem(theme + '_wallpaper')){
-          setWallpaperName(wppr.split('/').pop()?.split('%2F').pop() as string);
-        }
-        }
-        // // falback for weird cases where the for loop already ran but wallpaperName was not set
-        // if(!wallpaperName || wallpaperName == 'null' || wallpaperName === 'undefined'){
-        //   setWallpaperName(wallpapers[theme][0].split('/').pop()?.split('%2F').pop() as string);
-        // }
+      }));
+    
+      localStorage.setItem('wpprMap', JSON.stringify(wpprMap));
     }
     loadWallpapers();
   }, [theme, createFileFromUrl, readDirectory, getWpprUrl]);

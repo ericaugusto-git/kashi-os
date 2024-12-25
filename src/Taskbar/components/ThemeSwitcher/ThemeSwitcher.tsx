@@ -32,7 +32,7 @@ export default function ThemeSwitcher({
         return wpprs[0];
       }
       // If the user didn't access the folder it means there is no files there, and it also means that that he didn't add anything different from the default so I can just return the default
-      return {url: wallpapers[theme][0], name: wallpapers[theme][0].split('/').pop()}
+      return {url: wallpapers[theme][0], name: wallpapers[theme][0].split('/').pop()?.split('%2F').pop()}
     }
     const url = await getFileUrl(wpprPaths[theme] + '/' + wppr);    
     return {url: url, name: wppr};
@@ -58,10 +58,11 @@ export default function ThemeSwitcher({
 
 
 
-  const handleChangeTheme = (theme: Theme2) => {      
-    setWallpaperName(theme.wpp?.name as string);
+  const handleChangeTheme = (theme: Theme2) => { 
+    console.log(theme)     
+    localStorage.getItem(theme + "_wallpaper") && setWallpaperName(theme.wpp?.name as string);
     setTheme(theme.theme as Themes);
-    setThemeSwitcherOpen(false)
+    setThemeSwitcherOpen(false);
   };
 
   return (
