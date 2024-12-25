@@ -1,18 +1,13 @@
-import { useWallpaper } from '@/contexts/WallpaperContext';
-import styles from './Lockscreen.module.scss';
-import { wallpapers } from '@/constants/wallpapers';
-import { useTheme } from '@/contexts/ThemeContext';
 import { usePcStatus } from '@/contexts/PcStatusContext';
 import { useTranslation } from 'react-i18next';
+import styles from './Lockscreen.module.scss';
 
-export default function Lockscreen(){
-    const [wallpaperIndex] = useWallpaper();
-    const [theme] = useTheme();
-    const currentWppr = wallpapers[theme][wallpaperIndex];
+export default function Lockscreen({wallpaperUrl}: {wallpaperUrl: string | undefined}){
+
     const [_, setPcStatus] = usePcStatus();
     const {t} = useTranslation();
     return <div className={styles.lock}>
-        <div className={`backgroundImage ${styles.user}`} style={{backgroundImage: `url("${currentWppr}")`}}>
+        <div className={`backgroundImage ${styles.user}`} style={{backgroundImage: `url("${wallpaperUrl}")`}}>
 
         </div>
         {t('guest')}

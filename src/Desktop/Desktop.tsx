@@ -1,6 +1,8 @@
+import GameOver from "@/GameOver/GameOver";
 import { AppType } from "@/constants/apps";
 import { useFileSystem } from "@/contexts/FileSystemContext";
-import { CSSProperties, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { Layouts } from "react-grid-layout";
 import { StartSetterContext } from "../App";
@@ -13,20 +15,19 @@ import ThemeSwitcher from "../Taskbar/components/ThemeSwitcher/ThemeSwitcher";
 import WallpaperSwitcher from "../Taskbar/components/WallpaperSwitcher/WallpaperSwitcher";
 import Window from "../Window/Window";
 import { themes, transitionMs } from "../constants/themes";
-import { wallpapers } from "../constants/wallpapers";
+import { wallpapers, wpprPaths } from "../constants/wallpapers";
 import { useContextMenuHandler } from "../contexts/ContextMenuContext";
 import { useDesktopPosition } from "../contexts/DesktopPositonContext";
 import { usePcStatus } from "../contexts/PcStatusContext";
 import { Themes, useTheme } from "../contexts/ThemeContext";
 import { useWallpaper } from "../contexts/WallpaperContext";
 import useComponentVisible from "../hooks/useComponentVisible";
-import { generateLayouts, getWppIndex } from "../utils/utils";
+import { generateLayouts } from "../utils/utils";
 import styles from "./Desktop.module.scss";
 import ContextMenu from "./components/ContextMenu/ContextMenu";
-import Sleep from "./components/Sleep/Sleep";
-import Lofi from "./components/Lofi/Lofi";
-import GameOver from "@/GameOver/GameOver";
 import Lockscreen from "./components/Lockscreen/Lockscreen";
+import Lofi from "./components/Lofi/Lofi";
+import Sleep from "./components/Sleep/Sleep";
 
 
 function Desktop() {
@@ -39,9 +40,11 @@ function Desktop() {
   const [searchRef, searchVisible, setSearchVisible] = useComponentVisible(false);
   const [theme] = useTheme();
   const isInitialMount = useRef(true);
-  const [wallpaper, setWallpaper] = useState<{theme: Themes, wppIndex: number} | null | undefined>({theme: theme, wppIndex: getWppIndex(theme)});
+  
+  const [wallpaperUrl, setWallpaperUrl] = useState<string | undefined>();
+  const [wpprFallback, setWpprFallback] = useState<string>();
   const [newWallpaper, setNewWallpaper] = useState<string | undefined>();
-  const [wallpaperIndex] = useWallpaper();
+  const [wallpaperName, setWallpaperName] = useWallpaper();
 
   const [position] = useDesktopPosition();
 
@@ -57,10 +60,9 @@ function Desktop() {
   const [isDesktopHidden, setDesktopHidden] = useState(localStorage.getItem("desktop_icon_visibility") === "true");
   const [layouts, setLayouts] = useState<Layouts | null>(null);
   const [apps, setApps] = useState<AppType[] | null>(null);
-  const {fileList, handleDrop} = useFileSystem();
+  const {fileList, handleDrop, createFileFromUrl, readDirectory, getFileUrl, fs} = useFileSystem();
   
   useEffect(() => {
-    
     const setLayout = async () => {
       if(fileList){
         const { layout, apps } = generateLayouts(fileList['/home/desktop'], layouts || undefined);
@@ -69,7 +71,68 @@ function Desktop() {
       }
     }
     setLayout()
-  }, [fileList])
+  }, [fileList]);
+  
+  const getWpprUrl = useCallback(async (wppr: string) => {
+    if(!wppr) return;
+    const wpprPath = `${wpprPaths[theme]}/${wppr}`
+    const url = await getFileUrl(wpprPath);    
+    return url;
+  }, [getFileUrl, theme]);
+
+  useEffect(() => {
+    // this is a mess but I gotta move on, well refactor in optimization phase.
+    const loadWallpapers = async () => {
+      if(!fs) return;
+      const map = localStorage.getItem('wpprMap');
+      const wpprMap = map ? JSON.parse(map) : {};
+      // const firstWallpapers = Object.values(wallpapers).map(themeWallpapers => themeWallpapers[0]);
+      const firstWallpapers: string[] = [];
+      const firstWallpapersMap: Record<string, Themes> = {};
+      let wpprs: string[] = [];
+      Object.entries(wallpapers).forEach(([key, themeWallpapers]) => {
+        firstWallpapersMap[themeWallpapers[0]] = key as Themes;
+        if(key !== theme)
+        firstWallpapers.push(themeWallpapers[0]);
+        if(theme === key){
+          wpprs = themeWallpapers;   // The rest of the wallpapers
+        }
+      });
+      for await(const [i, wppr] of [...wpprs, ...firstWallpapers].entries()){
+        
+        if(wpprMap[wppr] != 'created'){
+          const fileName = await createFileFromUrl(wpprPaths[firstWallpapersMap[wppr] ?? theme], wppr, i === 0);
+          if(fileName){
+            wpprMap[wppr] = 'created';
+            localStorage.setItem('wpprMap', JSON.stringify(wpprMap));
+            // sets the default wallpaper as soon as it's created
+            if((!wallpaperName || wallpaperName == 'null' || wallpaperName === 'undefined') && i === 0){
+              console.log("url: ", fileName)
+              console.log(theme)
+              console.log(isInitialMount.current)
+              // if(isInitialMount.current){
+              //   setWallpaperUrl(fileName);
+              //   isInitialMount.current = false;
+              // }else{
+                console.log("opa")
+              // }
+              changeWallpaper(!isInitialMount.current, fileName, wppr.split('/').pop()?.split('%2F').pop() as string);
+            }
+          }
+        } else if(i == 0 && !localStorage.getItem(theme + '_wallpaper')){
+          setWallpaperName(wppr.split('/').pop()?.split('%2F').pop() as string);
+        }
+        }
+        // // falback for weird cases where the for loop already ran but wallpaperName was not set
+        // if(!wallpaperName || wallpaperName == 'null' || wallpaperName === 'undefined'){
+        //   setWallpaperName(wallpapers[theme][0].split('/').pop()?.split('%2F').pop() as string);
+        // }
+    }
+    loadWallpapers();
+  }, [theme, createFileFromUrl, readDirectory, getWpprUrl]);
+
+
+
 
   // useEffect(() => {
   //   const setLayout = async () => {
@@ -89,30 +152,41 @@ function Desktop() {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
   
-  const changeWallpaper = async () => {
-    const newWppIndex = getWppIndex(theme);
-    setNewWallpaper(wallpapers[theme][newWppIndex]);
-    await timeout(parseInt(transitionMs, 10));
-    setNewWallpaper(undefined)
-    setWallpaper({theme: theme, wppIndex: getWppIndex(theme)});
+  const changeWallpaper = async (transition: boolean, wpprUrl?: string, name?: string) => {
+    const wpprName = name ?? wallpaperName ?? localStorage.getItem(theme + "_wallpaper");
+    if(!wpprName && !wpprUrl) return;
+    const newWpprUrl = wpprUrl ?? await getWpprUrl(wpprName!);
+    if(wpprName && newWpprUrl){
+      localStorage.setItem(theme + "_wallpaper", wpprName!);
+      isInitialMount.current = false;
+      console.log("setting thingy")
+    }
+    if(!newWpprUrl) return;
+    if(transition){
+      setNewWallpaper(newWpprUrl);
+      await timeout(parseInt(transitionMs, 10));
+      setNewWallpaper(undefined)
+    }
+    setWallpaperUrl(newWpprUrl);
+    setTimeout(() => setWpprFallback(undefined), 1000)
+    
     // handleSetWallpaper();
   };
 
 
 
+
+
   useEffect(() => {
     // setWallpaper(theme === 'light' ? topography : code);
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      // Object.values(wallpapers).forEach((wallpaper) => {
-      //     new Image().src = wallpaper.imgs[0];
-      // });
-      setWallpaper({theme: theme, wppIndex: wallpaperIndex})
-    } else {
-      localStorage.setItem("theme", theme);
-      changeWallpaper();
+    if(isInitialMount.current && !localStorage.getItem(theme + "_wallpaper")){
+      setWpprFallback(wallpapers[theme][0]);
     }
-  }, [theme, wallpaperIndex]);
+    localStorage.setItem("theme", theme);
+    if(fs)
+    changeWallpaper(!isInitialMount.current);
+   
+  }, [theme, wallpaperName, fs]);
 
 
 
@@ -140,19 +214,18 @@ function Desktop() {
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
   };
-
   return (
     <FullScreen handle={screenHandle}>
       <div
       onDragOver={handleDragOver}
       onDrop={handleDropWrapper}
         className={
-          `${(pcStatus == "on" ? styles.desktop : styles[pcStatus])} ${"desktop_" + position}`
+          `${(pcStatus == "on" ? styles.desktop : styles[pcStatus])} ${styles[position]}`
         }
         style={{'--theme-color': themes[theme].color,'--font-color': themes[theme].font, '--accent-color': themes[theme].accent, '--darker-color': themes[theme].darker_color,  '--theme-transition-ms': transitionMs} as CSSProperties}
       >
 
-  <div ref={themeSwitcherRef}>
+          <div ref={themeSwitcherRef}>
               <ThemeSwitcher setThemeSwitcherOpen={setThemeSwitcherOpen} themeSwitcherOpen={themeSwitcherOpen}/>
           </div>
           <div ref={wallpaperSwitcherRef}>
@@ -163,11 +236,9 @@ function Desktop() {
         <ContextMenu isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} screenHandle={screenHandle} setLayouts={setLayouts} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/>
         {/* The wallpaper */}
         <div className={styles.wallpaper_wrapper}>
-        {wallpapers[wallpaper?.theme as Themes].map((wpp, index) => {
-          return index == wallpaper?.wppIndex && 
-          (<div key={wpp} className={`backgroundImage ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${wpp}")`}}></div>)
-        })}
-        {newWallpaper && (<div className={`backgroundImage ${styles.wallpaperImg} ${styles.circle}`}  style={{backgroundImage: `url("${newWallpaper}")`}}></div>)}
+        {/* <div className={`backgroundImage ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${wpprFallback}")`}}></div> */}
+        <div className={`backgroundImage ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${wallpaperUrl}")`}}></div>
+        {newWallpaper && (<div className={`backgroundImage ${styles.wallpaperImg} ${styles.circle}  ${styles[position]}`}  style={{backgroundImage: `url("${newWallpaper}")`}}></div>)}
         </div>
 
         {/* wrapper for the actual high elements of the desktop, Windows array, Taskbar, Desktopicons */}
@@ -190,8 +261,8 @@ function Desktop() {
               <TaskbarHypr setPcStatusMenuOpen={setPcStatusMenuOpen} pcStatusButtonRef={pcStatusButtonRef} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}  setThemeSwitcherOpen={setThemeSwitcherOpen} wallpaperButtonRef={wallpaperButtonRef} themeButtonRef={themeButtonRef}/>
             </StartSetterContext.Provider>
         </div>
-        {pcStatus === "sleeping" && <Sleep />}
-        {pcStatus === "lock" && <Lockscreen/>}
+        {pcStatus === "sleeping" && <AnimatePresence><motion.div initial={{opacity: 0}} animate={{opacity: 1}}><Sleep wallpaperUrl={wallpaperUrl}/></motion.div></AnimatePresence>}
+        {pcStatus === "lock" && <AnimatePresence><motion.div initial={{opacity: 0}} animate={{opacity: 1}}><Lockscreen wallpaperUrl={wallpaperUrl}/></motion.div></AnimatePresence>  }
         {pcStatus === 'lofi' && <div ><Lofi screenHandle={screenHandle}/></div>}
         {pcStatus === 'game_over' && <GameOver />}
       </div>

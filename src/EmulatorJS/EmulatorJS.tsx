@@ -34,9 +34,19 @@ export default function EmulatorJS({
       // Load existing ROMs
       const roms  = await readFilesFromDir(romsPath) ?? [];
       setFileList(roms);
-      const game  = roms.find((f) => f.name == filePath?.split('/').pop());
-      if(game){
-        openGame(game);
+      if(filePath){
+        const gameName = filePath?.split('/').pop()
+        let game  = roms.find((f) => f.name == gameName);
+        if(!game){
+          const buffer = await readFile(filePath!);
+          if (buffer) {
+            const fileObject = new File([buffer], gameName!, { type: 'application/octet-stream' });
+            game = (fileObject);
+          }
+        }
+        if(game){
+          openGame(game);
+        }
       }
     };
 

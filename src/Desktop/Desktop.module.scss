@@ -1,6 +1,62 @@
-.wallpaper_wrapper{
+@mixin wpp-transition($name, $transitionStartPosition) {
+  @keyframes #{$name}-circle {
+    0% {
+      clip-path: circle(0% at #{$transitionStartPosition});  
+    }
+    10% {
+      clip-path: circle(10% at #{$transitionStartPosition}); 
+    }
+    20% {
+      clip-path: circle(20% at #{$transitionStartPosition}); 
+    }
+    50% {
+      clip-path: circle(50% at #{$transitionStartPosition}); 
+    }
+    80% {
+      clip-path: circle(80% at #{$transitionStartPosition}); 
+    }
+    90% {
+      clip-path: circle(120% at #{$transitionStartPosition}); 
+    }
+    100% {
+      clip-path: circle(150% at #{$transitionStartPosition}); 
+    }
+  }
+
+  animation: #{$name}-circle 1.2s linear forwards;
+}
+
+.desktop {
+  position: relative;
+  height: 100dvh;
+  width: 100dvw;
+
 
 }
+
+
+.circle {
+  // position: absolute;
+  // width: 100%;
+  // height: 100%;
+  background: rgb(var(--accent-color));
+  z-index: 1;
+  // transition: clip-path 0.3s linear;
+  // clip-path: circle(0% at 100% 0);
+  // animation: 1s circle linear;
+  z-index: 30;
+  &.top {
+    @include wpp-transition("top", 92% 0%);
+  }
+
+  &.bottom {
+    @include wpp-transition("bottom", 92% 100%);
+  }
+  // animation: circle 1.2s linear forwards;
+}
+
+
+
 .background_video, .wallpaper_wrapper {
     position: absolute;
       z-index: 0;
@@ -9,22 +65,20 @@
       width: 100%; 
       height: 100%;
       object-fit: cover;
-      background: rgb(var(--accent-color));
+      background: rgb(var(--darker-color));
   }
 
   
-  .sleeping .wallpaper_wrapper{
-    transition: filter 1s ease-in-out;
-    filter: brightness(30%);
-    cursor: url("/pointer.svg") 6 0, pointer;
+  .sleeping{
+    .wallpaper_wrapper{
+     transition: filter 1s ease-in-out;
+     filter: brightness(30%);
+     cursor: url("/pointer.svg") 6 0, pointer;
+   }
   }
 
 
-  .desktop{
-    position: relative;
-    height: 100dvh;
-    width: 100dvw;
-  }
+
 
   .desktopIconsWrapper{
     height: calc(100dvh - 36.99px);
@@ -54,58 +108,7 @@
   }
 
 
-  .circle {
-    // position: absolute;
-    // width: 100%;
-    // height: 100%;
-    background: rgb(var(--theme-color));
-    z-index: 1;
-    // transition: clip-path 0.3s linear;
-    clip-path: circle(0% at 0 100%);
-    // animation: 1s circle linear;
-    z-index: 30;
-    animation: circle 1.2s linear forwards;
 
-}
-
-.wallpaperImg{
-  position: fixed;
-  background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    height: 100% !important;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-
-
-
-@keyframes circle {
-  0% {
-    clip-path: circle(0% at 0 100%);
-  }
-  10% {
-    clip-path: circle(10% at 0 100%);
-  }
-  20% {
-    clip-path: circle(20% at 0 100%);
-  }
-  50% {
-    clip-path: circle(50% at 0 100%);
-  }
-  80% {
-    clip-path: circle(80% at 0 100%);
-  }
-  90% {
-    clip-path: circle(120% at 0 100%);
-  }
-  100% {
-    clip-path: circle(150% at 0 100%);
-  }
-}
 
 
 .skills_actions{
@@ -128,6 +131,17 @@
   backface-visibility: hidden;
 }
 
+.wallpaperImg{
+  position: fixed;
+  background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    height: 100% !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 @media (max-height: 580px) {
   .skills_actions{
       top: 130px;

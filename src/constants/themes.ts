@@ -3,7 +3,7 @@ export type Theme = {
     accent: string;
     font: string,
     name?: string;
-    wpp?: string;
+    wpp?: {url: string, name: string};
     darker_color?: string;
   };
   

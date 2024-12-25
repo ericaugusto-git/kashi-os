@@ -9,6 +9,8 @@ export function getWppIndex(theme: Themes){
     return index;
 }
 
+
+
 export const fetchGif = async (gifId: string) => {
     try {
       const cache = localStorage.getItem(gifId);

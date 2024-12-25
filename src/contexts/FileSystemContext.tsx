@@ -13,15 +13,19 @@ import * as musicMetadata from 'music-metadata-browser';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 
+export type FileAsUrl = {url: string, name: string};
 
 export interface FileSystemContextType {
+  fs: FSModule | null,
   fileList: {[folderPath: string]: AppType[]} | null,
   handleDrop: (folderPath: string, event: React.DragEvent<HTMLDivElement>) => Promise<void>;
   refreshFileList: (folderPath: string) => Promise<void>;
   createFile: (folderPath: string, file: File, fileSystem?: FSModule | null, dontRefresh?: boolean) => Promise<void>;
+  createFileFromUrl: (folderPath: string, fileUrl: string, returnUrl?: boolean) => Promise<string | undefined>;
   readFile: (filePath: string) => Promise<Buffer | null>;
-  readFilesFromDir: (folderPath: string) => Promise<File[] | null>;
-  getFileUrl: (filePath: string, mimeType?: string) => Promise<string>;
+  readDirectory: (folderpath: string) => Promise<string[]>;
+  readFilesFromDir: (folderPath: string, getAsUrl?: boolean) => Promise<File[] | FileAsUrl[] | null>;
+  getFileUrl: (filePath: string, mimeType?: string) => Promise<string | undefined>;
   updateFile: (filePath:string, newContent: string) => Promise<void>;
   deletePath: (folderPath: string, fileName: string) => Promise<void>;
   createFolder: (folderPath: string, folderName: string) => Promise<void>;
@@ -157,16 +161,42 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     });
   }, [fs]);
 
-  const getFileUrl = useCallback(async (filePath: string, mimeType?: string): Promise<string> => {
-    const buffer = await readFile(filePath!);
+  const  getFileMimeType = useCallback((filePath: string) => {
     const extension = filePath.split('.').pop()?.toLowerCase() || '';
-    
-    const blob = new Blob([buffer!], { type: mimeType ?? (extension in audioMimeTypes ? audioMimeTypes[extension!] : extension in videoMimeTypes ? videoMimeTypes[extension!] : extension in imageMimeTypes ? imageMimeTypes[extension!] : undefined)});
+    return (extension in audioMimeTypes ? audioMimeTypes[extension!] : extension in videoMimeTypes ? videoMimeTypes[extension!] : extension in imageMimeTypes ? imageMimeTypes[extension!] : undefined)
+  }, []);
+
+  const getFileUrl = useCallback(async (filePath: string, mimeType?: string): Promise<string | undefined> => {
+    if (!fs) return;
+    const buffer = await readFile(filePath!);
+   
+    const blob = new Blob([buffer!], { type: mimeType ?? getFileMimeType(filePath)});
     const url = URL.createObjectURL(blob);
     return url;
-  }, [readFile])
+  }, [readFile]);
 
-  const readFilesFromDir = useCallback(async (folderPath: string = '/'): Promise<File[] | null>=> {
+  const readDirectory = useCallback(async (folderPath: string): Promise<string[]> => {
+    return new Promise((resolve, reject) => {
+      if (!fs) return reject("File system not initialized");
+      fs.readdir(folderPath, (err, files) => {
+        if (err) {
+          console.error("Error reading directory:", err);
+          return reject(err);
+        }
+        resolve(files ?? []);
+      });
+    });
+  }, [fs]);
+
+  /**
+   * Reads the contents of a directory and returns an array of files or URLs.
+   * 
+   * @param folderPath The path to the directory to read.
+   * @param getAsUrl Optional. If true, returns an array of URLs instead of file objects.
+   * 
+   * @returns A promise that resolves to an array of file objects or file URLs of the directory.
+   */
+  const readFilesFromDir = useCallback(async (folderPath: string, getAsUrl?: boolean): Promise<File[] | FileAsUrl[] | null>=> {
     return new Promise((resolve, reject) => {
       if (!fs) return resolve(null);
       fs.readdir(folderPath, async (err, files) => {
@@ -174,18 +204,55 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           console.error("Error listing files:", err);
           return reject(err)
         }
-        console.log(files)
         files = files ?? [];
         const realFiles: File[] = [];
+        const fileUrls: FileAsUrl[] = [];
         for(const file of files){
           const buffer = await readFile(`${folderPath}/${file}`);
           if (buffer) {
-            const fileObject = new File([buffer], file, { type: 'application/octet-stream' }); // Adjust MIME type as needed
-            realFiles.push(fileObject);
+            if(getAsUrl){
+              const blob = new Blob([buffer!], { type: getFileMimeType(file)});
+              const url = URL.createObjectURL(blob);
+              fileUrls.push({url, name: file});
+            }else{
+              // application/octet-stream
+              const fileObject = new File([buffer], file, { type: getFileMimeType(file)}); // Adjust MIME type as needed
+              realFiles.push(fileObject);
+            }
           }
         }
-        resolve(realFiles);
+        resolve(getAsUrl ? fileUrls : realFiles);
       });
+    });
+  }, [fs]);
+
+  const createFileFromUrl = useCallback((folderPath: string, fileUrl: string, returnUrl?: boolean): Promise<string | undefined> => {
+    return new Promise<string | undefined>((resolve, reject) => {
+      if (!fs) return reject("File system not initialized");
+      fetch(fileUrl, {cache: "no-store"})
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.blob();
+        })
+        .then(blob => {
+          // Decode the URL in case it contains encoded characters
+          const decodedUrl = decodeURIComponent(fileUrl);
+          // Extract the file name using split
+          const fileName = decodedUrl.split('/').pop();
+          // Create a File object from the Blob
+          const file = new File([blob], fileName!, {
+            type: blob.type,
+          });
+          createFile(folderPath, file).then(() => {
+            resolve(returnUrl ? URL.createObjectURL(blob): file.name);
+          });
+        })
+        .catch(e => {
+          console.log(e);
+          reject(e);
+        });
     });
   }, [fs]);
 
@@ -193,7 +260,6 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     return new Promise((resolve, reject) => {
       if (!fs) return resolve(null);
       fs.readdir(folderPath, (err, files) => {
-        console.log("files: ", files)
         if (err) {
           console.error("Error listing files:", err);
           return reject(err)
@@ -255,7 +321,6 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
               };
             }
           }
-          console.log(extension)
           // EmulatorJS
           if (extension && emulatorExtensions.includes('.' + extension)) {
             return { 
@@ -282,7 +347,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
             if (buffer) {
               const videoUrl = await getFileUrl(fullPath);
               try {
-                const thumbnailUrl = extension === 'mkv' ? 'video_icon.svg' : await generateVideoThumbnail(videoUrl);
+                const thumbnailUrl = extension === 'mkv' ? 'video_icon.svg' : await generateVideoThumbnail(videoUrl!);
                 return { 
                   ...baseFile,
                   componentPath: '@/Video/Video',
@@ -586,6 +651,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <FileSystemContext.Provider value={{ 
+      fs,
       fileList, 
       getFileUrl, 
       handleDrop, 
@@ -594,13 +660,23 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
       readFile, 
       updateFile, 
       deletePath, 
+      readDirectory,
       deleteRecursive,
       createFolder, 
       listFiles, 
       pathExists,
+        /**
+   * Reads the contents of a directory and returns an array of files or URLs.
+   * 
+   * @param folderPath The path to the directory to read.
+   * @param getAsUrl Optional. If true, returns an array of URLs instead of file objects.
+   * 
+   * @returns A promise that resolves to an array of file objects or file URLs of the directory.
+   */
       readFilesFromDir,
       renamePath,
       format,
+      createFileFromUrl,
       getStats,
       getTotalSize
     }}>
