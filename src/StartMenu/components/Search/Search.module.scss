@@ -87,7 +87,7 @@
                 cursor: url("/pointer.svg") 6 0, pointer;
             }
             .name:hover, .focused{
-                background-color: #424a5c;
+                background-color: rgb(var(--theme-color));
             }
             .icon{
                 width: 12px;

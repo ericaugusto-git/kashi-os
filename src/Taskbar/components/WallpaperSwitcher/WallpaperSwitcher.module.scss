@@ -11,12 +11,17 @@ $color: var(--color);
   padding: 30px 0;
   display: flex;
   z-index: 3;
+  color: rgb(var(--font-color));
   justify-content: space-evenly;
 }
 .wallpaper:not(.active):hover{
   opacity: .85;
 }
 
+.not_found{
+  height: fit-content;
+    margin: auto;
+}
 
 .wallpaper{
   display: flex;

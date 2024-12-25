@@ -1,6 +1,5 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState } from "react";
 import { useTheme } from "./ThemeContext";
-import { wallpapers } from "@/constants/wallpapers";
 
 const WallpaperContext = createContext<WallpaperContextType>([null, () => {}]);
 type WallpaperProviderType = {children: React.ReactNode}
@@ -28,4 +27,4 @@ function useWallpaper() {
   return context;
 }
 
-export {WallpaperProvider, useWallpaper}
+export { useWallpaper, WallpaperProvider };

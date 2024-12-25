@@ -1,12 +1,11 @@
+import { FileAsUrl, useFileSystem } from "@/contexts/FileSystemContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { CSSProperties, Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { Theme, themes } from "../../../constants/themes";
 import { wallpapers, wpprPaths } from "../../../constants/wallpapers";
 import { Themes, useTheme } from "../../../contexts/ThemeContext";
 import { useWallpaper } from "../../../contexts/WallpaperContext";
-import { getWppIndex } from "../../../utils/utils";
 import style from "./ThemeSwitcher.module.scss";
-import { FileAsUrl, useFileSystem } from "@/contexts/FileSystemContext";
 
 interface Theme2 extends Theme {
   theme: string;
@@ -14,14 +13,16 @@ interface Theme2 extends Theme {
 
 type ThemeSwitcherProps = {
   themeSwitcherOpen: boolean;
-  setThemeSwitcherOpen: Dispatch<SetStateAction<boolean>>
+  setThemeSwitcherOpen: Dispatch<SetStateAction<boolean>>,
+  currentWpprUrl: string
 };
 
 export default function ThemeSwitcher({
-  themeSwitcherOpen, setThemeSwitcherOpen
+  themeSwitcherOpen, setThemeSwitcherOpen, currentWpprUrl
 }: ThemeSwitcherProps) {
   const [currentTheme, setTheme] = useTheme();
   const [wallpaperName, setWallpaperName] = useWallpaper();
+  const [theme] = useTheme();
   const {getFileUrl, readFilesFromDir, fs} = useFileSystem();
   const getWpprUrl = useCallback(async (theme: Themes) => {
     const wppr = localStorage.getItem(theme + "_wallpaper");
@@ -45,7 +46,7 @@ export default function ThemeSwitcher({
       for await (const key of Object.keys(wallpapers)) {
         list.push({
           theme: key,
-          wpp: await getWpprUrl(key as Themes) as {url: string, name: string},
+          wpp: theme === key ? {url: currentWpprUrl, name: wallpaperName} as FileAsUrl : await getWpprUrl(key as Themes) as FileAsUrl,
           ...themes[key],
         });
       }
@@ -54,13 +55,12 @@ export default function ThemeSwitcher({
     if(fs){
       getList();
     }
-  }, [getWpprUrl, fs, wallpaperName])
+  }, [fs, wallpaperName, currentWpprUrl])
 
 
 
   const handleChangeTheme = (theme: Theme2) => { 
-    console.log(theme)     
-    localStorage.getItem(theme + "_wallpaper") && setWallpaperName(theme.wpp?.name as string);
+    setWallpaperName(theme.wpp?.name || '');
     setTheme(theme.theme as Themes);
     setThemeSwitcherOpen(false);
   };

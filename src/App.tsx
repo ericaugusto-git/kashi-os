@@ -10,13 +10,12 @@ import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import '../i18n.js';
 import Desktop from "./Desktop/Desktop";
+import { ContextMenuProvider } from "./contexts/ContextMenuContext.js";
 import { DesktopPositionContextProvider } from "./contexts/DesktopPositonContext.js";
+import { FileSystemProvider } from "./contexts/FileSystemContext.js";
 import { PcStatusContextProvider } from "./contexts/PcStatusContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { WallpaperProvider } from "./contexts/WallpaperContext.js";
-import { WeatherProvider } from "./contexts/WheaterContext";
-import { ContextMenuProvider } from "./contexts/ContextMenuContext.js";
-import { FileSystemProvider } from "./contexts/FileSystemContext.js";
 import WindowContextProvider from "./contexts/WindowContext.js";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
@@ -38,7 +37,7 @@ function App() {
     <ThemeProvider>
       <WallpaperProvider>
         <PcStatusContextProvider>
-          <WeatherProvider>
+          {/* <WeatherProvider> */}
             <DesktopPositionContextProvider>
               <FileSystemProvider>
                 <ContextMenuProvider>
@@ -48,7 +47,7 @@ function App() {
                 </ContextMenuProvider>
               </FileSystemProvider>
             </DesktopPositionContextProvider>
-          </WeatherProvider>
+          {/* </WeatherProvider> */}
         </PcStatusContextProvider>
       </WallpaperProvider>
     </ThemeProvider>

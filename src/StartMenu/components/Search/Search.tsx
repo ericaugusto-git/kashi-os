@@ -1,16 +1,13 @@
+import { APPS, AppType } from "@/constants/apps";
 import { AnimatePresence, motion } from "framer-motion";
 import _ from 'lodash';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import search from "../../../assets/startMenu/search.svg";
-import { APPS,AppType } from "@/constants/apps";
 import useOpenWindow from "../../../hooks/useOpenWindow";
 import styles from "./Search.module.scss";
-import { wallpapers } from "../../../constants/wallpapers";
-import { useTheme } from "../../../contexts/ThemeContext";
-import { useWallpaper } from "../../../contexts/WallpaperContext";
 
-export default function Search({searchVisible, setSearchVisible}: {searchVisible: boolean, setSearchVisible: Dispatch<SetStateAction<boolean>>}) {
+export default function Search({searchVisible, setSearchVisible, wallpaperUrl}: {searchVisible: boolean, setSearchVisible: Dispatch<SetStateAction<boolean>>, wallpaperUrl: string}) {
     const initialApps: AppType[] = _.cloneDeep(APPS).sort((a: AppType, b: AppType) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
 const [apps, setApps] = useState<AppType[]>(_.cloneDeep(initialApps));
 const {t} = useTranslation();
@@ -18,8 +15,6 @@ const [inputValue, setInputValue] = useState<string>('');
 const inputRef = useRef<HTMLInputElement>(null);
 const listRef = useRef<HTMLUListElement>(null); // Ref for the <ul> element
 const [focusedIndex, setFocusedIndex] = useState<number>(0); // Index of the focused app
-const [theme] = useTheme();
-const [wallpaperIndex] = useWallpaper();
 const handleInputChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
     // Update the state with the new input value
     const newInput = event.target.value;
@@ -101,7 +96,7 @@ useEffect(() => {
     <AnimatePresence>
         {searchVisible && 
             <motion.div initial={{scale: 0}} animate={{scale: 1}} exit={{scale: 0, opacity: 0}} className={styles.search_container}>
-            <div className={`backgroundImage ${styles.search_bar}`} style={{backgroundImage: `url("${wallpapers[theme][wallpaperIndex]}")`}}>
+            <div className={`backgroundImage ${styles.search_bar}`} style={{backgroundImage: `url("${wallpaperUrl}")`}}>
                 <div className={styles.search_input_container}>
                 <div
                     style={{ maskImage: `url("${search}")` }}

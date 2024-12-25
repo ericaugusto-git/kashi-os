@@ -5,6 +5,7 @@ import { wpprPaths } from '../../../constants/wallpapers';
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useWallpaper } from '../../../contexts/WallpaperContext';
 import style from './WallpaperSwitcher.module.scss';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -15,6 +16,7 @@ type WallpaperSwitcherProps = {
 
 export default function WallpaperSwitcher({wallpaperSwitcherOpen, setwWallpaperSwitcherOpen}: WallpaperSwitcherProps){
     const [theme] = useTheme();
+    const {t} = useTranslation();
     const {readFilesFromDir, fileList} = useFileSystem();
     const [wpprs, setWpprs] = useState<FileAsUrl[]>([]);
     useEffect(() => {
@@ -25,14 +27,14 @@ export default function WallpaperSwitcher({wallpaperSwitcherOpen, setwWallpaperS
         getWpprsUrl();
     },[readFilesFromDir, fileList, theme])
     const [wallpaper, setWallpaper] = useWallpaper();
-    console.log(wallpaper)
     const handleWpprChange = (name: string) => {
         setWallpaper(() => name);
         setwWallpaperSwitcherOpen(false)
     }
 
     return     <AnimatePresence>
-    {wallpaperSwitcherOpen && <motion.div initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} className={style.wallpapers} style={{'--wallpapers-length': wpprs.length + 1} as CSSProperties}>
+    {wallpaperSwitcherOpen && 
+    <motion.div initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} className={style.wallpapers} style={{'--wallpapers-length': wpprs.length + 1} as CSSProperties}>
     {wpprs.map((wppr, index) => {
         const wpprName = wppr.name;
 return <a title={wpprName} onClick={() => handleWpprChange(wpprName!)} key={index} className={`${style.wallpaper}  ${wallpaper === wpprName && style.active}`}>
@@ -45,6 +47,8 @@ return <a title={wpprName} onClick={() => handleWpprChange(wpprName!)} key={inde
     }
     
 )}
-    </motion.div>}
+    {wpprs.length === 0 && <p className={style.not_found}> {t('wppr_not_found')} {wpprPaths[theme]}</p>}
+    </motion.div>
+    }
     /</AnimatePresence>
 }

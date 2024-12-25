@@ -1,12 +1,11 @@
-import { useWeatherContext } from '@/contexts/WheaterContext';
+import useWeather from '@/hooks/useWeather';
 import WeatherBody from '@/Taskbar/components/Calendar/Weather/components/WeatherBody/WeatherBody';
 import useDateTime from '../../../hooks/useDateTime';
 import styles from './Sleep.module.scss';
 
 function Sleep({wallpaperUrl}: {wallpaperUrl: string | undefined}) {
     const [dateTime] = useDateTime();
-    const { weatherContext } = useWeatherContext();
-    const weather = weatherContext?.weather
+    const { weather } = useWeather();
     return ( 
         <div>
             <div className={styles.date_hour}>
@@ -15,7 +14,7 @@ function Sleep({wallpaperUrl}: {wallpaperUrl: string | undefined}) {
             <div className={`backgroundImage ${styles.img}`} style={{backgroundImage: `url("${wallpaperUrl}")`}}>
 
             </div>
-            {weather && <WeatherBody weather={weather}/>}
+            {weather && <WeatherBody weather={weather.weather}/>}
             </div>
         </div>
     );

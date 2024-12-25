@@ -95,7 +95,6 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
             }
         };
         const handleKeyDown = (event: KeyboardEvent) => {
-            console.log("hehe")
             if (event.key === 'Enter') {
                 event.preventDefault(); // Prevent newline character from being added
                 editableRef?.current?.blur(); // Unfocus the element and as consequence calls applyChanges

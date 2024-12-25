@@ -15,12 +15,13 @@
             font-family: "Anime Ace", sans-serif;
             text-align: center;
             color: black;
-            font-size: 10px;
+            font-size: 9px;
+            line-height: 14px;
             position: absolute;
             width: 124px;
             top: 2px;
         }
 
-        background-image: url(../../../../../../assets/weather/sad_zeus.png);
+        background-image: url(@/assets/weather/sad_zeus.png);
     }
 }

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import styles from './WeatherBody.module.scss';
-import sunrise from '../../../../../../assets/weather/sunrise.svg';
-import sunset from '../../../../../../assets/weather/sunset.svg';
-import humidity from '../../../../../../assets/weather/humidity.svg';
-import wind from '../../../../../../assets/weather/wind.svg';
-import { useTheme } from '../../../../../../contexts/ThemeContext';
-import { WeatherType } from '../../../../../../hooks/useWeather';
+import sunrise from '@/assets/weather/sunrise.svg';
+import sunset from '@/assets/weather/sunset.svg';
+import humidity from '@/assets/weather/humidity.svg';
+import wind from '@/assets/weather/wind.svg';
+import { useTheme } from '@/contexts/ThemeContext';
+import { WeatherType } from '@/hooks/useWeather';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 

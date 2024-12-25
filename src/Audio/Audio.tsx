@@ -44,7 +44,7 @@ function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/mu
       const setCurrentMusic = async (music: AppType) => {
         if (audioRef.current && getFileUrl && music) {
           const fileUrl = await getFileUrl(music.folderPath + '/' + music.name);
-          if (audioRef.current) {
+          if (audioRef.current && fileUrl) {
             audioRef.current.src = fileUrl;
             audioRef.current.play();
             setIsPlaying(true);

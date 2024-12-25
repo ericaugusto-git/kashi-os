@@ -98,7 +98,7 @@ export default function Monaco({ filePath, getFileUrl, updateFile }: FileProps) 
       if (filePath && getFileUrl) {
         try {
           const url = await getFileUrl(filePath);
-          const response = await fetch(url);
+          const response = await fetch(url!);
           const text = await response.text();
           setContent(text);
           setUnsavedContent(text);

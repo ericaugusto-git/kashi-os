@@ -92,7 +92,8 @@ i18n
           uptime_game: "It took you this much time to find this: ",
           confirm: "Confirm",
           enter_password: "Enter Password",
-          guest: "Guest"
+          guest: "Guest",
+          wppr_not_found: "wallpapers not found on"
         }
     },
     ["pt-BR"]: {
@@ -168,7 +169,8 @@ i18n
             uptime_game: "Voce demorou esse tanto de tempo para achar isso: ",
             confirm: "Confirmar",
             enter_password: "Digite a Senha",
-            guest: "Convidado"
+            guest: "Convidado",
+            wppr_not_found: "wallpapers não encontrados em"
         }
       }
     }

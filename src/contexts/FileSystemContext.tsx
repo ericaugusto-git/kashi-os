@@ -169,7 +169,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
   const getFileUrl = useCallback(async (filePath: string, mimeType?: string): Promise<string | undefined> => {
     if (!fs) return;
     const buffer = await readFile(filePath!);
-   
+    if (!buffer) return;
     const blob = new Blob([buffer!], { type: mimeType ?? getFileMimeType(filePath)});
     const url = URL.createObjectURL(blob);
     return url;
@@ -665,14 +665,6 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
       createFolder, 
       listFiles, 
       pathExists,
-        /**
-   * Reads the contents of a directory and returns an array of files or URLs.
-   * 
-   * @param folderPath The path to the directory to read.
-   * @param getAsUrl Optional. If true, returns an array of URLs instead of file objects.
-   * 
-   * @returns A promise that resolves to an array of file objects or file URLs of the directory.
-   */
       readFilesFromDir,
       renamePath,
       format,

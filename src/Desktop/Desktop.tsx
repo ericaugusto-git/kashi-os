@@ -92,17 +92,24 @@ function Desktop() {
       // Load first wallpaper immediately for initial display
       const firstWallpaper = wallpapers[theme][0];
       if (!wpprMap[firstWallpaper]) {
-        const fileName = await createFileFromUrl(wpprPaths[theme], firstWallpaper, true);
-        changeWallpaper(!isInitialMount.current, fileName, firstWallpaper.split('/').pop()?.split('%2F').pop());
+        const fileName = await createFileFromUrl(wpprPaths[theme], firstWallpaper);
+        // if(isInitialMount.current){
+        // }
+        setWallpaperName(() => fileName!)
+        changeWallpaper(!isInitialMount.current);
         wpprMap[firstWallpaper] = 'created';
         localStorage.setItem('wpprMap', JSON.stringify(wpprMap));
       }
     
       // Load rest of wallpapers in parallel
       const otherWallpapers = wallpapers[theme].slice(1);
-      await Promise.all(otherWallpapers.map(async wppr => {
+      const firstWpprThemesMap = new Map<string, Themes>();
+      const firstWpprs = Object.entries(wallpapers)
+      .map(([key, wpprs]) => {if(key !== theme){ firstWpprThemesMap.set(wpprs[0], key as Themes);return wpprs[0]}})
+      .filter((wppr): wppr is string => wppr !== undefined);
+      await Promise.all([...firstWpprs,...otherWallpapers].map(async wppr => {
         if (!wpprMap[wppr]) {
-          await createFileFromUrl(wpprPaths[theme], wppr);
+          await createFileFromUrl(wpprPaths[firstWpprThemesMap.get(wppr) ?? theme], wppr);
           wpprMap[wppr] = 'created';
         }
       }));
@@ -110,9 +117,21 @@ function Desktop() {
       localStorage.setItem('wpprMap', JSON.stringify(wpprMap));
     }
     loadWallpapers();
-  }, [theme, createFileFromUrl, readDirectory, getWpprUrl]);
+  }, [theme, createFileFromUrl, getWpprUrl]);
 
-
+  useEffect(() => {
+    const checkIfWpprIsStillAlive = async () => { 
+    const url = await getWpprUrl(wallpaperName!);
+    if(!url){
+      const files = await readDirectory(wpprPaths[theme]);
+      if(files[0])
+      setWallpaperName(() => files[0]);
+      else {setWallpaperName(null); setWallpaperUrl(undefined); localStorage.setItem(theme + "_wallpaper", 'null');}
+    }
+  }
+  if(wallpaperUrl)
+  checkIfWpprIsStillAlive();
+  }, [fileList])
 
 
   // useEffect(() => {
@@ -134,24 +153,25 @@ function Desktop() {
   }
   
   const changeWallpaper = async (transition: boolean, wpprUrl?: string, name?: string) => {
-    const wpprName = name ?? wallpaperName ?? localStorage.getItem(theme + "_wallpaper");
-    if(!wpprName && !wpprUrl) return;
-    const newWpprUrl = wpprUrl ?? await getWpprUrl(wpprName!);
-    if(wpprName && newWpprUrl){
-      localStorage.setItem(theme + "_wallpaper", wpprName!);
-      isInitialMount.current = false;
-      console.log("setting thingy")
+    try{
+      const wpprName = name ?? wallpaperName;
+      if((!wpprName || wpprName == "null") && !wpprUrl) return;
+      const newWpprUrl = wpprUrl ?? await getWpprUrl(wpprName!);
+      if(!newWpprUrl) return;
+      if(wpprName && newWpprUrl){
+        localStorage.setItem(theme + "_wallpaper", wpprName!);
+        isInitialMount.current = false;
+      }
+      if(transition){
+        setNewWallpaper(newWpprUrl);
+        await timeout(parseInt(transitionMs, 10));
+        setNewWallpaper(undefined)
+      }
+      setWallpaperUrl(newWpprUrl);
+      setTimeout(() => setWpprFallback(undefined), 200)
+    }catch(e){
+      console.log(e);
     }
-    if(!newWpprUrl) return;
-    if(transition){
-      setNewWallpaper(newWpprUrl);
-      await timeout(parseInt(transitionMs, 10));
-      setNewWallpaper(undefined)
-    }
-    setWallpaperUrl(newWpprUrl);
-    setTimeout(() => setWpprFallback(undefined), 1000)
-    
-    // handleSetWallpaper();
   };
 
 
@@ -207,7 +227,7 @@ function Desktop() {
       >
 
           <div ref={themeSwitcherRef}>
-              <ThemeSwitcher setThemeSwitcherOpen={setThemeSwitcherOpen} themeSwitcherOpen={themeSwitcherOpen}/>
+              <ThemeSwitcher setThemeSwitcherOpen={setThemeSwitcherOpen} themeSwitcherOpen={themeSwitcherOpen} currentWpprUrl={wallpaperUrl!}/>
           </div>
           <div ref={wallpaperSwitcherRef}>
               <WallpaperSwitcher setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen} wallpaperSwitcherOpen={wallpaperSwitcherOpen}/>
@@ -217,14 +237,14 @@ function Desktop() {
         <ContextMenu isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} screenHandle={screenHandle} setLayouts={setLayouts} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/>
         {/* The wallpaper */}
         <div className={styles.wallpaper_wrapper}>
-        {/* <div className={`backgroundImage ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${wpprFallback}")`}}></div> */}
+        <div className={`backgroundImage ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${wpprFallback}")`}}></div>
         <div className={`backgroundImage ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${wallpaperUrl}")`}}></div>
         {newWallpaper && (<div className={`backgroundImage ${styles.wallpaperImg} ${styles.circle}  ${styles[position]}`}  style={{backgroundImage: `url("${newWallpaper}")`}}></div>)}
         </div>
 
         {/* wrapper for the actual high elements of the desktop, Windows array, Taskbar, Desktopicons */}
         <div style={{ display: pcStatus === "sleeping" || pcStatus === "lock" || pcStatus == "lofi" ? "none" : "" }}>
-            <div ref={searchRef}><Search searchVisible={searchVisible} setSearchVisible={setSearchVisible} /></div>
+            <div ref={searchRef}><Search searchVisible={searchVisible} setSearchVisible={setSearchVisible} wallpaperUrl={wallpaperUrl!}/></div>
             <div ref={pcStatusMenuRef}><PcStatusMenu pcStatusMenuOpen={pcStatusMenuOpen} setPcStatusMenuOpen={setPcStatusMenuOpen} /></div>
             {/* Array of windows */}
             <Window wrapperClass={styles.desktopIconsWrapper}>

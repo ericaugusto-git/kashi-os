@@ -3,14 +3,6 @@
 A web-based operating system built with React and TypeScript.
 Inspired by linux, [hyprland](https://github.com/hyprwm/Hyprland) and [hyprdots](https://github.com/prasanthrangan/hyprdots).
 
-## Table of Contents
-- [Features](#-features)
-- [OS Apps](#os-apps)
-- [Getting Started](#-getting-started)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
-
 ## 🌟 Features
 
  **🗃️ File System**

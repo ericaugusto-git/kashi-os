@@ -20,7 +20,7 @@
     
     .btn{
         background: rgb(var(--theme-color),.6);
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(5px);
         position: relative;
         border: 0;
         cursor: url("/pointer.svg") 6 0, pointer;
@@ -58,6 +58,7 @@
             width: 100%;
         }
         &:hover{
+            // transition: border-radius 0ms ease;
             // border-radius: 40px;
             // border-top-left-radius: 0;
             // transform: scale(1.05);
