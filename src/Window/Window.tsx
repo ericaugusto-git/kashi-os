@@ -195,7 +195,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
             <div style={{ maskImage: `url(${window.icon})`, width: "21px", height: "19px" }} className="svgMask"></div>
           ) : <img src={window.icon} style={{width: "21px", height: "19px"}}></img>} */}
           <img src={window.icon} ></img>
-            <span>{window.titleBarName ? t(window.titleBarName) : t(window.name)}</span>
+            <span title={t(window.titleBarName || window.name)}>{t(window.titleBarName || window.name)}</span>
           </div>
 
           {/* {window.link && <div className={styles.link}><div style={{maskImage: `url("${lock}")`, minWidth: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '').split('?')[0]}</a></div>} */}

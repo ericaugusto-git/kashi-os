@@ -7,14 +7,14 @@ import moonIcon from '../../../assets/taskbar/themes_icons/moon.png'
 import cappuccinoIcon from '../../../assets/taskbar/themes_icons/cappuccino.png'
 import brasilFlag from '../../../assets/taskbar/languages_icons/brazil_flag.svg'
 import globeIcon from '../../../assets/taskbar/languages_icons/globe.svg'
-import { Themes, useTheme } from "../../../contexts/ThemeContext";
+import { useTheme } from "../../../contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 import 'moment/dist/locale/pt-br';
 import moment from "moment";
 
 // Set the locale at the beginning of your file
 function Actions(){
-    const themeButtons: {icon: string, action: Themes, useSvg?: boolean}[] = [
+    const themeButtons: {icon: string, action: string, useSvg?: boolean}[] = [
         {icon: sunsetIcon, action: 'light', useSvg: true},
         {icon: moonIcon, action: 'dark'},
         {icon: cappuccinoIcon, action: 'cozy'}
@@ -33,7 +33,7 @@ function Actions(){
     // TODO is it good to have global change inside a component?
     moment.locale(i18n.resolvedLanguage);
     const handleChangeTheme = (theme: string) => {
-        setTheme(theme as Themes);
+        setTheme(theme);
     }
 
     const handleChangeLanguage = (lang: string) => {

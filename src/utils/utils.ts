@@ -1,13 +1,6 @@
 import { Layouts } from "react-grid-layout";
 import { APPS } from "../constants/apps";
-import { Themes } from "../contexts/ThemeContext";
 import { AppType } from "@/constants/apps";
-
-export function getWppIndex(theme: Themes){
-    const localWallper = localStorage.getItem(theme + "Wallpaper");
-    const index: number = localWallper ? Number(localWallper) : 0;
-    return index;
-}
 
 
 
@@ -46,6 +39,7 @@ export const fetchGif = async (gifId: string) => {
           Accept: 'application/vnd.github.v3+json',
         },
       });
+
 
       if (response.ok) {
         const data = await response.json();

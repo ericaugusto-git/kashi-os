@@ -8,20 +8,15 @@ import search from "../assets/startMenu/search.svg";
 import { AppType } from "../constants/apps";
 import { APPS } from "../constants/apps";
 import { usePcStatus } from "../contexts/PcStatusContext";
-import { Themes, useTheme } from "../contexts/ThemeContext";
+import {  useTheme } from "../contexts/ThemeContext";
 import { useWindowContext } from "../contexts/WindowContext";
 import useOpenWindow from "../hooks/useOpenWindow";
 import styles from "./StartMenu.module.scss";
 import { useDesktopPosition } from "../contexts/DesktopPositonContext";
 import { fetchGif } from "../utils/utils";
-const gifsId: { [key in Themes]: string } = {
-  dark: "A39hlmeW1On7LOtHO8",
-  light: "N5B19awm2YvwMwf8JE",
-  cozy: "k8kITi9SAwe9JWbUaH",
+import { ThemesJS } from "@/constants/themes";
 
-  // cozy: "gioLPAqDRZjzYpmuCp",
-};
-function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateAction<boolean>>}) {
+function StartMenu({setSearchVisible, themes}: {setSearchVisible: Dispatch<SetStateAction<boolean>>, themes: ThemesJS}) {
   const [startMenuOpen, setStartMenuOpen] = useContext(StartSetterContext);
   const osApps = APPS.filter(
     (a) => a.appType == "os" && !a.hideInStartMenu
@@ -33,7 +28,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
   const [theme] = useTheme();
   const [position] = useDesktopPosition();
   const [gifUrl, setGifUrl] = useState("");
-  const [gifId, setGifId] = useState(gifsId[theme]); // Replace with the specific GIF ID
+  const [gifId, setGifId] = useState(themes[theme].giphy_id); // Replace with the specific GIF ID
 
   useEffect(() => {
     const updateGif = async () => {
@@ -62,8 +57,8 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
   }, []);
 
   useEffect(() => {
-    setGifId(gifsId[theme]);
-  }, [theme]);
+    setGifId(themes[theme].giphy_id);
+  }, [theme, themes]);
   // const windowsTemplates: WindowsTemplatesType = {
   //   ["playlist"]: {
   //     conteudo: <Playlist />,
@@ -157,7 +152,7 @@ function StartMenu({setSearchVisible}: {setSearchVisible: Dispatch<SetStateActio
                 className={styles.cute_gif}
                 style={{ backgroundImage: `url("${gifUrl}")` }}
               >
-                <img src="Poweredby_100px-Black_VertLogo.png"></img>
+                {gifUrl && <img src="Poweredby_100px-Black_VertLogo.png"></img>}
               </a>
               <menu>
                 <ul>

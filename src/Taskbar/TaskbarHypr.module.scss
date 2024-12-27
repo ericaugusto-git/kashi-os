@@ -84,6 +84,7 @@ a.taskbar_section_wrapper:hover{
 .date_time_wrapper{
     height: 100%;
     flex-shrink: 0;
+    z-index: 9;
     display: flex;
     align-items: center;
     position: relative;

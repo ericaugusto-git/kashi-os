@@ -10,6 +10,7 @@ export const defaultFolders = [
     '/.local/EmulatorJS',
     romsPath,
     savesPath,
+    '/.config',
     '/usr',
     '/usr/bin',
     '/home',

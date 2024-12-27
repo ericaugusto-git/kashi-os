@@ -86,7 +86,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
             </motion.div>}
         </AnimatePresence>
         <div className={style.date_time_wrapper}>
-            <div  ref={calendarRef} >
+            <div  ref={calendarRef} style={{zIndex: 9}}>
                 <AnimatePresence>
                 { isCalendarOpen && <motion.div           initial={{ opacity: 0 }}
             animate={{opacity: 1 }}

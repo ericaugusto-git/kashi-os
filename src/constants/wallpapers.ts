@@ -1,6 +1,5 @@
-import { Themes } from "./../contexts/ThemeContext";
 export type Wallpapers = {
-  [key in Themes]: string[];
+  [key in string]: string[];
 };
 
 // export const wallpapers: Wallpapers = {
@@ -38,10 +37,6 @@ export type Wallpapers = {
 //     "https://pub-23b2bdccea9b4dd0aa82eeba1d9c6805.r2.dev/wallpapers%2Flockscreen.jpg",
 //   ],
 // };
-
-export const wpprPaths = {dark: '/home/pictures/nord',
-  light: '/home/pictures/lake slate',
-  cozy: '/home/pictures/cozy'}
 
 // noppers
 export const wallpapers: Wallpapers = {

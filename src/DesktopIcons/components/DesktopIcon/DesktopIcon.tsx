@@ -112,7 +112,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
                 currentEditable.removeEventListener('blur', applyChanges);
             };
         }
-    },[app, renamePath]);
+    },[app, renamePath, renameMode]);
     const startRename = () => {
         setRenameMode(true);
         setTimeout(() => {
@@ -142,7 +142,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
                 selection?.removeAllRanges();
                 selection?.addRange(range);
             }
-        })
+        }, 200)
     }
 
 
@@ -158,7 +158,6 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
         else e.preventDefault();
     }
     const name = (folderPath == '/home/desktop' && app.name == 'projects') || folderPath == '/home' || app.appType != 'file' ? t(app.name) : app.name;
-    
     return (
             <a title={name} onContextMenu={handleContextMenuWrapper} ref={buttonRef} className={`${styles.desktop_icon} ${styles[fromFolder ? 'bottom' : position]} ${styles[theme]} ${fromTaskbar && styles.fromTaskbar} ${app.active && styles.appActive} ${isDragging && styles.dragging}`} style={buttonStyles}>
                 {app.active}

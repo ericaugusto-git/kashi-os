@@ -3,6 +3,7 @@ import { defaultFolders, deletableDefaultFolders } from '@/constants/defaultFold
 import { emulatorExtensions } from '@/constants/emulatorCores';
 import { fileIcons, folderIcons } from '@/constants/fileIcons';
 import { audioMimeTypes, imageMimeTypes, videoMimeTypes } from '@/constants/mimeTypes';
+import { themes } from '@/constants/themes';
 import { generateVideoThumbnail } from '@/utils/thumbnailGenerator';
 import { fetchReadme } from '@/utils/utils';
 import * as BrowserFS from 'browserfs';
@@ -300,6 +301,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
             return {
               ...FILE_EXPLORER,
               ...baseFile,
+              titleBarName: FILE_EXPLORER.titleBarName,
               icon: folderIcons[fullPath] || 'folder.svg',
             };
           }
@@ -517,10 +519,21 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
             console.error('Error creating README file:', error);
           }
         }
+
+        const createConfigFile = async () => {
+          // if the user deletes the config file it well recreate it with reload, if the user deletes it the whole app breaks, which is funny
+          if(!await pathExists('/.config/themes.json', fileSystem)){
+            const formattedJson = JSON.stringify(themes, null, 2); // Add spacing for readability
+            await createFile('/.config', new File([formattedJson], 'themes.json',  {
+              type: 'application/json'
+            }), fileSystem);
+          }
+        }
         if(hasInitializedFileSystemFirstTime !== 'true') {
           await initializeReadme();
           localStorage.setItem('hasInitializedFileSystemFirstTime', 'true');
         }
+        await createConfigFile();
         setFs(fileSystem);
 
       }
@@ -535,22 +548,99 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     refreshFileList();
   }, [fs, refreshFileList]);
 
+
+
+  interface FileWithPath {
+    path: string;
+    file: File;
+  }
+  
+  type ProcessEntryResult = Promise<FileWithPath[] | undefined>;
+  
   const handleDrop = useCallback(
     async (folderPath: string, event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
-      if (event.dataTransfer.items) {
-        for await (const item of event.dataTransfer.items) {
-          if (item.kind === 'file') {
-            const file = item.getAsFile();
-            if (file) {
-              await createFile(folderPath, file);
-            }
-          }
+  
+      const processEntry = async (
+        entry: FileSystemEntry | null,
+        currentPath: string
+      ): ProcessEntryResult => {
+        if (!entry) return undefined;
+  
+        if (entry.isFile) {
+          const fileEntry = entry as FileSystemFileEntry;
+          return new Promise<FileWithPath[]>((resolve) => {
+            fileEntry.file((file) => resolve([{
+              path: currentPath,
+              file
+            }]));
+          });
+        } else if (entry.isDirectory) {
+          const dirEntry = entry as FileSystemDirectoryEntry;
+          const dirReader = dirEntry.createReader();
+          
+          // Read directory contents
+          const readEntries = (): Promise<FileSystemEntry[]> => {
+            return new Promise((resolve) => {
+              dirReader.readEntries((entries) => {
+                resolve(entries);
+              });
+            });
+          };
+  
+          // Process all directory entries
+          const entries = await readEntries();
+          const newPath = `${currentPath}/${entry.name}`;
+          
+          // Create the directory first
+          await createFolder(currentPath, entry.name);
+          
+          // Process all contents recursively
+          const filePromises = entries.map(entry => 
+            processEntry(entry, newPath)
+          );
+          
+          const results = await Promise.all(filePromises);
+          return results.flat().filter((item): item is FileWithPath => !!item);
         }
-        await refreshFileList(folderPath);
+        
+        return undefined;
+      };
+  
+      if (event.dataTransfer.items) {
+        const items = Array.from(event.dataTransfer.items);
+        const entries: (FileSystemEntry | null)[] = items
+          .filter((item): item is DataTransferItem => item.kind === 'file')
+          .map(item => item.webkitGetAsEntry());
+  
+        try {
+          // Process all dropped items
+          const processPromises = entries.map(entry => 
+            processEntry(entry, folderPath)
+          );
+  
+          // Wait for all processing to complete
+          const results = await Promise.all(processPromises);
+          
+          // Flatten results and filter out undefined values
+          const files = results
+            .flat()
+            .filter((item): item is FileWithPath => !!item);
+          
+          // Create all files in their respective folders
+          await Promise.all(
+            files.map(({ path, file }) => createFile(path, file))
+          );
+  
+          // Refresh the file list after all operations are complete
+          await refreshFileList(folderPath);
+        } catch (error) {
+          console.error('Error processing dropped items:', error);
+          throw error;
+        }
       }
     },
-    [createFile, refreshFileList]
+    [createFile, createFolder, refreshFileList]
   );
 
   const deleteRecursive = useCallback(async (folderPath: string) => {
@@ -607,10 +697,11 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [fs, deleteRecursive, refreshFileList]);
 
-  const pathExists = useCallback((path: string): Promise<boolean> => {
+  const pathExists = useCallback((path: string, fileSystem?: FSModule): Promise<boolean> => {
+    fileSystem = fs ?? fileSystem;
     return new Promise((resolve) => {
-      if (!fs) return resolve(false);
-      fs.exists(path, (exists) => {
+      if (!fileSystem) return resolve(false);
+      fileSystem.exists(path, (exists) => {
         resolve(exists);
       });
     });

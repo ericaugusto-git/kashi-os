@@ -15,11 +15,11 @@ import ThemeSwitcher from "../Taskbar/components/ThemeSwitcher/ThemeSwitcher";
 import WallpaperSwitcher from "../Taskbar/components/WallpaperSwitcher/WallpaperSwitcher";
 import Window from "../Window/Window";
 import { themes, transitionMs } from "../constants/themes";
-import { wallpapers, wpprPaths } from "../constants/wallpapers";
+import { wallpapers } from "../constants/wallpapers";
 import { useContextMenuHandler } from "../contexts/ContextMenuContext";
 import { useDesktopPosition } from "../contexts/DesktopPositonContext";
 import { usePcStatus } from "../contexts/PcStatusContext";
-import { Themes, useTheme } from "../contexts/ThemeContext";
+import { useTheme } from "../contexts/ThemeContext";
 import { useWallpaper } from "../contexts/WallpaperContext";
 import useComponentVisible from "../hooks/useComponentVisible";
 import { generateLayouts } from "../utils/utils";
@@ -28,6 +28,7 @@ import ContextMenu from "./components/ContextMenu/ContextMenu";
 import Lockscreen from "./components/Lockscreen/Lockscreen";
 import Lofi from "./components/Lofi/Lofi";
 import Sleep from "./components/Sleep/Sleep";
+import { useWindowContext } from "@/contexts/WindowContext";
 
 
 function Desktop() {
@@ -38,7 +39,9 @@ function Desktop() {
   const [startMenuRef, isStartMenuOpen, setisStartMenuOpen] = useComponentVisible(false, startButtonRef);
   const [pcStatusMenuRef, pcStatusMenuOpen, setPcStatusMenuOpen] = useComponentVisible(false, pcStatusButtonRef);
   const [searchRef, searchVisible, setSearchVisible] = useComponentVisible(false);
-  const [theme] = useTheme();
+  const [themesFile, setThemesFile] = useState(themes);
+  const [theme, setTheme] = useTheme();
+  const [, setWindows] = useWindowContext();
   const isInitialMount = useRef(true);
   
   const [wallpaperUrl, setWallpaperUrl] = useState<string | undefined>();
@@ -60,7 +63,7 @@ function Desktop() {
   const [isDesktopHidden, setDesktopHidden] = useState(localStorage.getItem("desktop_icon_visibility") === "true");
   const [layouts, setLayouts] = useState<Layouts | null>(null);
   const [apps, setApps] = useState<AppType[] | null>(null);
-  const {fileList, handleDrop, createFileFromUrl, readDirectory, getFileUrl, fs} = useFileSystem();
+  const {fileList, handleDrop, createFileFromUrl, deletePath, pathExists, readDirectory, readFile, getFileUrl, fs} = useFileSystem();
   
   useEffect(() => {
     const setLayout = async () => {
@@ -75,7 +78,7 @@ function Desktop() {
   
   const getWpprUrl = useCallback(async (wppr: string) => {
     if(!wppr) return;
-    const wpprPath = `${wpprPaths[theme]}/${wppr}`
+    const wpprPath = `${themesFile[theme].wpprsPath}/${wppr}`
     const url = await getFileUrl(wpprPath);    
     return url;
   }, [getFileUrl, theme]);
@@ -90,9 +93,9 @@ function Desktop() {
       const wpprMap = JSON.parse(map);
       
       // Load first wallpaper immediately for initial display
-      const firstWallpaper = wallpapers[theme][0];
+      const firstWallpaper = wallpapers[theme]?.[0];
       if (!wpprMap[firstWallpaper]) {
-        const fileName = await createFileFromUrl(wpprPaths[theme], firstWallpaper);
+        const fileName = await createFileFromUrl(themesFile[theme].wpprsPath, firstWallpaper);
         // if(isInitialMount.current){
         // }
         setWallpaperName(() => fileName!)
@@ -103,13 +106,14 @@ function Desktop() {
     
       // Load rest of wallpapers in parallel
       const otherWallpapers = wallpapers[theme].slice(1);
-      const firstWpprThemesMap = new Map<string, Themes>();
+      const firstWpprThemesMap = new Map<string, string>();
       const firstWpprs = Object.entries(wallpapers)
-      .map(([key, wpprs]) => {if(key !== theme){ firstWpprThemesMap.set(wpprs[0], key as Themes);return wpprs[0]}})
+      .map(([key, wpprs]) => {if(key !== theme){ firstWpprThemesMap.set(wpprs[0], key);return wpprs[0]}})
       .filter((wppr): wppr is string => wppr !== undefined);
       await Promise.all([...firstWpprs,...otherWallpapers].map(async wppr => {
         if (!wpprMap[wppr]) {
-          await createFileFromUrl(wpprPaths[firstWpprThemesMap.get(wppr) ?? theme], wppr);
+          const thm = firstWpprThemesMap.get(wppr) ?? theme;
+          await createFileFromUrl(themes[thm].wpprsPath, wppr);
           wpprMap[wppr] = 'created';
         }
       }));
@@ -123,15 +127,45 @@ function Desktop() {
     const checkIfWpprIsStillAlive = async () => { 
     const url = await getWpprUrl(wallpaperName!);
     if(!url){
-      const files = await readDirectory(wpprPaths[theme]);
+      const files = await readDirectory(themesFile[theme].wpprsPath);
       if(files[0])
       setWallpaperName(() => files[0]);
       else {setWallpaperName(null); setWallpaperUrl(undefined); localStorage.setItem(theme + "_wallpaper", 'null');}
     }
   }
   if(wallpaperUrl)
-  checkIfWpprIsStillAlive();
-  }, [fileList])
+    checkIfWpprIsStillAlive();
+  }, [fileList]);
+  
+  useEffect(() => {
+    const getThemesFile = async () => {
+      const path = '/.config/themes.json';
+      if(!await pathExists(path) && fs){
+        setWindows([]);
+        setPcStatus('game_over');
+        return;
+      }
+
+      const fileBuffer = await readFile(path);
+      if(fileBuffer){
+        const fileJson = fileBuffer ? JSON.parse(fileBuffer.toString()) : null;
+        const firstTheme = Object.keys(fileJson)[0];
+        
+        if(!fileJson[theme]){
+          if(!firstTheme){
+            deletePath('/.config', 'themes.json');
+            setWindows([]);
+            setPcStatus('game_over')
+            return;
+          }
+          setWallpaperName(null)
+          setTheme(firstTheme);
+        }
+        setThemesFile(fileJson);
+      }
+    }
+    getThemesFile();
+  }, [fileList]);
 
 
   // useEffect(() => {
@@ -154,7 +188,7 @@ function Desktop() {
   
   const changeWallpaper = async (transition: boolean, wpprUrl?: string, name?: string) => {
     try{
-      const wpprName = name ?? wallpaperName;
+      const wpprName = name ?? wallpaperName ?? localStorage.getItem(theme + "_wallpaper");
       if((!wpprName || wpprName == "null") && !wpprUrl) return;
       const newWpprUrl = wpprUrl ?? await getWpprUrl(wpprName!);
       if(!newWpprUrl) return;
@@ -223,14 +257,14 @@ function Desktop() {
         className={
           `${(pcStatus == "on" ? styles.desktop : styles[pcStatus])} ${styles[position]}`
         }
-        style={{'--theme-color': themes[theme].color,'--font-color': themes[theme].font, '--accent-color': themes[theme].accent, '--darker-color': themes[theme].darker_color,  '--theme-transition-ms': transitionMs} as CSSProperties}
+        style={{'--theme-color': themesFile[theme].color,'--font-color': themesFile[theme].font, '--accent-color': themesFile[theme].accent, '--darker-color': themesFile[theme].darker_color,  '--theme-transition-ms': transitionMs} as CSSProperties}
       >
 
           <div ref={themeSwitcherRef}>
-              <ThemeSwitcher setThemeSwitcherOpen={setThemeSwitcherOpen} themeSwitcherOpen={themeSwitcherOpen} currentWpprUrl={wallpaperUrl!}/>
+              <ThemeSwitcher setThemeSwitcherOpen={setThemeSwitcherOpen} themeSwitcherOpen={themeSwitcherOpen} themes={themesFile} currentWpprUrl={wallpaperUrl!}/>
           </div>
           <div ref={wallpaperSwitcherRef}>
-              <WallpaperSwitcher setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen} wallpaperSwitcherOpen={wallpaperSwitcherOpen}/>
+              <WallpaperSwitcher setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen} themes={themesFile} wallpaperSwitcherOpen={wallpaperSwitcherOpen}/>
           </div>
         
         {/* The context menu */}
@@ -257,7 +291,7 @@ function Desktop() {
             <StartSetterContext.Provider
               value={[isStartMenuOpen, setisStartMenuOpen, startButtonRef]}
             >
-              <div ref={startMenuRef}>{<StartMenu setSearchVisible={setSearchVisible} />}</div>
+              <div ref={startMenuRef}>{<StartMenu themes={themesFile} setSearchVisible={setSearchVisible} />}</div>
               {/* <Taskbar /> */}
               <TaskbarHypr setPcStatusMenuOpen={setPcStatusMenuOpen} pcStatusButtonRef={pcStatusButtonRef} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}  setThemeSwitcherOpen={setThemeSwitcherOpen} wallpaperButtonRef={wallpaperButtonRef} themeButtonRef={themeButtonRef}/>
             </StartSetterContext.Provider>

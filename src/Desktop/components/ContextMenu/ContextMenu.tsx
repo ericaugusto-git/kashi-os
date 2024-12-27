@@ -139,7 +139,7 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
   const changePosition = useDesktopPositionHandler();
   const [, , fileInputRef] = useContextMenu();
   const [, setWindows] = useWindowContext();
-  const {fileList, format, listFiles, createFolder, createFile} = useFileSystem();
+  const {fileList, listFiles, createFolder, createFile} = useFileSystem();
 
   const handlePowerOff = () => {
     setWindows([]);
@@ -247,10 +247,10 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
         <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${reset}")`}}></div>
           {t('reset_desktop')}
         </li>
-        <li onClick={format}>
+        {/* <li onClick={format}>
         <div className={`svgMask ${styles.db}`}   style={{maskImage: `url("delete_db.svg")`}}></div>
           {t('delete_everything')}
-        </li>
+        </li> */}
         <li onClick={handleDesktop}>
         <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${isDesktopHidden ? desktop_on : desktop_off}")`}}></div>
           {t(isDesktopHidden ? 'desktop_on' : 'desktop_off')}

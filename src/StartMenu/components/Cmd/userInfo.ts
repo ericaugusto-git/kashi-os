@@ -1,9 +1,8 @@
 import * as rdd from "react-device-detect";
 import { terminal_config } from "./terminal_config";
-import { Themes } from "../../../contexts/ThemeContext";
 import { TFunction } from "i18next";
 
-export default function getUserInfo(theme: Themes, t: TFunction<"translation", undefined>){
+export default function getUserInfo(theme: string, t: TFunction<"translation", undefined>){
     const today = new Date();
     const [day, month, year] = [today.getDate(), today.getMonth() + 1, today.getFullYear()];
     const device = `${rdd.osName} ${rdd.osVersion} • ${rdd.browserName}`;

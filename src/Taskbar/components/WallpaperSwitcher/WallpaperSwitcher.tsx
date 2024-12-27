@@ -1,27 +1,28 @@
+import { ThemesJS } from '@/constants/themes';
 import { FileAsUrl, useFileSystem } from '@/contexts/FileSystemContext';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CSSProperties, Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { wpprPaths } from '../../../constants/wallpapers';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useWallpaper } from '../../../contexts/WallpaperContext';
 import style from './WallpaperSwitcher.module.scss';
-import { useTranslation } from 'react-i18next';
 
 
 
 type WallpaperSwitcherProps = {
     wallpaperSwitcherOpen: boolean,
-    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean>>
+    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean>>,
+    themes: ThemesJS
 }
 
-export default function WallpaperSwitcher({wallpaperSwitcherOpen, setwWallpaperSwitcherOpen}: WallpaperSwitcherProps){
+export default function WallpaperSwitcher({wallpaperSwitcherOpen, setwWallpaperSwitcherOpen, themes}: WallpaperSwitcherProps){
     const [theme] = useTheme();
     const {t} = useTranslation();
     const {readFilesFromDir, fileList} = useFileSystem();
     const [wpprs, setWpprs] = useState<FileAsUrl[]>([]);
     useEffect(() => {
         const getWpprsUrl = async () => {
-            const urls = await readFilesFromDir(wpprPaths[theme], true);
+            const urls = await readFilesFromDir(themes[theme].wpprsPath, true);
             setWpprs(urls as FileAsUrl[])
         }
         getWpprsUrl();
@@ -47,7 +48,7 @@ return <a title={wpprName} onClick={() => handleWpprChange(wpprName!)} key={inde
     }
     
 )}
-    {wpprs.length === 0 && <p className={style.not_found}> {t('wppr_not_found')} {wpprPaths[theme]}</p>}
+    {wpprs.length === 0 && <p className={style.not_found}> {t('wppr_not_found')} {themes[theme].wpprsPath}</p>}
     </motion.div>
     }
     /</AnimatePresence>

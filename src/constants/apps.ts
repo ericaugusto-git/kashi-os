@@ -112,6 +112,7 @@ export type AppType = {
 // System Applications
 export const FILE_EXPLORER: AppType = {
     name: 'file_explorer',
+    titleBarName: 'file_explorer',
     appType: 'os',
     bodyStyles: {backgroundColor: 'none'},
     notUnique: true,

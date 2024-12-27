@@ -149,6 +149,7 @@ $col2IconSize: 21px;
         overflow: hidden;
         z-index: 2;
         cursor: pointer;
+        background-color: rgb(var(--darker-color));
         background-size: auto 100%; /* Preserve aspect ratio by setting height to 100% */
         background-position: center; /* Center the image */
         background-repeat: no-repeat;
