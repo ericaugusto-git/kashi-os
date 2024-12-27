@@ -93,7 +93,8 @@ i18n
           confirm: "Confirm",
           enter_password: "Enter Password",
           guest: "Guest",
-          wppr_not_found: "wallpapers not found on"
+          wppr_not_found: "wallpapers not found on",
+          start_button: "Start Button"
         }
     },
     ["pt-BR"]: {
@@ -170,7 +171,8 @@ i18n
             confirm: "Confirmar",
             enter_password: "Digite a Senha",
             guest: "Convidado",
-            wppr_not_found: "wallpapers não encontrados em"
+            wppr_not_found: "wallpapers não encontrados em",
+            start_button: "Botão start"
         }
       }
     }

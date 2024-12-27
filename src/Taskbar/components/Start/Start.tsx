@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { StartSetterContext } from "../../../App";
 import styles from "./Start.module.scss";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
 interface MousePosition {
     x: number;
     y: number;
@@ -15,6 +16,7 @@ function Start() {
   //   borderRadius: '50px'
   // };
   const [theme] = useTheme();
+  const {t} = useTranslation();
   const [isStartMenuOpen, setStartMenuOpen, toggleButtonRef] =
     useContext(StartSetterContext);
   const handleClick = () => {
@@ -47,6 +49,7 @@ function Start() {
   return (
     <div  onMouseMove={handleMouseMove} className={`${styles.startBtnWrapper} ${styles[theme]}`}>
     <button
+    aria-label={t("start_button")}
       ref={toggleButtonRef}
       className={`${styles.start_btn} ${isStartMenuOpen && styles.paused}`}
       onClick={handleClick}

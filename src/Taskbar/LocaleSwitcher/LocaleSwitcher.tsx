@@ -42,7 +42,7 @@ const LocaleSwitcher = () => {
             <span className={style.locale}>
             {i18n.resolvedLanguage?.replace('pt-', '').toLocaleUpperCase()}
             </span>
-            <img className='taskbar_icon' src={i18n.resolvedLanguage == 'pt-BR' ? brasilFlag : globeIcon}></img>
+            <img className='taskbar_icon' alt={i18n.resolvedLanguage == 'pt-BR' ? "Bandeira do Brasil" : "Globe icon"} src={i18n.resolvedLanguage == 'pt-BR' ? brasilFlag : globeIcon}></img>
             </motion.div>
         )}
       </AnimatePresence>

@@ -107,17 +107,17 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
             <Battery/>
         </div>
         <div className={style.taskbar_section_wrapper}>
-            <button  data-tooltip={t("change_wpp")} ref={wallpaperButtonRef} onClick={() => setwWallpaperSwitcherOpen(previous => !previous)}>
+            <button aria-label={t("change_wpp")}  data-tooltip={t("change_wpp")} ref={wallpaperButtonRef} onClick={() => setwWallpaperSwitcherOpen(previous => !previous)}>
                 <div className="svgMask taskbar_icon" style={{maskImage: `url("${wallpaper_change}")`}}></div>
             </button>
-            <button data-tooltip={t("change_theme")} ref={themeButtonRef} onClick={() => setThemeSwitcherOpen(previous => !previous)}>
+            <button aria-label={t("change_theme")}  data-tooltip={t("change_theme")} ref={themeButtonRef} onClick={() => setThemeSwitcherOpen(previous => !previous)}>
             <div className="svgMask taskbar_icon" style={{maskImage: `url("${theme_change}")`}}></div>
 
             </button>
-            <button  onClick={changePosition} data-tooltip={t("change_position")}>
+            <button role="button"  onClick={changePosition} aria-label={t("change_position")} data-tooltip={t("change_position")}>
                 <div className="svgMask taskbar_icon" style={{maskImage: `url("${taskbar_switcher}")`}}></div>
             </button>
-            <button ref={pcStatusButtonRef} data-tooltip={t("shut")} onClick={() => setPcStatusMenuOpen((prev) => !prev)}>
+            <button role="button" ref={pcStatusButtonRef} aria-label={t("shut")}  data-tooltip={t("shut")} onClick={() => setPcStatusMenuOpen((prev) => !prev)}>
                 <div className="svgMask taskbar_icon" style={{maskImage: `url("${powerOff}")`}}></div>
             </button>
         </div>
