@@ -15,7 +15,7 @@ type ButtonGroupProps = {
     handleClick?: (action: string) => void
 }
 
-function ButtonGroup({buttons, stylesProp, selectedValue, useMaskImage, handleClick}: ButtonGroupProps){
+function ButtonGroup({buttons,  selectedValue, useMaskImage, handleClick}: ButtonGroupProps){
     const [selected, setSelected ] = useState(selectedValue ?? "");
     const [theme] = useTheme();
 
@@ -28,8 +28,8 @@ function ButtonGroup({buttons, stylesProp, selectedValue, useMaskImage, handleCl
         <div className={`${styles.button_group}`}>
             {
             buttons.map((button) => 
-            <button key={button.action}  style={stylesProp}
-            className={`${selected === button.action ? styles['ghost_button_selected'] : ''} ${button?.label?.length ?? 0 > 0 ? styles['ghost_button_w_label'] : ''} ${styles.ghost_button} ${styles[theme]}`}
+            <button key={button.action}  
+            className={`${selected === button.action && styles['ghost_button_selected']} ${button?.label?.length ?? 0 > 0 ? styles['ghost_button_w_label'] : ''} ${styles.ghost_button} ${styles[theme]}`}
             onClick={() => handleButtonClick(button.action) }>
                 {button.useSvg || useMaskImage ? <div className={`svgMask ${styles.svg_icon}`} style={{maskImage: `url("${button.icon}")`, maskSize: "100%", width: "100%", height: "100%"}}></div> : <img src={button.icon}></img>}
                 <span>

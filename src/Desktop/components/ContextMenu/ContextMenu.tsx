@@ -175,6 +175,7 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
       const regex = new RegExp(`^${newDir}(\\s\\((\\d+)\\))?$`);
       return regex.test(a.name);
     }).sort((a, b) => getCount(a.name) - getCount(b.name));
+    console.log(newFolders)
     let lastFolderIndex = 0;
     // good enough for my sleep deprived brain, probably buggy, uhh nobody well ever stress it enough right?
     for(const [index, folder] of newFolders.entries()){

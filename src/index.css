@@ -185,6 +185,12 @@ input[type="radio"] {
   transform: translateX(-50%);
   display: none;
 }
+.flexbox-fix{
+  color: white !important;
+}
+input[id^=rc-editable-input]{
+  color: white !important;
+}
 
 button[data-tooltip]:has(.taskbar_icon)::after {
   top: -30px;

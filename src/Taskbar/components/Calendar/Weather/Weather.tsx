@@ -6,6 +6,7 @@ import WeatherHeader from "./components/WeatherHeader/WeatherHeader";
 
 function Weather() {
   const { weather, error } = useWeather();
+  console.log(weather);
   // const weather = weatherContext?.weather
   // const forecast = weatherContext?.forecast
   const mainWeather = weather?.weather?.weather?.[0];

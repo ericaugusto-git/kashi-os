@@ -1,10 +1,11 @@
-import { Slider } from "@mui/material";
+import { FILE_EXPLORER, FileProps } from "@/constants/apps";
+import useOpenWindow from "@/hooks/useOpenWindow";
+import { fileCount } from "@/utils/utils";
 import { useRef, useState } from "react";
-import { SketchPicker } from 'react-color';
+import { ChromePicker, CirclePicker } from 'react-color';
 import { useTranslation } from "react-i18next";
 import ReactPainter from "react-painter";
 import { LineCapType } from "react-painter/dist/ReactPainter";
-import Button from "../../../Taskbar/components/Button/Button";
 import ButtonGroup from "../../../Taskbar/components/ButtonGroup/ButtonGroup";
 import dashed from '../../../assets/paint/dashed.svg';
 import download from '../../../assets/paint/download.svg';
@@ -13,46 +14,16 @@ import round from '../../../assets/paint/round.svg';
 import square from '../../../assets/paint/square.svg';
 import styles from "./Paint.module.scss";
 
-export default function Paint() {
+export default function Paint({listFiles, createFile}: FileProps) {
   const [pickerColor, setpickerColor] = useState('#000000');
   const painterRef = useRef<ReactPainter>(null)
-  const MAX = 150;
-  const MIN = 1;
-  const marks = [
-    {
-      value: MIN,
-      label: '',
-    },
-    {
-      value: MAX,
-      label: '',
-    },
-  ];
-  const [lineWidth, setLineWidth] = useState<number>(MIN);
+  const [lineWidth, setLineWidth] = useState<number>(15);
   const [eraserActive, setEraserActive] = useState(false);
-  const [lineCap] = useState("round");
-  // const canvasRef = useRef<HTMLDivElement>(null);
-  // const [windowWidth, setWindowWidth] = useState<number | undefined>(100);
-  // const [windowHeight, setWindowHeight] = useState<number | undefined>(200);
-  // useEffect(() => {
-  //   // Function to update window width and height
-  //   const handleResize = () => {
-  //     setWindowWidth(canvasRef.current?.clientWidth);
-  //     setWindowHeight(canvasRef.current?.clientHeight);
-  //   };
-  //   const resizeObserver = new ResizeObserver(() => {
+  const [lineCap, setLineCap] = useState("round");
+  const openWindow = useOpenWindow();
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
 
-  //     handleResize();
-  //     // Do what you want to do when the size of the element changes
-  //   });
-  //   resizeObserver.observe(canvasRef.current!);
-  //   // Add event listener for window resize
-  //  handleResize()
-  //   // Cleanup function to remove event listener
-  //   return () => {
-  //     resizeObserver.disconnect();
-  //   };
-  // }, []); // Empty dependency array ensures that effect runs only once
 const handleLineWidthChange = (event: React.ChangeEvent<HTMLInputElement>, setter: (width: number) => void) => {
   
   const width = Number(event.target.value);
@@ -77,41 +48,85 @@ window.addEventListener("resize", () => {
  const handleLineChange = (action: string) => {
   //  setpickerColor(action == "eraser" ?  "#FFFFFF" : pickerColor)
   //      setlineCap(action);
-  setEraserActive(action == "eraser")
-   painterRef.current?.handleSetColor(action == "eraser" ?  "#FFFFFF" : pickerColor)
+  setEraserActive(action == "eraser");
+  setLineCap(action);
+   painterRef.current?.handleSetColor(action == "eraser" ?  "white" : pickerColor)
    painterRef.current?.handleSetLineCap(action == "eraser" ? 'round' : action as LineCapType);
    
   }
-  function downloadBlob(blob: Blob, name = 'your_beautiful_art.png') {
-    // For other browsers:
-    // Create a link pointing to the ObjectURL containing the blob.
-    const data = window.URL.createObjectURL(blob);
+  async function downloadBlob(blob: Blob, name = 'your_beautiful_art.png') {
+    // Create canvas and context
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Create an image from the blob
+    const img = new Image();
+    img.src = URL.createObjectURL(blob);
+    
+    // Wait for image to load
+    await new Promise(resolve => img.onload = resolve);
+    
+    // Set canvas size to match image
+    canvas.width = img.width;
+    canvas.height = img.height;
+    
+    // Fill white background
+    if (ctx) {
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw original image on top
+        ctx.drawImage(img, 0, 0);
+    }
+    // Convert to new blob with white background
+    const newBlob = await new Promise<Blob>(resolve => {
+        canvas.toBlob(blob => {
+            if (blob) resolve(blob);
+        }, 'image/png');
+    });
 
-    const link = document.createElement('a');
-    link.href = data;
-    link.download = name;
-
-    // this is necessary as link.click() does not work on the latest firefox
-    link.dispatchEvent(
-      new MouseEvent('click', { 
-        bubbles: true, 
-        cancelable: true, 
-        view: window 
-      })
-    );
-
-    setTimeout(() => {
-      // For Firefox it is necessary to delay revoking the ObjectURL
-      window.URL.revokeObjectURL(data);
-      link.remove();
-    }, 100);
+    const list = await listFiles!('/home/pictures');
+    if(list && createFile){
+      console.log(list)
+      const count = fileCount(list, name);
+      console.log(count);
+      const extension = '.png';
+      const fileName = `${name.replace(extension, '')} ${count == 0 ? '' : `(${count})`}`.trim() + extension;
+      const file = new File([newBlob], fileName, { type: "image/png" });
+      const folderPath = '/home/pictures';
+      await createFile(folderPath, file);
+      openWindow({...FILE_EXPLORER,  props: {filePath: folderPath}});
+    }
 }
+
+const cursorStyle = {
+  position: 'fixed',
+  pointerEvents: 'none',
+  width: `${lineWidth}px`,
+  height: `${lineWidth}px`,
+  border: `1px solid ${eraserActive ? 'black' : pickerColor}`,
+  borderRadius: '50%',
+  transform: 'translate(-50%, -50%)',
+  left: mousePosition.x,
+  top: mousePosition.y,
+  display: isHovering ? 'block' : 'none',
+  backgroundColor: eraserActive ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.1)',
+  zIndex: 9999
+} as const;
+
+const handleMouseMove = (e: React.MouseEvent) => {
+  setMousePosition({ x: e.clientX, y: e.clientY });
+};
+
+const handleCanvasHover = (hovering: boolean) => {
+  setIsHovering(hovering);
+};
 
   return (
     <ReactPainter
       ref={painterRef}
-      width={window.innerWidth - 320}
-      height={window.innerHeight - 150}
+      width={window.innerWidth <= 768 ? window.innerWidth :  window.innerWidth - 240}
+      height={window.innerHeight - (window.innerWidth <= 768 ? 210 : 26)}
       initialLineWidth={lineWidth}
       color={pickerColor}
       lineCap={lineCap}
@@ -119,34 +134,44 @@ window.addEventListener("resize", () => {
       render={({ canvas, triggerSave, setColor, setLineWidth }) => (
         <div className={styles.paint_container}>
           <div className={styles.actions}>
-            <div style={{width: "100%", display: "flex", gap: "10px", flexDirection: "column"}}>
-            <div className={styles.buttonGroup}>
-            <ButtonGroup useMaskImage={true} handleClick={handleLineChange} selectedValue="round" buttons={themeButtons} stylesProp={{width: "26px", height: "30px"}}></ButtonGroup>
+            <div className={styles.line_config}>
+            <div>
+            <label className={styles.label}>{!eraserActive && t('line_cap')} ({t(lineCap)})</label>
+            <ButtonGroup useMaskImage={true} handleClick={handleLineChange} selectedValue="round" buttons={themeButtons}></ButtonGroup>
             </div>
-            <div className={styles.slider}>
-                {eraserActive ? <label>{t('eraser_width')}</label> : <label>{t('line_width')}</label>}
-                {/* <label>{t((eraserActive ? 'ereaser_' : 'line_') +  'width')}</label> */}
-                <div className={styles.slider_container}>
-                <Slider
-                marks={marks}
-                step={1}
-                value={lineWidth}
-                valueLabelDisplay="auto"
-                min={MIN}
-                max={MAX}
-                onChange={e => handleLineWidthChange(e as unknown as React.ChangeEvent<HTMLInputElement>, setLineWidth)}
-              />
-                </div>
+            <div>
+
+              <label className={styles.label}>{t( eraserActive ? 'eraser_width' : 'line_width') } ({lineWidth}%)</label>
+              <input className={styles.volume} type="range" min="1" max="150" defaultValue="45" onChange={e => handleLineWidthChange(e as unknown as React.ChangeEvent<HTMLInputElement>, setLineWidth)}            />
             </div>
-            <SketchPicker className={styles.colorPicker} color={pickerColor} onChangeComplete={e => setColor(eraserActive ? "#FFFFFF" :  e.hex)} onChange={e => setpickerColor(e.hex)}/>
+            <div style={{width: '220px'}}>
+              <label className={styles.label}>{t('color') }</label>
+              <ChromePicker className={`${styles.colorPicker} ${styles.chromePicker}`} color={pickerColor} onChangeComplete={e => setColor(eraserActive ? "#FFFFFF" :  e.hex)} onChange={e => setpickerColor(e.hex)}/>
+            </div>
+              <CirclePicker className={styles.colorPicker} color={pickerColor} onChangeComplete={e => setColor(eraserActive ? "#FFFFFF" :  e.hex)} onChange={e => setpickerColor(e.hex)}/>
             </div>
             <div >
-            <Button styles={{background: '#313d3d'}} children={<span  className={styles.saveButton}>save your art <img src={download}></img> </span>} handleClick={triggerSave} />
+            <button className={styles.edit} onClick={triggerSave}>
+              {t('save_your_art')}
+          <div className={`svgMask`} style={{maskImage: `url("${download}")`}}></div>
+        </button>
+            {/* <Button styles={{background: '#313d3d'}} children={<span  className={styles.saveButton}>save your art <img src={download}></img> </span>} handleClick={triggerSave} /> */}
             </div>
           </div>
-          <div className={styles.canvas} style={{ backgroundColor: "white" }}>
+          <div 
+            style={cursorStyle}
+          />
+          <div 
+          className={styles.canvas}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => handleCanvasHover(true)}
+            onMouseLeave={() => handleCanvasHover(false)}
+          >
             {canvas}
           </div>
+          {/* <div >
+            {canvas}
+          </div> */}
         </div>
       )}
     />

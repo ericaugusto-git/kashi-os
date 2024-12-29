@@ -1,8 +1,8 @@
 .paint_container{
     display: flex;
-    padding: 10px;
+    // padding: 10px;
     gap: 20px;
-    height: calc(100% - 20px);
+    height: 100%;
     background-color: rgba(var(--darker-color));
     .actions{
         // display: grid;
@@ -14,20 +14,52 @@
         padding: 20px;
         grid-auto-rows: max-content;
         color: white;
-        background-color: rgba(var(--theme-color));
+        // background-color: rgba(var(--theme-color));
         border-radius: 10px;
         gap: 10px;
         justify-content: space-between;
         .slider{
             width: 100%;
         }
+        div.colorPicker{
+            grid-row: 1 / 5;
+            background: transparent;
+            width: 100% !important;
+            max-width: 220px;
+            height: fit-content;
+        }
+        .chromePicker{
+            background-color: rgba(var(--theme-color)) !important;
+        }
     }
     .canvas{
         background-color: white;
-        border-radius: 10px;
+        // border-radius: 10px;
+        cursor: none;
+        width: 100%;
     }
 
 }
+
+.edit{
+    background-color: rgb(var(--accent-color));
+    border: 2px solid white;
+    padding: 10px;
+    display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+      padding: 5px;
+      width: fit-content;
+      color: white;
+      gap: 5px;
+    border-radius: 7px;
+    div{
+      $size: 20px;
+      width: $size;
+      height: $size;
+    }
+  }
 
 .buttonGroup{
     width: 100%;
@@ -40,17 +72,74 @@
     border-radius: 3px;
 }
 
-.colorPicker{
-    grid-row: 1 / 5;
+
+
+.volume[type="range"] {
+    -webkit-appearance: none;
+    background-color: rgba(var(--theme-color));
+    backdrop-filter: blur(6px);
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 30px;
+    border-radius: 1rem;
+    overflow: hidden;
+    position: relative;
+    cursor: col-resize;
+
+    &[step]{
+    background-color: black;
+    }
+    // box shadow idea from https://codepen.io/brandonmcconnell/pen/oJBVQW
+    &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 0;
+    border-radius: 50%;
+    background: rgba(var(--accent-color));
+    width: 30px;
+    height: 30px;
+    box-shadow: -335px 0 0 320px rgba(var(--accent-color)), inset 0 0 0 40px rgba(var(--accent-color));    
+    position: relative;
+}
+    
+    &::-moz-range-thumb {
+        -webkit-appearance: none;
+        width: 0;
+        border-radius: 50%;
+        border: 0;
+        outline: 0;
+        background: rgba(var(--accent-color));
+        width: 30px;
+        height: 30px;
+        box-shadow: -335px 0 0 320px rgba(var(--accent-color)), inset 0 0 0 40px rgba(var(--accent-color));    
+    // border: none;
+    // width: 0;
+    // border-radius: 100px;
+    // box-shadow: -20rem 0 0 20rem #fff, rgba(var(--accent-color));
+    }
 }
 .slider {
-
-    label{
-        font-family: "IBM Plex Mono", monospace;
-        text-transform: uppercase;
-        font-size: 14px;
-        text-align: center;
+    width: 100%;
+    height: 30px;
+    position: relative;
+    border-radius: 100px;
+    background-color: rgba(var(--darker-color), .8);
+    &::before{ 
+        content: " ";
+        width: 50%;
+        height: 100%;
+        border-radius: 100px;
+        cursor: col-resize;
+        position: absolute;
+        background-color: rgba(var(--accent-color));
     }
+}
+.label{
+    font-family: "IBM Plex Mono", monospace;
+    text-transform: uppercase;
+    font-size: 13px;
+    // text-align: center;
+    width: fit-content;
 }
 .slider_container{
         width: 90%;
@@ -70,4 +159,43 @@
     img{
         width: 21px;
     }
+}
+
+.line_config{
+    width: 100%; 
+    display: flex; 
+    gap: 10px; 
+    flex-direction: column;
+    div:has(.label){
+        display: flex;
+        width: 100%;
+        gap: 10px;
+        // width: fit-content;
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .paint_container{
+        flex-direction: column;
+        flex-direction: column-reverse;
+        .actions{
+            overflow-x: auto;
+        }
+        .line_config{
+            overflow: none;
+            display: grid;
+            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .actions, .line_config{
+            height: 220px;
+            flex-shrink: 0;
+            // overflow-x: auto;
+            flex-direction: row;
+            width: fit-content;
+            padding: 10px;
+        }
+    }
+    
 }

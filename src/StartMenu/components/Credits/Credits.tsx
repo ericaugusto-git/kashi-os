@@ -6,7 +6,7 @@ const Credits = () => {
     const libraries = [
         { name: "react", version: "^18.2.0", url: "https://reactjs.org/" },
         { name: "react-pdf", version: "^7.7.1", url: "https://react-pdf-viewer.dev/" },
-        { name: "react-painter", version: "^0.4.0", url: "https://github.com/fians/react-painter" },
+        { name: "react-painter", version: "^0.4.0", url: "https://github.com/aml2610/react-painter" },
         { name: "react-rnd", version: "^10.4.1", url: "https://github.com/bokuweb/react-rnd" },
         { name: "framer-motion", version: "^11.0.24", url: "https://www.framer.com/motion/" },
         { name: "EmulatorJS", version: "^11.0.24", url: "https://emulatorjs.org" },
@@ -28,6 +28,7 @@ const Credits = () => {
         {name: "Studio Ghibli Pixel Art GIF - GIPHY API", url: "https://giphy.com/gifs/pixel-art-studio-ghibli-OMFfLpauGoT4c"},
         {name: "Eugene Chystiakov", url: "https://unsplash.com/photos/a-night-view-of-a-city-and-a-bridge-fgXBH9f477A"},
         {name: "Marek Piwnicki", url: "https://unsplash.com/photos/the-night-sky-over-a-snowy-mountain-range-Urtf4a8e_6Y"},
+        {name: 'cursor.in', url: "https://cursor.in/"},
         {name: "Photo by Carlos Oliva", url: "https://www.pexels.com/photo/city-skyline-across-body-of-water-during-night-time-3586966/"},
         {name: "Photo by Cátia Matos", url: "https://www.pexels.com/photo/green-leaves-1072179/"},
         {name: "Photo by Rafael Cerqueira", url: "https://www.pexels.com/photo/blue-and-white-sky-with-stars-4737484/"},

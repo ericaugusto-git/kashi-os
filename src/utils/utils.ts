@@ -57,6 +57,23 @@ export const fetchGif = async (gifId: string) => {
       return null;
     }
   };
+
+  export const fileCount = (list: AppType[], pathName: string) => {
+    pathName = pathName.split('.')[0];
+    const getCount = (name: string) => parseInt(name.replace(pathName, '').trim().replace('(', '').replace(')', ''));
+    const newFolders = list.filter((a) => {
+      const regex = new RegExp(`^${pathName}(\\s\\((\\d+)\\))?$`);
+      return regex.test(a.name.split('.')[0]);
+    }).sort((a, b) => getCount(a.name) - getCount(b.name));
+    let lastFolderIndex = 0;
+    // good enough for my sleep deprived brain, probably buggy, uhh nobody well ever stress it enough right?
+    for(const [index, folder] of newFolders.entries()){
+      const folderCount = getCount(folder?.name);
+      if(!folderCount){ lastFolderIndex = 1; continue;}
+      lastFolderIndex = index != folderCount ? index : index + 1;
+    }
+    return lastFolderIndex;
+  }
   
   
 

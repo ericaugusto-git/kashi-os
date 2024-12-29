@@ -12,11 +12,12 @@ $hourSize: 44px;
             line-height: $hourSize;
             font-size: $hourSize;
         }
-        font-weight: 100;
+        font-weight: 900;
     }
     .date{
         font-size: 16px;
-        color: wheat;
+        font-size: 100;
+        color: rgb(var(--accent-color));
     }
 }
 

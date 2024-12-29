@@ -94,7 +94,9 @@ i18n
           enter_password: "Enter Password",
           guest: "Guest",
           wppr_not_found: "wallpapers not found on",
-          start_button: "Start Button"
+          start_button: "Start Button",
+          line_cap: "Line cap",
+          save_your_art: "save your art",
         }
     },
     ["pt-BR"]: {
@@ -172,7 +174,13 @@ i18n
             enter_password: "Digite a Senha",
             guest: "Convidado",
             wppr_not_found: "wallpapers não encontrados em",
-            start_button: "Botão start"
+            start_button: "Botão start",
+            line_cap: "Extremidade da linha",
+            round: "arredondado",
+            butt: "reto",
+            square: "quadrado",
+            color: 'cor',
+            save_your_art: "salve sua arte",
         }
       }
     }

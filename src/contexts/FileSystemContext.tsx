@@ -309,7 +309,6 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
 
           // Handle different file types
           const extension = name.split('.').pop()?.toLowerCase();
-          
           // Images
           if (extension && extension in imageMimeTypes) {
             const buffer = await readFile(fullPath);

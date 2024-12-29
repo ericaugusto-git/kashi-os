@@ -69,6 +69,8 @@ export type AppType = {
     desktop?: boolean,
     /** Whether to hide the app in start menu */
     hideInStartMenu?: boolean,
+    /** Whether to hide the app in search list */
+    hideInSearch?: boolean,
     /** SVG mask visibility settings */
     svgMask?: {
         /** Show in start menu */
@@ -126,6 +128,7 @@ export const FILE_EXPLORER: AppType = {
 export const COMPUTER: AppType = {
     ...FILE_EXPLORER,
     name: 'computer',
+    hideInSearch: true,
     titleBarName: 'file_explorer',
     desktop: true,
     thumbnail: 'computer.svg'
@@ -148,6 +151,7 @@ export const PAINT: AppType = {
     componentPath: "@/StartMenu/components/Paint/Paint",
     cantMax: true,
     icon: brush,
+    windowStyles: {borderRadius: 0},
     height: '100%',
     width: "100%",
     x: 0,

@@ -122,7 +122,7 @@ useEffect(() => {
                                 ) : (
                                     <img className={styles.icon} src={app.icon}></img>
                                 )}
-                                <span>{t(app.name)}</span>
+                                <span>{t(app.titleBarName || app.name)}</span>
                             </a>
                         </li>
                     ))}

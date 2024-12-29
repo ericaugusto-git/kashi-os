@@ -116,6 +116,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
     const startRename = () => {
         setRenameMode(true);
         setTimeout(() => {
+            console.log(editableRef.current)
             if(editableRef.current){
                 editableRef.current.focus();
                 
@@ -142,7 +143,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
                 selection?.removeAllRanges();
                 selection?.addRange(range);
             }
-        }, 200)
+        })
     }
 
 

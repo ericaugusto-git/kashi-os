@@ -11,7 +11,6 @@ const componentMap: Record<string, () => Promise<any>> = {
   "@/StartMenu/components/Paint/Paint": () => import("../StartMenu/components/Paint/Paint"),
   "@/EmulatorJS/EmulatorJS": () => import("../EmulatorJS/EmulatorJS"),
   "@/Audio/Audio": () => import("../Audio/Audio"),
-  "@/Resume/Resume": () => import("../Resume/Resume"),
   "@/Folder/Folder": () => import("../Folder/Folder"),
   "@/Monaco/Monaco": () => import("../Monaco/Monaco"),
   "@/Photo/Photo": () => import("../Photo/Photo"),
