@@ -86,14 +86,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
             </motion.div>}
         </AnimatePresence>
         <div className={style.date_time_wrapper}>
-            <div  ref={calendarRef} style={{zIndex: 9}}>
-                <AnimatePresence>
-                { isCalendarOpen && <motion.div           initial={{ opacity: 0 }}
-            animate={{opacity: 1 }}
-            exit={{ overflow: "hidden", opacity: 0 }}
-            transition={{ duration: 0.2 }}><Calendar/></motion.div>}
-                </AnimatePresence>
-            </div>
+<Calendar calendarRef={calendarRef} isCalendarOpen={isCalendarOpen}/>
 
             <a className={`${style.taskbar_section_wrapper} ${style.date_time}`} onClick={openCalendar} ref={clockButtonRef}>
                 <ClockHypr/>

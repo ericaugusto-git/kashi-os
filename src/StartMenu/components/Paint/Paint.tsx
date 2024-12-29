@@ -169,9 +169,6 @@ const handleCanvasHover = (hovering: boolean) => {
           >
             {canvas}
           </div>
-          {/* <div >
-            {canvas}
-          </div> */}
         </div>
       )}
     />

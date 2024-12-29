@@ -23,7 +23,7 @@
     gap: 12px;
     .search_bar{
         $padding: 10px;
-        outline: 1px solid white;
+        outline: 1px solid rgb(var(--accent-color));
         border-radius: 10px;
         // height: 82%;
         width: calc(100% - ($padding * 2));
@@ -95,6 +95,25 @@
             }
         } 
     }
+}
+
+@media (max-width: 1024px) {
+  .search_container{
+    width: 60%;
+    margin-left: -28%;
+    margin-top: -15%;
+  }
+}
+@media (max-width: 768px) {
+  .search_container{
+    width: 80%;
+    margin-left: -41%;
+  }
+}
+@media (max-width: 425px) {
+  .search_container{
+    margin-top: -30%;
+  }
 }
 
 /* Firefox (uncomment to work in Firefox, although other properties will not work!)  */

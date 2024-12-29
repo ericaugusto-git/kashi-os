@@ -4,10 +4,12 @@ $hourSize: 44px;
     flex-direction: column;
     padding: 10px;
     gap: 5px;
+    font-family: 'IBM plex mono';
     .hour_container{
         display: grid;
         grid-template-columns: repeat(2,1fr);
         align-items: end;
+        gap: 10px;
         .hour{
             line-height: $hourSize;
             font-size: $hourSize;

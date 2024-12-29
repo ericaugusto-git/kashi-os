@@ -8,6 +8,7 @@ $paddingX: 12px;
     display: flex;
     align-items: center;
     gap: 12px;
+    z-index: 999;
     justify-content: end;
     font-family: 'IBM Plex Mono';
     span{

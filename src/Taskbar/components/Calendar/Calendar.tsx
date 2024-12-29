@@ -7,21 +7,28 @@ import { useTheme } from "../../../contexts/ThemeContext";
 import styles from "./Calendar.module.scss";
 import DateTime from "./DateTime/DateTime";
 import Weather from "./Weather/Weather";
+import { AnimatePresence, motion } from 'framer-motion';
 
 
-export default function Calendar() {
+export default function Calendar({calendarRef, isCalendarOpen}: {calendarRef: React.RefObject<HTMLDivElement>, isCalendarOpen: boolean}) {
   const [theme] = useTheme();
   const [position] = useDesktopPosition();
   const {i18n} = useTranslation();
   return (
     <>
-        <div style={{[position]: '41px'}} className={styles.calendar_container + " " + styles[theme]}>
-            <DateTime />
-            <ReactCalendar locale={i18n.resolvedLanguage?.toLocaleLowerCase()}/>
-            <BrowserView>
-              <Weather />
-            </BrowserView>
-        </div>
+      <AnimatePresence>
+                { isCalendarOpen && <motion.div  style={{[position]: '41px'}} ref={calendarRef} className={styles.calendar_container + " " + styles[theme]}          initial={{ opacity: 0 }}
+            animate={{opacity: 1 }}
+            exit={{ overflow: "hidden", opacity: 0 }}
+            transition={{ duration: 0.2 }}>
+
+              <DateTime />
+              <ReactCalendar locale={i18n.resolvedLanguage?.toLocaleLowerCase()}/>
+              <BrowserView>
+                <Weather />
+              </BrowserView>
+            </motion.div>}
+        </AnimatePresence>
     </>
   );
 }
