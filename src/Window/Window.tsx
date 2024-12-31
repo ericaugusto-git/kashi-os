@@ -23,10 +23,11 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const taskbarHeight = 37;
   const { t } = useTranslation();
   const variants = {
-    initial: position == 'top' ? { scale: 0 } : {},
-    animate: position == 'top' ? { scale: 1 } : {},
-    exit: position == 'top' ? { scale: 0, opacity: 0 } : {opacity: 0, }
+    initial:  { scale: 0.8, opacity: 0 },
+    animate: { scale: 1, opacity: 1 },  
+    exit: { scale: 0.6, opacity: 0 }
   };
+  
   
   const isHeaderItem = (index: number,event: React.TouchEvent | React.MouseEvent) => {
     // @ts-expect-error tagName actually exists on event.target
@@ -149,13 +150,8 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   return <div ref={windowRef}>
     <AnimatePresence>
   {windows.map((window, index) => (
-    <motion.div variants={variants} initial="initial" 
-    animate="animate" exit="exit" 
-    transition={{ duration: 0.2 }}  key={window.name} 
-    onTouchStart={(event) => handleWindowClick(window.name, index, event)}
-    onMouseDown={(event) => handleWindowClick(window.name, index, event)}
-   >
   <Rnd
+  key={window.name}
     // default={{
     //   y: window.y ?? 50,
     //   x:window.x ?? 150,
@@ -182,6 +178,12 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
       transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)'
     }}
   >
+    <motion.div variants={variants} initial="initial" 
+    animate="animate" exit="exit" style={{height: '100%', width: '100%'}}
+    transition={{ duration: 0.2 }} 
+    onTouchStart={(event) => handleWindowClick(window.name, index, event)}
+    onMouseDown={(event) => handleWindowClick(window.name, index, event)} >
+
     <div className={styles.glass_effect} style={{borderRadius: defaultSyles.borderRadius}}></div>
     <div className={`${styles.window}`} style={{...defaultSyles, ...window.windowStyles, }}>
         <div className={styles.header} style={window.headerStyles}>
@@ -206,9 +208,9 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
             <WindowContent window={window} index={index} closeRefCurrent={closeRefs.current}/>
           {/* <div style={{width: "100%", height: "100%", backgroundImage: `url(${jdm})`, backgroundRepeat: "no-repeat", backgroundSize: "cover"}}></div> */}
         </div>
-    </div>
+        </div>
+    </motion.div>
   </Rnd>
-          </motion.div>
 ))}
 </AnimatePresence>
   </div>
