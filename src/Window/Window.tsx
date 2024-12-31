@@ -25,7 +25,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const variants = {
     initial:  { scale: 0.8, opacity: 0 },
     animate: { scale: 1, opacity: 1 },  
-    exit: { scale: 0.6, opacity: 0 }
+    exit: { scale: 0.6, opacity: 0 },
   };
   
   
@@ -184,7 +184,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   >
     <motion.div variants={variants} initial="initial" 
     animate="animate" exit="exit" style={{height: '100%', width: '100%'}}
-    transition={{ duration: 0.2 }} 
+    transition={{ duration: 0.16 }} 
     onTouchStart={(event) => handleWindowClick(window.name, index, event)}
     onMouseDown={(event) => handleWindowClick(window.name, index, event)} >
 
