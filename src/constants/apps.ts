@@ -57,6 +57,8 @@ export type AppType = {
     active?: boolean,
     /** Whether the window is minimized */
     minimized?: boolean,
+    /** Whether the window is maximized */
+    maximized?: boolean,
     /** Path to the folder */
     folderPath?: string,
     /** Name of the application */

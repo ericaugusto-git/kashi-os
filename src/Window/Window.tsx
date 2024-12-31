@@ -13,7 +13,7 @@ import styles from './Window.module.scss';
 const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const [windows, setWindows] = useWindowContext();
   const defaultWindowStyles = {};
-  const [defaultSyles, setDefaultStyles] = useState<React.CSSProperties>( defaultWindowStyles);
+  const [defaultSyles] = useState<React.CSSProperties>( defaultWindowStyles);
   const [noTransition, seNoTransition] = useState(false);
   const windowRefs = useRef<Array<Rnd | null>>([]);
   const windowRef = useRef<HTMLDivElement>(null)
@@ -85,7 +85,10 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     if(windowRef){
       const isMax = isMaximized(index);
       const size = isMax ? {width: "40%", height: window.height ?? '400px'} : {width: "100%", height: (innerHeight - taskbarHeight) + 'px'};
-      setDefaultStyles(!isMax ? {borderRadius: '1px'} : defaultWindowStyles);
+      // setDefaultStyles(!isMax ? {borderRadius: '1px'} : defaultWindowStyles);
+      window.maximized = !isMax;
+      setWindows((prev) => prev.map((w, i) => i == index ? window : w));
+      console.log(window)
       windowRef?.updateSize(size);
       windowRef?.updatePosition(!isMax ? {x: 0, y: position == 'top' ? taskbarHeight : 0} : {x: window.x ?? Math.round(0.08 * innerWidth) , y: window.y ?? Math.round(0.02 * innerHeight)});
     }
@@ -147,6 +150,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   //     window.removeEventListener('resize', handleResize);
   //   };
   // }, [windows]);
+  const windowRadius = '13px';
   return <div ref={windowRef}>
     <AnimatePresence>
   {windows.map((window, index) => (
@@ -184,8 +188,8 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     onTouchStart={(event) => handleWindowClick(window.name, index, event)}
     onMouseDown={(event) => handleWindowClick(window.name, index, event)} >
 
-    <div className={styles.glass_effect} style={{borderRadius: defaultSyles.borderRadius}}></div>
-    <div className={`${styles.window}`} style={{...defaultSyles, ...window.windowStyles, }}>
+    <div className={styles.glass_effect} style={{borderRadius: window.maximized ? '1px' : windowRadius}}></div>
+    <div className={`${styles.window}`} style={{...defaultSyles, ...window.windowStyles,borderRadius: window.maximized ? '1px' : windowRadius }}>
         <div className={styles.header} style={window.headerStyles}>
         <div className={styles.actions}>
               <button className={`${styles.action} ${styles.close}`} ref={ref => closeRefs.current[index] = ref}  onTouchStart={() => handleCloseWindow(window)} onClick={() => handleCloseWindow(window)}></button>
