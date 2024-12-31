@@ -1,7 +1,6 @@
 import moment from "moment";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {isMobile} from 'react-device-detect';
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type WeatherType = {forecast?: any, weather: any}
@@ -10,6 +9,7 @@ function useWeather() {
   const wttrApiUrl = 'https://api.openweathermap.org/data/2.5';
   const [lat, setLat] = useState<number | null>(null);
   const [long, setLong] = useState<number | null>(null);
+  const [waitingGpsConsent, setWaitingGpsConsent] = useState<boolean>();
   const localWeather: string | null = localStorage.getItem("weather") ?? null;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,14 +23,15 @@ function useWeather() {
   const { t, i18n } = useTranslation();
   useEffect(() => {
     const fetchLocation = async () => {
-      if(!isMobile){
-        navigator.geolocation.getCurrentPosition(position => {
+      console.log("fetching location")
+      setWaitingGpsConsent(true);
+      navigator.geolocation.getCurrentPosition(position => {
+        setWaitingGpsConsent(false);
           setLat(position.coords.latitude);
           setLong(position.coords.longitude);
-        }, error => {
+      }, error => {
           setError(error);
-        });
-      }
+      });
     };
     if (lat === null || long === null) {
       fetchLocation();
@@ -53,7 +54,7 @@ function useWeather() {
           const weatherObj = {forecast: forecast ?? parsedLocalWeather.forecast, weather, lang};
           localStorage.setItem("weather", JSON.stringify(weatherObj));
           setWeather(weatherObj)
-  };
+    };
   useEffect(() => {
     const langChanged = parsedLocalWeather.lang != lang;
     if(langChanged && weather){
@@ -80,6 +81,7 @@ function useWeather() {
 
   return {
     weather,
+    waitingGpsConsent,
     error,
   };
 }

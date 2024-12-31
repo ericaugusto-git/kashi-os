@@ -2,3 +2,17 @@
     padding: 10px;
     padding-top: 0;
 }
+
+.loading{
+    height: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
+    .cloud{
+        $iconSize: 44px;
+        width: $iconSize;
+        height: $iconSize;
+    }
+}

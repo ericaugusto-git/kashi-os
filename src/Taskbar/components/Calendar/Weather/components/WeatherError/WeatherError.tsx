@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import styles from './WeatherError.module.scss';
 
-function WeatherError({geoError}: {geoError: GeolocationPositionError | null}) {
+function WeatherError({geoError, waitingGpsConsent}: {geoError: GeolocationPositionError | null, waitingGpsConsent: boolean}) {
   const { t } = useTranslation();
     const errorMsg =
-    geoError?.code == 1 || !geoError
+    geoError?.code == 1 || waitingGpsConsent
       ? "weather_permission"
       : "weather_error";
     return ( 

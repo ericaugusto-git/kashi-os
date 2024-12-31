@@ -97,6 +97,7 @@ i18n
           start_button: "Start Button",
           line_cap: "Line cap",
           save_your_art: "save your art",
+          loading: "loading...",
         }
     },
     ["pt-BR"]: {
@@ -180,7 +181,9 @@ i18n
             butt: "reto",
             square: "quadrado",
             color: 'cor',
-            save_your_art: "salve sua arte",
+            save_your_art: "salvar sua arte",
+            lock: 'bloquear',
+            loading: "carregando..."
         }
       }
     }

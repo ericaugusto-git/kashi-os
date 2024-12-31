@@ -6,6 +6,7 @@ import minimmize from '@/assets/contextMenu/minimize.svg';
 import new_file from '@/assets/contextMenu/new_file.svg';
 import phone from '@/assets/contextMenu/phone.svg';
 import reset from '@/assets/contextMenu/reset.svg';
+import lock from '@/assets/window/lock.svg';
 import powerOff from "@/assets/startMenu/power_off.svg";
 import sleep from "@/assets/startMenu/sleep.svg";
 import mail from '@/assets/taskbar/contact/mail.svg';
@@ -268,7 +269,11 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
         <div className={styles.separator}></div>
         <li onClick={() => setPcStatus('lofi')}>
           <div className={"svgMask " + styles.icon} style={{maskImage: `url("${lofi}")`}}></div>
-          Lofi
+          lofi
+        </li>
+        <li onClick={() => setPcStatus('lock')}>
+          <div className={"svgMask " + styles.icon} style={{maskImage: `url("${lock}")`, width: '13px'}}></div>
+          {t('lock')}
         </li>
         {pcStatus != 'sleeping' && <li onClick={handleSleep}>
           <div className={"svgMask " + styles.svgMask} style={{maskImage: `url("${sleep}")`}}></div>

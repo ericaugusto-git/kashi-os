@@ -255,7 +255,7 @@ function Desktop() {
       onDragOver={handleDragOver}
       onDrop={handleDropWrapper}
         className={
-          `${(pcStatus == "on" ? styles.desktop : styles[pcStatus])} ${styles[position]}`
+          `${(pcStatus == "on" ? styles.desktop : styles[pcStatus])} ${styles[position]} desktop_${position}`
         }
         style={{'--theme-color': themesFile[theme].color,'--font-color': themesFile[theme].font, '--accent-color': themesFile[theme].accent, '--darker-color': themesFile[theme].darker_color,  '--theme-transition-ms': transitionMs} as CSSProperties}
       >
