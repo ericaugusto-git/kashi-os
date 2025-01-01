@@ -25,7 +25,7 @@ export interface FileSystemContextType {
   createFileFromUrl: (folderPath: string, fileUrl: string, returnUrl?: boolean) => Promise<string | undefined>;
   readFile: (filePath: string) => Promise<Buffer | null>;
   readDirectory: (folderpath: string) => Promise<string[]>;
-  readFilesFromDir: (folderPath: string, getAsUrl?: boolean, mimeTypes?: { [key: string]: string }) => Promise<File[] | FileAsUrl[] | null>;
+  readFilesFromDir: (folderPath: string, getAsUrl?: boolean, filterExtension?: string[]) => Promise<File[] | FileAsUrl[] | null>;
   getFileUrl: (filePath: string, mimeType?: string) => Promise<string | undefined>;
   updateFile: (filePath:string, newContent: string) => Promise<void>;
   deletePath: (folderPath: string, fileName: string) => Promise<void>;
@@ -207,7 +207,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
    * 
    * @returns A promise that resolves to an array of file objects or file URLs of the directory.
    */
-  const readFilesFromDir = useCallback(async (folderPath: string, getAsUrl?: boolean, mimeTypes?: { [key: string]: string }): Promise<File[] | FileAsUrl[] | null>=> {
+  const readFilesFromDir = useCallback(async (folderPath: string, getAsUrl?: boolean, filterExtension?: string[]): Promise<File[] | FileAsUrl[] | null>=> {
     return new Promise((resolve, reject) => {
       if (!fs) return resolve(null);
       fs.readdir(folderPath, async (err, files) => {
@@ -220,7 +220,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
         const fileUrls: FileAsUrl[] = [];
         for(const file of files){
           const fileExtension = file.split('.').pop()?.toLowerCase();
-          if(mimeTypes && fileExtension && !(fileExtension in mimeTypes)){
+          if(filterExtension && fileExtension && !filterExtension.includes(fileExtension)){
             continue;
           }
           const buffer = await readFile(`${folderPath}/${file}`);

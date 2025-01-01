@@ -32,7 +32,7 @@ export default function EmulatorJS({
   useEffect(() => {
     const getRoms = async () => {
       // Load existing ROMs
-      const roms  = await readFilesFromDir(romsPath) as File[] ?? [];
+      const roms  = await readFilesFromDir(romsPath, false, emulatorExtensions) as File[] ?? [];
       setFileList(roms);
       if(filePath){
         const gameName = filePath?.split('/').pop()

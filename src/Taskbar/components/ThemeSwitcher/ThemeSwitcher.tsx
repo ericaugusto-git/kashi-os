@@ -6,6 +6,7 @@ import { wallpapers } from "../../../constants/wallpapers";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useWallpaper } from "../../../contexts/WallpaperContext";
 import style from "./ThemeSwitcher.module.scss";
+import { imageMimeTypes } from "@/constants/mimeTypes";
 
 interface Theme2 extends Theme {
   theme: string;
@@ -29,7 +30,7 @@ export default function ThemeSwitcher({
     const wppr = localStorage.getItem(theme + "_wallpaper");
     if(!wppr){
       // If there is no wallpaper set for theme then get the first on the wallpaper folder (gotta make sure its a image file later)
-      const wpprs = await readFilesFromDir(themes[theme].wpprsPath, true) as FileAsUrl[];
+      const wpprs = await readFilesFromDir(themes[theme].wpprsPath, true, Object.keys(imageMimeTypes)) as FileAsUrl[];
       if(wpprs?.[0]){
         return wpprs[0];
       }

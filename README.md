@@ -10,7 +10,7 @@ A web-based operating system built with React and TypeScript.
 - All the files and folders are stored on the browser [IndexDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API).
 - Files and folders creation through drag and drop and new file/folder context menu option.
 - OS configuration files are stored and accesible on the FS (path /.config/) and any changes to it are reflected immediately on the OS.
-- Currently file extensions that it tries to open (didn't try then all yet): (mp3, m3u, wav, ogg, aac, flac, m4a, wma, aiff, opus, amr, m3u8, mid, midi, kar, rmi, webm, pls, mp4, webm, mov, avi, 3gp, mpg, mpeg, m4v, ogv, 3g2, m2v, mpe, h264, mp2t, jpg, jpeg, png, gif, webp, svg, ico, bmp, tiff, tif, avif, apng, cur, jfif, pjpeg, pjp, dib, xbm, svgz) + roms supported by [EmulatorJS](https://github.com/EmulatorJS/EmulatorJS)
+- Currently file extensions that it tries to open (didn't try then all yet): (pdf, mp3, m3u, wav, ogg, aac, flac, m4a, wma, aiff, opus, amr, m3u8, mid, midi, kar, rmi, webm, pls, mp4, webm, mov, avi, 3gp, mpg, mpeg, m4v, ogv, 3g2, m2v, mpe, h264, mp2t, jpg, jpeg, png, gif, webp, svg, ico, bmp, tiff, tif, avif, apng, cur, jfif, pjpeg, pjp, dib, xbm, svgz) + roms supported by [EmulatorJS](https://github.com/EmulatorJS/EmulatorJS)
 
 🖥️ **Desktop**
   - [react-rnd](https://github.com/bokuweb/react-rnd) windows that can be minimized, maximized, closed and dragged arround, with smooth [framer-motion](https://motion.dev/) animations.

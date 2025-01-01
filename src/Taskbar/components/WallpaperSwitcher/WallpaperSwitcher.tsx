@@ -23,7 +23,7 @@ export default function WallpaperSwitcher({wallpaperSwitcherOpen, setwWallpaperS
     const [wpprs, setWpprs] = useState<FileAsUrl[]>([]);
     useEffect(() => {
         const getWpprsUrl = async () => {
-            const urls = await readFilesFromDir(themes[theme].wpprsPath, true, imageMimeTypes);
+            const urls = await readFilesFromDir(themes[theme].wpprsPath, true, Object.keys(imageMimeTypes));
             setWpprs(urls as FileAsUrl[])
         }
         getWpprsUrl();
