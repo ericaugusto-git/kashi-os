@@ -1,13 +1,7 @@
 # kashi-os
-<p>
 A web-based operating system built with React and TypeScript.
-</p>
-
-![kashi-os](https://github.com/user-attachments/assets/2035809f-a37f-4e78-8acd-52ed5d4f2210)
-
-<p>
-Inspired by linux, macOS, [hyprland](https://github.com/hyprwm/Hyprland) and [hyprdots](https://github.com/prasanthrangan/hyprdots).
-</p>
+![image](https://github.com/user-attachments/assets/2035809f-a37f-4e78-8acd-52ed5d4f2210)
+##### Inspired by linux, macOS, [hyprland](https://github.com/hyprwm/Hyprland) and [hyprdots](https://github.com/prasanthrangan/hyprdots).
 
 ## 🌟 Features
 

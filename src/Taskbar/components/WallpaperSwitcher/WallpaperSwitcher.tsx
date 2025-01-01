@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useWallpaper } from '../../../contexts/WallpaperContext';
 import style from './WallpaperSwitcher.module.scss';
+import { imageMimeTypes } from '@/constants/mimeTypes';
 
 
 
@@ -22,7 +23,7 @@ export default function WallpaperSwitcher({wallpaperSwitcherOpen, setwWallpaperS
     const [wpprs, setWpprs] = useState<FileAsUrl[]>([]);
     useEffect(() => {
         const getWpprsUrl = async () => {
-            const urls = await readFilesFromDir(themes[theme].wpprsPath, true);
+            const urls = await readFilesFromDir(themes[theme].wpprsPath, true, imageMimeTypes);
             setWpprs(urls as FileAsUrl[])
         }
         getWpprsUrl();
