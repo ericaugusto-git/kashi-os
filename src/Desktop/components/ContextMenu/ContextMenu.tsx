@@ -6,32 +6,29 @@ import minimmize from '@/assets/contextMenu/minimize.svg';
 import new_file from '@/assets/contextMenu/new_file.svg';
 import phone from '@/assets/contextMenu/phone.svg';
 import reset from '@/assets/contextMenu/reset.svg';
-import lock from '@/assets/window/lock.svg';
+import cmd from '@/assets/startMenu/cmd2.png';
 import powerOff from "@/assets/startMenu/power_off.svg";
 import sleep from "@/assets/startMenu/sleep.svg";
 import mail from '@/assets/taskbar/contact/mail.svg';
-import cmd from '@/assets/startMenu/cmd2.png';
 import taskbar_switcher from '@/assets/taskbar/taskbar_switcher.svg';
 import theme_change from '@/assets/taskbar/theme_change.svg';
 import wallpaper_change from '@/assets/taskbar/wallpaper_change.svg';
+import lock from '@/assets/window/lock.svg';
+import { TERMINAL } from '@/constants/apps';
 import { ContextMenuProps, useContextMenu } from "@/contexts/ContextMenuContext";
 import { useDesktopPositionHandler } from "@/contexts/DesktopPositonContext";
 import { useFileSystem } from "@/contexts/FileSystemContext";
 import { usePcStatus } from "@/contexts/PcStatusContext";
 import { useWindowContext } from "@/contexts/WindowContext";
 import useOpenWindow from "@/hooks/useOpenWindow";
-import { generateLayouts } from "@/utils/utils";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { FullScreenHandle } from "react-full-screen";
-import { Layouts } from "react-grid-layout";
 import { useTranslation } from "react-i18next";
 import styles from './ContextMenu.module.scss';
-import { TERMINAL } from '@/constants/apps';
 
 type MenuProps = {    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean>>, 
   setThemeSwitcherOpen: Dispatch<SetStateAction<boolean>>,
   screenHandle: FullScreenHandle,
-  setLayouts: Dispatch<SetStateAction<Layouts | null>>,
   isDesktopHidden: boolean,
   setDesktopHidden:  Dispatch<SetStateAction<boolean>>,
   folderPath?: string,
@@ -40,7 +37,7 @@ type MenuProps = {    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean
 
 let eventHandler: (event: string) => void;
 
-export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallpaperSwitcherOpen, setThemeSwitcherOpen, screenHandle, setLayouts}: MenuProps){
+export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallpaperSwitcherOpen, setThemeSwitcherOpen, screenHandle}: MenuProps){
     const contextRef = useRef<HTMLUListElement>(null);
     const [position, setPosition] = useState<{x: number, y: number} | null>(null);
     const [menuProps, setMenuProps] = useContextMenu();
@@ -98,7 +95,7 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
     return <>
     {x &&  <ul ref={contextRef} className={styles.contextMenu} style={{position: 'absolute', top: `${position?.y ?? y}px`, left: `${position?.x ?? x}px`, visibility: 'visible'}} onClick={handleClick}>
       {source == 'desktop' || source == 'folder' ? 
-      <DesktopOptions source={source} folderPath={folderPath} isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} setLayouts={setLayouts} screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : 
+      <DesktopOptions source={source} folderPath={folderPath} isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden}  screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : 
       <DesktopItemOptions source={source!}/>}
       </ul>}
     </>
@@ -134,13 +131,13 @@ function DesktopItemOptions({ source }: { source: NonNullable<ContextMenuProps>[
   </>
 }
 
-function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,setwWallpaperSwitcherOpen, setThemeSwitcherOpen,screenHandle, setLayouts, source}: MenuProps){
+function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,setwWallpaperSwitcherOpen, setThemeSwitcherOpen,screenHandle, source}: MenuProps){
   const {t} = useTranslation();
   const [pcStatus, setPcStatus] = usePcStatus();
   const changePosition = useDesktopPositionHandler();
   const [, , fileInputRef] = useContextMenu();
   const [, setWindows] = useWindowContext();
-  const {fileList, listFiles, createFolder, createFile} = useFileSystem();
+  const {deletePath, listFiles, createFolder, createFile} = useFileSystem();
 
   const handlePowerOff = () => {
     setWindows([]);
@@ -161,9 +158,10 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
       return newValue;
     });
   }
-  const resetDesktop = () => {
-    localStorage.removeItem('app-layouts');
-    setLayouts(generateLayouts(fileList?.[folderPath]).layout);
+  const resetDesktop = async () => {
+    localStorage.removeItem('desktop_icon_visibility');
+    await deletePath('/.config', 'desktop_icons_coords.json');
+    await createFile('/.config/desktop_icons_coords.json', '{}');
   }
 
 
@@ -176,7 +174,6 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
       const regex = new RegExp(`^${newDir}(\\s\\((\\d+)\\))?$`);
       return regex.test(a.name);
     }).sort((a, b) => getCount(a.name) - getCount(b.name));
-    console.log(newFolders)
     let lastFolderIndex = 0;
     // good enough for my sleep deprived brain, probably buggy, uhh nobody well ever stress it enough right?
     for(const [index, folder] of newFolders.entries()){

@@ -25,7 +25,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const variants = {
     initial:  { scale: 0.8, opacity: 0 },
     animate: { scale: 1, opacity: 1 },  
-    exit: { scale: 0.6, opacity: 0 },
+    exit: { scale: 0.8, opacity: 0 },
   };
   
   
@@ -88,7 +88,6 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
       // setDefaultStyles(!isMax ? {borderRadius: '1px'} : defaultWindowStyles);
       window.maximized = !isMax;
       setWindows((prev) => prev.map((w, i) => i == index ? window : w));
-      console.log(window)
       windowRef?.updateSize(size);
       windowRef?.updatePosition(!isMax ? {x: 0, y: position == 'top' ? taskbarHeight : 0} : {x: window.x ?? Math.round(0.08 * innerWidth) , y: window.y ?? Math.round(0.02 * innerHeight)});
     }

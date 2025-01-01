@@ -114,9 +114,24 @@ export default function Monaco({ filePath, folderPath, getFileUrl, updateFile, r
     loadFileContent();
   }, [filePath, getFileUrl]);
 
+  const validateJson = (value: string) => {
+    if (filePath?.split('.').pop() !== 'json') return true;
+    try {
+      JSON.parse(value);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+  
   const handleSave = useCallback(async () => {
     if (editorRef.current && updateFile && refreshFileList) {
       const newContent = editorRef.current.getValue();
+      const validJson = validateJson(newContent);
+      if (!validJson) {
+        alert('Invalid JSON.');
+        return;
+      }
       await updateFile(filePath!, newContent);
       refreshFileList(folderPath!);
       setHasChanges(false);

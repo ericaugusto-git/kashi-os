@@ -87,9 +87,7 @@ window.addEventListener("resize", () => {
 
     const list = await listFiles!('/home/pictures');
     if(list && createFile){
-      console.log(list)
       const count = fileCount(list, name);
-      console.log(count);
       const extension = '.png';
       const fileName = `${name.replace(extension, '')} ${count == 0 ? '' : `(${count})`}`.trim() + extension;
       const file = new File([newBlob], fileName, { type: "image/png" });

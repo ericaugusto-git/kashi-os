@@ -1,0 +1,21 @@
+.grid{
+    position: fixed;
+    height: calc(100dvh - 41.99px);
+    width: 100%;
+    margin: 0;
+    list-style: none;
+    contain: strict;
+    display: grid;
+    gap: 16px 1px;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(auto-fill, 110px);
+    grid-template-rows: repeat(auto-fill, 110px);
+    overflow: hidden;
+    padding: 5px 1px;
+    place-content: flex-start;
+    li{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+}

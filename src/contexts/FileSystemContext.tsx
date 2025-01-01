@@ -21,7 +21,7 @@ export interface FileSystemContextType {
   fileList: {[folderPath: string]: AppType[]} | null,
   handleDrop: (folderPath: string, event: React.DragEvent<HTMLDivElement>) => Promise<void>;
   refreshFileList: (folderPath: string) => Promise<void>;
-  createFile: (folderPath: string, file: File, fileSystem?: FSModule | null, dontRefresh?: boolean) => Promise<void>;
+  createFile: (path: string,contentOrFile: string | File,fileSystem?: FSModule | null, dontRefresh?: boolean) => Promise<void>;
   createFileFromUrl: (folderPath: string, fileUrl: string, returnUrl?: boolean) => Promise<string | undefined>;
   readFile: (filePath: string) => Promise<Buffer | null>;
   readDirectory: (folderpath: string) => Promise<string[]>;
@@ -55,47 +55,57 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
 
   
 
-  const createFolder = async (folderPath: string = '/', folderName: string) => {
-    if (!fs) return;
-    const fullPath = `${folderPath}/${folderName}`;
-    await new Promise<void>((resolve, reject) => {
-      fs.mkdir(fullPath, '0777', (err) => {
-        if (err) return reject(err);
-        resolve();
-      });
-    });
-    refreshFileList(folderPath);
-  };
-
-  const createFile = useCallback(async (folderPath: string = '/', file: File, fileSystem?: FSModule | null, dontRefresh?: boolean) => {
-    fileSystem = fileSystem || fs;
-    if (!fileSystem) return;
-
-    const filePath = `${folderPath}/${file.name}`;
-    try {
-      const reader = new FileReader();
-      return new Promise<void>((resolve, reject) => {
-        reader.onload = () => {
-          fileSystem.writeFile(filePath, Buffer.from(reader.result as ArrayBuffer), (err) => {
-            if (err) {
-                console.error('Error creating file:', err);
-                return reject(err);
-            } else {
-                if (!dontRefresh) {
-                    refreshFileList(folderPath);
+  const createFile = useCallback(
+    async (
+      path: string = '/',
+      contentOrFile: string | File,
+      fileSystem?: FSModule | null,
+      dontRefresh?: boolean
+    ) => {
+      fileSystem = fileSystem || fs;
+      if (!fileSystem) return;
+  
+      const isFile = contentOrFile instanceof File;
+      const fullPath = isFile
+        ? `${path}/${(contentOrFile as File).name}`
+        : path;
+  
+      try {
+        return new Promise<void>((resolve, reject) => {
+          if (isFile) {
+            const reader = new FileReader();
+            reader.onload = () => {
+              fileSystem.writeFile(fullPath, Buffer.from(reader.result as ArrayBuffer), (err) => {
+                if (err) {
+                  console.error('Error creating file:', err);
+                  reject(err);
+                } else {
+                  if (!dontRefresh) refreshFileList(path);
+                  resolve();
                 }
+              });
+            };
+            reader.readAsArrayBuffer(contentOrFile as File);
+          } else {
+            fileSystem.writeFile(fullPath, contentOrFile as string, (err) => {
+              if (err) {
+                console.error('Error creating file:', err);
+                reject(err);
+              } else {
+                if (!dontRefresh) refreshFileList(fullPath);
                 resolve();
-            }
-          });
-        };
-        reader.readAsArrayBuffer(file);
-      });
-    } catch (error) {
+              }
+            });
+          }
+        });
+      } catch (error) {
         console.error('Error processing file:', error);
         throw error;
-    }
-  }, [fs]);
-
+      }
+    },
+    [fs]
+  );
+  
 
 
 
@@ -464,6 +474,18 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     setFileList((prev) => ({...prev, [folderPath]: files || []}));
   }, [fs, listFiles]);
 
+  const createFolder = useCallback(async (folderPath: string = '/', folderName: string) => {
+    if (!fs) return;
+    const fullPath = `${folderPath}/${folderName}`;
+    await new Promise<void>((resolve, reject) => {
+      fs.mkdir(fullPath, '0777', (err) => {
+        if (err) return reject(err);
+        resolve();
+      });
+    });
+    refreshFileList(folderPath);
+  },[fs, refreshFileList]);
+
   const initializeBrowserFS = useCallback(() => {
     if(fs) return;
     BrowserFS.configure(
@@ -526,6 +548,9 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
             await createFile('/.config', new File([formattedJson], 'themes.json',  {
               type: 'application/json'
             }), fileSystem);
+          }
+          if(!await pathExists('/.config/desktop_icons_coords.json', fileSystem)){
+            await createFile('/.config', new File(['{}'], 'desktop_icons_coords.json'), fileSystem);
           }
         }
         if(hasInitializedFileSystemFirstTime !== 'true') {

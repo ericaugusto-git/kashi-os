@@ -1,10 +1,10 @@
 import GameOver from "@/GameOver/GameOver";
-import { AppType } from "@/constants/apps";
+import { APPS, AppType } from "@/constants/apps";
 import { useFileSystem } from "@/contexts/FileSystemContext";
+import { useWindowContext } from "@/contexts/WindowContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import { Layouts } from "react-grid-layout";
 import { StartSetterContext } from "../App";
 import DesktopIcons from "../DesktopIcons/DesktopIcons";
 import StartMenu from "../StartMenu/StartMenu";
@@ -22,13 +22,11 @@ import { usePcStatus } from "../contexts/PcStatusContext";
 import { useTheme } from "../contexts/ThemeContext";
 import { useWallpaper } from "../contexts/WallpaperContext";
 import useComponentVisible from "../hooks/useComponentVisible";
-import { generateLayouts } from "../utils/utils";
 import styles from "./Desktop.module.scss";
 import ContextMenu from "./components/ContextMenu/ContextMenu";
 import Lockscreen from "./components/Lockscreen/Lockscreen";
 import Lofi from "./components/Lofi/Lofi";
 import Sleep from "./components/Sleep/Sleep";
-import { useWindowContext } from "@/contexts/WindowContext";
 
 
 function Desktop() {
@@ -61,19 +59,19 @@ function Desktop() {
   }
   const handleContextMenu = useContextMenuHandler("desktop", handleCustomMenuEvent, '/home/desktop');
   const [isDesktopHidden, setDesktopHidden] = useState(localStorage.getItem("desktop_icon_visibility") === "true");
-  const [layouts, setLayouts] = useState<Layouts | null>(null);
   const [apps, setApps] = useState<AppType[] | null>(null);
   const {fileList, handleDrop, createFileFromUrl, deletePath, pathExists, readDirectory, readFile, getFileUrl, fs} = useFileSystem();
   
   useEffect(() => {
-    const setLayout = async () => {
+    const setupApps = () => {
       if(fileList){
-        const { layout, apps } = generateLayouts(fileList['/home/desktop'], layouts || undefined);
+        const files = fileList['/home/desktop'];
+        const windows = APPS.filter((a) => a.desktop);
+        const apps = files ? [...windows, ...files] : windows;
         setApps(apps);
-        setLayouts({...layout});
       }
     }
-    setLayout()
+    setupApps()
   }, [fileList]);
   
   const getWpprUrl = useCallback(async (wppr: string) => {
@@ -268,7 +266,7 @@ function Desktop() {
           </div>
         
         {/* The context menu */}
-        <ContextMenu isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} screenHandle={screenHandle} setLayouts={setLayouts} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/>
+        <ContextMenu isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden} screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/>
         {/* The wallpaper */}
         <div className={styles.wallpaper_wrapper}>
         <div className={`backgroundImage ${styles.wallpaperImg}`}  style={{backgroundImage: `url("${wpprFallback}")`}}></div>
@@ -285,7 +283,7 @@ function Desktop() {
             </Window>
             {/* <DesktopIcons /> */}
             <div style={{[position == 'top' ? 'bottom' : 'top']: 0}} onContextMenu={handleContextMenu} className={styles.desktopIconsWrapper}>
-            {!isDesktopHidden && <DesktopIcons apps={apps} layouts={layouts} setLayouts={setLayouts}/>}
+            {!isDesktopHidden && <DesktopIcons apps={apps}/>}
 
             </div>
             <StartSetterContext.Provider

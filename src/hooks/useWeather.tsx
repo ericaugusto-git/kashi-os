@@ -23,7 +23,6 @@ function useWeather() {
   const { t, i18n } = useTranslation();
   useEffect(() => {
     const fetchLocation = async () => {
-      console.log("fetching location")
       setWaitingGpsConsent(true);
       navigator.geolocation.getCurrentPosition(position => {
         setWaitingGpsConsent(false);

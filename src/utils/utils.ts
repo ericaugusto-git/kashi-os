@@ -1,5 +1,3 @@
-import { Layouts } from "react-grid-layout";
-import { APPS } from "../constants/apps";
 import { AppType } from "@/constants/apps";
 
 
@@ -75,56 +73,23 @@ export const fetchGif = async (gifId: string) => {
     return lastFolderIndex;
   }
   
-  
-
-  export const generateLayouts = (files?: AppType[] | null, layout?: Layouts): { layout: Layouts, apps: AppType[] } => {
-    const windows = APPS.filter((a) => a.desktop);
-    const apps = files ? [...windows, ...files] : windows;
-    let savedLayouts: Layouts | string | null = localStorage.getItem('app-layouts');
-  
-    if (savedLayouts && !layout) {
-      savedLayouts = JSON.parse(savedLayouts);
-      return { layout: savedLayouts as Layouts, apps };
+  export function toValidJsonKey(input: string): string {
+    if (typeof input !== "string") {
+      throw new Error("Input must be a string");
     }
   
-    layout = layout ? JSON.parse(JSON.stringify(layout)) as Layouts : {};
-    const breakpoints: Array<keyof Layouts> = ['lg', 'md', 'sm', 'xs', 'xxs'];
-    const rowHeight = 130;
-    const screenHeight = window.innerHeight - rowHeight // substract the row height to account for the taskbar
-    const maxRows = Math.floor(screenHeight / rowHeight);
+    // Remove leading/trailing whitespace
+    let sanitized = input.trim();
   
-    breakpoints.forEach((breakpoint) => {
-      const existingLayout = layout[breakpoint] || [];
-      const occupiedPositions = new Set(existingLayout.map(item => `${item.x}-${item.y}`));
-      const newLayout = apps.map((app) => {
-        // Check if the app already exists in the layout to retain its position
-        const existingItem = existingLayout.find(item => item.i === app.name);
-        if (existingItem) return existingItem;
+    // Replace invalid characters (anything not alphanumeric or underscore) with underscores
+    sanitized = sanitized.replace(/[^a-zA-Z0-9_]/g, "_");
   
-        // Start searching for the next available position
-        let position = 0;
-        let x, y;
-        do {
-          x = Math.floor(position / maxRows);
-          y = position % maxRows;
-          position++;
-        } while (occupiedPositions.has(`${x}-${y}`));
-  
-        // Mark the found position as occupied
-        occupiedPositions.add(`${x}-${y}`);
-        return {
-          i: app.name,
-          x,
-          y,
-          w: 1,
-          h: 1,
-          minW: 1,
-          minH: 1,
-        };
-      });
-      layout[breakpoint] =  JSON.parse(JSON.stringify(newLayout));
-    });
-    return { layout, apps };
-  };
+    // Ensure it doesn't start with a number
+    if (/^\d/.test(sanitized)) {
+      sanitized = "_" + sanitized;
+    }
+    // Return the sanitized key
+    return sanitized;
+  }
   
   

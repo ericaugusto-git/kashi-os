@@ -1,14 +1,14 @@
 .desktop{
     position: fixed;
+    height: calc(100% - 90px);
     margin: 0;
-    padding: 20px 10px;
     list-style: none;
+    padding: 20px 10px;
     align-items: center;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     gap: 40px;
-    height: calc(100% - 90px);
     width: fit-content;
     max-width: fit-content;
     user-select: none;

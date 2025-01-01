@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useFileSystem } from '@/contexts/FileSystemContext';
-import useOpenWindow from '@/hooks/useOpenWindow';
-import { generateLayouts } from '@/utils/utils';
-import { CSSProperties, useEffect, useRef, useState } from 'react';
-import { Layouts } from 'react-grid-layout';
-import { useTranslation } from 'react-i18next';
 import { AppType } from '@/constants/apps';
+import { defaultFolders, deletableDefaultFolders } from '@/constants/defaultFolders';
 import { useContextMenuHandler } from '@/contexts/ContextMenuContext';
 import { useDesktopPosition } from '@/contexts/DesktopPositonContext';
+import { useFileSystem } from '@/contexts/FileSystemContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import useOpenWindow from '@/hooks/useOpenWindow';
+import { CSSProperties, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './DesktopIcon.module.scss';
-import { defaultFolders, deletableDefaultFolders } from '@/constants/defaultFolders';
 
 type DesktopIconProp = {
     app: AppType,
@@ -21,11 +19,10 @@ type DesktopIconProp = {
     fromTaskbar?: boolean,
     fromFolder?: boolean,   
     isDragging?: boolean,
-    setLayouts?: React.Dispatch<React.SetStateAction<Layouts | null>>,
     folderPath?: string,
     hideLabel?: boolean
 }
-function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, fromTaskbar, isDragging, setLayouts, folderPath, fromFolder, hideLabel}: DesktopIconProp){
+function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, fromTaskbar, isDragging, folderPath, fromFolder, hideLabel}: DesktopIconProp){
     const [theme] = useTheme();
     const [position] = useDesktopPosition();
     const [renameMode, setRenameMode] = useState<boolean>();
@@ -71,18 +68,6 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
                     const oldPath = `${app.folderPath}${app.folderPath === '/' ? '' : "/"}${app.name}`;
                     const newPath = `${app.folderPath}${app.folderPath === '/' ? '' : "/"}${newValue}`;
                         renamePath(oldPath, newPath).then(() => {
-                            // update the layout so the desktop item keeps its position
-                            if(app.folderPath == '/home/desktop' && setLayouts){
-                                setLayouts((prev) => {
-                                    if(prev){
-                                    for(const key of Object.keys(prev)){
-                                        prev[key] = prev[key].map((a) => a.i == app.name ? {...a, i: newValue} : a);
-                                    }
-                                        return {...prev};
-                                    }
-                                    return generateLayouts().layout as Layouts;
-                                })
-                            }
                             refreshFileList(app.folderPath!);
                         }).catch(() => {
                             if (editableRef.current)
@@ -116,7 +101,6 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
     const startRename = () => {
         setRenameMode(true);
         setTimeout(() => {
-            console.log(editableRef.current)
             if(editableRef.current){
                 editableRef.current.focus();
                 

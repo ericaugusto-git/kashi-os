@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 
 function Weather() {
   const { weather, error, waitingGpsConsent } = useWeather();
-  console.log(weather);
   const {t} = useTranslation();
   // const weather = weatherContext?.weather
   // const forecast = weatherContext?.forecast
