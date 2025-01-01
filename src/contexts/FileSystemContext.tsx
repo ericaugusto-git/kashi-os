@@ -389,7 +389,6 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           }
 
 
-
           // Audio files
           if (extension && extension in audioMimeTypes) {
             const buffer = await readFile(fullPath);

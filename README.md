@@ -52,7 +52,7 @@ A web-based operating system built with React and TypeScript.
 - Skip, Previous, Pause, Mute controls.
 - Toggle view between audio file thumbnail or list of audio files on current folder.
 
-## 🚀 Getting Started
+## 👨‍💻 Try it out
 
 1. Create a `.env` file in the root directory with the following variables:
 ```bash
