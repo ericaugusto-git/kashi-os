@@ -25,6 +25,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { FullScreenHandle } from "react-full-screen";
 import { useTranslation } from "react-i18next";
 import styles from './ContextMenu.module.scss';
+import { fileCount } from '@/utils/utils';
 
 type MenuProps = {    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean>>, 
   setThemeSwitcherOpen: Dispatch<SetStateAction<boolean>>,
@@ -41,6 +42,7 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
     const contextRef = useRef<HTMLUListElement>(null);
     const [position, setPosition] = useState<{x: number, y: number} | null>(null);
     const [menuProps, setMenuProps] = useContextMenu();
+    const [subMenuPosition, setSubMenuPosition] = useState<string>('right');
     const { x, y, source, handleCustomMenuEvent, folderPath } = menuProps || {};
     const handleClick = (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -54,6 +56,8 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
     useEffect(() => {
         if (x && y && contextRef.current) {
             const adjustedPos = getAdjustedPosition(x, y);
+            // 500 is the width of the context menu plus submenu
+            setSubMenuPosition((window.innerWidth - x) <= 500 ? 'left' : 'right');
             setPosition(adjustedPos);
         }
     }, [x, y]);
@@ -91,9 +95,8 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
         document.removeEventListener("mousedown", handleClickOutside);
       };
     },[])
-    
     return <>
-    {x &&  <ul ref={contextRef} className={styles.contextMenu} style={{position: 'absolute', top: `${position?.y ?? y}px`, left: `${position?.x ?? x}px`, visibility: 'visible'}} onClick={handleClick}>
+    {x &&  <ul ref={contextRef} className={`${styles.contextMenu} ${styles[`${subMenuPosition}SubMenu`]}`} style={{position: 'absolute', top: `${position?.y ?? y}px`, left: `${position?.x ?? x}px`, visibility: 'visible'}} onClick={handleClick}>
       {source == 'desktop' || source == 'folder' ? 
       <DesktopOptions source={source} folderPath={folderPath} isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden}  screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : 
       <DesktopItemOptions source={source!}/>}
@@ -185,6 +188,18 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
     createFolder(folderPath, `${newDir} ${lastFolderIndex == 0 ? '' : `(${lastFolderIndex})`}`.trim());
   }
 
+  const createNewFile = async () => {
+    const list = await listFiles(folderPath);
+    if(list){
+        const defaultName = t('new_text_file');
+        const count = fileCount(list, defaultName);
+        const fileName = `${defaultName} ${count == 0 ? '' : `(${count})`}`.trim() + '.txt';
+        createFile(`${folderPath}/${fileName}`, '');
+    }
+  }
+
+
+
   useEffect(() => {
 
     const handleFileChange = (event: Event) => {
@@ -216,9 +231,20 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
         <div className={`svgMask ${styles.folder}`}   style={{maskImage: `url("folder_plus.svg")`}}></div>
           {t('new_dir', {suffix: ''})}
       </li>
-      <li onClick={handleFileInput}>
+      <li>
         <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${new_file}")`}}></div>
           {t('new_file')}
+        <div className={`svgMask ${styles.icon} ${styles.subMenuArrow}`}   style={{maskImage: `url("arrow_right_2.svg")`}}></div>
+        <ul className={`${styles.contextMenu} ${styles.submenu}`}>
+          <li role='button' onClick={handleFileInput}>
+            <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("monitor.svg")`}}></div>
+            {t('from_system')}
+            </li>
+          <li onClick={createNewFile}>
+          <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("text_file.svg")`}}></div>
+          {t('new_text_file')}
+            </li>
+        </ul>
       </li>
       <li onClick={handleOpenCmd}>
         <img src={cmd} className={styles.icon}></img>

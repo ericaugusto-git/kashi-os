@@ -29,6 +29,7 @@ function useWeather() {
           setLat(position.coords.latitude);
           setLong(position.coords.longitude);
       }, error => {
+        console.log(error)
           setError(error);
       });
     };
@@ -40,12 +41,12 @@ function useWeather() {
   const lang = i18n.resolvedLanguage?.toLocaleLowerCase()?.replace('-', '_') ?? 'en'
 
   const fetchWeather = async (langChange?: boolean) => {
-          const weatherReq = await fetch(`${wttrApiUrl}/weather/?lat=${lat}&lon=${long}&units=metric&lang=${lang}&APPID=${import.meta.env.VITE_REACT_APP_API_KEY}`);
+          const weatherReq = await fetch(`${wttrApiUrl}/weather/?lat=${lat}&lon=${long}&units=metric&lang=${lang}&APPID=${import.meta.env.VITE_REACT_WTTR_API_KEY}`);
           const weather = await weatherReq.json();
           let forecast;
           // TODO this a really ugly if
           if(!(parsedLocalWeather.lang && langChange)){
-            const forecastReq = await fetch(`${wttrApiUrl}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${import.meta.env.VITE_REACT_APP_API_KEY}&cnt=8`);
+            const forecastReq = await fetch(`${wttrApiUrl}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${import.meta.env.VITE_REACT_WTTR_API_KEY}&cnt=8`);
             forecast = await forecastReq.json();
           }
           weather.coord.lat = lat;

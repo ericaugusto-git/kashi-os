@@ -16,7 +16,6 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const [defaultSyles] = useState<React.CSSProperties>( defaultWindowStyles);
   const [noTransition, seNoTransition] = useState(false);
   const windowRefs = useRef<Array<Rnd | null>>([]);
-  const windowRef = useRef<HTMLDivElement>(null)
   const closeRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const minimizedRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const [position] = useDesktopPosition();
@@ -150,7 +149,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   //   };
   // }, [windows]);
   const windowRadius = '13px';
-  return <div ref={windowRef}>
+  return <>
     <AnimatePresence>
   {windows.map((window, index) => (
   <Rnd
@@ -216,7 +215,7 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   </Rnd>
 ))}
 </AnimatePresence>
-  </div>
+  </>
   
 };
 Window.defaultProps = {

@@ -98,6 +98,8 @@ i18n
           line_cap: "Line cap",
           save_your_art: "save your art",
           loading: "loading...",
+          from_system: "From your system",
+          new_text_file: "New text file"
         }
     },
     ["pt-BR"]: {
@@ -183,7 +185,9 @@ i18n
             color: 'cor',
             save_your_art: "salvar sua arte",
             lock: 'bloquear',
-            loading: "carregando..."
+            loading: "carregando...",
+            from_system: "Do seu sistema",
+            new_text_file: "Novo arquivo de texto",
         }
       }
     }

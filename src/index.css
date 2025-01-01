@@ -295,6 +295,8 @@ button.taskbar_icon {
   background: rgb(var(--accent-color));
 }
 
+
+
 .custom_scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: rgb(var(--accent-color));
 }
@@ -309,6 +311,11 @@ button.taskbar_icon {
 .react-calendar__tile, .react-calendar, .react-calendar__navigation button{
   color: white;
   background: transparent !important;
+  &.react-calendar__tile--now abbr{
+    background: rgb(var(--accent-color), .6) !important;
+    padding: 1px 10px;
+    border-radius: 9px;
+  }
   border: 0 !important;
   padding: 10px 6.6667px !important;
 }

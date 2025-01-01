@@ -92,7 +92,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
                 console.error('Error creating file:', err);
                 reject(err);
               } else {
-                if (!dontRefresh) refreshFileList(fullPath);
+                if (!dontRefresh) refreshFileList(fullPath.split('/').slice(0, -1).join('/'));
                 resolve();
               }
             });
@@ -521,17 +521,18 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           }
         }
         // Check if README already exists then creates it if not
-        const initializeReadme = async () => {
+        const initializeReadme = async (hasInitializedFileSystemFirstTime: boolean) => {
           try {
             await new Promise<void>((resolve) => {
               fileSystem.exists('/home/desktop/README.md', async (exists) => {
-                if (!exists) {
+                // If it hasn't been created or if it has been then it's updated
+                if ((!exists && !hasInitializedFileSystemFirstTime) || (exists && hasInitializedFileSystemFirstTime)) {
                   const readme = await fetchReadme(); // Using the utility function
                   if (readme) {
                     const file = new File([readme], 'README.md');
                     await createFile('/home/desktop', file, fileSystem);
                   }
-                }
+                } 
                 await new Promise(resolve => setTimeout(resolve, 50));
                 resolve();
               });
@@ -553,8 +554,8 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
             await createFile('/.config', new File(['{}'], 'desktop_icons_coords.json'), fileSystem);
           }
         }
+        await initializeReadme(hasInitializedFileSystemFirstTime === 'true');
         if(hasInitializedFileSystemFirstTime !== 'true') {
-          await initializeReadme();
           localStorage.setItem('hasInitializedFileSystemFirstTime', 'true');
         }
         await createConfigFile();

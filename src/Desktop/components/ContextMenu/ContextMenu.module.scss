@@ -5,7 +5,7 @@ $paddingX: 30px;
     border: 1px solid #dadada;
     background-color: rgba(var(--theme-color), 50%);
     backdrop-filter: blur(5px);
-    padding: 5px;
+    padding: 3px;
     border-radius: 6px;
     position: absolute;
     z-index: 20;
@@ -15,17 +15,15 @@ $paddingX: 30px;
     gap: 1px;
     margin: 0;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    // width: 200px;
     li{
         cursor: url("/pointer.svg") 6 0, pointer;
         padding: 1px;
-        // padding-left: $paddingX;
         padding-right: $paddingX;
-        // border-radius: 10px;
-        border-radius: 3px;
+        border-radius: 4px;
         display: flex;
         align-items: center;
         gap: 8px;
+        white-space: nowrap;
         .icon{
             width: 15px;
             height: 15px;
@@ -59,9 +57,35 @@ $paddingX: 30px;
         .svgMask{
             background-color: #49AB88;
         }
+        &:has(.submenu){
+            position: relative;
+            &:hover{
+                .submenu{
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+        }
+        .submenu{
+            position: absolute;
+            top: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .subMenuArrow{
+            position: absolute;
+            right: 0;
+        }
     }
     li:hover{
         background-color: #ececec63;
+    }
+    &.leftSubMenu .submenu{
+        right: calc(100% + 6px);
+    }
+    &.rightSubMenu .submenu{
+        left: calc(100% + 6px);
     }
 
 }
