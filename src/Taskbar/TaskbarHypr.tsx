@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useAnimate } from "framer-motion";
 import { Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import powerOff from "../assets/startMenu/power_off.svg";
@@ -30,13 +30,30 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
 
     const clockButtonRef = useRef(null);
     const windowsRef = useRef<HTMLDivElement>(null);
-
+    const [scope, animate] = useAnimate(); 
     const {t} = useTranslation();
     const [position] = useDesktopPosition();
     const changePosition = useDesktopPositionHandler();
     const  [ calendarRef, isCalendarOpen, setIsCalendarOpen ] = useComponentVisible(false, clockButtonRef);
     const [windows, setWindows] = useWindowContext();
     const [windowsDivTotalLength, setWindowsDivTotalLength] = useState(0);
+    const initialMount = useRef(true);
+
+    useEffect(() => {
+        const transitionAnimation = async () => {
+            if(initialMount.current){
+                scope.current.style[position] = 0
+                initialMount.current = false;
+            }else{
+                await animate(scope.current, {opacity: 0, duration: 0.2})
+                scope.current.style.top = 'unset'
+                scope.current.style.bottom = 'unset'
+                scope.current.style[position] = 0
+                await animate(scope.current, {opacity: 1, duration: 1})
+            }
+        }
+        transitionAnimation();
+    }, [position])
 
     useEffect(() => {
         const handleResize = () => {
@@ -70,7 +87,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
         setIsCalendarOpen(previous => !previous)
     }
     return <>
-    <div className={style.taskbar} style={{[position]: 0}}>
+    <div ref={scope} className={style.taskbar}>
         <div className={style.start} style={{marginRight: windows.length == 0 ? 'auto' : ''}}>
             <Start/>
         </div>
