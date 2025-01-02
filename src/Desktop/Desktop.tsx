@@ -275,7 +275,7 @@ function Desktop() {
         </div>
 
         {/* wrapper for the actual high elements of the desktop, Windows array, Taskbar, Desktopicons */}
-        <div style={{ display: pcStatus === "sleeping" || pcStatus === "lock" || pcStatus == "lofi" ? "none" : "" }}>
+        <div style={{ display: pcStatus !== "on" ? "none" : "" }}>
             <div ref={searchRef}><Search searchVisible={searchVisible} setSearchVisible={setSearchVisible} wallpaperUrl={wallpaperUrl!}/></div>
             <div ref={pcStatusMenuRef}><PcStatusMenu pcStatusMenuOpen={pcStatusMenuOpen} setPcStatusMenuOpen={setPcStatusMenuOpen} /></div>
             {/* Array of windows */}

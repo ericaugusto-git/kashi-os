@@ -39,6 +39,10 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
     const [windowsDivTotalLength, setWindowsDivTotalLength] = useState(0);
     const initialMount = useRef(true);
 
+    const minimizeAll = () => {
+        setWindows((previous) => previous.map(window => ({...window, active: false, minimized: true})))
+    }
+
     useEffect(() => {
         const transitionAnimation = async () => {
             if(initialMount.current){
@@ -87,7 +91,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
         setIsCalendarOpen(previous => !previous)
     }
     return <>
-    <div ref={scope} className={style.taskbar}>
+    <div ref={scope} className={style.taskbar} style={position === null || position === undefined ? {visibility: "hidden"} : {}}>
         <div className={style.start} style={{marginRight: windows.length == 0 ? 'auto' : ''}}>
             <Start/>
         </div>
@@ -118,7 +122,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
         </div>
         <div className={style.taskbar_section_wrapper}>
             <button aria-label={t("change_wpp")}  data-tooltip={t("change_wpp")} ref={wallpaperButtonRef} onClick={() => setwWallpaperSwitcherOpen(previous => !previous)}>
-                <div className="svgMask taskbar_icon" style={{maskImage: `url("${wallpaper_change}")`}}></div>
+                <div className="svgMask taskbar_icon" style={{maskImage: `url("image.svg")`}}></div>
             </button>
             <button aria-label={t("change_theme")}  data-tooltip={t("change_theme")} ref={themeButtonRef} onClick={() => setThemeSwitcherOpen(previous => !previous)}>
             <div className="svgMask taskbar_icon" style={{maskImage: `url("${theme_change}")`}}></div>
@@ -126,6 +130,9 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
             </button>
             <button role="button"  onClick={changePosition} aria-label={t("change_position")} data-tooltip={t("change_position")}>
                 <div className="svgMask taskbar_icon" style={{maskImage: `url("${taskbar_switcher}")`}}></div>
+            </button>
+            <button aria-label={t("minimize_all")}  data-tooltip={t("minimize_all")} onClick={minimizeAll}>
+                <div className="svgMask taskbar_icon" style={{maskImage: `url("${wallpaper_change}")`}}></div>
             </button>
             <button role="button" ref={pcStatusButtonRef} aria-label={t("shut")}  data-tooltip={t("shut")} onClick={() => setPcStatusMenuOpen((prev) => !prev)}>
                 <div className="svgMask taskbar_icon" style={{maskImage: `url("${powerOff}")`}}></div>

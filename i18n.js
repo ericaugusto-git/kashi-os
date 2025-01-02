@@ -99,7 +99,8 @@ i18n
           save_your_art: "save your art",
           loading: "loading...",
           from_system: "From your system",
-          new_text_file: "New text file"
+          new_text_file: "New text file",
+          minimize_all: "Minimize all",
         }
     },
     ["pt-BR"]: {
@@ -188,6 +189,7 @@ i18n
             loading: "carregando...",
             from_system: "Do seu sistema",
             new_text_file: "Novo arquivo de texto",
+            minimize_all: "Minimizar tudo",
         }
       }
     }

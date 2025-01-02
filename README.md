@@ -53,6 +53,15 @@ A web-based operating system built with React and TypeScript.
 - Skip, Previous, Pause, Mute controls.
 - Toggle view between audio file thumbnail or list of audio files on current folder.
 
+## Why
+Since I saw [this website](https://www.based.gg) three years ago (2022), I got the idea to do the samething as a portfolio. So I made this [initial version](https://ericaugusto-portfolio.netlify.app) and I wasn't really happy with it, I didn't have the skills to make things work as intended, so I dropped it to git gud at front-end dev.
+
+Two years later, I decided to pick it up again. Along the way I found a lot of inspiration on r/unixporn and especially in the work of Dustin Brett with daedalOS (the best personal website I've ever seen—absolute cinema). Dustin's project keeps showing me what's possible, which helps me keep pushing.
+
+This project is a reflection of my progress since the first version, and with it, I'm still constantly improving. 
+
+TLDR: It's just for fun like building Legos :)
+
 ## 👨‍💻 Try it out
 
 1. Create a `.env` file in the root directory with the following variables:
@@ -75,3 +84,5 @@ npm run dev
 ```bash
 npm run build
 ```
+
+
