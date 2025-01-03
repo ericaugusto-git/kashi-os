@@ -192,7 +192,7 @@ function Audio({filePath,getFileUrl, fileList, listFiles, handleDrop, folderPath
         <div className={styles.footer}>
         <div className={styles.progress_bar} onClick={handleSeek}>
           <div
-            className={styles.progress_bar_fill}
+            className={`${styles.progress_bar_fill} backgroundTransition`}
             style={{ width: `${(currentTime / duration) * 100}%` }}
           ></div>
         </div>        
