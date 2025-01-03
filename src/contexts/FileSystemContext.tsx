@@ -19,7 +19,7 @@ export type FileAsUrl = {url: string, name: string};
 export interface FileSystemContextType {
   fs: FSModule | null,
   fileList: {[folderPath: string]: AppType[]} | null,
-  handleDrop: (folderPath: string, event: React.DragEvent<HTMLDivElement>) => Promise<void>;
+  handleDrop: (folderPath: string, event: React.DragEvent<HTMLDivElement>, acceptType?: string[]) => Promise<void>;
   refreshFileList: (folderPath: string) => Promise<void>;
   createFile: (path: string,contentOrFile: string | File,fileSystem?: FSModule | null, dontRefresh?: boolean) => Promise<void>;
   createFileFromUrl: (folderPath: string, fileUrl: string, returnUrl?: boolean) => Promise<string | undefined>;
@@ -586,15 +586,16 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
   type ProcessEntryResult = Promise<FileWithPath[] | undefined>;
   
   const handleDrop = useCallback(
-    async (folderPath: string, event: React.DragEvent<HTMLDivElement>) => {
+    async (folderPath: string, event: React.DragEvent<HTMLDivElement>, acceptType?: string[]) => {
       event.preventDefault();
-  
+      
       const processEntry = async (
         entry: FileSystemEntry | null,
         currentPath: string
       ): ProcessEntryResult => {
         if (!entry) return undefined;
-  
+        const extension = entry.name.split('.').pop()?.toLowerCase();
+        if(acceptType && !acceptType.includes(extension!)) return undefined;
         if (entry.isFile) {
           const fileEntry = entry as FileSystemFileEntry;
           return new Promise<FileWithPath[]>((resolve) => {

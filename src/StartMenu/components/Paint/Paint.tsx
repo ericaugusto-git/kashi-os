@@ -130,7 +130,7 @@ const handleCanvasHover = (hovering: boolean) => {
       lineCap={lineCap}
       onSave={(blob) => downloadBlob(blob)}
       render={({ canvas, triggerSave, setColor, setLineWidth }) => (
-        <div className={styles.paint_container}>
+        <div className={`${styles.paint_container} backgroundTransition`}>
           <div className={styles.actions}>
             <div className={styles.line_config}>
             <div>
@@ -140,7 +140,7 @@ const handleCanvasHover = (hovering: boolean) => {
             <div>
 
               <label className={styles.label}>{t( eraserActive ? 'eraser_width' : 'line_width') } ({lineWidth}%)</label>
-              <input className={styles.volume} type="range" min="1" max="150" defaultValue="45" onChange={e => handleLineWidthChange(e as unknown as React.ChangeEvent<HTMLInputElement>, setLineWidth)}            />
+              <input className={`${styles.volume} backgroundTransition`} type="range" min="1" max="150" defaultValue="45" onChange={e => handleLineWidthChange(e as unknown as React.ChangeEvent<HTMLInputElement>, setLineWidth)}            />
             </div>
             <div style={{width: '220px'}}>
               <label className={styles.label}>{t('color') }</label>

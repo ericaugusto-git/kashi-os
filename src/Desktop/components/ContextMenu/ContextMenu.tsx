@@ -4,7 +4,6 @@ import lofi from '@/assets/contextMenu/lofi.svg';
 import maximize from '@/assets/contextMenu/maximize.svg';
 import minimmize from '@/assets/contextMenu/minimize.svg';
 import new_file from '@/assets/contextMenu/new_file.svg';
-import phone from '@/assets/contextMenu/phone.svg';
 import reset from '@/assets/contextMenu/reset.svg';
 import cmd from '@/assets/startMenu/cmd2.png';
 import powerOff from "@/assets/startMenu/power_off.svg";
@@ -12,7 +11,6 @@ import sleep from "@/assets/startMenu/sleep.svg";
 import mail from '@/assets/taskbar/contact/mail.svg';
 import taskbar_switcher from '@/assets/taskbar/taskbar_switcher.svg';
 import theme_change from '@/assets/taskbar/theme_change.svg';
-import wallpaper_change from '@/assets/taskbar/wallpaper_change.svg';
 import lock from '@/assets/window/lock.svg';
 import { TERMINAL } from '@/constants/apps';
 import { ContextMenuProps, useContextMenu } from "@/contexts/ContextMenuContext";
@@ -21,11 +19,11 @@ import { useFileSystem } from "@/contexts/FileSystemContext";
 import { usePcStatus } from "@/contexts/PcStatusContext";
 import { useWindowContext } from "@/contexts/WindowContext";
 import useOpenWindow from "@/hooks/useOpenWindow";
+import { fileCount } from '@/utils/utils';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { FullScreenHandle } from "react-full-screen";
 import { useTranslation } from "react-i18next";
 import styles from './ContextMenu.module.scss';
-import { fileCount } from '@/utils/utils';
 
 type MenuProps = {    setwWallpaperSwitcherOpen: Dispatch<SetStateAction<boolean>>, 
   setThemeSwitcherOpen: Dispatch<SetStateAction<boolean>>,
@@ -253,7 +251,7 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
      {source == 'desktop' &&  
      <>
       <li onClick={() => setwWallpaperSwitcherOpen(previous => !previous)} >
-        <div className={`svgMask ${styles.ghost}`}   style={{maskImage: `url("${wallpaper_change}")`}}></div>
+        <div className={`svgMask ${styles.ghost}`}   style={{maskImage: `url("image.svg")`}}></div>
           {t('change_wpp')}
         </li>
         <li onClick={() => setThemeSwitcherOpen(previous => !previous)}>
@@ -284,10 +282,6 @@ function DesktopOptions ({folderPath = '/', isDesktopHidden, setDesktopHidden,se
         <li onClick={() => handleContact('mailto:eric72001@hotmail.com')}>
           <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${mail}")`}}></div>
             eric72001@hotmail.com
-        </li>
-        <li onClick={() => handleContact('tel:+55 (71) 98188-6126')}>
-          <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${phone}")`}}></div>
-          +55 (71) 98188-6126
         </li>
         <div className={styles.separator}></div>
         <li onClick={() => setPcStatus('lofi')}>

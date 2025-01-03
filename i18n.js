@@ -101,6 +101,8 @@ i18n
           from_system: "From your system",
           new_text_file: "New text file",
           minimize_all: "Minimize all",
+          no_audio: "No audio found in",
+          drag_drop: "drag and drop here to add"
         }
     },
     ["pt-BR"]: {
@@ -190,6 +192,8 @@ i18n
             from_system: "Do seu sistema",
             new_text_file: "Novo arquivo de texto",
             minimize_all: "Minimizar tudo",
+            drag_drop: "arraste e solte aqui para adicionar",
+            no_audio: "Nenhum aúdio encontrado em"
         }
       }
     }

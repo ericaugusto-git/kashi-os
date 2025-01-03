@@ -162,16 +162,17 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     // }}
     ref={ref => windowRefs.current[index] = ref}
     dragHandleClassName={styles.header}
-  default={{ x: window.x ?? 150, y:  window.y ?? 50, width: window.width ?? "40%",height: window.height ?  (window.height == '100%' ? ((innerHeight - taskbarHeight) + 'px') : window.height ) : "400px"  }}
+  default={{ x: window.x ?? 150, y:  window.y ?? 50, width: window.width ?? "40%",height: window.height ?  (window.height == '100%' ? ((innerHeight - taskbarHeight) + 'px') : window.height ) : "400px" }}
   enableResizing={window.enableResizing ?? true}
-    minWidth={window.maxWidth ?? 350}
-    minHeight={window.maxHeight ?? 350}
+    minWidth={window.maxWidth ?? 250}
+    minHeight={window.maxHeight ?? 250}
     bounds={"."+  wrapperClass}
     onResize={() => {seNoTransition(true)}}
     onResizeStop={() => seNoTransition(false)}
     onDrag={() => {seNoTransition(true)}}
     onDragStop={(event, d) => { handleDragStop(event as React.TouchEvent | React.MouseEvent, index, d, window)} }
     style={{
+      borderRadius: windowRadius,
       zIndex: window.active ? 2 : 1,   
       transitionProperty: noTransition ? 'none' : 'width, height, transform, opacity, visibility',
       transitionDuration: '0.3s', 

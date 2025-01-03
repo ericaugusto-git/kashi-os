@@ -304,6 +304,12 @@ button.taskbar_icon {
 .custom_scrollbar::-webkit-scrollbar-thumb:active {
   background-color: rgb(var(--accent-color));
 }
+@-moz-document url-prefix() {
+  .custom_scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--accent-color)) rgb(var(--darker-color));
+  }
+}
 
 .react-calendar{
   min-height: 340px;
@@ -324,3 +330,9 @@ button.taskbar_icon {
   pointer-events: none !important;
 }
 
+
+.backgroundTransition {
+  -webkit-transition: background-color var(--theme-transition-ms) linear, color var(--theme-transition-ms) linear;
+  -ms-transition: background-color var(--theme-transition-ms) linear, color var(--theme-transition-ms) linear;
+  transition: background-color var(--theme-transition-ms) linear, color var(--theme-transition-ms) linear;
+}

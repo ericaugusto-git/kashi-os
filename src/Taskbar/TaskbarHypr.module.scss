@@ -11,6 +11,8 @@ $paddingX: 12px;
     z-index: 12;
     justify-content: end;
     font-family: 'IBM Plex Mono';
+    user-select: none;
+    -moz-user-select: none;
     span{
         color: rgb(var(--font-color));
     }

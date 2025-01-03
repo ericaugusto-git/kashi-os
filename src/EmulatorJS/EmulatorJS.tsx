@@ -192,7 +192,7 @@ export default function EmulatorJS({
   }
 
   return (
-    <div className={styles.container} style={gameUrl ? {padding: 0, height: '100%'} : {padding: '10px', height: 'calc(100% - 15px)'}}>
+    <div className={`${styles.container} backgroundTransition`} style={gameUrl ? {padding: 0, height: '100%'} : {padding: '10px', height: 'calc(100% - 15px)'}}>
       <div className={styles.header}>
         {currentCore == 'n64' && <span style={{fontSize: '11px'}}>Save is unstable with Nintendo 64, working on it :)</span>}
         {gameUrl && (

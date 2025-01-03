@@ -1,14 +1,14 @@
 import avatar from '@/assets/desktop/avatar.png';
 import jdm from '@/assets/desktop/jdm.png';
 import playlistIcon from '@/assets/startMenu/playlist.svg';
+import { FileSystemContextType } from '@/contexts/FileSystemContext';
+import { CSSProperties } from "react";
 import firefox from "../assets/desktop/firefox.svg";
 import brush from '../assets/startMenu/brush.png';
 import cmd from '../assets/startMenu/cmd2.png';
 import handshake from '../assets/startMenu/handshake.svg';
 import emulatorJs from '/EmulatorJS.png';
 import fav from '/favicon.ico';
-import { CSSProperties } from "react"
-import { FileSystemContextType } from '@/contexts/FileSystemContext';
 
 type BaseProps = {app?: AppType, closeBtnRefs?: Array<HTMLButtonElement | null>, closeRefIndex?: number};
 // re renders where not working very well with the useFileSystem inside the dynamic component, so i pass the getFileUrl as a prop.
@@ -152,6 +152,7 @@ export const PAINT: AppType = {
     enableResizing: false,
     componentPath: "@/StartMenu/components/Paint/Paint",
     cantMax: true,
+    maximized: true,
     icon: brush,
     windowStyles: {borderRadius: 0},
     height: '100%',

@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
 import { AppType } from '@/constants/apps';
 import { Grid } from '@/Grid/Grid';
 import { motion } from "framer-motion";
+import { useEffect, useState } from 'react';
 import { useDesktopPosition } from '../contexts/DesktopPositonContext';
 import useOpenWindow from '../hooks/useOpenWindow';
 import DesktopIcon from './components/DesktopIcon/DesktopIcon';
@@ -50,10 +50,8 @@ const DesktopIcons = ({apps}: { apps: AppType[] | null}) => {
 
   return (
     <>
-    {position == 'bottom' ? <>
-      <Grid apps={apps}/>
-    
-    </> : <>
+    {position == 'bottom' ? 
+         <Grid apps={apps}/>  : <>
   
   {isAnimating && <motion.menu id="desktop_icons" initial="hidden" animate={"visible"}  variants={container}   className={`${styles.desktop} ${styles[position]}`}>
        {apps?.map((app) => <motion.li  id={app.name} whileHover={{ scale:  1.05 }} whileTap={{ scale: 0.9 }}  variants={item} key={app.name} onClick={() => openWindow(app)}>

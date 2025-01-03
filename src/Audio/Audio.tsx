@@ -6,6 +6,7 @@ import pause from '@/assets/playlist//pause.svg';
 import play from '@/assets/playlist//play.svg';
 import speaker from '@/assets/playlist//speaker.svg';
 import { useTranslation } from 'react-i18next';
+import { audioMimeTypes } from '@/constants/mimeTypes';
 
 const formatDuration = (seconds: number | undefined): string => {
   if (!seconds) return '0:00';
@@ -14,7 +15,7 @@ const formatDuration = (seconds: number | undefined): string => {
   return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
 
-function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/music'}: FileProps){ 
+function Audio({filePath,getFileUrl, fileList, listFiles, handleDrop, folderPath = '/home/music'}: FileProps){ 
     const audioRef = useRef<HTMLAudioElement>(null); // Type assertion
     const [isPlaying, setIsPlaying] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
@@ -144,8 +145,18 @@ function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/mu
       }
   };
 
-    return <div className={styles.playlist}>
+  const handleDropWrapper = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    handleDrop!(folderPath, event, Object.keys(audioMimeTypes));
+  }
 
+
+    return <div className={`${styles.playlist} backgroundTransition`} onDrop={handleDropWrapper} onDragOver={(e) => e.preventDefault()}>
+{systemMusics?.length == 0 && <div className={styles.no_music}>
+   {`${t('no_audio')} ${folderPath}, ${t('drag_drop')}`}
+   <span className={`${styles.folderEmptyIcon} svgMask`} style={{maskImage: 'url("music_slash.svg")'}}></span>
+</div>}
 {playlistMode ? (
             // Playlist view
             <div className={styles.musics}>
@@ -186,7 +197,7 @@ function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/mu
           ></div>
         </div>        
         <div className={styles.music_and_actions}>            
-           { playlistMode ? <a  onClick={togglePlaylistMode} className={styles.current_music}>
+           { playlistMode ? <a style={{visibility: systemMusics.length == 0 ? 'hidden' : 'visible'}}  onClick={togglePlaylistMode} className={styles.current_music}>
               <div className={`backgroundImage ${styles.music_cover}`} style={{backgroundImage: `url(${selected?.thumbnail || 'music_icon.svg'})`}}></div>
                 <div className={styles.desc}>
                     <span className={styles.titulo_desc}>{selected?.name}</span>
@@ -194,7 +205,10 @@ function Audio({filePath,getFileUrl, fileList, listFiles, folderPath = '/home/mu
                 </div>
             </a> : <a className={styles.playlist_mode_toggle} onClick={togglePlaylistMode}>
               <div className={styles.playlist_icon}></div>
+              <span>
+
               {t('in_this_folder')}
+              </span>
               </a>}
             <div className={styles.actions}>
                 <button className={`svgMask ${styles.previous}`} onClick={previousMusic}></button>

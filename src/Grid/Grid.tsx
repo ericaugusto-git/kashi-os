@@ -5,6 +5,7 @@ import useOpenWindow from "@/hooks/useOpenWindow";
 import { toValidJsonKey } from "@/utils/utils";
 import { useEffect, useRef, useState } from 'react';
 import style from "./Grid.module.scss";
+import { motion } from "framer-motion";
 
 type IconsCoords = {[key: string]: {x: number, y: number}};
 
@@ -74,7 +75,7 @@ export const Grid = ({apps}: {apps: AppType[] | null}) => {
     };
 
     return (
-        <ul ref={gridRef} className={style.grid} onDragOver={handleDragOver} onDrop={handleDrop}>
+        <motion.ul initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.3}} ref={gridRef} className={style.grid} onDragOver={handleDragOver} onDrop={handleDrop}>
             {apps?.map((app: AppType, index) => (
                 <li 
                     draggable={true} 
@@ -95,6 +96,6 @@ export const Grid = ({apps}: {apps: AppType[] | null}) => {
                     />
                 </li>
             ))}
-        </ul>
+        </motion.ul>
     )
 }
