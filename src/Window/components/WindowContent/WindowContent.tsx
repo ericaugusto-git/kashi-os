@@ -31,7 +31,15 @@ export default function WindowContent({window, closeRefCurrent, index}: {window:
             <div className={styles.loader}></div>
         </div>}
         {window.link ? 
-            <iframe src={window.link} onLoad={() => setLoading(false)} width="100%" height="100%"></iframe> : 
+            <iframe 
+            src={window.link}
+            onLoad={() => setLoading(false)}
+            width="100%"
+            height="100%"
+            allow="camera; microphone; clipboard-write; fullscreen"
+            referrerPolicy="origin"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"
+          ></iframe> : 
             componentLoaded && LoadedComponent && 
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
                     <Suspense fallback={<div>Loading...</div>}>
