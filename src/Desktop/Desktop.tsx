@@ -54,10 +54,8 @@ function Desktop() {
   const  [themeSwitcherRef, themeSwitcherOpen, setThemeSwitcherOpen ] = useComponentVisible(false,themeButtonRef);
   const  [wallpaperSwitcherRef, wallpaperSwitcherOpen, setwWallpaperSwitcherOpen ] = useComponentVisible(false,wallpaperButtonRef);
 
-  function handleCustomMenuEvent(event: string){
-    console.log(event);
-  }
-  const handleContextMenu = useContextMenuHandler("desktop", handleCustomMenuEvent, '/home/desktop');
+
+  const handleContextMenu = useContextMenuHandler("desktop", undefined, '/home/desktop');
   const [isDesktopHidden, setDesktopHidden] = useState(localStorage.getItem("desktop_icon_visibility") === "true");
   const [apps, setApps] = useState<AppType[] | null>(null);
   const {fileList, handleDrop, createFileFromUrl, deletePath, pathExists, readDirectory, readFile, getFileUrl, fs} = useFileSystem();

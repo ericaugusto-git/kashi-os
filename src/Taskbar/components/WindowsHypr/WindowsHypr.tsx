@@ -86,9 +86,8 @@ export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength
 function WindowItem ({ window, handleDesktopIconClick }: { window: AppType, handleDesktopIconClick: (app: AppType) => void }) {
   const handleContextMenu = useContextMenuHandler('windows',undefined, undefined, window);
   const handleContextMenuWrapper = (e: React.MouseEvent<HTMLLIElement>) => {
-      e.stopPropagation();
-      e.preventDefault();
-      console.log("balls")
+     e.stopPropagation();
+     e.preventDefault();
      handleContextMenu(e);
   }
   return <motion.li

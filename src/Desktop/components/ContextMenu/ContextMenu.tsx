@@ -4,6 +4,7 @@ import lofi from '@/assets/contextMenu/lofi.svg';
 import maximize from '@/assets/contextMenu/maximize.svg';
 import minimmize from '@/assets/contextMenu/minimize.svg';
 import new_file from '@/assets/contextMenu/new_file.svg';
+import download from '@/assets/paint/download.svg';
 import reset from '@/assets/contextMenu/reset.svg';
 import cmd from '@/assets/startMenu/cmd2.png';
 import powerOff from "@/assets/startMenu/power_off.svg";
@@ -107,9 +108,7 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
 function WindowsItemOptions({app}: {app?: AppType}) {
   const {t} = useTranslation();
   const closeWindow = useCloseWindow();
-  console.log(app)
   const handleCloseWindow = () => {
-    console.log("closing")
     closeWindow(app!);
   }
 
@@ -134,7 +133,6 @@ function WindowsItemOptions({app}: {app?: AppType}) {
 
 function DesktopItemOptions({ source, appIcon }: { source: NonNullable<ContextMenuProps>['source'], appIcon?: string }) {
   const {t} = useTranslation();
-  console.log(appIcon)
   return <>
       <li onClick={() => eventHandler('open')}>
         <img className={styles.open_icon} src={appIcon}></img>
@@ -146,8 +144,12 @@ function DesktopItemOptions({ source, appIcon }: { source: NonNullable<ContextMe
     <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("trash.svg")`}}></div>
     {t(`delete`)}
     </li>
+    <li onClick={() => eventHandler('download')}>
+    <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${download}")`}}></div>
+    {t(`download`)}
+    </li>
     <li onClick={() => eventHandler('rename')}>
-    <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("edit.svg")`}}></div>
+    <div className={`svgMask ${styles.icon} ${styles.rename}`}   style={{maskImage: `url("edit.svg")`}}></div>
         {t(`rename`)}
       </li>
     </>

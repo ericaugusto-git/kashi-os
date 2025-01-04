@@ -28,7 +28,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
     const [renameMode, setRenameMode] = useState<boolean>();
     const editableRef = useRef<HTMLSpanElement>(null);
     const buttonRef = useRef<HTMLAnchorElement>(null);
-    const {refreshFileList ,renamePath, deletePath} = useFileSystem();
+    const {refreshFileList ,renamePath, deletePath, downloadPath} = useFileSystem();
     const openWindow = useOpenWindow();
     const { t } = useTranslation();
 
@@ -44,8 +44,12 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
             case 'delete':
                 if(app.folderPath) deletePath(app.folderPath, app.name!);
                 break;
+            case 'download':
+                downloadPath(`${app.folderPath}/${app.name}`);
+                break;
         }
     }
+
     const handleContextMenu = useContextMenuHandler(app.appType == 'file' ? 'file' : 'app', handleCustomMenuEvent, folderPath, app);
 
     // this was a logic to translate the folder name, but it was removed because it's dumb and troublesome

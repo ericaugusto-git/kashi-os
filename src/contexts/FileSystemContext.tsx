@@ -12,7 +12,7 @@ import { Buffer } from 'buffer';
 import { Stats } from 'fs';
 import * as musicMetadata from 'music-metadata-browser';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
-
+import JSZip from 'jszip';
 
 export type FileAsUrl = {url: string, name: string};
 
@@ -37,6 +37,9 @@ export interface FileSystemContextType {
   pathExists: (path: string) => Promise<boolean>;
   getStats: (path: string) => Promise<Stats | null>;
   getTotalSize: (path: string) => Promise<number>;
+  downloadFile: (filePath: string) => Promise<void> | undefined;
+  downloadFolderAsZip: (folderPath: string) => Promise<void>;
+  downloadPath: (path: string) => Promise<void>;
 }
 
 const FileSystemContext = createContext<FileSystemContextType | undefined>(undefined);
@@ -265,9 +268,19 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           });
         })
         .catch(e => {
-          console.log(e);
           reject(e);
         });
+    });
+  }, [fs]);
+
+  const getStats = useCallback((path: string): Promise<Stats | null> => {
+    return new Promise((resolve) => {
+      if (!fs) return resolve(null);
+      fs.stat(path, (err, stats) => {
+        if (err) return resolve(null);
+        // Double type assertion to safely convert between incompatible Stats types
+        resolve(stats as unknown as Stats);
+      });
     });
   }, [fs]);
 
@@ -578,6 +591,61 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
 
 
 
+
+  const downloadFile = useCallback((filePath: string): Promise<void> | undefined => {
+    if (!fs) return;
+    return new Promise<void>((resolve, reject) => {
+      getFileUrl(filePath).then(url => {
+        const a = document.createElement('a');
+        a.href = url!;
+        a.download = filePath.split('/').pop() || 'file';
+        a.click();
+        URL.revokeObjectURL(url!);
+        resolve();
+      }).catch(reject);
+    })
+  }, [fs, getFileUrl]);
+
+  const downloadFolderAsZip = useCallback(async (folderPath: string): Promise<void> => {
+    if (!fs) return;
+    const zip = new JSZip();
+    const addFolderToZip = async (folderPath: string, zipFolder: JSZip) => {
+      const files = await readDirectory(folderPath);
+      for (const file of files) {
+        const fullPath = `${folderPath}/${file}`;
+        const stats = await getStats(fullPath);
+        if (stats?.isDirectory()) {
+          const newZipFolder = zipFolder.folder(file);
+          await addFolderToZip(fullPath, newZipFolder!);
+        } else {
+          const fileData = await readFile(fullPath);
+          zipFolder.file(file, fileData!);
+        }
+      }
+    };
+
+    
+
+    await addFolderToZip(folderPath, zip);
+    const content = await zip.generateAsync({ type: 'blob' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(content);
+    a.download = `${folderPath.split('/').pop() || 'folder'}.zip`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }, [fs, readDirectory, readFile, getStats]);
+
+  const downloadPath = useCallback(async (path: string) => {
+    if (!fs) return;
+    const stats = await getStats(path);
+    if(stats?.isDirectory()){
+      return downloadFolderAsZip(path);
+    }else{
+      return downloadFile(path);
+    }
+  }, [fs, downloadFile, downloadFolderAsZip, getStats]);
+
+
   interface FileWithPath {
     path: string;
     file: File;
@@ -736,16 +804,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
     });
   }, [fs]);
 
-  const getStats = useCallback((path: string): Promise<Stats | null> => {
-    return new Promise((resolve) => {
-      if (!fs) return resolve(null);
-      fs.stat(path, (err, stats) => {
-        if (err) return resolve(null);
-        // Double type assertion to safely convert between incompatible Stats types
-        resolve(stats as unknown as Stats);
-      });
-    });
-  }, [fs]);
+
   
   const getTotalSize = useCallback(async (path: string): Promise<number> => {
     const files = await listFiles(path);
@@ -790,7 +849,10 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
       format,
       createFileFromUrl,
       getStats,
-      getTotalSize
+      getTotalSize,
+      downloadFile,
+      downloadFolderAsZip,
+      downloadPath
     }}>
       {children}
     </FileSystemContext.Provider>

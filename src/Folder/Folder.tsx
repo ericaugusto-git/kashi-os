@@ -19,10 +19,8 @@ function Folder({ filePath = '/home', fileList, listFiles, pathExists }: FilePro
   const { t } = useTranslation();
   const { handleDrop, createFile } = useFileSystem();
   const openWindow = useOpenWindow();
-  const handleCustomMenuEvent = (event: string) => {
-    console.log(event)
-  }
-  const handleContextMenu = useContextMenuHandler('folder', handleCustomMenuEvent, currentPath);
+
+  const handleContextMenu = useContextMenuHandler('folder', undefined, currentPath);
 
   useEffect(() => {
     const createDefaultFiles = async () => {

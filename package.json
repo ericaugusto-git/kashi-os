@@ -25,6 +25,7 @@
     "framer-motion": "^11.0.24",
     "i18next": "^23.11.2",
     "i18next-browser-languagedetector": "^7.2.1",
+    "jszip": "^3.10.1",
     "local-echo": "github:wavesoft/local-echo",
     "moment": "^2.30.1",
     "monaco-editor": "^0.52.0",
