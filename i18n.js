@@ -193,10 +193,12 @@ i18n
             new_text_file: "Novo arquivo de texto",
             minimize_all: "Minimizar tudo",
             drag_drop: "arraste e solte aqui para adicionar",
-            no_audio: "Nenhum aúdio encontrado em"
+            no_audio: "Nenhum aúdio encontrado em",
+            download: "baixar",
         }
       }
     }
   });
 
 export default i18n;
+

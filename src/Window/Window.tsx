@@ -200,7 +200,10 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
             <div style={{ maskImage: `url(${window.icon})`, width: "21px", height: "19px" }} className="svgMask"></div>
           ) : <img src={window.icon} style={{width: "21px", height: "19px"}}></img>} */}
           <img src={window.icon} ></img>
-            <span title={t(window.titleBarName || window.name)}>{t(window.titleBarName || window.name)}</span>
+            {(() => {
+            const name = t(window.titleBarName || window.name);
+            return window.link ? <a target='_blank' title={name} href={window.link}>{name}</a> : <span title={name}> {name}</span>
+            })()}
           </div>
 
           {/* {window.link && <div className={styles.link}><div style={{maskImage: `url("${lock}")`, minWidth: "14px", height: "14px"}} className='svgMask'></div> <a href={window.link} target='_blank'>{window.link.replace('https://', '').replace('http://', '').split('?')[0]}</a></div>} */}

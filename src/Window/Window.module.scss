@@ -79,7 +79,7 @@ $borderRadius: 13px;
         height: 14px;
         -webkit-user-drag: none;
       }
-      span{
+      span, a{
         font-size: 12px;
         overflow: hidden;
         white-space: nowrap;
@@ -87,6 +87,12 @@ $borderRadius: 13px;
         line-clamp: 1;
         -webkit-line-clamp: 1;
         font-family: 'IBM Plex Mono';
+      }
+      a{
+        text-decoration: none;
+        &:hover{
+          color: rgb(var(--accent-color));
+        }
       }
     }
   }
