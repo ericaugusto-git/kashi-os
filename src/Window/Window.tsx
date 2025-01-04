@@ -8,6 +8,7 @@ import { useWindowContext } from '../contexts/WindowContext';
 import useCloseWindow from '../hooks/useCloseWindow';
 import WindowContent from './components/WindowContent/WindowContent';
 import styles from './Window.module.scss';
+import { taskbarHeight } from '@/Taskbar/TaskbarHypr';
 
 
 const Window = ({wrapperClass}: {wrapperClass: string}) => {
@@ -19,7 +20,6 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
   const closeRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const minimizedRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const [position] = useDesktopPosition();
-  const taskbarHeight = 37;
   const { t } = useTranslation();
   const variants = {
     initial:  { scale: 0.8, opacity: 0 },

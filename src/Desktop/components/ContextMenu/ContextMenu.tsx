@@ -11,13 +11,15 @@ import sleep from "@/assets/startMenu/sleep.svg";
 import mail from '@/assets/taskbar/contact/mail.svg';
 import taskbar_switcher from '@/assets/taskbar/taskbar_switcher.svg';
 import theme_change from '@/assets/taskbar/theme_change.svg';
+import close from '@/assets/window/close.svg';
 import lock from '@/assets/window/lock.svg';
-import { TERMINAL } from '@/constants/apps';
+import { AppType, TERMINAL } from '@/constants/apps';
 import { ContextMenuProps, useContextMenu } from "@/contexts/ContextMenuContext";
 import { useDesktopPositionHandler } from "@/contexts/DesktopPositonContext";
 import { useFileSystem } from "@/contexts/FileSystemContext";
 import { usePcStatus } from "@/contexts/PcStatusContext";
 import { useWindowContext } from "@/contexts/WindowContext";
+import useCloseWindow from '@/hooks/useCloseWindow';
 import useOpenWindow from "@/hooks/useOpenWindow";
 import { fileCount } from '@/utils/utils';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
@@ -78,7 +80,7 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
             adjustedY = windowHeight - menuRect.height;
         }
 
-        return { x: adjustedX, y: adjustedY };
+        return { x: adjustedX, y: source == 'windows' ? adjustedY : adjustedY };
     };
 
     useEffect(() => {
@@ -97,24 +99,55 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
     {x &&  <ul ref={contextRef} className={`${styles.contextMenu} ${styles[`${subMenuPosition}SubMenu`]}`} style={{position: 'absolute', top: `${position?.y ?? y}px`, left: `${position?.x ?? x}px`, visibility: 'visible'}} onClick={handleClick}>
       {source == 'desktop' || source == 'folder' ? 
       <DesktopOptions source={source} folderPath={folderPath} isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden}  screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : 
-      <DesktopItemOptions source={source!}/>}
+      source === 'windows' ? <WindowsItemOptions app={menuProps?.app}/> : <DesktopItemOptions source={source!} appIcon={menuProps?.app?.icon}/>}
       </ul>}
     </>
 }
 
-
-function DesktopItemOptions({ source }: { source: NonNullable<ContextMenuProps>['source'] }) {
+function WindowsItemOptions({app}: {app?: AppType}) {
   const {t} = useTranslation();
+  const closeWindow = useCloseWindow();
+  console.log(app)
+  const handleCloseWindow = () => {
+    console.log("closing")
+    closeWindow(app!);
+  }
+
+  return <>
+  {/* <li>
+    {t('open')}
+  </li>
+  <li>
+    <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${minimize}")`}}></div>
+    {t('minimize')}
+  </li>
+  <li>
+    <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("${maximize_w}")`}}></div>
+    {t('maximize')}
+  </li> */}
+  <li onClick={handleCloseWindow}>
+    <div className={`svgMask ${styles.icon}`}  style={{maskImage: `url("${close}")`}}></div>
+    {t('close')}
+  </li>
+  </>
+}
+
+function DesktopItemOptions({ source, appIcon }: { source: NonNullable<ContextMenuProps>['source'], appIcon?: string }) {
+  const {t} = useTranslation();
+  console.log(appIcon)
   return <>
       <li onClick={() => eventHandler('open')}>
+        <img className={styles.open_icon} src={appIcon}></img>
         {t(`open`)}
       </li>
 {source == 'file'  &&  
     <>
     <li onClick={() => eventHandler('delete')}>
+    <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("trash.svg")`}}></div>
     {t(`delete`)}
     </li>
     <li onClick={() => eventHandler('rename')}>
+    <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("edit.svg")`}}></div>
         {t(`rename`)}
       </li>
     </>

@@ -46,7 +46,7 @@ function DesktopIcon({app, imgWrapperStyles, buttonStyles, svgStyles, svgMask, f
                 break;
         }
     }
-    const handleContextMenu = useContextMenuHandler(app.appType == 'file' ? 'file' : 'app', handleCustomMenuEvent, folderPath);
+    const handleContextMenu = useContextMenuHandler(app.appType == 'file' ? 'file' : 'app', handleCustomMenuEvent, folderPath, app);
 
     // this was a logic to translate the folder name, but it was removed because it's dumb and troublesome
     // let folderName = app.name;

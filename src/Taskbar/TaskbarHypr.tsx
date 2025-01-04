@@ -17,6 +17,8 @@ import Performance from "./components/Performance/Performance";
 import Start from "./components/Start/Start";
 import WindowsHypr from "./components/WindowsHypr/WindowsHypr";
 
+export const taskbarHeight = 37;
+
 type TaskbarProps = {
     setPcStatusMenuOpen: Dispatch<SetStateAction<boolean>>, 
     pcStatusButtonRef: MutableRefObject<HTMLButtonElement | null>

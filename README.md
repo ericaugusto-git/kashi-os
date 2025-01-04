@@ -17,6 +17,7 @@
   - Right click context menu with dynamic options depending on target (file, folder, desktop area, etc).
   - Start menu with options to change the OS status (off/sleep) and a list of apps with search. Also displays [giphy api](https://developers.giphy.com/) gifs that changes depending on theme.
   - Custom desktop grid layout that has draggable desktop icons with persistent positioning.
+  - [Calendar](https://github.com/wojtekmaj/react-calendar) and [Weather Forecast](https://openweathermap.org)
   
 🖼️ **Personalization**
   - Three different default themes (Lake slate, Nord and Cozy)

@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 import { AppType } from "@/constants/apps";
 import { useTheme } from "../../../contexts/ThemeContext";
 import styles from './WindowsHypr.module.scss';
+import { useContextMenuHandler } from "@/contexts/ContextMenuContext";
 
 export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength }: { windows: AppType[], setWindows: Dispatch<SetStateAction<AppType[]>>, windowsDivTotalLength: number }) {
   const iconSize = 21;
@@ -48,21 +49,11 @@ export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength
   };
 
   return (
-    <div className={styles.taskbarContainer} style={{'--icon-size': iconSize} as CSSProperties}>
+    <div className={styles.taskbarContainer}  style={{'--icon-size': iconSize} as CSSProperties}>
       <motion.ul ref={taskbarRef} className={`${styles.windows} ${styles[theme]}`}>
         <AnimatePresence>
           {visibleWindows.map((window: AppType) => (
-            <motion.li
-              initial={{ padding: '2px 0' }}
-              transition={{ duration: 0.2 }}
-              animate={{ padding: window.active ? '2px 18px' : '2px 0' }}
-              exit={{ padding: 0, width: 0, opacity: 0, margin: 0 }}
-              key={window.name}
-              className={window.active ? styles.active : ''}
-              onClick={() => handleDesktopIconClick(window)}
-            >
-              <img className={styles.icon} src={window.icon} alt={window.name} />
-            </motion.li>
+            <WindowItem window={window} handleDesktopIconClick={handleDesktopIconClick} key={window.name} />
           ))}
         </AnimatePresence>
       </motion.ul>
@@ -82,17 +73,7 @@ export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength
               className={`${styles.overflowMenu} custom_scrollbar`}
             >
               {overflowingWindows.map((window: AppType) => (
-                <motion.li
-                  initial={{ padding: '2px 0' }}
-                  transition={{ duration: 0.2 }}
-                  animate={{ padding: window.active ? '2px 18px' : '2px 0' }}
-                  exit={{ padding: 0, width: 0, opacity: 0, margin: 0 }}
-                  key={window.name}
-                  className={window.active ? styles.active : ''}
-                  onClick={() => handleDesktopIconClick(window)}
-                >
-                  <img className={styles.icon} src={window.icon} alt={window.name} />
-                </motion.li>
+                <WindowItem window={window} handleDesktopIconClick={handleDesktopIconClick} key={window.name} />
               ))}
             </motion.ul>
           )}
@@ -100,4 +81,26 @@ export default function WindowsHypr({ windows, setWindows, windowsDivTotalLength
       )}
     </div>
   );
+}
+
+function WindowItem ({ window, handleDesktopIconClick }: { window: AppType, handleDesktopIconClick: (app: AppType) => void }) {
+  const handleContextMenu = useContextMenuHandler('windows',undefined, undefined, window);
+  const handleContextMenuWrapper = (e: React.MouseEvent<HTMLLIElement>) => {
+      e.stopPropagation();
+      e.preventDefault();
+      console.log("balls")
+     handleContextMenu(e);
+  }
+  return <motion.li
+  role="button"
+    onContextMenu={handleContextMenuWrapper}
+    initial={{ padding: '2px 0' }}
+    transition={{ duration: 0.2 }}
+    animate={{ padding: window.active ? '2px 18px' : '2px 0' }}
+    exit={{ padding: 0, width: 0, opacity: 0, margin: 0 }}
+    className={window.active ? styles.active : ''}
+    onClick={() => handleDesktopIconClick(window)}
+  >
+    <img  className={styles.icon} src={window.icon} alt={window.name} />
+  </motion.li>
 }

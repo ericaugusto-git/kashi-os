@@ -1,13 +1,15 @@
+import { AppType } from "@/constants/apps";
 import { createContext, ReactNode, useContext, useRef, useState } from "react";
 
 
 export type ContextMenuProps = {
   x: number, 
   y: number, 
-  source: 'desktop' | 'app' | 'file' | 'folder', 
-  handleCustomMenuEvent: (event: string) => void,
+  source: 'desktop' | 'app' | 'file' | 'folder' | 'windows', 
+  handleCustomMenuEvent?: (event: string) => void,
   folderPath?: string,
-  fileInputRef?: React.RefObject<HTMLInputElement>
+  fileInputRef?: React.RefObject<HTMLInputElement>,
+  app?: AppType,
 } | null | undefined;
 
 type MenuContextType = [
@@ -40,14 +42,14 @@ function useContextMenu(){
     return context  
 }
 
-function useContextMenuHandler(source:  NonNullable<ContextMenuProps>['source'], handleCustomMenuEvent:  NonNullable<ContextMenuProps>['handleCustomMenuEvent'], folderPath?: NonNullable<ContextMenuProps>['folderPath']) {
+function useContextMenuHandler(source:  NonNullable<ContextMenuProps>['source'], handleCustomMenuEvent?:  NonNullable<ContextMenuProps>['handleCustomMenuEvent'], folderPath?: NonNullable<ContextMenuProps>['folderPath'], app?: AppType) {
     const [, setMenuProps] = useContextMenu();
 
     const handleContextMenu = (e: React.MouseEvent) => {
       e.stopPropagation();
       e.preventDefault();
       const { pageX, pageY } = e;
-      setMenuProps({ x: pageX, y: pageY, source, handleCustomMenuEvent, folderPath });
+      setMenuProps({ x: pageX, y: pageY, source, handleCustomMenuEvent, folderPath, app });
     };
   
     return handleContextMenu;
