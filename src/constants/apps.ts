@@ -242,7 +242,7 @@ export const DISCORD_CLONE: AppType = {
     desktopStyles: {
         img: { backgroundSize: '100%' }
     },
-    link: 'https://discourse-live-chat.onrender.com',
+    link: 'https://discourse-live-chat.onrender.com/setup',
     componentPath: "@/UnderDev/UnderDev"
 };
 
