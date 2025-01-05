@@ -100,7 +100,7 @@ export default function ContextMenu({isDesktopHidden, setDesktopHidden,setwWallp
     {x &&  <ul ref={contextRef} className={`${styles.contextMenu} ${styles[`${subMenuPosition}SubMenu`]}`} style={{position: 'absolute', top: `${position?.y ?? y}px`, left: `${position?.x ?? x}px`, visibility: 'visible'}} onClick={handleClick}>
       {source == 'desktop' || source == 'folder' ? 
       <DesktopOptions source={source} folderPath={folderPath} isDesktopHidden={isDesktopHidden} setDesktopHidden={setDesktopHidden}  screenHandle={screenHandle} setThemeSwitcherOpen={setThemeSwitcherOpen} setwWallpaperSwitcherOpen={setwWallpaperSwitcherOpen}/> : 
-      source === 'windows' ? <WindowsItemOptions app={menuProps?.app}/> : <DesktopItemOptions source={source!} appIcon={menuProps?.app?.icon}/>}
+      source === 'windows' ? <WindowsItemOptions app={menuProps?.app}/> : <DesktopItemOptions app={menuProps?.app} source={source!}/>}
       </ul>}
     </>
 }
@@ -131,11 +131,11 @@ function WindowsItemOptions({app}: {app?: AppType}) {
   </>
 }
 
-function DesktopItemOptions({ source, appIcon }: { source: NonNullable<ContextMenuProps>['source'], appIcon?: string }) {
+function DesktopItemOptions({ source, app }: { source: NonNullable<ContextMenuProps>['source'], app: AppType | undefined }) {
   const {t} = useTranslation();
   return <>
       <li onClick={() => eventHandler('open')}>
-        <img className={styles.open_icon} src={appIcon}></img>
+        <img className={styles.open_icon} src={app?.icon}></img>
         {t(`open`)}
       </li>
 {source == 'file'  &&  
@@ -154,16 +154,14 @@ function DesktopItemOptions({ source, appIcon }: { source: NonNullable<ContextMe
       </li>
     </>
 }
-{ source == 'app' && 
-    <>
-        {/* <li>
-          Open in files
-        </li> */}
-        {/* <li>
-          About this project
-        </li> */}
-    </>
-   }
+{source == 'project' && 
+  <>
+{ app?.repo &&        <li onClick={() => window.open(app?.repo, '_blank')}>
+      <div className={`svgMask ${styles.icon}`}   style={{maskImage: `url("github.svg")`}}></div>
+      {t(`repo`)}
+      </li>}
+  </>
+}
   </>
 }
 

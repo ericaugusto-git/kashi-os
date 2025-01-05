@@ -51,7 +51,6 @@ $borderRadius: 13px;
     box-sizing: border-box;
     iframe{
       border: none;
-      border-radius: 5px;
     }
   }
 
@@ -80,6 +79,7 @@ $borderRadius: 13px;
         -webkit-user-drag: none;
       }
       span, a{
+        -webkit-user-drag: none;
         font-size: 12px;
         overflow: hidden;
         white-space: nowrap;

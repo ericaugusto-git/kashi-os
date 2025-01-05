@@ -1,11 +1,11 @@
-import { AppType } from "@/constants/apps";
+import { AppType, AppTypeType } from "@/constants/apps";
 import { createContext, ReactNode, useContext, useRef, useState } from "react";
 
 
 export type ContextMenuProps = {
   x: number, 
   y: number, 
-  source: 'desktop' | 'app' | 'file' | 'folder' | 'windows', 
+  source: 'desktop' | 'folder' | 'windows' | AppTypeType, 
   handleCustomMenuEvent?: (event: string) => void,
   folderPath?: string,
   fileInputRef?: React.RefObject<HTMLInputElement>,

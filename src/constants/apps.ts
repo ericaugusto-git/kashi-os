@@ -1,4 +1,3 @@
-import avatar from '@/assets/desktop/avatar.png';
 import jdm from '@/assets/desktop/jdm.png';
 import playlistIcon from '@/assets/startMenu/playlist.svg';
 import { FileSystemContextType } from '@/contexts/FileSystemContext';
@@ -19,6 +18,8 @@ export type FileProps = {
 } & Partial<FileSystemContextType>;
 export type WindowProps = BaseProps & FileProps;
 export type WindowConteudo = (props: WindowProps) => JSX.Element;
+// hihihi
+export type AppTypeType = "project" | "os" | "file";
 
 export type AppType = {
     // WINDOW CONFIG
@@ -66,7 +67,7 @@ export type AppType = {
     /** Name of the application */
     titleBarName?: string,
     /** Type of the application */
-    appType: "project" | "os" | "file",
+    appType: AppTypeType,
     /** Whether the app should appear on desktop */
     desktop?: boolean,
     /** Whether to hide the app in start menu */
@@ -110,7 +111,9 @@ export type AppType = {
         svg?: CSSProperties
     },
     /** URL for iframe content */
-    link?: string
+    link?: string,
+    /** Git repo if its a project */
+    repo?: string
 }
 
 // System Applications
@@ -163,7 +166,7 @@ export const PAINT: AppType = {
 
 export const AUDIO_PLAYER: AppType = {
     name: "audio_player",
-    hideInStartMenu: true,
+    // hideInStartMenu: true,
     componentPath: "@/Audio/Audio",
     appType: 'os',
     icon: 'audio_icon.svg'
@@ -216,15 +219,15 @@ export const VM: AppType = {
 };
 
 // Personal and Portfolio
-export const ABOUT_ME: AppType = {
-    name: "about_me",
-    appType: 'os',
-    link: 'https://ericaugusto.pages.dev',
-    icon: avatar,
-    desktopStyles: {
-        img: { backgroundSize: '100%' }
-    }
-};
+// export const ABOUT_ME: AppType = {
+//     name: "about_me",
+//     appType: 'os',
+//     link: 'https://ericaugusto.pages.dev',
+//     icon: avatar,
+//     desktopStyles: {
+//         img: { backgroundSize: '100%' }
+//     }
+// };
 
 export const CREDITS: AppType = {
     name: "credits",
@@ -238,12 +241,12 @@ export const CREDITS: AppType = {
 export const DISCORD_CLONE: AppType = {
     name: "discord_clone",
     appType: 'project',
-    icon: 'projects/discourse.svg',
+    icon: 'projects/discourse.svg', 
     desktopStyles: {
         img: { backgroundSize: '100%' }
     },
-    link: 'https://discourse-live-chat.onrender.com/directs',
-    componentPath: "@/UnderDev/UnderDev"
+    link: 'https://discourse-live-chat.onrender.com',
+    repo: 'https://github.com/ericaugusto-git/discord-clone'
 };
 
 export const JDM_STORE: AppType = {
@@ -256,12 +259,13 @@ export const JDM_STORE: AppType = {
     }
 };
 
-export const RECIPE_BOOK: AppType = {
-    name: "recipe_book",
+export const PORTFOLIO: AppType = {
+    name: "portfolio",
     appType: 'project',
     hideInStartMenu: true,
-    icon: 'projects/cookbook.svg',
-    componentPath: "@/UnderDev/UnderDev"
+    icon: 'projects/portfolio.svg',
+    link: 'https://ericaugusto.pages.dev/',
+    repo: 'https://github.com/ericaugusto-git/portfolio'
 };
 
 // Array of all windows, organized by category
@@ -280,10 +284,9 @@ export const APPS: AppType[] = [
     DINO,
     BROWSER,
     VM,
-    ABOUT_ME,
     
     // Projects
     DISCORD_CLONE,
     JDM_STORE,
-    RECIPE_BOOK
+    PORTFOLIO
 ];
