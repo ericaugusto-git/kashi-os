@@ -1,5 +1,6 @@
 import { AppType } from '@/constants/apps';
 import { useWindowContext } from '../contexts/WindowContext';
+import { taskbarHeight } from '@/Taskbar/TaskbarHypr';
 
 const INITIAL_OFFSET = 50; // Initial offset from top-left
 const OFFSET_INCREMENT = 30; // Offset increment for each new window
@@ -38,6 +39,13 @@ function useOpenWindow(): (app: AppType) => void {
             app = JSON.parse(JSON.stringify(app));
             app.titleBarName = app.titleBarName ?? app.name;
             app.name = app.name + Math.random().toString(36).substring(2, 15);
+        }
+
+        if(app.maximized){
+             app.width = '100%';
+             app.height = (innerHeight - taskbarHeight) + 'px';
+             app.x = 0;
+             app.y = 0;
         }
 
         setWindows(prevWindows => {

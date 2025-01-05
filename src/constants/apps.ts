@@ -157,11 +157,6 @@ export const PAINT: AppType = {
     cantMax: true,
     maximized: true,
     icon: brush,
-    windowStyles: {borderRadius: 0},
-    height: '100%',
-    width: "100%",
-    x: 0,
-    y: 0
 };
 
 export const AUDIO_PLAYER: AppType = {
@@ -245,6 +240,7 @@ export const DISCORD_CLONE: AppType = {
     desktopStyles: {
         img: { backgroundSize: '100%' }
     },
+    maximized: true,
     link: 'https://discourse-live-chat.onrender.com',
     repo: 'https://github.com/ericaugusto-git/discord-clone'
 };

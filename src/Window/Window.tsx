@@ -83,12 +83,12 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
     const windowRef = windowRefs.current[index];
     if(windowRef){
       const isMax = isMaximized(index);
-      const size = isMax ? {width: "40%", height: window.height ?? '400px'} : {width: "100%", height: (innerHeight - taskbarHeight) + 'px'};
+      const size = isMax ? {width: "40%", height: '400px'} : {width: "100%", height: (innerHeight - taskbarHeight) + 'px'};
       // setDefaultStyles(!isMax ? {borderRadius: '1px'} : defaultWindowStyles);
       window.maximized = !isMax;
       setWindows((prev) => prev.map((w, i) => i == index ? window : w));
       windowRef?.updateSize(size);
-      windowRef?.updatePosition(!isMax ? {x: 0, y: position == 'top' ? taskbarHeight : 0} : {x: window.x ?? Math.round(0.08 * innerWidth) , y: window.y ?? Math.round(0.02 * innerHeight)});
+      windowRef?.updatePosition(!isMax ? {x: 0, y: position == 'top' ? taskbarHeight : 0} : {x: Math.round(0.08 * innerWidth) , y:  Math.round(0.02 * innerHeight)});
     }
     // window.active = true;
   }
