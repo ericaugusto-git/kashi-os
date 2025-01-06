@@ -4,6 +4,10 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { AppType } from "@/constants/apps";
 import styles from './WindowContent.module.scss';
+type IframeProps = React.IframeHTMLAttributes<HTMLIFrameElement> & {
+    crossOrigin?: "anonymous" | "use-credentials" | "";
+  };
+
 
 export default function WindowContent({window, closeRefCurrent, index}: {window: AppType, closeRefCurrent: (HTMLButtonElement | null)[], index: number}){
     const [loading, setLoading] = useState(!!window.link);
@@ -25,20 +29,23 @@ export default function WindowContent({window, closeRefCurrent, index}: {window:
 
     const fileSystem = useFileSystem();
     const props = window.props || {};
-
+    const iframeProps: IframeProps = {
+        src: window.link,
+        onLoad: () => setLoading(false),
+        width: "100%",
+        height: "100%",
+        allow: "camera; microphone; clipboard-write; fullscreen; cross-origin-isolated;",
+        referrerPolicy: "origin",
+        sandbox: "allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-cookies allow-storage-access-by-user-activation",
+        crossOrigin: "use-credentials"
+      };
     return <>
         {loading && <div className={styles.loader_wrapper}>
             <div className={styles.loader}></div>
         </div>}
         {window.link ? 
             <iframe 
-            src={window.link}
-            onLoad={() => setLoading(false)}
-            width="100%"
-            height="100%"
-            allow="camera; microphone; clipboard-write; fullscreen; cross-origin-isolated;"
-            referrerPolicy="origin"
-            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-cookies allow-storage-access-by-user-activation"
+{...iframeProps}
           ></iframe> : 
             componentLoaded && LoadedComponent && 
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
