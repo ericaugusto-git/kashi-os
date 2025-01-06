@@ -241,7 +241,7 @@ export const DISCORD_CLONE: AppType = {
         img: { backgroundSize: '100%' }
     },
     maximized: true,
-    link: 'https://discourse-live-chat.onrender.com',
+    link: 'http://localhost:3000',
     repo: 'https://github.com/ericaugusto-git/discord-clone'
 };
 

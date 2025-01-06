@@ -36,9 +36,9 @@ export default function WindowContent({window, closeRefCurrent, index}: {window:
             onLoad={() => setLoading(false)}
             width="100%"
             height="100%"
-            allow="camera; microphone; clipboard-write; fullscreen"
+            allow="camera; microphone; clipboard-write; fullscreen; cross-origin-isolated;"
             referrerPolicy="origin"
-            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-cookies allow-storage-access-by-user-activation"
           ></iframe> : 
             componentLoaded && LoadedComponent && 
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
