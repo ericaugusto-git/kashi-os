@@ -93,7 +93,7 @@ export default function TaskbarHypr({setPcStatusMenuOpen, pcStatusButtonRef, set
         setIsCalendarOpen(previous => !previous)
     }
     return <>
-    <div ref={scope} className={style.taskbar} style={position === null || position === undefined ? {visibility: "hidden"} : {}}>
+    <div ref={scope} className={style.taskbar} style={initialMount.current ? {visibility: "hidden"} : {}}>
         <div className={style.start} style={{marginRight: windows.length == 0 ? 'auto' : ''}}>
             <Start/>
         </div>

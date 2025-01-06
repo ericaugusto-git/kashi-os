@@ -8,7 +8,9 @@ import useOpenWindow from "../../../hooks/useOpenWindow";
 import styles from "./Search.module.scss";
 
 export default function Search({searchVisible, setSearchVisible, wallpaperUrl}: {searchVisible: boolean, setSearchVisible: Dispatch<SetStateAction<boolean>>, wallpaperUrl: string}) {
-    const initialApps: AppType[] = _.cloneDeep(APPS).sort((a: AppType, b: AppType) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+   
+const initialApps = _.cloneDeep(APPS).filter(a => !a.hideInSearch).sort((a: AppType, b: AppType) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+
 const [apps, setApps] = useState<AppType[]>(_.cloneDeep(initialApps));
 const {t} = useTranslation();
 const [inputValue, setInputValue] = useState<string>('');
