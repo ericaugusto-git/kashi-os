@@ -95,9 +95,13 @@ const Window = ({wrapperClass}: {wrapperClass: string}) => {
 
   useEffect(() => {
     const updatedWindows = windows.map((w,i) => {
+      const windowRef = windowRefs.current[i];
       if(isMaximized(i)){
-        const windowRef = windowRefs.current[i];
         windowRef?.updatePosition({x: 0, y: position == 'top' ? taskbarHeight : 0});
+      }else if(position == 'top' && w.y != undefined && w.y <= taskbarHeight){
+        windowRef?.updatePosition({x: w.x!, y: taskbarHeight});
+      } else if(position == 'bottom' && w.y && Math.abs(innerHeight - w.y - windowRef!.resizable.size.height!) <= taskbarHeight){
+        windowRef?.updatePosition({x: w.x!, y: Math.abs(innerHeight - windowRef!.resizable.size.height! - taskbarHeight)  });
       }
       return w;
     }
